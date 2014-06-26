@@ -1,0 +1,17 @@
+﻿Build started 6/24/2014 9:22:43 PM.
+     1>Project "D:\Dropbox\Shu\Program\ThesisProgram\FaceDetection\FaceDetection.vcxproj" on node 2 (build target(s)).
+     1>InitializeBuildStatus:
+         Creating "Release\FaceDetection.unsuccessfulbuild" because "AlwaysCreate" was specified.
+       ClCompile:
+         All outputs are up-to-date.
+       Link:
+         All outputs are up-to-date.
+         FaceDetection.vcxproj -> D:\Dropbox\Shu\Program\ThesisProgram\bin\Release\FaceDetection.exe
+       FinalizeBuildStatus:
+         Deleting file "Release\FaceDetection.unsuccessfulbuild".
+         Touching "Release\FaceDetection.lastbuildstate".
+     1>Done Building Project "D:\Dropbox\Shu\Program\ThesisProgram\FaceDetection\FaceDetection.vcxproj" (build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:00.03

@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Source Files\IPCServer">
+      <UniqueIdentifier>{96c09efb-699d-48d5-b5b0-1b098393c5b1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\RobotAction">
+      <UniqueIdentifier>{275f0c45-1c61-4222-9bef-981d715d0b4b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Thread">
+      <UniqueIdentifier>{b725a2a2-df12-41ce-ba39-4ebac3064a83}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\RobotAction">
+      <UniqueIdentifier>{287314a9-2498-4a07-92a3-6f26d3c57214}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="IPCserver\Client.cpp">
+      <Filter>Source Files\IPCServer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\includes\IPCserver\IntComm.cpp">
+      <Filter>Source Files\IPCServer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\includes\RobotAction\RobotAction.cpp">
+      <Filter>Source Files\RobotAction</Filter>
+    </ClCompile>
+    <ClCompile Include="..\includes\Thread\Thread.cpp">
+      <Filter>Source Files\Thread</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\includes\rllib\rl-adaptive-interruption.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AdaptiveInterruption_TabularQ.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\includes\RobotAction\RobotAction.h">
+      <Filter>Header Files\RobotAction</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

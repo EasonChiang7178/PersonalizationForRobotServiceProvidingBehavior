@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Source Files\IPCServer">
+      <UniqueIdentifier>{6a083014-376e-414c-8305-721a34adc647}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Thread">
+      <UniqueIdentifier>{2a22b300-6585-4976-8ab6-4527a615375d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\RobotAction">
+      <UniqueIdentifier>{6dfcd299-ed24-4b52-9f3a-7f5185e8da5a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\RobotAction">
+      <UniqueIdentifier>{d5c0f0cd-1d72-4bc4-8248-ec20ab09a373}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Header Files\CoordTrans">
+      <UniqueIdentifier>{f0edf010-a9c6-4800-8d8e-0710de2444c7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\CoordTrans">
+      <UniqueIdentifier>{441c7e05-ac9d-4d29-89f3-1acb4d3379f3}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="IPCserver\Client.cpp">
+      <Filter>Source Files\IPCServer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\includes\IPCserver\IntComm.cpp">
+      <Filter>Source Files\IPCServer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\includes\Thread\Thread.cpp">
+      <Filter>Source Files\Thread</Filter>
+    </ClCompile>
+    <ClCompile Include="..\includes\RobotAction\RobotAction.cpp">
+      <Filter>Source Files\RobotAction</Filter>
+    </ClCompile>
+    <ClCompile Include="..\includes\CoordTrans\CoordTrans.cpp">
+      <Filter>Source Files\CoordTrans</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\includes\RobotAction\RobotAction.h">
+      <Filter>Header Files\RobotAction</Filter>
+    </ClInclude>
+    <ClInclude Include="..\includes\CoordTrans\CoordTrans.h">
+      <Filter>Header Files\CoordTrans</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

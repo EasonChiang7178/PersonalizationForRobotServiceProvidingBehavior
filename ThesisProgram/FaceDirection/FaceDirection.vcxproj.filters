@@ -1,0 +1,96 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Header Files\FaceDirection">
+      <UniqueIdentifier>{ad310ce7-3fea-470e-8c0f-63edd7d7eba4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\FaceDirection">
+      <UniqueIdentifier>{ae0e770a-10f0-43d0-aa7b-d0183a502dd3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\IPCServer">
+      <UniqueIdentifier>{0c04cee4-f96f-4ea4-8300-5d7f5d6d3973}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Thread">
+      <UniqueIdentifier>{7974f84e-55c1-4363-b536-e776ec64019c}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="IPCserver\Client.cpp">
+      <Filter>Source Files\IPCServer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\includes\FaceDirection\CLM.cc">
+      <Filter>Source Files\FaceDirection</Filter>
+    </ClCompile>
+    <ClCompile Include="..\includes\FaceDirection\FCheck.cc">
+      <Filter>Source Files\FaceDirection</Filter>
+    </ClCompile>
+    <ClCompile Include="..\includes\FaceDirection\FDet.cc">
+      <Filter>Source Files\FaceDirection</Filter>
+    </ClCompile>
+    <ClCompile Include="..\includes\FaceDirection\HeadPose.cc">
+      <Filter>Source Files\FaceDirection</Filter>
+    </ClCompile>
+    <ClCompile Include="..\includes\FaceDirection\IO.cc">
+      <Filter>Source Files\FaceDirection</Filter>
+    </ClCompile>
+    <ClCompile Include="..\includes\FaceDirection\Patch.cc">
+      <Filter>Source Files\FaceDirection</Filter>
+    </ClCompile>
+    <ClCompile Include="..\includes\FaceDirection\PAW.cc">
+      <Filter>Source Files\FaceDirection</Filter>
+    </ClCompile>
+    <ClCompile Include="..\includes\FaceDirection\PDM.cc">
+      <Filter>Source Files\FaceDirection</Filter>
+    </ClCompile>
+    <ClCompile Include="..\includes\FaceDirection\Tracker.cc">
+      <Filter>Source Files\FaceDirection</Filter>
+    </ClCompile>
+    <ClCompile Include="..\includes\Thread\Thread.cpp">
+      <Filter>Source Files\Thread</Filter>
+    </ClCompile>
+    <ClCompile Include="..\includes\IPCserver\IntComm.cpp">
+      <Filter>Source Files\IPCServer</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\includes\FaceDirection\CLM.h">
+      <Filter>Header Files\FaceDirection</Filter>
+    </ClInclude>
+    <ClInclude Include="..\includes\FaceDirection\FCheck.h">
+      <Filter>Header Files\FaceDirection</Filter>
+    </ClInclude>
+    <ClInclude Include="..\includes\FaceDirection\FDet.h">
+      <Filter>Header Files\FaceDirection</Filter>
+    </ClInclude>
+    <ClInclude Include="..\includes\FaceDirection\IO.h">
+      <Filter>Header Files\FaceDirection</Filter>
+    </ClInclude>
+    <ClInclude Include="..\includes\FaceDirection\Patch.h">
+      <Filter>Header Files\FaceDirection</Filter>
+    </ClInclude>
+    <ClInclude Include="..\includes\FaceDirection\PAW.h">
+      <Filter>Header Files\FaceDirection</Filter>
+    </ClInclude>
+    <ClInclude Include="..\includes\FaceDirection\PDM.h">
+      <Filter>Header Files\FaceDirection</Filter>
+    </ClInclude>
+    <ClInclude Include="..\includes\FaceDirection\Tracker.h">
+      <Filter>Header Files\FaceDirection</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

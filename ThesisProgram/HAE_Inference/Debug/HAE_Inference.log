@@ -1,0 +1,17 @@
+﻿Build started 6/23/2014 10:29:20 AM.
+     1>Project "D:\Dropbox\Shu\Program\ThesisProgram\HAE_Inference\HAE_Inference.vcxproj" on node 2 (build target(s)).
+     1>InitializeBuildStatus:
+         Creating "Debug\HAE_Inference.unsuccessfulbuild" because "AlwaysCreate" was specified.
+       ClCompile:
+         All outputs are up-to-date.
+       Link:
+         All outputs are up-to-date.
+         HAE_Inference.vcxproj -> D:\Dropbox\Shu\Program\ThesisProgram\\bin\Debug\HAE_Inference.exe
+       FinalizeBuildStatus:
+         Deleting file "Debug\HAE_Inference.unsuccessfulbuild".
+         Touching "Debug\HAE_Inference.lastbuildstate".
+     1>Done Building Project "D:\Dropbox\Shu\Program\ThesisProgram\HAE_Inference\HAE_Inference.vcxproj" (build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:00.03

@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Header Files\BodyDirection">
+      <UniqueIdentifier>{4c523f60-7741-4634-a8c4-c39d6ed8c59a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\ChuThread">
+      <UniqueIdentifier>{532bfc0f-881b-4995-96bd-f4c8d64f3a92}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\NiImageCaptor">
+      <UniqueIdentifier>{4a07df2b-6a70-4877-a243-7800bcfe760b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\BodyDirection">
+      <UniqueIdentifier>{c1c506b9-1b6d-4916-bd1c-36c6cd3c15a1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\NiImageCaptor">
+      <UniqueIdentifier>{b2cef421-6e12-404e-b5f0-135c09aaed11}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\IPCServer">
+      <UniqueIdentifier>{d4a354a2-07d7-4bc6-bd43-b0fdf2ecd6af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Thread">
+      <UniqueIdentifier>{d5bf319f-1367-4cf1-af8e-af5de802d3a2}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\BodyDirection.cpp">
+      <Filter>Source Files\BodyDirection</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\NiImageCaptor.cpp">
+      <Filter>Source Files\NiImageCaptor</Filter>
+    </ClCompile>
+    <ClCompile Include="IPCserver\Client.cpp">
+      <Filter>Source Files\IPCServer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\includes\Thread\Thread.cpp">
+      <Filter>Source Files\Thread</Filter>
+    </ClCompile>
+    <ClCompile Include="..\includes\IPCserver\IntComm.cpp">
+      <Filter>Source Files\IPCServer</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Header\BodyDirection.h">
+      <Filter>Header Files\BodyDirection</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\ChuThread.h">
+      <Filter>Header Files\ChuThread</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\NiImageCaptor.h">
+      <Filter>Header Files\NiImageCaptor</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,17 @@
+﻿Build started 2014/5/29 上午 11:40:58.
+     1>Project "F:\Dropbox\Shu\Program\ThesisProgram\HAE_Learning\HAE_Learning.vcxproj" on node 2 (build target(s)).
+     1>InitializeBuildStatus:
+         Touching "Release\HAE_Learning.unsuccessfulbuild".
+       ClCompile:
+         All outputs are up-to-date.
+       Link:
+         All outputs are up-to-date.
+         HAE_Learning.vcxproj -> F:\Dropbox\Shu\Program\ThesisProgram\\bin\Release\HAE_Learning.exe
+       FinalizeBuildStatus:
+         Deleting file "Release\HAE_Learning.unsuccessfulbuild".
+         Touching "Release\HAE_Learning.lastbuildstate".
+     1>Done Building Project "F:\Dropbox\Shu\Program\ThesisProgram\HAE_Learning\HAE_Learning.vcxproj" (build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:00.07

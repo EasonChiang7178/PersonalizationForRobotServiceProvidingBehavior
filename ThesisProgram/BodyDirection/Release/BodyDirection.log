@@ -1,0 +1,39 @@
+﻿Build started 5/22/2014 11:26:29 AM.
+     1>Project "D:\Dropbox\Shu\Program\ThesisProgram\BodyDirection\BodyDirection.vcxproj" on node 2 (build target(s)).
+     1>InitializeBuildStatus:
+         Creating "Release\BodyDirection.unsuccessfulbuild" because "AlwaysCreate" was specified.
+       ClCompile:
+         D:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D WIN32 /D _MBCS /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt ..\includes\IPCserver\IntComm.cpp ..\includes\Thread\Thread.cpp IPCserver\Client.cpp Source\BodyDirection.cpp Source\NiImageCaptor.cpp
+         IntComm.cpp
+     1>d:\dropbox\shu\program\thesisprogram\includes\ipcserver\Messages.hpp(154): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 D:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(371) : see declaration of 'sprintf'
+     1>..\includes\IPCserver\IntComm.cpp(354): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 D:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(371) : see declaration of 'sprintf'
+         Thread.cpp
+         Client.cpp
+     1>d:\dropbox\shu\program\thesisprogram\includes\ipcserver\Messages.hpp(154): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 D:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(371) : see declaration of 'sprintf'
+         BodyDirection.cpp
+     1>d:\dropbox\shu\program\thesisprogram\includes\ipcserver\Messages.hpp(154): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 D:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(371) : see declaration of 'sprintf'
+         NiImageCaptor.cpp
+       Link:
+         D:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\Dropbox\Shu\Program\ThesisProgram\\bin\Release\BodyDirection.exe" /NOLOGO wsock32.lib ipcMD_3.9.1.lib NiTE2.lib OpenNI2.lib opencv_core245.lib opencv_highgui245.lib opencv_video245.lib opencv_ml245.lib opencv_legacy245.lib opencv_imgproc245.lib opencv_objdetect245.lib opencv_calib3d245.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Release\BodyDirection.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"D:\Dropbox\Shu\Program\ThesisProgram\bin\Release\BodyDirection.pdb" /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\Dropbox\Shu\Program\ThesisProgram\\bin\Release\BodyDirection.lib" /MACHINE:X86 Release\IntComm.obj
+         Release\Thread.obj
+         Release\Client.obj
+         Release\main.obj
+         Release\BodyDirection.obj
+         Release\NiImageCaptor.obj
+         Generating code
+         Finished generating code
+         BodyDirection.vcxproj -> D:\Dropbox\Shu\Program\ThesisProgram\\bin\Release\BodyDirection.exe
+       Manifest:
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /outputresource:"D:\Dropbox\Shu\Program\ThesisProgram\\bin\Release\BodyDirection.exe;#1" /manifest Release\BodyDirection.exe.intermediate.manifest
+       FinalizeBuildStatus:
+         Deleting file "Release\BodyDirection.unsuccessfulbuild".
+         Touching "Release\BodyDirection.lastbuildstate".
+     1>Done Building Project "D:\Dropbox\Shu\Program\ThesisProgram\BodyDirection\BodyDirection.vcxproj" (build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:07.94

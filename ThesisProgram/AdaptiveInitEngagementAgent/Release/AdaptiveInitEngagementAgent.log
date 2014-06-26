@@ -1,0 +1,226 @@
+﻿Build started 2014/5/25 下午 05:22:44.
+     1>Project "F:\Dropbox\Shu\Program\ThesisProgram\AdaptiveInitEngagementAgent\AdaptiveInitEngagementAgent.vcxproj" on node 2 (build target(s)).
+     1>InitializeBuildStatus:
+         Creating "Release\AdaptiveInitEngagementAgent.unsuccessfulbuild" because "AlwaysCreate" was specified.
+       ClCompile:
+         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D WIN32 /D _MBCS /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt main.cpp
+         main.cpp
+     1>f:\dropbox\shu\program\thesisprogram\includes\ipcserver\Messages.hpp(154): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(371) : see declaration of 'sprintf'
+     1>main.cpp(57): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(234) : see declaration of 'fopen'
+     1>main.cpp(81): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(234) : see declaration of 'fopen'
+     1>main.cpp(86): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(234) : see declaration of 'fopen'
+     1>F:\Dropbox\Shu\Program\ThesisProgram\includes\rllib\rlTransition.h(370): warning C4101: 'e' : unreferenced local variable
+                 F:\Dropbox\Shu\Program\ThesisProgram\includes\rllib\rlTransition.h(437) : see reference to function template instantiation 'void rl::episode::sa::adaptation<SIMULATOR,AGENT,ONLINE_CRITIC,rl::sa::Transition<STATE,ACTION,REWARD>>(SIMULATOR &,const AGENT &,ONLINE_CRITIC &,SA_TRANSITION &,bool)' being compiled
+                 with
+                 [
+                     SIMULATOR=Simulator,
+                     AGENT=rl::agent::EpsilonGreedy<rl::sa::QLearning<TabularQ,rl::sa::GreedyFromAIteration<ActionIterator>,Param>,ActionToss,Param>,
+                     ONLINE_CRITIC=rl::sa::QLearning<TabularQ,rl::sa::GreedyFromAIteration<ActionIterator>,Param>,
+                     STATE=S,
+                     ACTION=A,
+                     REWARD=Reward,
+                     SA_TRANSITION=rl::sa::Transition<S,A,Reward>
+                 ]
+                 main.cpp(70) : see reference to function template instantiation 'void rl::episode::sa::run_and_learn<Simulator,rl::agent::EpsilonGreedy<SA_ARGMAX_FUNCTION,TOSS,EPSILON_GREEDY_PARAM>,rl::sa::QLearning<SA_ARCHITECTURE,SA_GREEDY,SARSA_PARAM>,TransitionSet>(SIMULATOR &,const AGENT &,ONLINE_CRITIC &,SA_TRANSITION_SET &,int,int &)' being compiled
+                 with
+                 [
+                     SA_ARGMAX_FUNCTION=rl::sa::QLearning<TabularQ,rl::sa::GreedyFromAIteration<ActionIterator>,Param>,
+                     TOSS=ActionToss,
+                     EPSILON_GREEDY_PARAM=Param,
+                     SA_ARCHITECTURE=TabularQ,
+                     SA_GREEDY=rl::sa::GreedyFromAIteration<ActionIterator>,
+                     SARSA_PARAM=Param,
+                     SIMULATOR=Simulator,
+                     AGENT=rl::agent::EpsilonGreedy<rl::sa::QLearning<TabularQ,rl::sa::GreedyFromAIteration<ActionIterator>,Param>,ActionToss,Param>,
+                     ONLINE_CRITIC=rl::sa::QLearning<TabularQ,rl::sa::GreedyFromAIteration<ActionIterator>,Param>,
+                     SA_TRANSITION_SET=TransitionSet
+                 ]
+     1>F:\Dropbox\Shu\Program\ThesisProgram\includes\rllib\rlTransition.h(389): warning C4101: 'e' : unreferenced local variable
+     1>F:\Dropbox\Shu\Program\ThesisProgram\includes\rllib\rlTransition.h(337): warning C4101: 'e' : unreferenced local variable
+                 F:\Dropbox\Shu\Program\ThesisProgram\includes\rllib\rlTransition.h(458) : see reference to function template instantiation 'void rl::episode::sa::interaction<SIMULATOR,AGENT,rl::sa::Transition<STATE,ACTION,REWARD>>(SIMULATOR &,const AGENT &,SA_TRANSITION &)' being compiled
+                 with
+                 [
+                     SIMULATOR=Simulator,
+                     AGENT=rl::agent::Greedy<rl::sa::QLearning<TabularQ,rl::sa::GreedyFromAIteration<ActionIterator>,Param>>,
+                     STATE=S,
+                     ACTION=A,
+                     REWARD=Reward,
+                     SA_TRANSITION=rl::sa::Transition<S,A,Reward>
+                 ]
+                 main.cpp(109) : see reference to function template instantiation 'void rl::episode::sa::run_and_collect<Simulator,rl::agent::Greedy<SA_ARGMAX_FUNCTION>,TransitionSet>(SIMULATOR &,const AGENT &,SA_TRANSITION_SET &,int,int &)' being compiled
+                 with
+                 [
+                     SA_ARGMAX_FUNCTION=rl::sa::QLearning<TabularQ,rl::sa::GreedyFromAIteration<ActionIterator>,Param>,
+                     SIMULATOR=Simulator,
+                     AGENT=rl::agent::Greedy<rl::sa::QLearning<TabularQ,rl::sa::GreedyFromAIteration<ActionIterator>,Param>>,
+                     SA_TRANSITION_SET=TransitionSet
+                 ]
+       Link:
+         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"F:\Dropbox\Shu\Program\ThesisProgram\\bin\Release\AdaptiveInitEngagementAgent.exe" /NOLOGO wsock32.lib ipcMD_3.9.1.lib gsl.lib cblas.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Release\AdaptiveInitEngagementAgent.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\AdaptiveInitEngagementAgent.pdb" /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"F:\Dropbox\Shu\Program\ThesisProgram\\bin\Release\AdaptiveInitEngagementAgent.lib" /MACHINE:X86 Release\IntComm.obj
+         Release\RobotAction.obj
+         Release\Thread.obj
+         Release\Client.obj
+         Release\main.obj
+         Generating code
+         Finished generating code
+     1>ipcMD_3.9.1.lib(behaviors.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'ipcMD_3.9.1.lib(behaviors.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\vc100.pdb'; linking object as if no debug info
+     1>ipcMD_3.9.1.lib(com.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'ipcMD_3.9.1.lib(com.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\vc100.pdb'; linking object as if no debug info
+     1>ipcMD_3.9.1.lib(comModule.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'ipcMD_3.9.1.lib(comModule.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\vc100.pdb'; linking object as if no debug info
+     1>ipcMD_3.9.1.lib(datamsg.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'ipcMD_3.9.1.lib(datamsg.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\vc100.pdb'; linking object as if no debug info
+     1>ipcMD_3.9.1.lib(formatters.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'ipcMD_3.9.1.lib(formatters.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\vc100.pdb'; linking object as if no debug info
+     1>ipcMD_3.9.1.lib(globalM.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'ipcMD_3.9.1.lib(globalM.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\vc100.pdb'; linking object as if no debug info
+     1>ipcMD_3.9.1.lib(globalMUtil.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'ipcMD_3.9.1.lib(globalMUtil.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\vc100.pdb'; linking object as if no debug info
+     1>ipcMD_3.9.1.lib(hash.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'ipcMD_3.9.1.lib(hash.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\vc100.pdb'; linking object as if no debug info
+     1>ipcMD_3.9.1.lib(idtable.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'ipcMD_3.9.1.lib(idtable.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\vc100.pdb'; linking object as if no debug info
+     1>ipcMD_3.9.1.lib(ipc.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'ipcMD_3.9.1.lib(ipc.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\vc100.pdb'; linking object as if no debug info
+     1>ipcMD_3.9.1.lib(key.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'ipcMD_3.9.1.lib(key.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\vc100.pdb'; linking object as if no debug info
+     1>ipcMD_3.9.1.lib(lex.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'ipcMD_3.9.1.lib(lex.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\vc100.pdb'; linking object as if no debug info
+     1>ipcMD_3.9.1.lib(list.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'ipcMD_3.9.1.lib(list.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\vc100.pdb'; linking object as if no debug info
+     1>ipcMD_3.9.1.lib(marshall.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'ipcMD_3.9.1.lib(marshall.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\vc100.pdb'; linking object as if no debug info
+     1>ipcMD_3.9.1.lib(modVar.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'ipcMD_3.9.1.lib(modVar.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\vc100.pdb'; linking object as if no debug info
+     1>ipcMD_3.9.1.lib(parseFmttrs.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'ipcMD_3.9.1.lib(parseFmttrs.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\vc100.pdb'; linking object as if no debug info
+     1>ipcMD_3.9.1.lib(primFmttrs.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'ipcMD_3.9.1.lib(primFmttrs.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\vc100.pdb'; linking object as if no debug info
+     1>ipcMD_3.9.1.lib(printData.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'ipcMD_3.9.1.lib(printData.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\vc100.pdb'; linking object as if no debug info
+     1>ipcMD_3.9.1.lib(queryResponse.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'ipcMD_3.9.1.lib(queryResponse.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\vc100.pdb'; linking object as if no debug info
+     1>ipcMD_3.9.1.lib(reg.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'ipcMD_3.9.1.lib(reg.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\vc100.pdb'; linking object as if no debug info
+     1>ipcMD_3.9.1.lib(resMod.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'ipcMD_3.9.1.lib(resMod.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\vc100.pdb'; linking object as if no debug info
+     1>ipcMD_3.9.1.lib(sendMsg.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'ipcMD_3.9.1.lib(sendMsg.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\vc100.pdb'; linking object as if no debug info
+     1>ipcMD_3.9.1.lib(strList.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'ipcMD_3.9.1.lib(strList.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\vc100.pdb'; linking object as if no debug info
+     1>ipcMD_3.9.1.lib(tcaMem.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'ipcMD_3.9.1.lib(tcaMem.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\vc100.pdb'; linking object as if no debug info
+     1>ipcMD_3.9.1.lib(tcaRef.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'ipcMD_3.9.1.lib(tcaRef.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\vc100.pdb'; linking object as if no debug info
+     1>ipcMD_3.9.1.lib(tcModError.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'ipcMD_3.9.1.lib(tcModError.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\vc100.pdb'; linking object as if no debug info
+     1>ipcMD_3.9.1.lib(timer.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'ipcMD_3.9.1.lib(timer.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\vc100.pdb'; linking object as if no debug info
+     1>ipcMD_3.9.1.lib(wsocksrt.obj) : warning LNK4099: PDB 'vc100.pdb' was not found with 'ipcMD_3.9.1.lib(wsocksrt.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\vc100.pdb'; linking object as if no debug info
+     1>gsl.lib(blas.obj) : warning LNK4099: PDB 'gsl.pdb' was not found with 'gsl.lib(blas.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\gsl.pdb'; linking object as if no debug info
+     1>gsl.lib(error.obj) : warning LNK4099: PDB 'gsl.pdb' was not found with 'gsl.lib(error.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\gsl.pdb'; linking object as if no debug info
+     1>gsl.lib(stream.obj) : warning LNK4099: PDB 'gsl.pdb' was not found with 'gsl.lib(stream.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\gsl.pdb'; linking object as if no debug info
+     1>gsl.lib(rowcol.obj) : warning LNK4099: PDB 'gsl.pdb' was not found with 'gsl.lib(rowcol.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\gsl.pdb'; linking object as if no debug info
+     1>gsl.lib(copy.obj) : warning LNK4099: PDB 'gsl.pdb' was not found with 'gsl.lib(copy.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\gsl.pdb'; linking object as if no debug info
+     1>gsl.lib(file.obj) : warning LNK4099: PDB 'gsl.pdb' was not found with 'gsl.lib(file.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\gsl.pdb'; linking object as if no debug info
+     1>gsl.lib(init.obj) : warning LNK4099: PDB 'gsl.pdb' was not found with 'gsl.lib(init.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\gsl.pdb'; linking object as if no debug info
+     1>gsl.lib(file1.obj) : warning LNK4099: PDB 'gsl.pdb' was not found with 'gsl.lib(file1.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\gsl.pdb'; linking object as if no debug info
+     1>gsl.lib(init1.obj) : warning LNK4099: PDB 'gsl.pdb' was not found with 'gsl.lib(init1.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\gsl.pdb'; linking object as if no debug info
+     1>gsl.lib(init2.obj) : warning LNK4099: PDB 'gsl.pdb' was not found with 'gsl.lib(init2.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\gsl.pdb'; linking object as if no debug info
+     1>gsl.lib(bspline1.obj) : warning LNK4099: PDB 'gsl.pdb' was not found with 'gsl.lib(bspline1.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\gsl.pdb'; linking object as if no debug info
+     1>cblas.lib(caxpy.obj) : warning LNK4099: PDB 'cblas.pdb' was not found with 'cblas.lib(caxpy.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\cblas.pdb'; linking object as if no debug info
+     1>cblas.lib(ccopy.obj) : warning LNK4099: PDB 'cblas.pdb' was not found with 'cblas.lib(ccopy.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\cblas.pdb'; linking object as if no debug info
+     1>cblas.lib(cdotc_sub.obj) : warning LNK4099: PDB 'cblas.pdb' was not found with 'cblas.lib(cdotc_sub.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\cblas.pdb'; linking object as if no debug info
+     1>cblas.lib(cdotu_sub.obj) : warning LNK4099: PDB 'cblas.pdb' was not found with 'cblas.lib(cdotu_sub.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\cblas.pdb'; linking object as if no debug info
+     1>cblas.lib(cgemm.obj) : warning LNK4099: PDB 'cblas.pdb' was not found with 'cblas.lib(cgemm.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\cblas.pdb'; linking object as if no debug info
+     1>cblas.lib(cgemv.obj) : warning LNK4099: PDB 'cblas.pdb' was not found with 'cblas.lib(cgemv.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\cblas.pdb'; linking object as if no debug info
+     1>cblas.lib(cgerc.obj) : warning LNK4099: PDB 'cblas.pdb' was not found with 'cblas.lib(cgerc.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\cblas.pdb'; linking object as if no debug info
+     1>cblas.lib(cgeru.obj) : warning LNK4099: PDB 'cblas.pdb' was not found with 'cblas.lib(cgeru.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\cblas.pdb'; linking object as if no debug info
+     1>cblas.lib(chemm.obj) : warning LNK4099: PDB 'cblas.pdb' was not found with 'cblas.lib(chemm.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\cblas.pdb'; linking object as if no debug info
+     1>cblas.lib(chemv.obj) : warning LNK4099: PDB 'cblas.pdb' was not found with 'cblas.lib(chemv.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\cblas.pdb'; linking object as if no debug info
+     1>cblas.lib(cher.obj) : warning LNK4099: PDB 'cblas.pdb' was not found with 'cblas.lib(cher.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\cblas.pdb'; linking object as if no debug info
+     1>cblas.lib(cher2.obj) : warning LNK4099: PDB 'cblas.pdb' was not found with 'cblas.lib(cher2.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\cblas.pdb'; linking object as if no debug info
+     1>cblas.lib(cher2k.obj) : warning LNK4099: PDB 'cblas.pdb' was not found with 'cblas.lib(cher2k.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\cblas.pdb'; linking object as if no debug info
+     1>cblas.lib(cherk.obj) : warning LNK4099: PDB 'cblas.pdb' was not found with 'cblas.lib(cherk.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\cblas.pdb'; linking object as if no debug info
+     1>cblas.lib(cscal.obj) : warning LNK4099: PDB 'cblas.pdb' was not found with 'cblas.lib(cscal.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\cblas.pdb'; linking object as if no debug info
+     1>cblas.lib(csscal.obj) : warning LNK4099: PDB 'cblas.pdb' was not found with 'cblas.lib(csscal.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\cblas.pdb'; linking object as if no debug info
+     1>cblas.lib(cswap.obj) : warning LNK4099: PDB 'cblas.pdb' was not found with 'cblas.lib(cswap.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\cblas.pdb'; linking object as if no debug info
+     1>cblas.lib(csymm.obj) : warning LNK4099: PDB 'cblas.pdb' was not found with 'cblas.lib(csymm.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\cblas.pdb'; linking object as if no debug info
+     1>cblas.lib(csyr2k.obj) : warning LNK4099: PDB 'cblas.pdb' was not found with 'cblas.lib(csyr2k.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\cblas.pdb'; linking object as if no debug info
+     1>cblas.lib(csyrk.obj) : warning LNK4099: PDB 'cblas.pdb' was not found with 'cblas.lib(csyrk.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\cblas.pdb'; linking object as if no debug info
+     1>cblas.lib(ctrmm.obj) : warning LNK4099: PDB 'cblas.pdb' was not found with 'cblas.lib(ctrmm.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\cblas.pdb'; linking object as if no debug info
+     1>cblas.lib(ctrmv.obj) : warning LNK4099: PDB 'cblas.pdb' was not found with 'cblas.lib(ctrmv.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\cblas.pdb'; linking object as if no debug info
+     1>cblas.lib(ctrsm.obj) : warning LNK4099: PDB 'cblas.pdb' was not found with 'cblas.lib(ctrsm.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\cblas.pdb'; linking object as if no debug info
+     1>cblas.lib(ctrsv.obj) : warning LNK4099: PDB 'cblas.pdb' was not found with 'cblas.lib(ctrsv.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\cblas.pdb'; linking object as if no debug info
+     1>cblas.lib(dasum.obj) : warning LNK4099: PDB 'cblas.pdb' was not found with 'cblas.lib(dasum.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\cblas.pdb'; linking object as if no debug info
+     1>cblas.lib(daxpy.obj) : warning LNK4099: PDB 'cblas.pdb' was not found with 'cblas.lib(daxpy.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\cblas.pdb'; linking object as if no debug info
+     1>cblas.lib(dcopy.obj) : warning LNK4099: PDB 'cblas.pdb' was not found with 'cblas.lib(dcopy.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\cblas.pdb'; linking object as if no debug info
+     1>cblas.lib(ddot.obj) : warning LNK4099: PDB 'cblas.pdb' was not found with 'cblas.lib(ddot.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\cblas.pdb'; linking object as if no debug info
+     1>cblas.lib(dgemm.obj) : warning LNK4099: PDB 'cblas.pdb' was not found with 'cblas.lib(dgemm.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\cblas.pdb'; linking object as if no debug info
+     1>cblas.lib(dgemv.obj) : warning LNK4099: PDB 'cblas.pdb' was not found with 'cblas.lib(dgemv.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\cblas.pdb'; linking object as if no debug info
+     1>cblas.lib(dger.obj) : warning LNK4099: PDB 'cblas.pdb' was not found with 'cblas.lib(dger.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\cblas.pdb'; linking object as if no debug info
+     1>cblas.lib(dnrm2.obj) : warning LNK4099: PDB 'cblas.pdb' was not found with 'cblas.lib(dnrm2.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\cblas.pdb'; linking object as if no debug info
+     1>cblas.lib(drot.obj) : warning LNK4099: PDB 'cblas.pdb' was not found with 'cblas.lib(drot.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\cblas.pdb'; linking object as if no debug info
+     1>cblas.lib(drotg.obj) : warning LNK4099: PDB 'cblas.pdb' was not found with 'cblas.lib(drotg.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\cblas.pdb'; linking object as if no debug info
+     1>cblas.lib(drotm.obj) : warning LNK4099: PDB 'cblas.pdb' was not found with 'cblas.lib(drotm.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\cblas.pdb'; linking object as if no debug info
+     1>cblas.lib(drotmg.obj) : warning LNK4099: PDB 'cblas.pdb' was not found with 'cblas.lib(drotmg.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\cblas.pdb'; linking object as if no debug info
+     1>cblas.lib(dscal.obj) : warning LNK4099: PDB 'cblas.pdb' was not found with 'cblas.lib(dscal.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\cblas.pdb'; linking object as if no debug info
+     1>cblas.lib(dsdot.obj) : warning LNK4099: PDB 'cblas.pdb' was not found with 'cblas.lib(dsdot.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\cblas.pdb'; linking object as if no debug info
+     1>cblas.lib(dswap.obj) : warning LNK4099: PDB 'cblas.pdb' was not found with 'cblas.lib(dswap.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\cblas.pdb'; linking object as if no debug info
+     1>cblas.lib(dsymm.obj) : warning LNK4099: PDB 'cblas.pdb' was not found with 'cblas.lib(dsymm.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\cblas.pdb'; linking object as if no debug info
+     1>cblas.lib(dsymv.obj) : warning LNK4099: PDB 'cblas.pdb' was not found with 'cblas.lib(dsymv.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\cblas.pdb'; linking object as if no debug info
+     1>cblas.lib(dsyr.obj) : warning LNK4099: PDB 'cblas.pdb' was not found with 'cblas.lib(dsyr.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\cblas.pdb'; linking object as if no debug info
+     1>cblas.lib(dsyr2.obj) : warning LNK4099: PDB 'cblas.pdb' was not found with 'cblas.lib(dsyr2.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\cblas.pdb'; linking object as if no debug info
+     1>cblas.lib(dsyr2k.obj) : warning LNK4099: PDB 'cblas.pdb' was not found with 'cblas.lib(dsyr2k.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\cblas.pdb'; linking object as if no debug info
+     1>cblas.lib(dsyrk.obj) : warning LNK4099: PDB 'cblas.pdb' was not found with 'cblas.lib(dsyrk.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\cblas.pdb'; linking object as if no debug info
+     1>cblas.lib(dtrmm.obj) : warning LNK4099: PDB 'cblas.pdb' was not found with 'cblas.lib(dtrmm.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\cblas.pdb'; linking object as if no debug info
+     1>cblas.lib(dtrmv.obj) : warning LNK4099: PDB 'cblas.pdb' was not found with 'cblas.lib(dtrmv.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\cblas.pdb'; linking object as if no debug info
+     1>cblas.lib(dtrsm.obj) : warning LNK4099: PDB 'cblas.pdb' was not found with 'cblas.lib(dtrsm.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\cblas.pdb'; linking object as if no debug info
+     1>cblas.lib(dtrsv.obj) : warning LNK4099: PDB 'cblas.pdb' was not found with 'cblas.lib(dtrsv.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\cblas.pdb'; linking object as if no debug info
+     1>cblas.lib(dzasum.obj) : warning LNK4099: PDB 'cblas.pdb' was not found with 'cblas.lib(dzasum.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\cblas.pdb'; linking object as if no debug info
+     1>cblas.lib(dznrm2.obj) : warning LNK4099: PDB 'cblas.pdb' was not found with 'cblas.lib(dznrm2.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\cblas.pdb'; linking object as if no debug info
+     1>cblas.lib(icamax.obj) : warning LNK4099: PDB 'cblas.pdb' was not found with 'cblas.lib(icamax.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\cblas.pdb'; linking object as if no debug info
+     1>cblas.lib(idamax.obj) : warning LNK4099: PDB 'cblas.pdb' was not found with 'cblas.lib(idamax.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\cblas.pdb'; linking object as if no debug info
+     1>cblas.lib(isamax.obj) : warning LNK4099: PDB 'cblas.pdb' was not found with 'cblas.lib(isamax.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\cblas.pdb'; linking object as if no debug info
+     1>cblas.lib(izamax.obj) : warning LNK4099: PDB 'cblas.pdb' was not found with 'cblas.lib(izamax.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\cblas.pdb'; linking object as if no debug info
+     1>cblas.lib(sasum.obj) : warning LNK4099: PDB 'cblas.pdb' was not found with 'cblas.lib(sasum.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\cblas.pdb'; linking object as if no debug info
+     1>cblas.lib(saxpy.obj) : warning LNK4099: PDB 'cblas.pdb' was not found with 'cblas.lib(saxpy.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\cblas.pdb'; linking object as if no debug info
+     1>cblas.lib(scasum.obj) : warning LNK4099: PDB 'cblas.pdb' was not found with 'cblas.lib(scasum.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\cblas.pdb'; linking object as if no debug info
+     1>cblas.lib(scnrm2.obj) : warning LNK4099: PDB 'cblas.pdb' was not found with 'cblas.lib(scnrm2.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\cblas.pdb'; linking object as if no debug info
+     1>cblas.lib(scopy.obj) : warning LNK4099: PDB 'cblas.pdb' was not found with 'cblas.lib(scopy.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\cblas.pdb'; linking object as if no debug info
+     1>cblas.lib(sdot.obj) : warning LNK4099: PDB 'cblas.pdb' was not found with 'cblas.lib(sdot.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\cblas.pdb'; linking object as if no debug info
+     1>cblas.lib(sdsdot.obj) : warning LNK4099: PDB 'cblas.pdb' was not found with 'cblas.lib(sdsdot.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\cblas.pdb'; linking object as if no debug info
+     1>cblas.lib(sgemm.obj) : warning LNK4099: PDB 'cblas.pdb' was not found with 'cblas.lib(sgemm.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\cblas.pdb'; linking object as if no debug info
+     1>cblas.lib(sgemv.obj) : warning LNK4099: PDB 'cblas.pdb' was not found with 'cblas.lib(sgemv.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\cblas.pdb'; linking object as if no debug info
+     1>cblas.lib(sger.obj) : warning LNK4099: PDB 'cblas.pdb' was not found with 'cblas.lib(sger.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\cblas.pdb'; linking object as if no debug info
+     1>cblas.lib(snrm2.obj) : warning LNK4099: PDB 'cblas.pdb' was not found with 'cblas.lib(snrm2.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\cblas.pdb'; linking object as if no debug info
+     1>cblas.lib(srot.obj) : warning LNK4099: PDB 'cblas.pdb' was not found with 'cblas.lib(srot.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\cblas.pdb'; linking object as if no debug info
+     1>cblas.lib(srotg.obj) : warning LNK4099: PDB 'cblas.pdb' was not found with 'cblas.lib(srotg.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\cblas.pdb'; linking object as if no debug info
+     1>cblas.lib(srotm.obj) : warning LNK4099: PDB 'cblas.pdb' was not found with 'cblas.lib(srotm.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\cblas.pdb'; linking object as if no debug info
+     1>cblas.lib(srotmg.obj) : warning LNK4099: PDB 'cblas.pdb' was not found with 'cblas.lib(srotmg.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\cblas.pdb'; linking object as if no debug info
+     1>cblas.lib(sscal.obj) : warning LNK4099: PDB 'cblas.pdb' was not found with 'cblas.lib(sscal.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\cblas.pdb'; linking object as if no debug info
+     1>cblas.lib(sswap.obj) : warning LNK4099: PDB 'cblas.pdb' was not found with 'cblas.lib(sswap.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\cblas.pdb'; linking object as if no debug info
+     1>cblas.lib(ssymm.obj) : warning LNK4099: PDB 'cblas.pdb' was not found with 'cblas.lib(ssymm.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\cblas.pdb'; linking object as if no debug info
+     1>cblas.lib(ssymv.obj) : warning LNK4099: PDB 'cblas.pdb' was not found with 'cblas.lib(ssymv.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\cblas.pdb'; linking object as if no debug info
+     1>cblas.lib(ssyr.obj) : warning LNK4099: PDB 'cblas.pdb' was not found with 'cblas.lib(ssyr.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\cblas.pdb'; linking object as if no debug info
+     1>cblas.lib(ssyr2.obj) : warning LNK4099: PDB 'cblas.pdb' was not found with 'cblas.lib(ssyr2.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\cblas.pdb'; linking object as if no debug info
+     1>cblas.lib(ssyr2k.obj) : warning LNK4099: PDB 'cblas.pdb' was not found with 'cblas.lib(ssyr2k.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\cblas.pdb'; linking object as if no debug info
+     1>cblas.lib(ssyrk.obj) : warning LNK4099: PDB 'cblas.pdb' was not found with 'cblas.lib(ssyrk.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\cblas.pdb'; linking object as if no debug info
+     1>cblas.lib(strmm.obj) : warning LNK4099: PDB 'cblas.pdb' was not found with 'cblas.lib(strmm.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\cblas.pdb'; linking object as if no debug info
+     1>cblas.lib(strmv.obj) : warning LNK4099: PDB 'cblas.pdb' was not found with 'cblas.lib(strmv.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\cblas.pdb'; linking object as if no debug info
+     1>cblas.lib(strsm.obj) : warning LNK4099: PDB 'cblas.pdb' was not found with 'cblas.lib(strsm.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\cblas.pdb'; linking object as if no debug info
+     1>cblas.lib(strsv.obj) : warning LNK4099: PDB 'cblas.pdb' was not found with 'cblas.lib(strsv.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\cblas.pdb'; linking object as if no debug info
+     1>cblas.lib(xerbla.obj) : warning LNK4099: PDB 'cblas.pdb' was not found with 'cblas.lib(xerbla.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\cblas.pdb'; linking object as if no debug info
+     1>cblas.lib(zaxpy.obj) : warning LNK4099: PDB 'cblas.pdb' was not found with 'cblas.lib(zaxpy.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\cblas.pdb'; linking object as if no debug info
+     1>cblas.lib(zcopy.obj) : warning LNK4099: PDB 'cblas.pdb' was not found with 'cblas.lib(zcopy.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\cblas.pdb'; linking object as if no debug info
+     1>cblas.lib(zdotc_sub.obj) : warning LNK4099: PDB 'cblas.pdb' was not found with 'cblas.lib(zdotc_sub.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\cblas.pdb'; linking object as if no debug info
+     1>cblas.lib(zdotu_sub.obj) : warning LNK4099: PDB 'cblas.pdb' was not found with 'cblas.lib(zdotu_sub.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\cblas.pdb'; linking object as if no debug info
+     1>cblas.lib(zdscal.obj) : warning LNK4099: PDB 'cblas.pdb' was not found with 'cblas.lib(zdscal.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\cblas.pdb'; linking object as if no debug info
+     1>cblas.lib(zgemm.obj) : warning LNK4099: PDB 'cblas.pdb' was not found with 'cblas.lib(zgemm.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\cblas.pdb'; linking object as if no debug info
+     1>cblas.lib(zgemv.obj) : warning LNK4099: PDB 'cblas.pdb' was not found with 'cblas.lib(zgemv.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\cblas.pdb'; linking object as if no debug info
+     1>cblas.lib(zgerc.obj) : warning LNK4099: PDB 'cblas.pdb' was not found with 'cblas.lib(zgerc.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\cblas.pdb'; linking object as if no debug info
+     1>cblas.lib(zgeru.obj) : warning LNK4099: PDB 'cblas.pdb' was not found with 'cblas.lib(zgeru.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\cblas.pdb'; linking object as if no debug info
+     1>cblas.lib(zhemm.obj) : warning LNK4099: PDB 'cblas.pdb' was not found with 'cblas.lib(zhemm.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\cblas.pdb'; linking object as if no debug info
+     1>cblas.lib(zhemv.obj) : warning LNK4099: PDB 'cblas.pdb' was not found with 'cblas.lib(zhemv.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\cblas.pdb'; linking object as if no debug info
+     1>cblas.lib(zher.obj) : warning LNK4099: PDB 'cblas.pdb' was not found with 'cblas.lib(zher.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\cblas.pdb'; linking object as if no debug info
+     1>cblas.lib(zher2.obj) : warning LNK4099: PDB 'cblas.pdb' was not found with 'cblas.lib(zher2.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\cblas.pdb'; linking object as if no debug info
+     1>cblas.lib(zher2k.obj) : warning LNK4099: PDB 'cblas.pdb' was not found with 'cblas.lib(zher2k.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\cblas.pdb'; linking object as if no debug info
+     1>cblas.lib(zherk.obj) : warning LNK4099: PDB 'cblas.pdb' was not found with 'cblas.lib(zherk.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\cblas.pdb'; linking object as if no debug info
+     1>cblas.lib(zscal.obj) : warning LNK4099: PDB 'cblas.pdb' was not found with 'cblas.lib(zscal.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\cblas.pdb'; linking object as if no debug info
+     1>cblas.lib(zswap.obj) : warning LNK4099: PDB 'cblas.pdb' was not found with 'cblas.lib(zswap.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\cblas.pdb'; linking object as if no debug info
+     1>cblas.lib(zsymm.obj) : warning LNK4099: PDB 'cblas.pdb' was not found with 'cblas.lib(zsymm.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\cblas.pdb'; linking object as if no debug info
+     1>cblas.lib(zsyr2k.obj) : warning LNK4099: PDB 'cblas.pdb' was not found with 'cblas.lib(zsyr2k.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\cblas.pdb'; linking object as if no debug info
+     1>cblas.lib(zsyrk.obj) : warning LNK4099: PDB 'cblas.pdb' was not found with 'cblas.lib(zsyrk.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\cblas.pdb'; linking object as if no debug info
+     1>cblas.lib(ztrmm.obj) : warning LNK4099: PDB 'cblas.pdb' was not found with 'cblas.lib(ztrmm.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\cblas.pdb'; linking object as if no debug info
+     1>cblas.lib(ztrmv.obj) : warning LNK4099: PDB 'cblas.pdb' was not found with 'cblas.lib(ztrmv.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\cblas.pdb'; linking object as if no debug info
+     1>cblas.lib(ztrsm.obj) : warning LNK4099: PDB 'cblas.pdb' was not found with 'cblas.lib(ztrsm.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\cblas.pdb'; linking object as if no debug info
+     1>cblas.lib(ztrsv.obj) : warning LNK4099: PDB 'cblas.pdb' was not found with 'cblas.lib(ztrsv.obj)' or at 'F:\Dropbox\Shu\Program\ThesisProgram\bin\Release\cblas.pdb'; linking object as if no debug info
+         AdaptiveInitEngagementAgent.vcxproj -> F:\Dropbox\Shu\Program\ThesisProgram\\bin\Release\AdaptiveInitEngagementAgent.exe
+       Manifest:
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /outputresource:"F:\Dropbox\Shu\Program\ThesisProgram\\bin\Release\AdaptiveInitEngagementAgent.exe;#1" /manifest Release\AdaptiveInitEngagementAgent.exe.intermediate.manifest
+       FinalizeBuildStatus:
+         Deleting file "Release\AdaptiveInitEngagementAgent.unsuccessfulbuild".
+         Touching "Release\AdaptiveInitEngagementAgent.lastbuildstate".
+     1>Done Building Project "F:\Dropbox\Shu\Program\ThesisProgram\AdaptiveInitEngagementAgent\AdaptiveInitEngagementAgent.vcxproj" (build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:04.08
