@@ -361,7 +361,7 @@ const bool RobotAction::forwardApproach(const int& speed, const double& distance
 	return false;
 }
 
-const bool RobotAction::movingToFrontOfHuman(const int& speed, double bodyDirection) {
+const bool RobotAction::movingToAroundOfHuman(const int& speed, const float& distance, const double& angle2FrontOfHuman) {
 	//this->turnFaceToHuman();
 	//Sleep(1000);
 
@@ -421,60 +421,60 @@ const bool RobotAction::movingToFrontOfHuman(const int& speed, double bodyDirect
 	PeopleMgr targetPos;
 	targetPos.x[0] = 210.0;
 	targetPos.y[0] = 54;
-	receivedBodyDir.body_direction_cont = bodyDirection;
+	//receivedBodyDir.body_direction_cont = bodyDirection;
+	receivedBodyDir.body_direction_cont = 45.0;
 	OdometryMgr curPos;
 	curPos.x = 0.0;
 	curPos.y = 0.0;
 	curPos.theta = 0.0;
 
-	double r_test = sqrt(pow(targetPos.x[0] / 100.0, 2) + pow(targetPos.y[0] / 100.0, 2));
-	double r = 1.0;
-	//if (r > 1.3)
-	//	r = r - 0.5;
-	double theta_h = -1 * receivedBodyDir.body_direction_cont;
-	double theta_r = atan2(targetPos.y[0], targetPos.x[0]) * 180 / M_PI;
+	double dist_robot2human = sqrt(pow(targetPos.x[0] / 100.0, 2) + pow(targetPos.y[0] / 100.0, 2));
 
-	float Xgh = r, Xgr = 0.0, Xgw = 0.0, Xch = 0.0, Xcr, Xcw;
-	float Ygh = 0, Ygr = 0.0, Ygw = 0.0, Ych = 0.0, Ycr, Ycw;
-	float thetag = 180.0, thetar = 0.0, thetaw = 0.0;
-
-	//	// Translation to robot_coordinate
-	//double Xgh_R = Xgh - r_test * cos(theta_h / 180 * M_PI);
-	//double Ygh_R = Ygh - r_test * sin(theta_h / 180 * M_PI);
-	//	// Rotation
-	//double radianHtoR = (180.0 + theta_h - theta_r) / 180.0 * M_PI;
-	//double Xgr = cos(radianHtoR) * Xgh_R + sin(radianHtoR) * Ygh_R;
-	//double Ygr = -1 * sin(radianHtoR) * Xgh_R + cos(radianHtoR) * Ygh_R;
-	//double thetar = thetag - (180.0 + theta_h - theta_r);
-
-	//	// Translation to world coordinate
-	//double Xgr_W = Xgr - (-1 * curPos.x);
-	//double Ygr_W = Ygr - (-1 * curPos.y);
-	//	// Rotate
-	//double radianRtoW = -1 * curPos.theta / 180.0 * M_PI;
-	//double Xgw = cos(radianRtoW) * Xgr_W + sin(radianRtoW) * Ygr_W;
-	//double Ygw = -1 * sin(radianRtoW) * Xgr_W + cos(radianRtoW) * Ygr_W;
-	//double thetaw = thetar - curPos.theta;
-
+	double theta_BD = (-1 * receivedBodyDir.body_direction_cont);
+	double theta_robotHeading = atan2(targetPos.y[0], targetPos.x[0]) * 180 / M_PI;
+	
+	/* Coordinate Transformation */
 	CoordTrans coordinateTrans;
-	coordinateTrans.trans2D(Xgh, Ygh, thetag, r_test * cos(theta_h / 180 * M_PI), r_test * sin(theta_h / 180 * M_PI), 180.0 + theta_h - theta_r, Xgr, Ygr, thetar);
-	coordinateTrans.trans2D(Xgr, Ygr, thetar, curPos.x - 0.0, curPos.y - 0.0, -1 * curPos.theta, Xgw, Ygw, thetaw);
-	coordinateTrans.trans2D(Xch, Ych, thetag, r_test * cos(theta_h / 180 * M_PI), r_test * sin(theta_h / 180 * M_PI), 180.0 + theta_h - theta_r, Xcr, Ycr, thetar);
-	coordinateTrans.trans2D(Xcr, Ycr, thetar, curPos.x - 0.0, curPos.y - 0.0, -1 * curPos.theta, Xcw, Ycw, thetaw);
-	coordinateTrans.insertPoint(static_cast< int >(320 - Ygw * 100), static_cast< int >(480 - Xgw * 100));
-	coordinateTrans.insertPoint(static_cast< int >(320 - Ycw * 100), static_cast< int >(480 - Xcw * 100));
+		// From human coordinate (B) to robot coordinate (R)
+	double X_g_H = distance * cos(angle2FrontOfHuman / 180 * M_PI), Y_g_H = distance * sin(angle2FrontOfHuman / 180 * M_PI), theta_g_H = 180.0 + angle2FrontOfHuman;
+	double X_g_R = 0.0, Y_g_R = 0.0, theta_g_R = 0.0;
+	coordinateTrans.trans2D(X_g_H, Y_g_H, theta_g_H,
+							dist_robot2human * cos(theta_BD / 180 * M_PI), dist_robot2human * sin(theta_BD / 180 * M_PI), 180.0 + theta_BD - theta_robotHeading, 
+							X_g_R, Y_g_R, theta_g_R);
+	
+		// From robot coordinate to world coordinate (W)
+	double X_g_W = 0.0, Y_g_W = 0.0, theta_g_W = 0.0;
+	coordinateTrans.trans2D(X_g_R, Y_g_R, theta_g_R,
+							curPos.x - 0.0, curPos.y - 0.0, -1 * curPos.theta,
+							X_g_W, Y_g_W, theta_g_W);
+	
+	/* For visualization, used for debug */
+		// Transform the centor point of human
+	double X_c_H = 0.0, Y_c_H = 0.0, Y_c_R, Y_c_W, X_c_R, X_c_W;
+	coordinateTrans.trans2D(X_c_H, Y_c_H, theta_g_H,
+							dist_robot2human * cos(theta_BD / 180 * M_PI), dist_robot2human * sin(theta_BD / 180 * M_PI), 180.0 + theta_BD - theta_robotHeading, 
+							X_c_R, Y_c_R, theta_g_R);
+	coordinateTrans.trans2D(X_c_R, Y_c_R, theta_g_R,
+							curPos.x - 0.0, curPos.y - 0.0, -1 * curPos.theta,
+							X_c_W, Y_c_W, theta_g_W);
+
+	int imgX_g = 0, imgY_g = 0, imgX_c = 0, imgY_c = 0;
+	coordinateTrans.plane2Img(X_g_W, Y_g_W, imgX_g, imgY_g);
+	coordinateTrans.plane2Img(X_c_W, Y_c_W, imgX_c, imgY_c);
+	coordinateTrans.insertPoint(imgX_g, imgY_g);
+	coordinateTrans.insertPoint(imgX_c, imgY_c);
 	coordinateTrans.drawPoint();
 
 	SubgoalMgr goal;
-	goal.theta = thetaw;
-	goal.x = Xgw;
-	goal.y = Ygw;
+	goal.theta = theta_g_W;
+	goal.x = X_g_W;
+	goal.y = Y_g_W;
 
 	/* Print information for debug */
 	cout << "BodyDirection " << receivedBodyDir.body_direction_cont << endl;
-	cout << "Xgh: " << Xgr << ", Ygh: " << Ygr << endl;
+	//cout << "Xgh: " << Xgr << ", Ygh: " << Ygr << endl;
 	//cout << "Xgw: " << XrNew << ", YrNew: " << YrNew << endl;
-	cout << "Xg: " << goal.x << ", Yg: " << goal.y << ", Thetag: " << goal.theta << endl;
+	cout << "X_Goal: " << goal.x << ", Y_Goal: " << goal.y << ", Theta_Goal: " << goal.theta << endl;
 
 	/* Send subgoal message */
 	//sendSubgoal(goal);

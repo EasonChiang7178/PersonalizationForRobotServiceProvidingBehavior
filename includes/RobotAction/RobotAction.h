@@ -46,7 +46,7 @@ class RobotAction {
 			// For Approach
 		const bool forwardApproach(const int& speed, const double& distance);
 			// For MovingToFrontOfHuman
-		const bool movingToFrontOfHuman(const int& speed, double bodyDirection);
+		const bool movingToAroundOfHuman(const int& speed, const float& distance, const double& angle2FrontOfHuman);
 
 			// For making a sound
 		const bool makeSounds(const string& pathToAudioFile);

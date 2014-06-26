@@ -52,8 +52,9 @@ int main() {
 	RobotAction robotAction(SERVER_NAME);
 
 	while(1) {
-		for( int i(-90); i < 90; i += 5)
-			robotAction.movingToFrontOfHuman(0, i);
+		for(int i(-90); i < 90; i += 5)
+			for(int j(1); j < 4; j++)
+				robotAction.movingToAroundOfHuman(0, j, i);
 		Sleep(100);
 	}
 

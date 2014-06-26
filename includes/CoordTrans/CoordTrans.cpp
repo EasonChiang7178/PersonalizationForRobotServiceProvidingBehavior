@@ -7,9 +7,9 @@
 
 using namespace std;
 
-int CoordTrans::trans2D(const float x, const float y, const float theta,
-						const float transX,	const float transY, const float transTheta,
-						float &newX, float &newY, float &newTheta)
+int CoordTrans::trans2D(const double x, const double y, const double theta,
+						const double transX, const double transY, const double transTheta,
+						double &newX, double &newY, double &newTheta)
 {
 	float xTemp, yTemp;
 	float rad = static_cast<float>(transTheta * PI / 180.0);
@@ -18,6 +18,14 @@ int CoordTrans::trans2D(const float x, const float y, const float theta,
 	newX = (xTemp * cos(rad) + yTemp * sin(rad));
 	newY = (-xTemp * sin(rad) + yTemp * cos(rad));
 	newTheta = theta - transTheta;
+	return 0;
+}
+
+#ifdef VISUALIZE
+
+int CoordTrans::plane2Img(const double x, const double y, int &imgX, int &imgY) {
+	imgX = 320 - static_cast< int >(y * 100);
+	imgY = 480 - static_cast< int >(x * 100);
 	return 0;
 }
 
@@ -119,12 +127,12 @@ int CoordTrans::drawPoint()
 }
 
 
-vector<vector<float>> CoordTrans::trans2Drobot2host(const vector<vector<float>> &basedHumanPos,
+vector<vector<double>> CoordTrans::trans2Drobot2host(const vector<vector<float>> &basedHumanPos,
 							const float transX, const float transY, const float transTheta)
 {
 
-	vector<vector<float>> transformed;
-	vector<float> onLine(3);
+	vector<vector<double>> transformed;
+	vector<double> onLine(3);
 
 	if(basedHumanPos.size()<1)
 	{
@@ -144,3 +152,5 @@ vector<vector<float>> CoordTrans::trans2Drobot2host(const vector<vector<float>> 
 
 	return transformed;
 }
+
+#endif
