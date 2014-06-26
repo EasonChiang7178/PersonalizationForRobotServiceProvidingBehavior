@@ -6,7 +6,7 @@
 #include <vector>
 #include <map>
 
-#define VISUALIZE
+//#define VISUALIZE
 
 #ifdef VISUALIZE
 #pragma warning(push,0)

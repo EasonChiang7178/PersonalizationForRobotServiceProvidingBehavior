@@ -142,8 +142,10 @@ const bool RobotAction::turnFaceToHuman() {
 	PeopleMgr targetPos;
 	getPeople(targetPos);
 
+		// Find the possible candidate of the target, the nearest one
+	double possibleCandidateX = 0.0, possibleCandidateY = 0.0;
 	if (targetPos.count == 0) {
-		cout << "> WARNING: No Human!" << endl;
+		cout << "> WARNING: No Human Candidate!" << endl;
 		return 1;
 	} else if(targetPos.count > 1) {
 		/* Find the person who is nearest to the robot */
@@ -156,16 +158,19 @@ const bool RobotAction::turnFaceToHuman() {
 				minY = targetPos.y[i];
 			}
 		}
-		targetPos.x[0] = minX;
-		targetPos.y[0] = minY;
+		possibleCandidateX = minX / 100.0;
+		possibleCandidateY = minY / 100.0;
 	}
 
 	/* Prepare the angle to turn the head */
-	int goalDegree = -1 * static_cast< int >(atan2(targetPos.y[0], targetPos.x[0]) / M_PI * 180.0);
+	int goalDegree = -1 * static_cast< int >(atan2(possibleCandidateY, possibleCandidateX) / M_PI * 180.0);
 
-	if (abs(goalDegree) >= 35) {
+	if (abs(goalDegree) > 35) {
 		cout << "> WARNING: Head cannot turn to this angle, " << goalDegree << endl;
-		return false;
+		goalDegree = 35;
+	} else if (abs(goalDegree) < -35) {
+		cout << "> WARNING: Head cannot turn to this angle, " << goalDegree << endl;
+		goalDegree = -35;
 	}
 
 	cout << "> Turning Face To " << goalDegree << endl;
@@ -362,76 +367,62 @@ const bool RobotAction::forwardApproach(const int& speed, const double& distance
 }
 
 const bool RobotAction::movingToAroundOfHuman(const int& speed, const float& distance, const double& angle2FrontOfHuman) {
-	//this->turnFaceToHuman();
-	//Sleep(1000);
+	this->turnFaceToHuman();
+	Sleep(1000);
 
 	/* Request current robot pose */
-	//MessageFreqMgr requestOdo;
-	//sendMessageFreq(requestOdo);
-	//Sleep(sizeof(requestOdo));
+	MessageFreqMgr requestOdo;
+	sendMessageFreq(requestOdo);
+	Sleep(sizeof(requestOdo));
 
-	//this->buzyWaitForMgr(250);
-	//OdometryMgr curPos;
-	//getOdometry(curPos);
+	this->buzyWaitForMgr(250);
+	OdometryMgr curPos;
+	getOdometry(curPos);
 
 	/* Request current human pose */
-	//PerceptionMgr legRequest;
-	//legRequest.sensing = legDetection;
-	//sendPerception(legRequest);
-	//Sleep(sizeof(legDetection));
+	PerceptionMgr legRequest;
+	legRequest.sensing = legDetection;
+	sendPerception(legRequest);
+	Sleep(sizeof(legDetection));
 
-	//this->buzyWaitForMgr(250);
-	//PeopleMgr targetPos;
-	//getPeople(targetPos);
+	this->buzyWaitForMgr(250);
+	PeopleMgr targetPos;
+	getPeople(targetPos);
 
 	/* Request body direction */
-	//PerceptionHAEMgr requestBody;
-	//requestBody.sensing = bodyDirectionCont;
-	//sendPerceptionHAE(requestBody);
-	//Sleep(sizeof(requestBody));
+	PerceptionHAEMgr requestBody;
+	requestBody.sensing = bodyDirectionCont;
+	sendPerceptionHAE(requestBody);
+	Sleep(sizeof(requestBody));
 
-	//this->buzyWaitForMgr(250);
+	this->buzyWaitForMgr(250);
 	HAEMgr receivedBodyDir;
-	//getHAE(receivedBodyDir);
-
-	//this->turningFace(0);
+	getHAE(receivedBodyDir);
 
 	/* Prepare subgoal message */
-	//if (targetPos.count == 0) {
-	//	cout << "> WARNING: No Human!" << endl;
-	//	return 1;
-	//} else if(targetPos.count > 1) {
-	//	/* Find the person who is nearest to the robot */
-	//	float minX = 0.0, minY = 0.0, squaredDistance = 0.0, minSquaredDistance = 999999.0;
-	//	for (int i = 0; i < targetPos.count; i++) {
-	//		squaredDistance = pow(targetPos.x[i],2) + pow(targetPos.y[i],2);
-	//		if (squaredDistance <= minSquaredDistance) {
-	//			minSquaredDistance = squaredDistance;
-	//			minX = targetPos.x[i];
-	//			minY = targetPos.y[i];
-	//		}
-	//	}
-	//	targetPos.x[0] = minX;
-	//	targetPos.y[0] = minY;
-	//}
+		// Find the possible candidate of the target, the nearest one
+	double possibleCandidateX = 0.0, possibleCandidateY = 0.0;
+	if (targetPos.count == 0) {
+		cout << "> WARNING: No Human Candidate!" << endl;
+		return 1;
+	} else if(targetPos.count > 1) {
+		/* Find the person who is nearest to the robot */
+		float minX = 0.0, minY = 0.0, squaredDistance = 0.0, minSquaredDistance = 999999.0;
+		for (int i = 0; i < targetPos.count; i++) {
+			squaredDistance = pow(targetPos.x[i],2) + pow(targetPos.y[i],2);
+			if (squaredDistance <= minSquaredDistance) {
+				minSquaredDistance = squaredDistance;
+				minX = targetPos.x[i];
+				minY = targetPos.y[i];
+			}
+		}
+		possibleCandidateX = minX / 100.0;
+		possibleCandidateY = minY / 100.0;
+	}
 
-	//double Xr = curPos.x - (targetPos.x[0] / 100.0);
-	//double Yr = curPos.y - (targetPos.y[0] / 100.0);
-
-	PeopleMgr targetPos;
-	targetPos.x[0] = 210.0;
-	targetPos.y[0] = 54;
-	//receivedBodyDir.body_direction_cont = bodyDirection;
-	receivedBodyDir.body_direction_cont = 45.0;
-	OdometryMgr curPos;
-	curPos.x = 0.0;
-	curPos.y = 0.0;
-	curPos.theta = 0.0;
-
-	double dist_robot2human = sqrt(pow(targetPos.x[0] / 100.0, 2) + pow(targetPos.y[0] / 100.0, 2));
-
+	double dist_robot2human = sqrt(pow(possibleCandidateX / 100.0, 2) + pow(possibleCandidateY / 100.0, 2));
 	double theta_BD = (-1 * receivedBodyDir.body_direction_cont);
-	double theta_robotHeading = atan2(targetPos.y[0], targetPos.x[0]) * 180 / M_PI;
+	double theta_robotHeading = atan2(possibleCandidateY, possibleCandidateX) * 180 / M_PI;
 	
 	/* Coordinate Transformation */
 	CoordTrans coordinateTrans;
@@ -450,20 +441,20 @@ const bool RobotAction::movingToAroundOfHuman(const int& speed, const float& dis
 	
 	/* For visualization, used for debug */
 		// Transform the centor point of human
-	double X_c_H = 0.0, Y_c_H = 0.0, Y_c_R, Y_c_W, X_c_R, X_c_W;
-	coordinateTrans.trans2D(X_c_H, Y_c_H, theta_g_H,
-							dist_robot2human * cos(theta_BD / 180 * M_PI), dist_robot2human * sin(theta_BD / 180 * M_PI), 180.0 + theta_BD - theta_robotHeading, 
-							X_c_R, Y_c_R, theta_g_R);
-	coordinateTrans.trans2D(X_c_R, Y_c_R, theta_g_R,
-							curPos.x - 0.0, curPos.y - 0.0, -1 * curPos.theta,
-							X_c_W, Y_c_W, theta_g_W);
+	//double X_c_H = 0.0, Y_c_H = 0.0, Y_c_R, Y_c_W, X_c_R, X_c_W;
+	//coordinateTrans.trans2D(X_c_H, Y_c_H, theta_g_H,
+	//						dist_robot2human * cos(theta_BD / 180 * M_PI), dist_robot2human * sin(theta_BD / 180 * M_PI), 180.0 + theta_BD - theta_robotHeading, 
+	//						X_c_R, Y_c_R, theta_g_R);
+	//coordinateTrans.trans2D(X_c_R, Y_c_R, theta_g_R,
+	//						curPos.x - 0.0, curPos.y - 0.0, -1 * curPos.theta,
+	//						X_c_W, Y_c_W, theta_g_W);
 
-	int imgX_g = 0, imgY_g = 0, imgX_c = 0, imgY_c = 0;
-	coordinateTrans.plane2Img(X_g_W, Y_g_W, imgX_g, imgY_g);
-	coordinateTrans.plane2Img(X_c_W, Y_c_W, imgX_c, imgY_c);
-	coordinateTrans.insertPoint(imgX_g, imgY_g);
-	coordinateTrans.insertPoint(imgX_c, imgY_c);
-	coordinateTrans.drawPoint();
+	//int imgX_g = 0, imgY_g = 0, imgX_c = 0, imgY_c = 0;
+	//coordinateTrans.plane2Img(X_g_W, Y_g_W, imgX_g, imgY_g);
+	//coordinateTrans.plane2Img(X_c_W, Y_c_W, imgX_c, imgY_c);
+	//coordinateTrans.insertPoint(imgX_g, imgY_g);
+	//coordinateTrans.insertPoint(imgX_c, imgY_c);
+	//coordinateTrans.drawPoint();
 
 	SubgoalMgr goal;
 	goal.theta = theta_g_W;
@@ -471,27 +462,26 @@ const bool RobotAction::movingToAroundOfHuman(const int& speed, const float& dis
 	goal.y = Y_g_W;
 
 	/* Print information for debug */
-	cout << "BodyDirection " << receivedBodyDir.body_direction_cont << endl;
-	//cout << "Xgh: " << Xgr << ", Ygh: " << Ygr << endl;
-	//cout << "Xgw: " << XrNew << ", YrNew: " << YrNew << endl;
+	cout << "BodyDirection: " << receivedBodyDir.body_direction_cont << endl;
 	cout << "X_Goal: " << goal.x << ", Y_Goal: " << goal.y << ", Theta_Goal: " << goal.theta << endl;
 
 	/* Send subgoal message */
-	//sendSubgoal(goal);
-	//naviExecuting = true;
-	//Sleep(sizeof(goal) + 500);
+	sendSubgoal(goal);
+	naviExecuting = true;
+	Sleep(sizeof(goal) + 500);
 
-	//this->getCurrentTime();
+	this->getCurrentTime();
+	this->turningFace(0);
 
-	//Result_Navi resultNaviStatus;
-	//getResultNavi(resultNaviStatus);
+	Result_Navi resultNaviStatus;
+	getResultNavi(resultNaviStatus);
 
-	//while (this->executingTime() <= timeout) {
-	//	if (naviExecuting == false || resultNaviStatus.current_status == FINISHED)
-	//		return true;
-	//	getResultNavi(resultNaviStatus);
-	//	Sleep(50);
-	//}
+	while (this->executingTime() <= timeout) {
+		if (naviExecuting == false || resultNaviStatus.current_status == FINISHED)
+			return true;
+		getResultNavi(resultNaviStatus);
+		Sleep(50);
+	}
 		// Timeout
 	cout << "> WARNING: Action, MovingToFrontOfHuman, timeout" << endl;
 	naviExecuting = false;

@@ -18,50 +18,7 @@ using namespace std;
 char keyboardInput = '\0';
 
 //=============================================================================
-//int main() {
-//	PeopleMgr targetPos;
-//	targetPos.x[0] = 210.0;
-//	targetPos.y[0] = 54;
-//
-//	OdometryMgr curPos;
-//	curPos.x = 0.0;
-//	curPos.y = 0.0;
-//	curPos.theta = 0.0;
-//
-//	double r = sqrt(pow(targetPos.x[0] / 100.0, 2) + pow(targetPos.y[0] / 100.0, 2));
-//	double theta_h = -1 * 41.0;
-//	double theta_r = atan2(targetPos.y[0], targetPos.x[0]) * 180 / M_PI;
-//
-//	double Xgh = r;
-//	double Ygh = 0;
-//	double thetag = 180.0;
-//
-//		// Translation to robot_coordinate
-//	double Xgh_R = Xgh - r * cos(theta_h / 180 * M_PI);
-//	double Ygh_R = Ygh - r * sin(theta_h / 180 * M_PI);
-//		// Rotation
-//	double radianHtoR = (180.0 + theta_h - theta_r) / 180.0 * M_PI;
-//	double Xgr = cos(radianHtoR) * Xgh_R + sin(radianHtoR) * Ygh_R;
-//	double Ygr = -1 * sin(radianHtoR) * Xgh_R + cos(radianHtoR) * Ygh_R;
-//	double thetar = thetag + (180.0 + theta_h - theta_r);
-//
-//	return 0;
-//}
-
-int main() {
-	RobotAction robotAction(SERVER_NAME);
-
-	while(1) {
-		for(int i(-90); i < 90; i += 5)
-			for(int j(1); j < 4; j++)
-				robotAction.movingToAroundOfHuman(0, j, i);
-		Sleep(100);
-	}
-
-	return 0;
-}
-
-int main2(int argc, char** argv) {
+int main(int argc, char** argv) {
 		// Server communication
 	/*init_comm();
 	connect_to_server(SERVER_NAME);
@@ -125,7 +82,7 @@ int main2(int argc, char** argv) {
 				cout << keyboardInput << endl;
 				keyboardInput = '\0';
 
-				robotAction.headShake(15, -45.0);
+				robotAction.headShake(15, -45);
 				break;
 			}
 			case 'E':
@@ -133,7 +90,7 @@ int main2(int argc, char** argv) {
 				cout << keyboardInput << endl;
 				keyboardInput = '\0';
 
-				robotAction.turningFace(-45.0);
+				robotAction.turningFace(-45);
 				break;
 			}
 			case 'D':
@@ -168,7 +125,7 @@ int main2(int argc, char** argv) {
 				cout << keyboardInput << endl;
 				keyboardInput = '\0';
 
-				robotAction.turningFace(0.0);
+				robotAction.turningFace(0);
 				break;
 			}
 
@@ -250,7 +207,7 @@ int main2(int argc, char** argv) {
 				cout << keyboardInput << endl;
 				keyboardInput = '\0';
 
-				//robotAction.movingToFrontOfHuman(0);
+				robotAction.movingToAroundOfHuman(0, 1.5, -30.0);
 				break;
 			}
 

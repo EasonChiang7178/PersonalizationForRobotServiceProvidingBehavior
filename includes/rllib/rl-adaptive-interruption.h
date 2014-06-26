@@ -62,9 +62,9 @@ namespace rl {
 								 Approach,
 								 CallName,
 								 ArmWave,
-								 //MoveToFrontOfPerson,
+								 MoveToAroundOfPerson,
 								 MakeSound} RobotActionSet;
-			enum {actionSize = 6};
+			enum {actionSize = 7};
 
 			/* Some exceptions for state and action consistancy */
 				// Can be throwed in inapprioate approach (When the robot is already too closed to the person
@@ -283,7 +283,7 @@ namespace rl {
 #endif
 								break;
 
-							case MoveToFrontOfPerson:
+							case MoveToAroundOfPerson:
 								cout << "> RobotAction: MoveToFrontOfPerson" << endl;
 #ifndef SIMULATION
 								//if (approached == false && goFront == false) {
@@ -294,7 +294,7 @@ namespace rl {
 								//	goFront = true;
 								//} else
 								//	cout << "> WARNING: INVALID APPROACH" << endl;
-								robot.movingToFrontOfHuman(0);
+								robot.movingToAroundOfHuman(0, 1.5, -30.0);
 #endif
 								break;
 

@@ -27,7 +27,7 @@
 
 typedef rl::Iterator<A,
 			 rl::problem::adaptive_interruption::HeadShake,
-			 rl::problem::adaptive_interruption::MoveToFrontOfPerson> ActionIterator;
+			 rl::problem::adaptive_interruption::MakeSound> ActionIterator;
 typedef ActionIterator													ActionToss;
 
 
