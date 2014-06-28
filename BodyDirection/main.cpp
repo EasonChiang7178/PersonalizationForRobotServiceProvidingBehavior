@@ -14,7 +14,6 @@ int main()
 	BodyDirection b;
 	b.startGetBodyDirection();
 
-
 	return 0;
 }
 

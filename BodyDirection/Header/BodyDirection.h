@@ -3,6 +3,7 @@
 #define BODYDIRECTION_H
 
 #include "NiImageCaptor.h"
+#include <conio.h>			// To use getch(), kbhit()
 
 class BodyDirection : public NiImageCaptor
 {
@@ -23,15 +24,15 @@ public:
 	const int calculateBodyDirectionToCamera();
 	const int getBodyDirectionHAE() {return bodyDirectionHAE;};
 
-	const float getBodyDirectionCont() {return bodyDirectionToCamera;};
+	const double getBodyDirectionCont() {return bodyDirectionToCamera;};
 
 private:
-
-	float bodyDirectionToCamera;
+		// For user body direction relative to the camera
+	double bodyDirectionToCamera;
 
 	const float point3fDist(const nite::Point3f a, const nite::Point3f b);
 
-	vector<vector<double>> thetaData;		//previous 10 frame body direction for smoothing
+	vector<vector<double>> thetaData;		// previous 7 frame body direction for smoothing
 	vector<double> userBodyAngle;			// user body orientation
 	vector<double> userLeanAngle;			// user body lean foward angle
 	vector<double> userHandSpeed;			// user both and speed avg for detecting body language

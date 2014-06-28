@@ -19,31 +19,7 @@ NiImageCaptor::NiImageCaptor()
 */
 NiImageCaptor::~NiImageCaptor()
 {
-	if(isStart==true)
-	{
-		/*	Stop the Captured Thread	*/
-		stopThread();		
-		cv::waitKey(100);
-
-		/*	Reconnect Device	*/
-		const char* deviceURI = openni::ANY_DEVICE;
-		if (device.open(deviceURI) != openni::STATUS_OK)
-		{
-			cout << "Device open failed:" << openni::OpenNI::getExtendedError() << endl;
-			openni::OpenNI::shutdown();
-			return;
-		}
-
-		/*	Close Deviec	*/
-		depth.stop();
-		depth.destroy();
-		color.stop();
-		color.destroy();
-		device.close();
-		openni::OpenNI::shutdown();
-		isStart = false;
-		cout << "Stop Capture" << endl;
-	}
+	this->stopCapture();
 }
 
 /**
@@ -88,7 +64,7 @@ void NiImageCaptor::thread()
 		cout << "Couldn't apply the setting of depth stream:" << openni::OpenNI::getExtendedError() <<endl;
 		return;
 	}
-     
+	 
 	mModeColor.setResolution( 640, 480 );
 	mModeColor.setFps( 30 );
 	mModeColor.setPixelFormat( openni::PIXEL_FORMAT_RGB888 );
@@ -143,7 +119,7 @@ void NiImageCaptor::thread()
 	
 	isStart = true;	// set initialize flag
 
-	while(1)
+	while (isStart)
 	{
 		depth.readFrame( &depthFrame );
 		color.readFrame( &colorFrame );
@@ -153,7 +129,7 @@ void NiImageCaptor::thread()
 
 		const cv::Mat mImageRGB(colorFrame.getHeight(), colorFrame.getWidth(), CV_8UC3, (void*)colorFrame.getData());
 		cv::cvtColor( mImageRGB, niImageStructTemp.Color, CV_RGB2BGR );
-        
+		
 		/*	Get user frame	*/
 		nite::UserTrackerFrameRef  mUserFrame;
 		mUserTracker.readFrame( &mUserFrame );
@@ -172,7 +148,6 @@ void NiImageCaptor::thread()
  
 			if( rUser.isVisible() )
 			{
-				
 				const nite::Skeleton& rSkeleton = rUser.getSkeleton();	// get user skeleton
 				if( rSkeleton.getState() == nite::SKELETON_TRACKED )
 				{
@@ -193,7 +168,6 @@ void NiImageCaptor::thread()
 					aJoints[12] = rSkeleton.getJoint( nite::JOINT_RIGHT_KNEE );
 					aJoints[13] = rSkeleton.getJoint( nite::JOINT_LEFT_FOOT );
 					aJoints[14] = rSkeleton.getJoint( nite::JOINT_RIGHT_FOOT );
-					
 
 					for( int  s = 0; s < 15; ++ s )		// change the world coordinate into image coordinate
 					{
@@ -219,6 +193,18 @@ void NiImageCaptor::thread()
 		//cout << "Captured image" << endl;
 		cv::waitKey(10);
 	}
+
+	/*	Close Deviec	*/
+	depth.stop();
+	depth.destroy();
+	color.stop();
+	color.destroy();
+	mUserTracker.destroy();
+	device.close();
+	nite::NiTE::shutdown();
+	openni::OpenNI::shutdown();
+	cout << "Stop Capture" << endl;
+
 	return;
 }
 
@@ -231,7 +217,7 @@ const int NiImageCaptor::startCapture()
 	if(isStart==false)
 	{
 		startThread();
-		while(isStart==false)	
+		while(isStart==false)
 			Sleep(1000);
 	}
 	else 
@@ -245,30 +231,33 @@ const int NiImageCaptor::startCapture()
 */
 const int NiImageCaptor::stopCapture()
 {
-	if(isStart==true)
+	if(isStart == true)
 	{
 		/*	Stop the Captured Thread	*/
-		stopThread();		
-		cv::waitKey(100);
+		isStart = false;
+		cv::waitKey(5000);
+		stopThread();
 
 		/*	Reconnect Device	*/
-		const char* deviceURI = openni::ANY_DEVICE;
-		if (device.open(deviceURI) != openni::STATUS_OK)
-		{
-			cout << "Device open failed:" << openni::OpenNI::getExtendedError() << endl;
-			openni::OpenNI::shutdown();
-			return 0;
-		}
+		//const char* deviceURI = openni::ANY_DEVICE;
+		//if (device.open(deviceURI) != openni::STATUS_OK)
+		//{
+		//	cout << "Device open failed:" << openni::OpenNI::getExtendedError() << endl;
+		//	openni::OpenNI::shutdown();
+		//	return 1;
+		//}
 
 		/*	Close Deviec	*/
-		depth.stop();
-		depth.destroy();
-		color.stop();
-		color.destroy();
-		device.close();
-		openni::OpenNI::shutdown();
-		isStart = false;
-		cout << "Stop Capture" << endl;
+		//depth.stop();
+		//depth.destroy();
+		//color.stop();
+		//color.destroy();
+		//mUserTracker.destroy();
+		//device.close();
+		//nite::NiTE::shutdown();
+		//openni::OpenNI::shutdown();
+		
+		//cout << "Stop Capture" << endl;
 	}
 	else 
 		cout << "NiImageCaptor dosen't start yet" << endl;
@@ -279,17 +268,23 @@ const int NiImageCaptor::stopCapture()
 * Function Name:	drawImg
 * Function Purpose:	Show the captured result and use for debugging
 */
-const int NiImageCaptor::drawImg() 
+const int NiImageCaptor::drawImg()
 {
 	/*	Critical Settion	*/
 	NiImageStruct niImageStructTemp;
 
 	niImageStructTemp = getShareVariable();
 
-	for(unsigned int i(0); i<niImageStructTemp.Users.size(); i++)
+	if (niImageStructTemp.Color.empty() == true) {
+		cout << "> WARNING: Image Captor failed!" << endl;
+		return 1;
+	}
+
+	for(unsigned int i(0); i < niImageStructTemp.Users.size(); i++)
 	{
  
 		/*	Drawing Skelenton Line	*/
+			// Upper body
 		cv::line( niImageStructTemp.Color, niImageStructTemp.Users[i][ 0].position2D, niImageStructTemp.Users[i][ 1].position2D, cv::Scalar( 255, 0, 0 ), 3 );
 		cv::line( niImageStructTemp.Color, niImageStructTemp.Users[i][ 1].position2D, niImageStructTemp.Users[i][ 2].position2D, cv::Scalar( 255, 0, 0 ), 3 );
 		cv::line( niImageStructTemp.Color, niImageStructTemp.Users[i][ 1].position2D, niImageStructTemp.Users[i][ 3].position2D, cv::Scalar( 255, 0, 0 ), 3 );
@@ -298,19 +293,20 @@ const int NiImageCaptor::drawImg()
 		cv::line( niImageStructTemp.Color, niImageStructTemp.Users[i][ 4].position2D, niImageStructTemp.Users[i][ 6].position2D, cv::Scalar( 255, 0, 0 ), 3 );
 		cv::line( niImageStructTemp.Color, niImageStructTemp.Users[i][ 5].position2D, niImageStructTemp.Users[i][ 7].position2D, cv::Scalar( 255, 0, 0 ), 3 );
 		cv::line( niImageStructTemp.Color, niImageStructTemp.Users[i][ 1].position2D, niImageStructTemp.Users[i][ 8].position2D, cv::Scalar( 255, 0, 0 ), 3 );
+			// Lower body
 		cv::line( niImageStructTemp.Color, niImageStructTemp.Users[i][ 8].position2D, niImageStructTemp.Users[i][ 9].position2D, cv::Scalar( 255, 0, 0 ), 3 );
 		cv::line( niImageStructTemp.Color, niImageStructTemp.Users[i][ 8].position2D, niImageStructTemp.Users[i][10].position2D, cv::Scalar( 255, 0, 0 ), 3 );
-		cv::line( niImageStructTemp.Color, niImageStructTemp.Users[i][ 9].position2D, niImageStructTemp.Users[i][11].position2D, cv::Scalar( 255, 0, 0 ), 3 );
-		cv::line( niImageStructTemp.Color, niImageStructTemp.Users[i][10].position2D, niImageStructTemp.Users[i][12].position2D, cv::Scalar( 255, 0, 0 ), 3 );
-		cv::line( niImageStructTemp.Color, niImageStructTemp.Users[i][11].position2D, niImageStructTemp.Users[i][13].position2D, cv::Scalar( 255, 0, 0 ), 3 );
-		cv::line( niImageStructTemp.Color, niImageStructTemp.Users[i][12].position2D, niImageStructTemp.Users[i][14].position2D, cv::Scalar( 255, 0, 0 ), 3 );
+		//cv::line( niImageStructTemp.Color, niImageStructTemp.Users[i][ 9].position2D, niImageStructTemp.Users[i][11].position2D, cv::Scalar( 255, 0, 0 ), 3 );
+		//cv::line( niImageStructTemp.Color, niImageStructTemp.Users[i][10].position2D, niImageStructTemp.Users[i][12].position2D, cv::Scalar( 255, 0, 0 ), 3 );
+		//cv::line( niImageStructTemp.Color, niImageStructTemp.Users[i][11].position2D, niImageStructTemp.Users[i][13].position2D, cv::Scalar( 255, 0, 0 ), 3 );
+		//cv::line( niImageStructTemp.Color, niImageStructTemp.Users[i][12].position2D, niImageStructTemp.Users[i][14].position2D, cv::Scalar( 255, 0, 0 ), 3 );
 		
-		// print user ID
+			// Print user ID
 		stringstream ss; ss  << "USER_ID: " << i;
 		cv::putText(niImageStructTemp.Color, ss.str(), niImageStructTemp.Users[i][ 8].position2D, CV_FONT_HERSHEY_PLAIN, 1, cv::Scalar(128,255,128), 2);
 
 		/*	Drawing Jonint	*/
-		for( int  s = 0; s < 15; ++ s )
+		for( int  s = 0; s < 11; ++ s ) // To joint 8 for upper body, 15 for whole body
 		{
 			if( niImageStructTemp.Users[i][s].jointConfidence > 0.5 )
 				cv::circle( niImageStructTemp.Color, niImageStructTemp.Users[i][s].position2D, 3, cv::Scalar( 0, 0, 255 ), 2 );
@@ -319,11 +315,11 @@ const int NiImageCaptor::drawImg()
 
 			//ss.str("");
 			//ss << s;
-			//cv::putText(niImageStructTemp.Color, ss.str(), niImageStructTemp.Users[i][s].position2D, CV_FONT_HERSHEY_PLAIN, 1, cv::Scalar(205,205,205), 2);
+			//cv::putText(niImageStructTemp.Color, ss.str(), niImageStructTemp.Users[i][s].position2D, CV_FONT_HERSHEY_PLAIN, 1, cv::Scalar(205,205,205), 2); // Show joint number
 		}
 	}
 
-	cv::imshow( "Depth Image", niImageStructTemp.Depth );
+	//cv::imshow( "Depth Image", niImageStructTemp.Depth );
 	cv::imshow( "Color Image", niImageStructTemp.Color );
 	cv::waitKey(10);
 	return 0;

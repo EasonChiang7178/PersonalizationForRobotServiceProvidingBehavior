@@ -21,111 +21,111 @@ const int BodyDirection::analyzeFunc()
 	vector<double> oneUserAngle;
 	nite::Point3f point3D;
 	double angle;
-	int flag;
-
+	//int flag;
+		// For smoothing the body direction
 	while(thetaData.size() < niImageStruct.Users.size())
 		thetaData.push_back(oneUserAngle);
-
+		// Body direction
 	while(userBodyAngle.size() < niImageStruct.Users.size())
 		userBodyAngle.push_back(angle);
-
+		// Body leaning
 	while(userLeanAngle.size() < niImageStruct.Users.size())
 		userLeanAngle.push_back(angle);
-
+		// Hand Speed of both two hands
 	while(userHandSpeed.size() < niImageStruct.Users.size())
 		userHandSpeed.push_back(angle);
-
-	while(userTouchFlag.size() < niImageStruct.Users.size())
-		userTouchFlag.push_back(flag);
-
+		// For counting the hand speed
 	while(leftHandTemp.size() < niImageStruct.Users.size())
 		leftHandTemp.push_back(point3D);
-
 	while(rightHandTemp.size() < niImageStruct.Users.size())
 		rightHandTemp.push_back(point3D);
+		// Touch flag
+	//while(userTouchFlag.size() < niImageStruct.Users.size())
+	//	userTouchFlag.push_back(flag);
 
+//**** WARNING: Hard coding, check for if no user exists ****//
 	if (niImageStruct.Users.size() == 0)
 		bodyDirectionHAE = 0;
 
-	/*	Count angles of bodys	*/
+	/*	Counting features of users	*/
 	for(unsigned int i(0); i<niImageStruct.Users.size(); i++)	// for all users
 	{
+		/*	Calculating Body Orientation Angle	*/
 		nite::Point3f leftShoulder, rightShoulder;
 
 		leftShoulder = niImageStruct.Users[i][2].position3D;
 		rightShoulder = niImageStruct.Users[i][3].position3D;
 
-		/*	Calculating Body Orientation Angle	*/
 		double xdiff, zdiff, theta;
 		xdiff = rightShoulder.x - leftShoulder.x;
 		zdiff = rightShoulder.z - leftShoulder.z;
 		theta = atan2(xdiff,zdiff) * 180.0 / M_PI;
 
-		//maintain history data
+			//maintain history data
 		thetaData[i].push_back(theta);
 		if(thetaData[i].size() > 7)
 			thetaData[i].erase(thetaData[i].begin());
 
-		//smooth data gaussian blur version
+			//smooth data gaussian blur version
 		double g_mask[7] = {0.004429, 0.053994, 0.242038, 0.399074, 0.242038, 0.053994, 0.004429};
 		double gm_theta = 0;
 		for(unsigned int j(0); j<thetaData[i].size(); j++)
 			gm_theta += thetaData[i][j]*g_mask[j];
 
 		userBodyAngle[i] = fabs(gm_theta);
-		cout << "userBodyAngle:" << userBodyAngle[i] << endl;	// for debug output
+		//cout << "userBodyAngle:" << userBodyAngle[i] << endl;	// for debug output
 
 		/* Calculating DirectionToCamera */
 		calculateBodyDirectionToCamera();
 
 		/*	Calculating Body Lean Angle	*/
-		//nite::Point3f vecOfRightShoudlerToLeftHip;
-		//nite::Point3f vecOfLeftShoudlerToRightHip;
+		nite::Point3f vecOfRightShoudlerToLeftHip;
+		nite::Point3f vecOfLeftShoudlerToRightHip;
 
-		//nite::Point3f leftHip = niImageStruct.Users[i][9].position3D;
-		//nite::Point3f rightHip = niImageStruct.Users[i][10].position3D;
+		nite::Point3f leftHip = niImageStruct.Users[i][9].position3D;
+		nite::Point3f rightHip = niImageStruct.Users[i][10].position3D;
 
-		//vecOfRightShoudlerToLeftHip.x = leftHip.x - rightShoulder.x;
-		//vecOfRightShoudlerToLeftHip.y = leftHip.y - rightShoulder.y;
-		//vecOfRightShoudlerToLeftHip.z = leftHip.z - rightShoulder.z;
+		vecOfRightShoudlerToLeftHip.x = leftHip.x - rightShoulder.x;
+		vecOfRightShoudlerToLeftHip.y = leftHip.y - rightShoulder.y;
+		vecOfRightShoudlerToLeftHip.z = leftHip.z - rightShoulder.z;
 
-		//vecOfLeftShoudlerToRightHip.x = rightHip.x - leftShoulder.x;
-		//vecOfLeftShoudlerToRightHip.y = rightHip.y - leftShoulder.y;
-		//vecOfLeftShoudlerToRightHip.z = rightHip.z - leftShoulder.z;
+		vecOfLeftShoudlerToRightHip.x = rightHip.x - leftShoulder.x;
+		vecOfLeftShoudlerToRightHip.y = rightHip.y - leftShoulder.y;
+		vecOfLeftShoudlerToRightHip.z = rightHip.z - leftShoulder.z;
 
-		//nite::Point3f vecOfCrossProduct;
-		//vecOfCrossProduct.x = vecOfRightShoudlerToLeftHip.y*vecOfLeftShoudlerToRightHip.z
-		//					 -vecOfRightShoudlerToLeftHip.z*vecOfLeftShoudlerToRightHip.y;
+		nite::Point3f vecOfCrossProduct;
+		vecOfCrossProduct.x = vecOfRightShoudlerToLeftHip.y*vecOfLeftShoudlerToRightHip.z
+							 -vecOfRightShoudlerToLeftHip.z*vecOfLeftShoudlerToRightHip.y;
 
-		//vecOfCrossProduct.y = vecOfRightShoudlerToLeftHip.z*vecOfLeftShoudlerToRightHip.x
-		//					 -vecOfRightShoudlerToLeftHip.x*vecOfLeftShoudlerToRightHip.z;
-		//
-		//vecOfCrossProduct.z = vecOfRightShoudlerToLeftHip.x*vecOfLeftShoudlerToRightHip.y
-		//					 -vecOfRightShoudlerToLeftHip.y*vecOfLeftShoudlerToRightHip.x;
+		vecOfCrossProduct.y = vecOfRightShoudlerToLeftHip.z*vecOfLeftShoudlerToRightHip.x
+							 -vecOfRightShoudlerToLeftHip.x*vecOfLeftShoudlerToRightHip.z;
+		
+		vecOfCrossProduct.z = vecOfRightShoudlerToLeftHip.x*vecOfLeftShoudlerToRightHip.y
+							 -vecOfRightShoudlerToLeftHip.y*vecOfLeftShoudlerToRightHip.x;
 
-		//double lenghtOfCrossProduct = sqrt(	pow(vecOfCrossProduct.x,2)+
-		//									pow(vecOfCrossProduct.y,2)+
-		//									pow(vecOfCrossProduct.z,2));
+		double lenghtOfCrossProduct = sqrt(	pow(vecOfCrossProduct.x,2)+
+											pow(vecOfCrossProduct.y,2)+
+											pow(vecOfCrossProduct.z,2));
 
-		//userLeanAngle[i] = asin(vecOfCrossProduct.y/lenghtOfCrossProduct) * 180.0 / M_PI;
+		userLeanAngle[i] = asin(vecOfCrossProduct.y/lenghtOfCrossProduct) * 180.0 / M_PI;
 		
 		//cout << "userLeanAngle:" << userLeanAngle[i] << endl;	// debug  output
 
 		/*	Calculating Hand Speed	*/
-		//nite::Point3f leftHand = niImageStruct.Users[i][6].position3D;
-		//nite::Point3f rightHand = niImageStruct.Users[i][7].position3D;
+		nite::Point3f leftHand = niImageStruct.Users[i][6].position3D;
+		nite::Point3f rightHand = niImageStruct.Users[i][7].position3D;
 
-		//float leftHandDisplacement;
-		//float rightHandDisplacement;
+		float leftHandDisplacement;
+		float rightHandDisplacement;
 
-		//leftHandDisplacement = point3fDist( leftHand, leftHandTemp[i]);
-		//rightHandDisplacement = point3fDist( rightHand, rightHandTemp[i]);
+		leftHandDisplacement = point3fDist( leftHand, leftHandTemp[i]);
+		rightHandDisplacement = point3fDist( rightHand, rightHandTemp[i]);
 
-		//userHandSpeed[i] = (leftHandDisplacement+rightHandDisplacement)/2000.0; // avg in unit (m)
+		userHandSpeed[i] = (leftHandDisplacement + rightHandDisplacement) / 2000.0; // avg in unit (m/s)
 
-		//leftHandTemp[i] = leftHand;
-		//rightHandTemp[i] = rightHand;
-		
+		leftHandTemp[i] = leftHand;
+		rightHandTemp[i] = rightHand;
+
 		//cout << "userHandSpeed:" << userHandSpeed[i] << endl;	// debug  output
 
 		/*	Calculating Touch Flag	*/
@@ -192,8 +192,8 @@ const float BodyDirection::point3fDist(const nite::Point3f a, const nite::Point3
 
 const int BodyDirection::startGetBodyDirection()
 {
+		// Enable the thread to capture the color and depth image
 	startCapture();
-
 		/** Connect to IPC Server **/
 	init_comm();
 	connect_to_server();
@@ -204,8 +204,15 @@ const int BodyDirection::startGetBodyDirection()
 	extern bool bodyDirectionFlag, bodyDirectionContFlag;
 	bodyDirectionHAE = 0;
 
-	while(1)
+	while (true)
 	{
+			/* Press 'Q' (81), 'q' (113) or esc (27) to leave */
+		if (kbhit()) {
+			int command = getch();
+			if (command == 81 || command == 113 || command == 27)
+				break;
+		}
+
 		analyzeFunc();
 		drawImg();
 
@@ -320,9 +327,9 @@ const int BodyDirection::calculateBodyDirectionToCamera()
 		else
 			bodyDirectionHAE = 3;
 			// For debug output
-		cout << "> AngleCamToUser: " << angleCamToUser << " " << neckPoint.x << endl;
-		cout << "> Body Direction Toward Camera(C): " << bodyDirectionToCamera << endl;
-		cout << "> Body Direction Toward Camera(D): " << bodyDirectionHAE << endl;
+		//cout << "> AngleCamToUser: " << angleCamToUser << " " << neckPoint.x << endl;
+		//cout << "> Body Direction Toward Camera(C): " << bodyDirectionToCamera << endl;
+		//cout << "> Body Direction Toward Camera(D): " << bodyDirectionHAE << endl;
 	}
 	return 0;
 }
