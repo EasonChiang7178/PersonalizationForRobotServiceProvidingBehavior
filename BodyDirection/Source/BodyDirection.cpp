@@ -155,6 +155,9 @@ const int BodyDirection::analyzeFunc()
 		/* Calculating Hand To Head Feature */
 		this->calculateHandToHead(i);
 
+		/* Calculating Hand To Trunk Feature */
+		this->calculateHandToBody(i);
+
 		/*	Calculating Touch Flag	*/
 		// check the dist between both hand to sholders and another person's hands 
 		//float distThresh(300.0f);			// threshold is setting as 30cm = 300mm
@@ -452,6 +455,10 @@ const int BodyDirection::drawImg()
 		ss.str(""); ss << "HtoH: " << userHandToHead[i];
 		cv::Point2f hth(niImageStructTemp.Users[i][ 8].position2D.x + 20, niImageStructTemp.Users[i][ 8].position2D.y + 20 * displayPos++);
 		cv::putText(niImageStructTemp.Color, ss.str(), hth, CV_FONT_HERSHEY_PLAIN, 1, cv::Scalar(205,205,205), 2);
+			// Hand To Body
+		ss.str(""); ss << "HtoB: " << userHandToBody[i];
+		cv::Point2f htb(niImageStructTemp.Users[i][ 8].position2D.x + 20, niImageStructTemp.Users[i][ 8].position2D.y + 20 * displayPos++);
+		cv::putText(niImageStructTemp.Color, ss.str(), htb, CV_FONT_HERSHEY_PLAIN, 1, cv::Scalar(205,205,205), 2);
 	}
 
 	cv::imshow( "Color Image", niImageStructTemp.Color );
@@ -472,5 +479,21 @@ const int BodyDirection::calculateHandToHead(const int& userID) {
 	float rHandToHead = this->gaussianKernal3((head.x - rHand.x) / 500, (head.y - rHand.y) / 500, (head.z - rHand.z) / 500, 1.0);
 
 	userHandToHead[userID] = lHandToHead * rHandToHead * std::exp(-1.0 / 2.0);
+	return 0;
+}
+
+const int BodyDirection::calculateHandToBody(const int& userID) {
+	NiImageStruct niImageStruct = getNiImageStruct();
+
+	/* Initialization */
+	nite::Point3f trunk = niImageStruct.Users[userID][8].position3D;
+	nite::Point3f lHand = niImageStruct.Users[userID][6].position3D;
+	nite::Point3f rHand = niImageStruct.Users[userID][7].position3D;
+
+	/* Computation */
+	float lHandToTrunk = this->gaussianKernal3(0.0, 0.0, (trunk.z - lHand.z) / 500, 0.85);
+	float rHandToTrunk = this->gaussianKernal3(0.0, 0.0, (trunk.z - rHand.z) / 500, 0.85);
+
+	userHandToBody[userID] = lHandToTrunk * rHandToTrunk * std::exp(-1.0 / 2.0);
 	return 0;
 }
