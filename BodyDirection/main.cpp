@@ -10,7 +10,6 @@ bool bodyDirectionContFlag = false;
 
 int main()
 {
-
 	BodyDirection b;
 	b.startGetBodyDirection();
 

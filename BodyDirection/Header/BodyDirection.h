@@ -16,6 +16,9 @@ public:
 
 	const vector<double> getBodyAngle(){return userBodyAngle;};
 
+		// Display the feature and image, for debug
+	const int drawImg();
+
 	/* For F-Formation Recognition */
 	const int calculateBodyFformation();
 	const int getBodyFformation(){return bodyFformation;};
@@ -23,13 +26,33 @@ public:
 	/* For Human Attention Estimator */
 	const int calculateBodyDirectionToCamera(const int& userID);
 	const vector< int > getBodyDirectionHAE() {return bodyDirectionHAE;};
-
 	const vector< double > getBodyDirectionCont() {return bodyDirectionToCamera;};
 
-	const int drawImg();
+	/* For Human's Affective State Classification */
+		// HandToHead
+	const int calculateHandToHead(const int& userID);
+	const vector< double > getHandToHead() {return userHandToHead;}
+		// ArmAsymmetry
+	const int calculateArmAsymmetry(const int& userID);
+	const vector< double > getArmAsymmetry() {return userArmAsymmetry;}
+		// ArmAreaSpanned
+	const int calculateArmAreaSpanned(const int& userID);
+	const vector< double > getArmAreaSpanned() {return userArmAreaSpanned;}
+		// HandToBody
+	const int calculateHandToBody(const int& userID);
+	const vector< double > getHandToBody() {return userHandToBody;}
 
 private:
+		// Vector manipulation
 	const float point3fDist(const nite::Point3f a, const nite::Point3f b);
+	const float point3fLength(const nite::Point3f& a);
+		// GaussianKernal
+	float gaussianKernal3(float xDist, float yDist, float zDist, float sigma) {
+		float dx = xDist / sigma;
+		float dy = yDist / sigma;
+		float dz = zDist / sigma;
+		return std::exp(-float(0.5) * (dx * dx + dy * dy + dz * dz));
+	}
 
 	vector<vector<double>> thetaData;		// previous 7 frame body direction for smoothing
 	vector<double> userBodyAngle;			// user body orientation
@@ -47,6 +70,12 @@ private:
 	vector< int > bodyDirectionHAE;
 		// For user body direction relative to the camera
 	vector< double > bodyDirectionToCamera;
+
+	/* For Human's Affective State Classification */
+	vector< double > userHandToHead;
+	vector< double > userArmAsymmetry;
+	vector< double > userArmAreaSpanned;
+	vector< double > userHandToBody;
 };
 
 

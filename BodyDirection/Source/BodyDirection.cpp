@@ -49,6 +49,19 @@ const int BodyDirection::analyzeFunc()
 		// For bodyDirectionToCameraCont
 	while(bodyDirectionToCamera.size() < niImageStruct.Users.size())
 		bodyDirectionToCamera.push_back(angle);
+		// For Hand to Head
+	while(userHandToHead.size() < niImageStruct.Users.size())
+		userHandToHead.push_back(angle);
+		// For ArmAsymmetry
+	while(userArmAsymmetry.size() < niImageStruct.Users.size())
+		userArmAsymmetry.push_back(angle);
+		// For ArmAreaSpanned
+	while(userArmAreaSpanned.size() < niImageStruct.Users.size())
+		userArmAreaSpanned.push_back(angle);
+		// For HandToBody
+	while(userHandToBody.size() < niImageStruct.Users.size())
+		userHandToBody.push_back(angle);
+	
 
 		// Clear the value of body direction
 	if (niImageStruct.Users.size() == 0) {
@@ -139,6 +152,9 @@ const int BodyDirection::analyzeFunc()
 
 		//cout << "userHandSpeed:" << userHandSpeed[i] << endl;	// debug  output
 
+		/* Calculating Hand To Head Feature */
+		this->calculateHandToHead(i);
+
 		/*	Calculating Touch Flag	*/
 		// check the dist between both hand to sholders and another person's hands 
 		//float distThresh(300.0f);			// threshold is setting as 30cm = 300mm
@@ -198,7 +214,11 @@ const int BodyDirection::analyzeFunc()
 
 const float BodyDirection::point3fDist(const nite::Point3f a, const nite::Point3f b)
 {
-	return sqrt(pow(a.x-b.x,2) + pow(a.y-b.y,2) + pow(a.z-b.z,2));
+	return sqrt((a.x - b.x) * (a.x - b.x) + (a.y - b.y) * (a.y - b.y) + (a.z - b.z) * (a.z - b.z));
+}
+
+const float BodyDirection::point3fLength(const nite::Point3f& a) {
+	return sqrt(a.x * a.x + a.y * a.y + a.z * a.z);
 }
 
 const int BodyDirection::startGetBodyDirection()
@@ -407,29 +427,50 @@ const int BodyDirection::drawImg()
 		}
 
 		/* Draw Features */
-			// Body Direction
-		ss.str(""); ss << "BodyDirection: " << userBodyAngle[i];
-		cv::Point2f bd(niImageStructTemp.Users[i][ 8].position2D.x + 20, niImageStructTemp.Users[i][ 8].position2D.y + 20);
-		cv::putText(niImageStructTemp.Color, ss.str(), bd, CV_FONT_HERSHEY_PLAIN, 1, cv::Scalar(205,205,205), 2);
-			// Body Direction To Camera Discrete
-		ss.str(""); ss << "BodyDirectionToCameraD: " << bodyDirectionHAE[i];
-		cv::Point2f bdd(niImageStructTemp.Users[i][ 8].position2D.x + 20, niImageStructTemp.Users[i][ 8].position2D.y + 40);
-		cv::putText(niImageStructTemp.Color, ss.str(), bdd, CV_FONT_HERSHEY_PLAIN, 1, cv::Scalar(205,205,205), 2);
+		int displayPos = 1;
+		//	// Body Direction
+		//ss.str(""); ss << "BD: " << userBodyAngle[i];
+		//cv::Point2f bd(niImageStructTemp.Users[i][ 8].position2D.x + 20, niImageStructTemp.Users[i][ 8].position2D.y + 20 * displayPos++);
+		//cv::putText(niImageStructTemp.Color, ss.str(), bd, CV_FONT_HERSHEY_PLAIN, 1, cv::Scalar(205,205,205), 2);
+		//	// Body Direction To Camera Discrete
+		//ss.str(""); ss << "BDtoCD: " << bodyDirectionHAE[i];
+		//cv::Point2f bdd(niImageStructTemp.Users[i][ 8].position2D.x + 20, niImageStructTemp.Users[i][ 8].position2D.y + 20 * displayPos++);
+		//cv::putText(niImageStructTemp.Color, ss.str(), bdd, CV_FONT_HERSHEY_PLAIN, 1, cv::Scalar(205,205,205), 2);
 			// Body Direction To Camera Continous
-		ss.str(""); ss << "BodyDirectionToCameraC: " << bodyDirectionToCamera[i];
-		cv::Point2f bdc(niImageStructTemp.Users[i][ 8].position2D.x + 20, niImageStructTemp.Users[i][ 8].position2D.y + 60);
+		ss.str(""); ss << "BDtoCC: " << bodyDirectionToCamera[i];
+		cv::Point2f bdc(niImageStructTemp.Users[i][ 8].position2D.x + 20, niImageStructTemp.Users[i][ 8].position2D.y + 20 * displayPos++);
 		cv::putText(niImageStructTemp.Color, ss.str(), bdc, CV_FONT_HERSHEY_PLAIN, 1, cv::Scalar(205,205,205), 2);
 		//	// Body Lean
-		//ss.str(""); ss << "BodyLean: " << userLeanAngle[i];
-		//cv::Point2f bl(niImageStructTemp.Users[i][ 8].position2D.x, niImageStructTemp.Users[i][ 8].position2D.y + 40);
+		//ss.str(""); ss << "BL: " << userLeanAngle[i];
+		//cv::Point2f bl(niImageStructTemp.Users[i][ 8].position2D.x, niImageStructTemp.Users[i][ 8].position2D.y + 20 * displayPos++);
 		//cv::putText(niImageStructTemp.Color, ss.str(), bl, CV_FONT_HERSHEY_PLAIN, 1, cv::Scalar(205,205,205), 2);
 			// Hand Speed
-		ss.str(""); ss << "HandSpeed: " << userHandSpeed[i];
-		cv::Point2f hs(niImageStructTemp.Users[i][ 8].position2D.x + 20, niImageStructTemp.Users[i][ 8].position2D.y + 80);
+		ss.str(""); ss << "HS: " << userHandSpeed[i];
+		cv::Point2f hs(niImageStructTemp.Users[i][ 8].position2D.x + 20, niImageStructTemp.Users[i][ 8].position2D.y + 20 * displayPos++);
 		cv::putText(niImageStructTemp.Color, ss.str(), hs, CV_FONT_HERSHEY_PLAIN, 1, cv::Scalar(205,205,205), 2);
+			// Hand To Head
+		ss.str(""); ss << "HtoH: " << userHandToHead[i];
+		cv::Point2f hth(niImageStructTemp.Users[i][ 8].position2D.x + 20, niImageStructTemp.Users[i][ 8].position2D.y + 20 * displayPos++);
+		cv::putText(niImageStructTemp.Color, ss.str(), hth, CV_FONT_HERSHEY_PLAIN, 1, cv::Scalar(205,205,205), 2);
 	}
 
 	cv::imshow( "Color Image", niImageStructTemp.Color );
 	cv::waitKey(10);
+	return 0;
+}
+
+const int BodyDirection::calculateHandToHead(const int& userID) {
+	NiImageStruct niImageStruct = getNiImageStruct();
+
+	/* Initialization */
+	nite::Point3f head = niImageStruct.Users[userID][0].position3D;
+	nite::Point3f lHand = niImageStruct.Users[userID][6].position3D;
+	nite::Point3f rHand = niImageStruct.Users[userID][7].position3D;
+
+	/* Computation */
+	float lHandToHead = this->gaussianKernal3((head.x - lHand.x) / 500, (head.y - lHand.y) / 500, (head.z - lHand.z) / 500, 1.0);
+	float rHandToHead = this->gaussianKernal3((head.x - rHand.x) / 500, (head.y - rHand.y) / 500, (head.z - rHand.z) / 500, 1.0);
+
+	userHandToHead[userID] = lHandToHead * rHandToHead * std::exp(-1.0 / 2.0);
 	return 0;
 }
