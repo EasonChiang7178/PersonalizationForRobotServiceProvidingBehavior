@@ -158,6 +158,12 @@ const int BodyDirection::analyzeFunc()
 		/* Calculating Hand To Trunk Feature */
 		this->calculateHandToBody(i);
 
+		/* Calculating ArmAsymmety */
+		this->calculateArmAsymmetry(i);
+
+		/* Calculating ArmAreaSpanned */
+		this->calculateArmAreaSpanned(i);
+
 		/*	Calculating Touch Flag	*/
 		// check the dist between both hand to sholders and another person's hands 
 		//float distThresh(300.0f);			// threshold is setting as 30cm = 300mm
@@ -451,14 +457,18 @@ const int BodyDirection::drawImg()
 		ss.str(""); ss << "HS: " << userHandSpeed[i];
 		cv::Point2f hs(niImageStructTemp.Users[i][ 8].position2D.x + 20, niImageStructTemp.Users[i][ 8].position2D.y + 20 * displayPos++);
 		cv::putText(niImageStructTemp.Color, ss.str(), hs, CV_FONT_HERSHEY_PLAIN, 1, cv::Scalar(205,205,205), 2);
-			// Hand To Head
-		ss.str(""); ss << "HtoH: " << userHandToHead[i];
-		cv::Point2f hth(niImageStructTemp.Users[i][ 8].position2D.x + 20, niImageStructTemp.Users[i][ 8].position2D.y + 20 * displayPos++);
-		cv::putText(niImageStructTemp.Color, ss.str(), hth, CV_FONT_HERSHEY_PLAIN, 1, cv::Scalar(205,205,205), 2);
-			// Hand To Body
-		ss.str(""); ss << "HtoB: " << userHandToBody[i];
-		cv::Point2f htb(niImageStructTemp.Users[i][ 8].position2D.x + 20, niImageStructTemp.Users[i][ 8].position2D.y + 20 * displayPos++);
-		cv::putText(niImageStructTemp.Color, ss.str(), htb, CV_FONT_HERSHEY_PLAIN, 1, cv::Scalar(205,205,205), 2);
+		//	// Hand To Head
+		//ss.str(""); ss << "HtoH: " << userHandToHead[i];
+		//cv::Point2f hth(niImageStructTemp.Users[i][ 8].position2D.x + 20, niImageStructTemp.Users[i][ 8].position2D.y + 20 * displayPos++);
+		//cv::putText(niImageStructTemp.Color, ss.str(), hth, CV_FONT_HERSHEY_PLAIN, 1, cv::Scalar(205,205,205), 2);
+		//	// Hand To Body
+		//ss.str(""); ss << "HtoB: " << userHandToBody[i];
+		//cv::Point2f htb(niImageStructTemp.Users[i][ 8].position2D.x + 20, niImageStructTemp.Users[i][ 8].position2D.y + 20 * displayPos++);
+		//cv::putText(niImageStructTemp.Color, ss.str(), htb, CV_FONT_HERSHEY_PLAIN, 1, cv::Scalar(205,205,205), 2);
+			// ArmAreaSpanned
+		ss.str(""); ss << "AAS: " << userArmAreaSpanned[i];
+		cv::Point2f aas(niImageStructTemp.Users[i][ 8].position2D.x + 20, niImageStructTemp.Users[i][ 8].position2D.y + 20 * displayPos++);
+		cv::putText(niImageStructTemp.Color, ss.str(), aas, CV_FONT_HERSHEY_PLAIN, 1, cv::Scalar(205,205,205), 2);
 	}
 
 	cv::imshow( "Color Image", niImageStructTemp.Color );
@@ -495,5 +505,59 @@ const int BodyDirection::calculateHandToBody(const int& userID) {
 	float rHandToTrunk = this->gaussianKernal3(0.0, 0.0, (trunk.z - rHand.z) / 500, 0.85);
 
 	userHandToBody[userID] = lHandToTrunk * rHandToTrunk * std::exp(-1.0 / 2.0);
+	return 0;
+}
+
+const int BodyDirection::calculateArmAsymmetry(const int& userID) {
+	NiImageStruct niImageStruct = getNiImageStruct();
+
+	/* Initialization */
+	nite::Point3f lElbow = niImageStruct.Users[userID][4].position3D;
+	nite::Point3f rElbow = niImageStruct.Users[userID][5].position3D;
+	nite::Point3f lHand = niImageStruct.Users[userID][6].position3D;
+	nite::Point3f rHand = niImageStruct.Users[userID][7].position3D;
+	nite::Point3f trunk = niImageStruct.Users[userID][8].position3D;
+
+	/* Reflection */
+
+
+	//userHandToBody[userID] = lHandToTrunk * rHandToTrunk * std::exp(-1.0 / 2.0);
+	return 0;
+}
+
+const int BodyDirection::calculateArmAreaSpanned(const int& userID) {
+	NiImageStruct niImageStruct = getNiImageStruct();
+
+	/* Initialization */
+	nite::Point3f lShould = niImageStruct.Users[userID][2].position3D;
+	nite::Point3f rShould = niImageStruct.Users[userID][3].position3D;
+	nite::Point3f lElbow = niImageStruct.Users[userID][4].position3D;
+	nite::Point3f rElbow = niImageStruct.Users[userID][5].position3D;
+	nite::Point3f lHand = niImageStruct.Users[userID][6].position3D;
+	nite::Point3f rHand = niImageStruct.Users[userID][7].position3D;
+
+	/* Cross Product */
+	nite::Point3f vecOfUpperArmL(lElbow.x - lShould.x, lElbow.y - lShould.y, lElbow.z - lShould.z);
+	nite::Point3f vecOfLowerArmL(lHand.x - lElbow.x, lHand.y - lElbow.y, lHand.z - lElbow.z);
+	nite::Point3f vecOfUpperArmR(rElbow.x - rShould.x, rElbow.y - rShould.y, rElbow.z - rShould.z);
+	nite::Point3f vecOfLowerArmR(rHand.x - rElbow.x, rHand.y - rElbow.y, rHand.z - rElbow.z);
+	nite::Point3f vecOfCrossProductL, vecOfCrossProductR;
+	
+	vecOfCrossProductL.x = vecOfUpperArmL.y*vecOfLowerArmL.z
+						  -vecOfUpperArmL.z*vecOfLowerArmL.y;
+	vecOfCrossProductL.y = vecOfUpperArmL.z*vecOfLowerArmL.x
+						  -vecOfUpperArmL.x*vecOfLowerArmL.z;
+	vecOfCrossProductL.z = vecOfUpperArmL.x*vecOfLowerArmL.y
+						  -vecOfUpperArmL.y*vecOfLowerArmL.x;
+
+	vecOfCrossProductR.x = vecOfUpperArmR.y*vecOfLowerArmR.z
+						  -vecOfUpperArmR.z*vecOfLowerArmR.y;
+	vecOfCrossProductR.y = vecOfUpperArmR.z*vecOfLowerArmR.x
+						  -vecOfUpperArmR.x*vecOfLowerArmR.z;
+	vecOfCrossProductR.z = vecOfUpperArmR.x*vecOfLowerArmR.y
+						  -vecOfUpperArmR.y*vecOfLowerArmR.x;
+
+	userArmAreaSpanned[userID] = (point3fLength(vecOfCrossProductL) / point3fLength(vecOfUpperArmL) / point3fLength(vecOfLowerArmL));
+							   //+ point3fLength(vecOfCrossProductR) / point3fLength(vecOfUpperArmR) / point3fLength(vecOfLowerArmR)) / 2;
 	return 0;
 }
