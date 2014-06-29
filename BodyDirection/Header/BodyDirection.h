@@ -26,6 +26,8 @@ public:
 
 	const double getBodyDirectionCont() {return bodyDirectionToCamera;};
 
+	const int drawImg();
+
 private:
 		// For user body direction relative to the camera
 	double bodyDirectionToCamera;

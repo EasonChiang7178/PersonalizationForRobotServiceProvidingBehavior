@@ -333,3 +333,67 @@ const int BodyDirection::calculateBodyDirectionToCamera()
 	}
 	return 0;
 }
+
+const int BodyDirection::drawImg()
+{
+	/*	Critical Settion	*/
+	NiImageStruct niImageStructTemp;
+
+	niImageStructTemp = getShareVariable();
+
+	if (niImageStructTemp.Color.empty() == true) {
+		cout << "> WARNING: Image Captor failed!" << endl;
+		return 1;
+	}
+
+	for(unsigned int i(0); i < niImageStructTemp.Users.size(); i++)
+	{
+		/*	Drawing Skelenton Line	*/
+			// Upper body
+		cv::line( niImageStructTemp.Color, niImageStructTemp.Users[i][ 0].position2D, niImageStructTemp.Users[i][ 1].position2D, cv::Scalar( 255, 0, 0 ), 3 );
+		cv::line( niImageStructTemp.Color, niImageStructTemp.Users[i][ 1].position2D, niImageStructTemp.Users[i][ 2].position2D, cv::Scalar( 255, 0, 0 ), 3 );
+		cv::line( niImageStructTemp.Color, niImageStructTemp.Users[i][ 1].position2D, niImageStructTemp.Users[i][ 3].position2D, cv::Scalar( 255, 0, 0 ), 3 );
+		cv::line( niImageStructTemp.Color, niImageStructTemp.Users[i][ 2].position2D, niImageStructTemp.Users[i][ 4].position2D, cv::Scalar( 255, 0, 0 ), 3 );
+		cv::line( niImageStructTemp.Color, niImageStructTemp.Users[i][ 3].position2D, niImageStructTemp.Users[i][ 5].position2D, cv::Scalar( 255, 0, 0 ), 3 );
+		cv::line( niImageStructTemp.Color, niImageStructTemp.Users[i][ 4].position2D, niImageStructTemp.Users[i][ 6].position2D, cv::Scalar( 255, 0, 0 ), 3 );
+		cv::line( niImageStructTemp.Color, niImageStructTemp.Users[i][ 5].position2D, niImageStructTemp.Users[i][ 7].position2D, cv::Scalar( 255, 0, 0 ), 3 );
+		cv::line( niImageStructTemp.Color, niImageStructTemp.Users[i][ 1].position2D, niImageStructTemp.Users[i][ 8].position2D, cv::Scalar( 255, 0, 0 ), 3 );
+			// Lower body
+		cv::line( niImageStructTemp.Color, niImageStructTemp.Users[i][ 8].position2D, niImageStructTemp.Users[i][ 9].position2D, cv::Scalar( 255, 0, 0 ), 3 );
+		cv::line( niImageStructTemp.Color, niImageStructTemp.Users[i][ 8].position2D, niImageStructTemp.Users[i][10].position2D, cv::Scalar( 255, 0, 0 ), 3 );
+			// Print user ID
+		stringstream ss; ss  << "USER_ID: " << i;
+		cv::putText(niImageStructTemp.Color, ss.str(), niImageStructTemp.Users[i][ 8].position2D, CV_FONT_HERSHEY_PLAIN, 1, cv::Scalar(128,255,128), 2);
+
+		/*	Drawing Jonint	*/
+		for( int  s = 0; s < 11; ++ s ) // To joint 8 for upper body, 15 for whole body
+		{
+			if( niImageStructTemp.Users[i][s].jointConfidence > 0.5 )
+				cv::circle( niImageStructTemp.Color, niImageStructTemp.Users[i][s].position2D, 3, cv::Scalar( 0, 0, 255 ), 2 );
+			else
+				cv::circle( niImageStructTemp.Color, niImageStructTemp.Users[i][s].position2D, 3, cv::Scalar( 0, 255, 0 ), 2 );
+
+			//ss.str("");
+			//ss << s;
+			//cv::putText(niImageStructTemp.Color, ss.str(), niImageStructTemp.Users[i][s].position2D, CV_FONT_HERSHEY_PLAIN, 1, cv::Scalar(205,205,205), 2); // Show joint number
+		}
+
+		/* Draw Features */
+			// Body Direction
+		ss.str(""); ss << "BodyDirection: " << userBodyAngle[i];
+		cv::Point2f bd(niImageStructTemp.Users[i][ 8].position2D.x, niImageStructTemp.Users[i][ 8].position2D.y + 20);
+		cv::putText(niImageStructTemp.Color, ss.str(), bd, CV_FONT_HERSHEY_PLAIN, 1, cv::Scalar(205,205,205), 2);
+			// Body Lean
+		ss.str(""); ss << "BodyLean: " << userLeanAngle[i];
+		cv::Point2f bl(niImageStructTemp.Users[i][ 8].position2D.x, niImageStructTemp.Users[i][ 8].position2D.y + 40);
+		cv::putText(niImageStructTemp.Color, ss.str(), bl, CV_FONT_HERSHEY_PLAIN, 1, cv::Scalar(205,205,205), 2);
+			// Hand Speed
+		ss.str(""); ss << "HandSpeed: " << userHandSpeed[i];
+		cv::Point2f hs(niImageStructTemp.Users[i][ 8].position2D.x, niImageStructTemp.Users[i][ 8].position2D.y + 60);
+		cv::putText(niImageStructTemp.Color, ss.str(), hs, CV_FONT_HERSHEY_PLAIN, 1, cv::Scalar(205,205,205), 2);
+	}
+
+	cv::imshow( "Color Image", niImageStructTemp.Color );
+	cv::waitKey(10);
+	return 0;
+}

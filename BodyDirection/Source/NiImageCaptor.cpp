@@ -168,6 +168,11 @@ void NiImageCaptor::thread()
 					aJoints[12] = rSkeleton.getJoint( nite::JOINT_RIGHT_KNEE );
 					aJoints[13] = rSkeleton.getJoint( nite::JOINT_LEFT_FOOT );
 					aJoints[14] = rSkeleton.getJoint( nite::JOINT_RIGHT_FOOT );
+						// Low confidence, draw out this user
+					if (aJoints[2].getPositionConfidence() <= 0.5 && aJoints[3].getPositionConfidence() <= 0.5 && aJoints[8].getPositionConfidence() <= 0.5) {
+						mUserTracker.stopSkeletonTracking(rUser.getId());
+						continue;
+					}
 
 					for( int  s = 0; s < 15; ++ s )		// change the world coordinate into image coordinate
 					{
