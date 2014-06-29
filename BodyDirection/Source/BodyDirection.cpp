@@ -21,6 +21,7 @@ const int BodyDirection::analyzeFunc()
 	vector<double> oneUserAngle;
 	nite::Point3f point3D;
 	double angle;
+	int valueDummy;
 	//int flag;
 		// For smoothing the body direction
 	while(thetaData.size() < niImageStruct.Users.size())
@@ -29,8 +30,8 @@ const int BodyDirection::analyzeFunc()
 	while(userBodyAngle.size() < niImageStruct.Users.size())
 		userBodyAngle.push_back(angle);
 		// Body leaning
-	while(userLeanAngle.size() < niImageStruct.Users.size())
-		userLeanAngle.push_back(angle);
+	//while(userLeanAngle.size() < niImageStruct.Users.size())
+	//	userLeanAngle.push_back(angle);
 		// Hand Speed of both two hands
 	while(userHandSpeed.size() < niImageStruct.Users.size())
 		userHandSpeed.push_back(angle);
@@ -42,10 +43,20 @@ const int BodyDirection::analyzeFunc()
 		// Touch flag
 	//while(userTouchFlag.size() < niImageStruct.Users.size())
 	//	userTouchFlag.push_back(flag);
+		// For bodyDirectionToCameraDiscrete
+	while(bodyDirectionHAE.size() < niImageStruct.Users.size())
+		bodyDirectionHAE.push_back(valueDummy);
+		// For bodyDirectionToCameraCont
+	while(bodyDirectionToCamera.size() < niImageStruct.Users.size())
+		bodyDirectionToCamera.push_back(angle);
 
-//**** WARNING: Hard coding, check for if no user exists ****//
-	if (niImageStruct.Users.size() == 0)
-		bodyDirectionHAE = 0;
+		// Clear the value of body direction
+	if (niImageStruct.Users.size() == 0) {
+		for(auto itBDD = bodyDirectionHAE.begin(); itBDD != bodyDirectionHAE.end(); itBDD++)
+			*itBDD = 0;
+		for(auto itBDC = bodyDirectionToCamera.begin(); itBDC != bodyDirectionToCamera.end(); itBDC++)
+			*itBDC = 90.0;
+	}
 
 	/*	Counting features of users	*/
 	for(unsigned int i(0); i<niImageStruct.Users.size(); i++)	// for all users
@@ -76,38 +87,38 @@ const int BodyDirection::analyzeFunc()
 		//cout << "userBodyAngle:" << userBodyAngle[i] << endl;	// for debug output
 
 		/* Calculating DirectionToCamera */
-		calculateBodyDirectionToCamera();
+		calculateBodyDirectionToCamera(i);
 
 		/*	Calculating Body Lean Angle	*/
-		nite::Point3f vecOfRightShoudlerToLeftHip;
-		nite::Point3f vecOfLeftShoudlerToRightHip;
+		//nite::Point3f vecOfRightShoudlerToLeftHip;
+		//nite::Point3f vecOfLeftShoudlerToRightHip;
 
-		nite::Point3f leftHip = niImageStruct.Users[i][9].position3D;
-		nite::Point3f rightHip = niImageStruct.Users[i][10].position3D;
+		//nite::Point3f leftHip = niImageStruct.Users[i][9].position3D;
+		//nite::Point3f rightHip = niImageStruct.Users[i][10].position3D;
 
-		vecOfRightShoudlerToLeftHip.x = leftHip.x - rightShoulder.x;
-		vecOfRightShoudlerToLeftHip.y = leftHip.y - rightShoulder.y;
-		vecOfRightShoudlerToLeftHip.z = leftHip.z - rightShoulder.z;
+		//vecOfRightShoudlerToLeftHip.x = leftHip.x - rightShoulder.x;
+		//vecOfRightShoudlerToLeftHip.y = leftHip.y - rightShoulder.y;
+		//vecOfRightShoudlerToLeftHip.z = leftHip.z - rightShoulder.z;
 
-		vecOfLeftShoudlerToRightHip.x = rightHip.x - leftShoulder.x;
-		vecOfLeftShoudlerToRightHip.y = rightHip.y - leftShoulder.y;
-		vecOfLeftShoudlerToRightHip.z = rightHip.z - leftShoulder.z;
+		//vecOfLeftShoudlerToRightHip.x = rightHip.x - leftShoulder.x;
+		//vecOfLeftShoudlerToRightHip.y = rightHip.y - leftShoulder.y;
+		//vecOfLeftShoudlerToRightHip.z = rightHip.z - leftShoulder.z;
 
-		nite::Point3f vecOfCrossProduct;
-		vecOfCrossProduct.x = vecOfRightShoudlerToLeftHip.y*vecOfLeftShoudlerToRightHip.z
-							 -vecOfRightShoudlerToLeftHip.z*vecOfLeftShoudlerToRightHip.y;
+		//nite::Point3f vecOfCrossProduct;
+		//vecOfCrossProduct.x = vecOfRightShoudlerToLeftHip.y*vecOfLeftShoudlerToRightHip.z
+		//					 -vecOfRightShoudlerToLeftHip.z*vecOfLeftShoudlerToRightHip.y;
 
-		vecOfCrossProduct.y = vecOfRightShoudlerToLeftHip.z*vecOfLeftShoudlerToRightHip.x
-							 -vecOfRightShoudlerToLeftHip.x*vecOfLeftShoudlerToRightHip.z;
-		
-		vecOfCrossProduct.z = vecOfRightShoudlerToLeftHip.x*vecOfLeftShoudlerToRightHip.y
-							 -vecOfRightShoudlerToLeftHip.y*vecOfLeftShoudlerToRightHip.x;
+		//vecOfCrossProduct.y = vecOfRightShoudlerToLeftHip.z*vecOfLeftShoudlerToRightHip.x
+		//					 -vecOfRightShoudlerToLeftHip.x*vecOfLeftShoudlerToRightHip.z;
+		//
+		//vecOfCrossProduct.z = vecOfRightShoudlerToLeftHip.x*vecOfLeftShoudlerToRightHip.y
+		//					 -vecOfRightShoudlerToLeftHip.y*vecOfLeftShoudlerToRightHip.x;
 
-		double lenghtOfCrossProduct = sqrt(	pow(vecOfCrossProduct.x,2)+
-											pow(vecOfCrossProduct.y,2)+
-											pow(vecOfCrossProduct.z,2));
+		//double lenghtOfCrossProduct = sqrt(	pow(vecOfCrossProduct.x,2)+
+		//									pow(vecOfCrossProduct.y,2)+
+		//									pow(vecOfCrossProduct.z,2));
 
-		userLeanAngle[i] = asin(vecOfCrossProduct.y/lenghtOfCrossProduct) * 180.0 / M_PI;
+		//userLeanAngle[i] = asin(vecOfCrossProduct.y/lenghtOfCrossProduct) * 180.0 / M_PI;
 		
 		//cout << "userLeanAngle:" << userLeanAngle[i] << endl;	// debug  output
 
@@ -202,7 +213,6 @@ const int BodyDirection::startGetBodyDirection()
 	listen();
 
 	extern bool bodyDirectionFlag, bodyDirectionContFlag;
-	bodyDirectionHAE = 0;
 
 	while (true)
 	{
@@ -217,13 +227,21 @@ const int BodyDirection::startGetBodyDirection()
 		drawImg();
 
 		if (bodyDirectionFlag == true) {
-				// Send the body direction message
+			/* Send the body direction message */
 			HAEMgr HAEdata;
 			getHAE(HAEdata);
-			HAEdata.body_direction = static_cast< Body_Direction_HAE_type >(getBodyDirectionHAE());
+				// Prepare the message for body directon to camera discrete
+			vector< int > bdd = getBodyDirectionHAE();
+			if (bdd.size() < 0) {
+				cout << "> WARNING: user is not found" << endl;
+				HAEdata.body_direction = static_cast< Body_Direction_HAE_type >(0);
+			} else {
+//** WARNING: ONLY CONSIDER THE USER 1 **//
+				HAEdata.body_direction = static_cast< Body_Direction_HAE_type >(bdd[0]);
+			}
 			sendHAE(HAEdata);
 			Sleep(sizeof(HAEdata));
-			printf("\n> Send Success! (BodyDirection: %d)\n", getBodyDirectionHAE());
+			printf("\n> Send Success! (BodyDirection: %d)\n", bdd[0]);
 
 			bodyDirectionFlag = false;
 			
@@ -247,7 +265,14 @@ const int BodyDirection::startGetBodyDirection()
 				// Send the body direction continous message
 			HAEMgr HAEdata;
 			getHAE(HAEdata);
-			HAEdata.body_direction_cont = getBodyDirectionCont();
+			vector< double > bdc = getBodyDirectionCont();
+			if (bdc.size() < 0) {
+				cout << "> WARNING: user is not found" << endl;
+				HAEdata.body_direction_cont = 180.0;
+			} else {
+//** WARNING: ONLY CONSIDER THE USER 1 **//
+				HAEdata.body_direction_cont = bdc[0];
+			}
 			sendHAE(HAEdata);
 			Sleep(sizeof(HAEdata));
 			printf("\n> Send Success! (BodyDirectionCont: %f)\n", getBodyDirectionHAE());
@@ -301,31 +326,34 @@ const int BodyDirection::calculateBodyFformation()
 	return 0;
 }
 
-const int BodyDirection::calculateBodyDirectionToCamera()
+const int BodyDirection::calculateBodyDirectionToCamera(const int& userID)
 {
 	NiImageStruct niImageStruct = getNiImageStruct();
 
-	if (niImageStruct.Users.size() == 0)		// None_HAE_Body
-		bodyDirectionHAE = 0;
-	else {
-		nite::Point3f neckPoint = niImageStruct.Users[0][1].position3D;
+	if (niImageStruct.Users.size() == 0) {		// None_HAE_Body
+		for(auto itBDD = bodyDirectionHAE.begin(); itBDD != bodyDirectionHAE.end(); itBDD++)
+			*itBDD = 0;
+		for(auto itBDC = bodyDirectionToCamera.begin(); itBDC != bodyDirectionToCamera.end(); itBDC++)
+			*itBDC = 90.0;
+	} else {
+		nite::Point3f neckPoint = niImageStruct.Users[userID][1].position3D;
 
 		//double angleCamToUser = acos(neckPoint.z / point3fDist(neckPoint, nite::Point3f(0, 0, 0))) * 180.0 / M_PI; // This angle calculated in 3D
 		double angleCamToUser = acos(neckPoint.z / point3fDist(nite::Point3f(neckPoint.x, 0.0, neckPoint.z), nite::Point3f(0.0, 0.0, 0.0))) * 180.0 / M_PI;
-		double bodyAngle = userBodyAngle[0];
+		double bodyAngle = userBodyAngle[userID];
 		if (neckPoint.x > 0.0)
 			bodyAngle = -(bodyAngle - 180);
 		//double bodyAngle = ((userBodyAngle[0] > 90.0) ? 180 - userBodyAngle[0] : userBodyAngle[0]);
 
-		bodyDirectionToCamera = 90 - angleCamToUser - bodyAngle;
-		double FocusToCamera = fabs(bodyDirectionToCamera);
+		bodyDirectionToCamera[userID] = 90 - angleCamToUser - bodyAngle;
+		double FocusToCamera = fabs(bodyDirectionToCamera[userID]);
 		
 		if (FocusToCamera > 35.0)
-			bodyDirectionHAE = 1;
+			bodyDirectionHAE[userID] = 1;
 		else if (FocusToCamera > 20.0)
-			bodyDirectionHAE = 2;
+			bodyDirectionHAE[userID] = 2;
 		else
-			bodyDirectionHAE = 3;
+			bodyDirectionHAE[userID] = 3;
 			// For debug output
 		//cout << "> AngleCamToUser: " << angleCamToUser << " " << neckPoint.x << endl;
 		//cout << "> Body Direction Toward Camera(C): " << bodyDirectionToCamera << endl;
@@ -381,15 +409,23 @@ const int BodyDirection::drawImg()
 		/* Draw Features */
 			// Body Direction
 		ss.str(""); ss << "BodyDirection: " << userBodyAngle[i];
-		cv::Point2f bd(niImageStructTemp.Users[i][ 8].position2D.x, niImageStructTemp.Users[i][ 8].position2D.y + 20);
+		cv::Point2f bd(niImageStructTemp.Users[i][ 8].position2D.x + 20, niImageStructTemp.Users[i][ 8].position2D.y + 20);
 		cv::putText(niImageStructTemp.Color, ss.str(), bd, CV_FONT_HERSHEY_PLAIN, 1, cv::Scalar(205,205,205), 2);
-			// Body Lean
-		ss.str(""); ss << "BodyLean: " << userLeanAngle[i];
-		cv::Point2f bl(niImageStructTemp.Users[i][ 8].position2D.x, niImageStructTemp.Users[i][ 8].position2D.y + 40);
-		cv::putText(niImageStructTemp.Color, ss.str(), bl, CV_FONT_HERSHEY_PLAIN, 1, cv::Scalar(205,205,205), 2);
+			// Body Direction To Camera Discrete
+		ss.str(""); ss << "BodyDirectionToCameraD: " << bodyDirectionHAE[i];
+		cv::Point2f bdd(niImageStructTemp.Users[i][ 8].position2D.x + 20, niImageStructTemp.Users[i][ 8].position2D.y + 40);
+		cv::putText(niImageStructTemp.Color, ss.str(), bdd, CV_FONT_HERSHEY_PLAIN, 1, cv::Scalar(205,205,205), 2);
+			// Body Direction To Camera Continous
+		ss.str(""); ss << "BodyDirectionToCameraC: " << bodyDirectionToCamera[i];
+		cv::Point2f bdc(niImageStructTemp.Users[i][ 8].position2D.x + 20, niImageStructTemp.Users[i][ 8].position2D.y + 60);
+		cv::putText(niImageStructTemp.Color, ss.str(), bdc, CV_FONT_HERSHEY_PLAIN, 1, cv::Scalar(205,205,205), 2);
+		//	// Body Lean
+		//ss.str(""); ss << "BodyLean: " << userLeanAngle[i];
+		//cv::Point2f bl(niImageStructTemp.Users[i][ 8].position2D.x, niImageStructTemp.Users[i][ 8].position2D.y + 40);
+		//cv::putText(niImageStructTemp.Color, ss.str(), bl, CV_FONT_HERSHEY_PLAIN, 1, cv::Scalar(205,205,205), 2);
 			// Hand Speed
 		ss.str(""); ss << "HandSpeed: " << userHandSpeed[i];
-		cv::Point2f hs(niImageStructTemp.Users[i][ 8].position2D.x, niImageStructTemp.Users[i][ 8].position2D.y + 60);
+		cv::Point2f hs(niImageStructTemp.Users[i][ 8].position2D.x + 20, niImageStructTemp.Users[i][ 8].position2D.y + 80);
 		cv::putText(niImageStructTemp.Color, ss.str(), hs, CV_FONT_HERSHEY_PLAIN, 1, cv::Scalar(205,205,205), 2);
 	}
 

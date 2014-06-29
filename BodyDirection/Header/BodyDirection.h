@@ -21,17 +21,14 @@ public:
 	const int getBodyFformation(){return bodyFformation;};
 
 	/* For Human Attention Estimator */
-	const int calculateBodyDirectionToCamera();
-	const int getBodyDirectionHAE() {return bodyDirectionHAE;};
+	const int calculateBodyDirectionToCamera(const int& userID);
+	const vector< int > getBodyDirectionHAE() {return bodyDirectionHAE;};
 
-	const double getBodyDirectionCont() {return bodyDirectionToCamera;};
+	const vector< double > getBodyDirectionCont() {return bodyDirectionToCamera;};
 
 	const int drawImg();
 
 private:
-		// For user body direction relative to the camera
-	double bodyDirectionToCamera;
-
 	const float point3fDist(const nite::Point3f a, const nite::Point3f b);
 
 	vector<vector<double>> thetaData;		// previous 7 frame body direction for smoothing
@@ -47,7 +44,9 @@ private:
 	int bodyFformation;
 
 	/* For Human Attention Estimator */
-	int bodyDirectionHAE;
+	vector< int > bodyDirectionHAE;
+		// For user body direction relative to the camera
+	vector< double > bodyDirectionToCamera;
 };
 
 
