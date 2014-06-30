@@ -58,6 +58,9 @@ const int BodyDirection::analyzeFunc()
 		// For ArmAreaSpanned
 	while(userArmAreaSpanned.size() < niImageStruct.Users.size())
 		userArmAreaSpanned.push_back(angle);
+		// For Dynamics (HandSpeedMax)
+	while(userHandSpeedMax.size() < niImageStruct.Users.size())
+		userHandSpeedMax.push_back(angle);
 		// For HandToBody
 	while(userHandToBody.size() < niImageStruct.Users.size())
 		userHandToBody.push_back(angle);
@@ -138,21 +141,8 @@ const int BodyDirection::analyzeFunc()
 		//cout << "userLeanAngle:" << userLeanAngle[i] << endl;	// debug  output
 
 		/*	Calculating Hand Speed	*/
-		nite::Point3f leftHand = niImageStruct.Users[i][6].position3D;
-		nite::Point3f rightHand = niImageStruct.Users[i][7].position3D;
-
-		float leftHandDisplacement;
-		float rightHandDisplacement;
-
-		leftHandDisplacement = point3fDist( leftHand, leftHandTemp[i]);
-		rightHandDisplacement = point3fDist( rightHand, rightHandTemp[i]);
-
-		userHandSpeed[i] = (leftHandDisplacement + rightHandDisplacement) / 2000.0; // avg in unit (m/s)
-
-		leftHandTemp[i] = leftHand;
-		rightHandTemp[i] = rightHand;
-
-		//cout << "userHandSpeed:" << userHandSpeed[i] << endl;	// debug  output
+		this->calculateHandSpeed(i, niImageStruct, 2);
+		cout << "userHandSpeedMax:" << userHandSpeedMax[i] << endl;	// debug output
 
 		/* Calculating Hand To Head Feature */
 		this->calculateHandToHead(i, niImageStruct);
@@ -166,8 +156,33 @@ const int BodyDirection::analyzeFunc()
 		/* Calculating ArmAreaSpanned */
 		this->calculateArmAreaSpanned(i, niImageStruct);
 
+		if (kbhit()) {
+			int command = getch();
+			if (command == 'a')
+				w1 += 0.1;
+			if (command == 'z')
+				w1 -= 0.1;
+			if (command == 's')
+				w2 += 0.1;
+			if (command == 'x')
+				w2 -= 0.1;
+			if (command == 'd')
+				w3 += 0.1;
+			if (command == 'c')
+				w3 -= 0.1;
+			if (command == 'f')
+				w4 += 0.1;
+			if (command == 'v')
+				w4 -= 0.1;
+			if (command == 'g')
+				w5 += 0.1;
+			if (command == 'b')
+				w5 -= 0.1;
+			
+		}
+		cout << "w1: " << w1 << ", w2: " << w2 << ", w3: " << w3 << ", w4: " << w4 << ", w5: " << w5 << endl;
 		/* Calculating Pleasantness-Unpleasantness */
-		this->calculatePU(i, 1.0, 1.0, 1.0, 1.0, 1.0);
+		this->calculatePU(i, w1, w2, w3, w4, w5);
 
 		/*	Calculating Touch Flag	*/
 		// check the dist between both hand to sholders and another person's hands 
@@ -248,6 +263,8 @@ const int BodyDirection::startGetBodyDirection()
 
 	extern bool bodyDirectionFlag, bodyDirectionContFlag;
 
+	w1 = 0.8; w2 = 0.3; w3 = 2.0; w4 = 1.0; w5 = 2.0;
+
 	while (true)
 	{
 			/* Press 'Q' (81), 'q' (113) or esc (27) to leave */
@@ -305,7 +322,7 @@ const int BodyDirection::startGetBodyDirection()
 				HAEdata.body_direction_cont = 180.0;
 			} else {
 //** WARNING: ONLY CONSIDER THE USER 1 **//
-				HAEdata.body_direction_cont = bdc[0];
+				HAEdata.body_direction_cont = static_cast< float >(bdc[0]);
 			}
 			sendHAE(HAEdata);
 			Sleep(sizeof(HAEdata));
@@ -450,38 +467,52 @@ const int BodyDirection::drawImg()
 		//ss.str(""); ss << "BDtoCD: " << bodyDirectionHAE[i];
 		//cv::Point2f bdd(niImageStructTemp.Users[i][ 8].position2D.x + 20, niImageStructTemp.Users[i][ 8].position2D.y + 20 * displayPos++);
 		//cv::putText(niImageStructTemp.Color, ss.str(), bdd, CV_FONT_HERSHEY_PLAIN, 1, cv::Scalar(205,205,205), 2);
-			// Body Direction To Camera Continous
-		ss.str(""); ss << "BDtoCC: " << bodyDirectionToCamera[i];
-		cv::Point2f bdc(niImageStructTemp.Users[i][ 8].position2D.x + 20, niImageStructTemp.Users[i][ 8].position2D.y + 20 * displayPos++);
-		cv::putText(niImageStructTemp.Color, ss.str(), bdc, CV_FONT_HERSHEY_PLAIN, 1, cv::Scalar(205,205,205), 2);
+		//	// Body Direction To Camera Continous
+		//if (bodyDirectionToCamera.size() == 0)
+		//	return 1;
+		//ss.str(""); ss << "BDtoCC: " << bodyDirectionToCamera[i];
+		//cv::Point2f bdc(niImageStructTemp.Users[i][ 8].position2D.x + 20, niImageStructTemp.Users[i][ 8].position2D.y + 20 * displayPos++);
+		//cv::putText(niImageStructTemp.Color, ss.str(), bdc, CV_FONT_HERSHEY_PLAIN, 1, cv::Scalar(205,205,205), 2);
 		//	// Body Lean
 		//ss.str(""); ss << "BL: " << userLeanAngle[i];
 		//cv::Point2f bl(niImageStructTemp.Users[i][ 8].position2D.x, niImageStructTemp.Users[i][ 8].position2D.y + 20 * displayPos++);
 		//cv::putText(niImageStructTemp.Color, ss.str(), bl, CV_FONT_HERSHEY_PLAIN, 1, cv::Scalar(205,205,205), 2);
-			// Hand Speed
-		ss.str(""); ss << "HS: " << userHandSpeed[i];
-		cv::Point2f hs(niImageStructTemp.Users[i][ 8].position2D.x + 20, niImageStructTemp.Users[i][ 8].position2D.y + 20 * displayPos++);
-		cv::putText(niImageStructTemp.Color, ss.str(), hs, CV_FONT_HERSHEY_PLAIN, 1, cv::Scalar(205,205,205), 2);
 			// Hand To Head
+		if (userHandToHead.size() < niImageStructTemp.Users.size())
+			return 1;
 		ss.str(""); ss << "HtoH: " << userHandToHead[i];
 		cv::Point2f hth(niImageStructTemp.Users[i][ 8].position2D.x + 20, niImageStructTemp.Users[i][ 8].position2D.y + 20 * displayPos++);
-		cv::putText(niImageStructTemp.Color, ss.str(), hth, CV_FONT_HERSHEY_PLAIN, 1, cv::Scalar(205,205,205), 2);
-			// Hand To Body
-		ss.str(""); ss << "HtoB: " << userHandToBody[i];
-		cv::Point2f htb(niImageStructTemp.Users[i][ 8].position2D.x + 20, niImageStructTemp.Users[i][ 8].position2D.y + 20 * displayPos++);
-		cv::putText(niImageStructTemp.Color, ss.str(), htb, CV_FONT_HERSHEY_PLAIN, 1, cv::Scalar(205,205,205), 2);
+		cv::putText(niImageStructTemp.Color, ss.str(), hth, CV_FONT_HERSHEY_PLAIN, 1, cv::Scalar(0,255,230), 2);
 			// ArmAsymmetry
+		if (userArmAsymmetry.size() < niImageStructTemp.Users.size())
+			return 1;
 		ss.str(""); ss << "AS: " << userArmAsymmetry[i];
 		cv::Point2f as(niImageStructTemp.Users[i][ 8].position2D.x + 20, niImageStructTemp.Users[i][ 8].position2D.y + 20 * displayPos++);
-		cv::putText(niImageStructTemp.Color, ss.str(), as, CV_FONT_HERSHEY_PLAIN, 1, cv::Scalar(205,205,205), 2);
+		cv::putText(niImageStructTemp.Color, ss.str(), as, CV_FONT_HERSHEY_PLAIN, 1, cv::Scalar(0,255,230), 2);
 			// ArmAreaSpanned
+		if (userArmAreaSpanned.size() < niImageStructTemp.Users.size())
+			return 1;
 		ss.str(""); ss << "AAS: " << userArmAreaSpanned[i];
 		cv::Point2f aas(niImageStructTemp.Users[i][ 8].position2D.x + 20, niImageStructTemp.Users[i][ 8].position2D.y + 20 * displayPos++);
-		cv::putText(niImageStructTemp.Color, ss.str(), aas, CV_FONT_HERSHEY_PLAIN, 1, cv::Scalar(205,205,205), 2);
-			// PU
+		cv::putText(niImageStructTemp.Color, ss.str(), aas, CV_FONT_HERSHEY_PLAIN, 1, cv::Scalar(0,255,230), 2);
+			// Hand Speed Max
+		if (userHandSpeedMax.size() < niImageStructTemp.Users.size())
+			return 1;
+		ss.str(""); ss << "HS: " << userHandSpeedMax[i];
+		cv::Point2f hs(niImageStructTemp.Users[i][ 8].position2D.x + 20, niImageStructTemp.Users[i][ 8].position2D.y + 20 * displayPos++);
+		cv::putText(niImageStructTemp.Color, ss.str(), hs, CV_FONT_HERSHEY_PLAIN, 1, cv::Scalar(0,255,230), 2);
+			// Hand To Body
+		if (userHandToBody.size() < niImageStructTemp.Users.size())
+			return 1;
+		ss.str(""); ss << "HtoB: " << userHandToBody[i];
+		cv::Point2f htb(niImageStructTemp.Users[i][ 8].position2D.x + 20, niImageStructTemp.Users[i][ 8].position2D.y + 20 * displayPos++);
+		cv::putText(niImageStructTemp.Color, ss.str(), htb, CV_FONT_HERSHEY_PLAIN, 1, cv::Scalar(0,255,230), 2);
+			// Pleasantness-Unpleasantness
+		if (userUnpleasantness.size() < niImageStructTemp.Users.size())
+			return 1;
 		ss.str(""); ss << "PU: " << userUnpleasantness[i];
 		cv::Point2f pu(niImageStructTemp.Users[i][ 8].position2D.x + 20, niImageStructTemp.Users[i][ 8].position2D.y + 20 * displayPos++);
-		cv::putText(niImageStructTemp.Color, ss.str(), pu, CV_FONT_HERSHEY_PLAIN, 1, cv::Scalar(205,205,205), 2);
+		cv::putText(niImageStructTemp.Color, ss.str(), pu, CV_FONT_HERSHEY_PLAIN, 1, cv::Scalar(0,255,230), 2);
 	}
 
 	cv::imshow( "Color Image", niImageStructTemp.Color );
@@ -498,10 +529,10 @@ const int BodyDirection::calculateHandToHead(const int& userID, const NiImageStr
 	nite::Point3f rHand = niImageStruct.Users[userID][7].position3D;
 
 	/* Computation */
-	float lHandToHead = this->gaussianKernal3((head.x - lHand.x) / 500, (head.y - lHand.y) / 500, (head.z - lHand.z) / 500, 1.0);
-	float rHandToHead = this->gaussianKernal3((head.x - rHand.x) / 500, (head.y - rHand.y) / 500, (head.z - rHand.z) / 500, 1.0);
+	float lHandToHead = this->gaussianKernal3((head.x - lHand.x) / 500, (head.y - lHand.y) / 500, (head.z - lHand.z) / 500, 1.5);
+	float rHandToHead = this->gaussianKernal3((head.x - rHand.x) / 500, (head.y - rHand.y) / 500, (head.z - rHand.z) / 500, 1.5);
 
-	userHandToHead[userID] = lHandToHead * rHandToHead * std::exp(-1.0 / 2.0);
+	userHandToHead[userID] = lHandToHead * rHandToHead;// * std::exp(-1.0 / 2.0);
 	return 0;
 }
 
@@ -514,10 +545,11 @@ const int BodyDirection::calculateHandToBody(const int& userID, const NiImageStr
 	nite::Point3f rHand = niImageStruct.Users[userID][7].position3D;
 
 	/* Computation */
-	float lHandToTrunk = this->gaussianKernal3(0.0, 0.0, (trunk.z - lHand.z) / 500, 0.85);
-	float rHandToTrunk = this->gaussianKernal3(0.0, 0.0, (trunk.z - rHand.z) / 500, 0.85);
+	float lHandToTrunk = this->gaussianKernal3(0, 0, (trunk.z - lHand.z) / 500, static_cast< float >(0.4));
+	float rHandToTrunk = this->gaussianKernal3(0, 0, (trunk.z - rHand.z) / 500, static_cast< float >(0.4));
 
-	userHandToBody[userID] = lHandToTrunk * rHandToTrunk * std::exp(-1.0 / 2.0);
+	//userHandToBody[userID] = lHandToTrunk * rHandToTrunk * std::exp(-1.0 / 2.0);
+	userHandToBody[userID] = (lHandToTrunk + rHandToTrunk) / 2;
 	return 0;
 }
 
@@ -536,29 +568,31 @@ const int BodyDirection::calculateArmAsymmetry(const int& userID, const NiImageS
 	/* Reflection */
 		// Calculate normal vector of the reflection plane
 	nite::Point3f normalVecReflection(lShould.x - rShould.x, lShould.y - rShould.y, lShould.z - rShould.z);
-	double normalLength = point3fLength(normalVecReflection);
+	float normalLength = point3fLength(normalVecReflection);
 	normalVecReflection.x /= normalLength;
 	normalVecReflection.y /= normalLength;
 	normalVecReflection.z /= normalLength;
 
 	nite::Point3f lElbowVec(lElbow.x - trunk.x, lElbow.y - trunk.y, lElbow.z - trunk.z);
-	double distElbowToProjTrunk = lElbowVec.x * normalVecReflection.x + lElbowVec.y * normalVecReflection.y + lElbowVec.z * normalVecReflection.z;
+	float distElbowToProjTrunk = lElbowVec.x * normalVecReflection.x + lElbowVec.y * normalVecReflection.y + lElbowVec.z * normalVecReflection.z;
 	nite::Point3f lElbowRef(lElbow.x - 2 * distElbowToProjTrunk * normalVecReflection.x,
 							 lElbow.y - 2 * distElbowToProjTrunk * normalVecReflection.y,
 							 lElbow.z - 2 * distElbowToProjTrunk * normalVecReflection.z);
 	//nite::Point3f lElbowRef(lElbowProj.x + lElbowProj.x - lElbow.x, lElbowProj.y + lElbowProj.y - lElbow.y, lElbowProj.z + lElbowProj.z - lElbow.z);
 
 	nite::Point3f lHandVec(lHand.x - trunk.x, lHand.y - trunk.y, lHand.z - trunk.z);
-	double distHandToProjTrunk = lHandVec.x * normalVecReflection.x + lHandVec.y * normalVecReflection.y + lHandVec.z * normalVecReflection.z;
+	float distHandToProjTrunk = lHandVec.x * normalVecReflection.x + lHandVec.y * normalVecReflection.y + lHandVec.z * normalVecReflection.z;
 	nite::Point3f lHandRef(lHand.x - 2 * distHandToProjTrunk * normalVecReflection.x,
 							 lHand.y - 2 * distHandToProjTrunk * normalVecReflection.y,
 							 lHand.z - 2 * distHandToProjTrunk * normalVecReflection.z);
 	//nite::Point3f lHandRef(lHandProj.x + lHandProj.x - lHand.x, lHandProj.y + lHandProj.y - lHand.y, lHandProj.z + lHandProj.z - lHand.z);
 
-	cout << "rHand, x: " << rHand.x << ", y: " << rHand.y << ", z: " << rHand.z << endl;
-	cout << "lHand, x: " << lHandRef.x << ", y: " << lHandRef.y << ", z: " << lHandRef.z << endl;
+	//cout << "rElbow, x: " << rElbow.x << ", y: " << rElbow.y << ", z: " << rElbow.z << endl;
+	//cout << "lElbow, x: " << lElbowRef.x << ", y: " << lElbowRef.y << ", z: " << lElbowRef.z << endl;
+	//cout << "rHand, x: " << rHand.x << ", y: " << rHand.y << ", z: " << rHand.z << endl;
+	//cout << "lHand, x: " << lHandRef.x << ", y: " << lHandRef.y << ", z: " << lHandRef.z << endl;
 
-	userArmAsymmetry[userID] = (point3fDist(lElbowRef, rElbow) / 1000.0 + point3fDist(lHandRef, lHand) / 1000.0) / 2.0;
+	userArmAsymmetry[userID] = (point3fDist(lElbowRef, rElbow) / 1000.0 + point3fDist(lHandRef, rHand) / 1000.0) / 2.0;
 	return 0;
 }
 
@@ -598,11 +632,51 @@ const int BodyDirection::calculateArmAreaSpanned(const int& userID, const NiImag
 	vecOfCrossProductR.z = vecOfUpperArmR.x*vecOfLowerArmR.y
 						  -vecOfUpperArmR.y*vecOfLowerArmR.x;
 
-	userArmAreaSpanned[userID] = (fabs(vecOfCrossProductL.z) / point3fLength(vecOfUpperArmL) / point3fLength(vecOfLowerArmL)//);
-							   +  fabs(vecOfCrossProductR.z) /point3fLength(vecOfUpperArmR) / point3fLength(vecOfLowerArmR)) / 2;
+	
+	float lArmArea = this->gaussianKernal3(0.0f, 0.0f, 1 - (fabs(vecOfCrossProductL.z) / point3fLength(vecOfUpperArmL) / point3fLength(vecOfLowerArmL)), 0.375f);
+	float rArmArea = this->gaussianKernal3(0.0f, 0.0f, 1 - (fabs(vecOfCrossProductR.z) / point3fLength(vecOfUpperArmR) / point3fLength(vecOfLowerArmR)), 0.375f);
+	if (point3fLength(vecOfLowerArmL) < 65.0)
+		lArmArea = 0;
+	if (point3fLength(vecOfLowerArmR) < 65.0)
+		rArmArea = 0;
+
+	userArmAreaSpanned[userID] = (lArmArea + rArmArea) / 2;
+	//userArmAreaSpanned[userID] = (fabs(vecOfCrossProductL.z) / point3fLength(vecOfUpperArmL) / point3fLength(vecOfLowerArmL)//);
+	//						   +  fabs(vecOfCrossProductR.z) /point3fLength(vecOfUpperArmR) / point3fLength(vecOfLowerArmR)) / 2;
 	
 	//userArmAreaSpanned[userID] = (point3fLength(vecOfCrossProductL) / point3fLength(vecOfUpperArmL) / point3fLength(vecOfLowerArmL));
 							   //+ point3fLength(vecOfCrossProductR) / point3fLength(vecOfUpperArmR) / point3fLength(vecOfLowerArmR)) / 2;
+	return 0;
+}
+
+const int BodyDirection::calculateHandSpeed(const int& userID, const NiImageStruct& niImageStruct, const int& intervalMax) {
+	nite::Point3f leftHand = niImageStruct.Users[userID][6].position3D;
+	nite::Point3f rightHand = niImageStruct.Users[userID][7].position3D;
+
+	float leftHandDisplacement;
+	float rightHandDisplacement;
+
+	leftHandDisplacement = point3fDist( leftHand, leftHandTemp[userID]);
+	rightHandDisplacement = point3fDist( rightHand, rightHandTemp[userID]);
+
+	float movingHand = rightHandDisplacement;
+	if (leftHandDisplacement > rightHandDisplacement)
+		movingHand = leftHandDisplacement;
+
+	userHandSpeed[userID] = movingHand * 10.0 / 2000.0; // avg in unit (m/s)
+
+	leftHandTemp[userID] = leftHand;
+	rightHandTemp[userID] = rightHand;
+	
+	if (userHandSpeed[userID] > userHandSpeedMax[userID]) {
+		userHandSpeedMax[userID] = userHandSpeed[userID];
+		time(&startHS);
+	}
+	time(&endHS);
+
+	if (difftime(endHS, startHS) > intervalMax)
+		userHandSpeedMax[userID] = userHandSpeed[userID];
+
 	return 0;
 }
 
@@ -610,6 +684,7 @@ const int BodyDirection::calculatePU(const int& userID, const double& w1, const 
 	userUnpleasantness[userID] = w1 * userHandToHead[userID] +
 								 w2 * userArmAsymmetry[userID] +
 								 w3 * userArmAreaSpanned[userID] +
+								 w4 * userHandSpeedMax[userID] +
 								 w5 * userHandToBody[userID];
 	return 0;
 }

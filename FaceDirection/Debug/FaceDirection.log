@@ -1,17 +1,175 @@
-﻿Build started 2014/6/30 上午 11:06:43.
-     1>Project "F:\Dropbox\Shu\Program\GitHub\PersonalizationForRobotServiceProvidingBehavior\FaceDirection\FaceDirection.vcxproj" on node 5 (build target(s)).
+﻿Build started 6/30/2014 5:20:58 PM.
+     1>Project "D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\FaceDirection\FaceDirection.vcxproj" on node 6 (build target(s)).
      1>InitializeBuildStatus:
          Creating "Debug\FaceDirection.unsuccessfulbuild" because "AlwaysCreate" was specified.
        ClCompile:
-         All outputs are up-to-date.
-       Link:
-         All outputs are up-to-date.
-         FaceDirection.vcxproj -> F:\Dropbox\Shu\Program\GitHub\PersonalizationForRobotServiceProvidingBehavior\\bin\Debug\FaceDirection.exe
-       FinalizeBuildStatus:
-         Deleting file "Debug\FaceDirection.unsuccessfulbuild".
-         Touching "Debug\FaceDirection.lastbuildstate".
-     1>Done Building Project "F:\Dropbox\Shu\Program\GitHub\PersonalizationForRobotServiceProvidingBehavior\FaceDirection\FaceDirection.vcxproj" (build target(s)).
+         D:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt ..\includes\FaceDirection\CLM.cc ..\includes\FaceDirection\FCheck.cc ..\includes\FaceDirection\FDet.cc ..\includes\FaceDirection\HeadPose.cc ..\includes\FaceDirection\IO.cc ..\includes\FaceDirection\Patch.cc ..\includes\FaceDirection\PAW.cc ..\includes\FaceDirection\PDM.cc ..\includes\FaceDirection\Tracker.cc ..\includes\IPCserver\IntComm.cpp ..\includes\Thread\Thread.cpp IPCserver\Client.cpp main.cpp
+         main.cpp
+     1>d:\program files (green)\opencv2.4.5\build\include\opencv2\flann\dist.h : warning C4819: The file contains a character that cannot be represented in the current code page (950). Save the file in Unicode format to prevent data loss
+     1>d:\program files (green)\opencv2.4.5\build\include\opencv2\flann\dist.h : warning C4819: The file contains a character that cannot be represented in the current code page (950). Save the file in Unicode format to prevent data loss
+     1>d:\program files (green)\opencv2.4.5\build\include\opencv2\flann\logger.h(66): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 d:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(234) : see declaration of 'fopen'
+     1>d:\program files (green)\opencv2.4.5\build\include\opencv2\flann\dist.h : warning C4819: The file contains a character that cannot be represented in the current code page (950). Save the file in Unicode format to prevent data loss
+     1>d:\program files (green)\opencv2.4.5\build\include\opencv2\flann\dist.h : warning C4819: The file contains a character that cannot be represented in the current code page (950). Save the file in Unicode format to prevent data loss
+     1>d:\program files (green)\opencv2.4.5\build\include\opencv2\legacy\compat.hpp : warning C4819: The file contains a character that cannot be represented in the current code page (950). Save the file in Unicode format to prevent data loss
+     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\includes\ipcserver\messages.hpp(154): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 d:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(371) : see declaration of 'sprintf'
+     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\facedirection\main.cpp(269): warning C4244: 'argument' : conversion from 'double' to 'int', possible loss of data
+     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\facedirection\main.cpp(269): warning C4244: 'argument' : conversion from 'double' to 'int', possible loss of data
+     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\facedirection\main.cpp(300): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
+     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\facedirection\main.cpp(300): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
+     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\facedirection\main.cpp(347): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 d:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(371) : see declaration of 'sprintf'
+     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\facedirection\main.cpp(422): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 d:\program files (x86)\microsoft visual studio 10.0\vc\include\string.h(105) : see declaration of 'strcpy'
+     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\facedirection\main.cpp(423): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 d:\program files (x86)\microsoft visual studio 10.0\vc\include\string.h(105) : see declaration of 'strcpy'
+     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\facedirection\main.cpp(427): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 d:\program files (x86)\microsoft visual studio 10.0\vc\include\string.h(105) : see declaration of 'strcpy'
+     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\facedirection\main.cpp(430): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 d:\program files (x86)\microsoft visual studio 10.0\vc\include\string.h(105) : see declaration of 'strcpy'
+     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\facedirection\main.cpp(431): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 d:\program files (x86)\microsoft visual studio 10.0\vc\include\string.h(105) : see declaration of 'strcpy'
+     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\facedirection\main.cpp(435): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 d:\program files (x86)\microsoft visual studio 10.0\vc\include\string.h(105) : see declaration of 'strcpy'
+     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\facedirection\main.cpp(438): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 d:\program files (x86)\microsoft visual studio 10.0\vc\include\string.h(105) : see declaration of 'strcpy'
+     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\facedirection\main.cpp(439): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 d:\program files (x86)\microsoft visual studio 10.0\vc\include\string.h(105) : see declaration of 'strcpy'
+     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\facedirection\main.cpp(443): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 d:\program files (x86)\microsoft visual studio 10.0\vc\include\string.h(105) : see declaration of 'strcpy'
+     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\facedirection\main.cpp(458): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\facedirection\main.cpp(458): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\facedirection\main.cpp(463): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\facedirection\main.cpp(463): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\facedirection\main.cpp(468): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\facedirection\main.cpp(468): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\facedirection\main.cpp(473): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\facedirection\main.cpp(473): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\facedirection\main.cpp(478): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\facedirection\main.cpp(478): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\facedirection\main.cpp(483): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\facedirection\main.cpp(483): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\facedirection\main.cpp(488): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\facedirection\main.cpp(488): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\facedirection\main.cpp(451): warning C4101: 'i' : unreferenced local variable
+         Client.cpp
+     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\includes\ipcserver\messages.hpp(154): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 d:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(371) : see declaration of 'sprintf'
+         Thread.cpp
+         IntComm.cpp
+     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\includes\ipcserver\messages.hpp(154): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 d:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(371) : see declaration of 'sprintf'
+     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\includes\ipcserver\intcomm.cpp(354): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 d:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(371) : see declaration of 'sprintf'
+         Tracker.cc
+     1>d:\program files (green)\opencv2.4.5\build\include\opencv2\flann\dist.h : warning C4819: The file contains a character that cannot be represented in the current code page (950). Save the file in Unicode format to prevent data loss
+     1>d:\program files (green)\opencv2.4.5\build\include\opencv2\flann\dist.h : warning C4819: The file contains a character that cannot be represented in the current code page (950). Save the file in Unicode format to prevent data loss
+     1>d:\program files (green)\opencv2.4.5\build\include\opencv2\flann\dist.h : warning C4819: The file contains a character that cannot be represented in the current code page (950). Save the file in Unicode format to prevent data loss
+     1>d:\program files (green)\opencv2.4.5\build\include\opencv2\flann\dist.h : warning C4819: The file contains a character that cannot be represented in the current code page (950). Save the file in Unicode format to prevent data loss
+     1>d:\program files (green)\opencv2.4.5\build\include\opencv2\legacy\compat.hpp : warning C4819: The file contains a character that cannot be represented in the current code page (950). Save the file in Unicode format to prevent data loss
+     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\includes\facedirection\tracker.cc(138): warning C4244: 'initializing' : conversion from 'double' to 'int', possible loss of data
+     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\includes\facedirection\tracker.cc(138): warning C4244: 'initializing' : conversion from 'double' to 'int', possible loss of data
+     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\includes\facedirection\tracker.cc(140): warning C4244: 'argument' : conversion from 'double' to 'int', possible loss of data
+     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\includes\facedirection\tracker.cc(140): warning C4244: 'argument' : conversion from 'double' to 'int', possible loss of data
+     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\includes\facedirection\tracker.cc(141): warning C4244: 'argument' : conversion from 'double' to 'int', possible loss of data
+     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\includes\facedirection\tracker.cc(141): warning C4244: 'argument' : conversion from 'double' to 'int', possible loss of data
+     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\includes\facedirection\tracker.cc(152): warning C4244: '*=' : conversion from 'double' to 'int', possible loss of data
+     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\includes\facedirection\tracker.cc(152): warning C4244: '*=' : conversion from 'double' to 'int', possible loss of data
+     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\includes\facedirection\tracker.cc(153): warning C4244: '*=' : conversion from 'double' to 'int', possible loss of data
+     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\includes\facedirection\tracker.cc(153): warning C4244: '*=' : conversion from 'double' to 'int', possible loss of data
+     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\includes\facedirection\tracker.cc(173): warning C4244: 'argument' : conversion from 'double' to 'int', possible loss of data
+     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\includes\facedirection\tracker.cc(173): warning C4244: 'argument' : conversion from 'double' to 'int', possible loss of data
+     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\includes\facedirection\tracker.cc(173): warning C4244: 'argument' : conversion from 'double' to 'int', possible loss of data
+     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\includes\facedirection\tracker.cc(173): warning C4244: 'argument' : conversion from 'double' to 'int', possible loss of data
+     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\includes\facedirection\tracker.cc(177): warning C4244: 'argument' : conversion from 'double' to 'int', possible loss of data
+     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\includes\facedirection\tracker.cc(177): warning C4244: 'argument' : conversion from 'double' to 'int', possible loss of data
+     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\includes\facedirection\tracker.cc(178): warning C4244: 'argument' : conversion from 'double' to 'int', possible loss of data
+     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\includes\facedirection\tracker.cc(178): warning C4244: 'argument' : conversion from 'double' to 'int', possible loss of data
+     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\includes\facedirection\tracker.cc(185): warning C4244: '*=' : conversion from 'double' to 'int', possible loss of data
+     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\includes\facedirection\tracker.cc(185): warning C4244: '*=' : conversion from 'double' to 'int', possible loss of data
+     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\includes\facedirection\tracker.cc(186): warning C4244: '*=' : conversion from 'double' to 'int', possible loss of data
+     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\includes\facedirection\tracker.cc(186): warning C4244: '*=' : conversion from 'double' to 'int', possible loss of data
+         PDM.cc
+     1>d:\program files (green)\opencv2.4.5\build\include\opencv2\flann\dist.h : warning C4819: The file contains a character that cannot be represented in the current code page (950). Save the file in Unicode format to prevent data loss
+     1>d:\program files (green)\opencv2.4.5\build\include\opencv2\flann\dist.h : warning C4819: The file contains a character that cannot be represented in the current code page (950). Save the file in Unicode format to prevent data loss
+     1>d:\program files (green)\opencv2.4.5\build\include\opencv2\flann\dist.h : warning C4819: The file contains a character that cannot be represented in the current code page (950). Save the file in Unicode format to prevent data loss
+     1>d:\program files (green)\opencv2.4.5\build\include\opencv2\flann\dist.h : warning C4819: The file contains a character that cannot be represented in the current code page (950). Save the file in Unicode format to prevent data loss
+     1>d:\program files (green)\opencv2.4.5\build\include\opencv2\legacy\compat.hpp : warning C4819: The file contains a character that cannot be represented in the current code page (950). Save the file in Unicode format to prevent data loss
+         PAW.cc
+     1>d:\program files (green)\opencv2.4.5\build\include\opencv2\flann\dist.h : warning C4819: The file contains a character that cannot be represented in the current code page (950). Save the file in Unicode format to prevent data loss
+     1>d:\program files (green)\opencv2.4.5\build\include\opencv2\flann\dist.h : warning C4819: The file contains a character that cannot be represented in the current code page (950). Save the file in Unicode format to prevent data loss
+     1>d:\program files (green)\opencv2.4.5\build\include\opencv2\flann\dist.h : warning C4819: The file contains a character that cannot be represented in the current code page (950). Save the file in Unicode format to prevent data loss
+     1>d:\program files (green)\opencv2.4.5\build\include\opencv2\flann\dist.h : warning C4819: The file contains a character that cannot be represented in the current code page (950). Save the file in Unicode format to prevent data loss
+     1>d:\program files (green)\opencv2.4.5\build\include\opencv2\legacy\compat.hpp : warning C4819: The file contains a character that cannot be represented in the current code page (950). Save the file in Unicode format to prevent data loss
+         Patch.cc
+     1>d:\program files (green)\opencv2.4.5\build\include\opencv2\flann\dist.h : warning C4819: The file contains a character that cannot be represented in the current code page (950). Save the file in Unicode format to prevent data loss
+     1>d:\program files (green)\opencv2.4.5\build\include\opencv2\flann\dist.h : warning C4819: The file contains a character that cannot be represented in the current code page (950). Save the file in Unicode format to prevent data loss
+     1>d:\program files (green)\opencv2.4.5\build\include\opencv2\flann\dist.h : warning C4819: The file contains a character that cannot be represented in the current code page (950). Save the file in Unicode format to prevent data loss
+     1>d:\program files (green)\opencv2.4.5\build\include\opencv2\flann\dist.h : warning C4819: The file contains a character that cannot be represented in the current code page (950). Save the file in Unicode format to prevent data loss
+     1>d:\program files (green)\opencv2.4.5\build\include\opencv2\legacy\compat.hpp : warning C4819: The file contains a character that cannot be represented in the current code page (950). Save the file in Unicode format to prevent data loss
+     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\includes\facedirection\patch.cc(93): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
+         IO.cc
+     1>d:\program files (green)\opencv2.4.5\build\include\opencv2\flann\dist.h : warning C4819: The file contains a character that cannot be represented in the current code page (950). Save the file in Unicode format to prevent data loss
+     1>d:\program files (green)\opencv2.4.5\build\include\opencv2\flann\dist.h : warning C4819: The file contains a character that cannot be represented in the current code page (950). Save the file in Unicode format to prevent data loss
+     1>d:\program files (green)\opencv2.4.5\build\include\opencv2\flann\dist.h : warning C4819: The file contains a character that cannot be represented in the current code page (950). Save the file in Unicode format to prevent data loss
+     1>d:\program files (green)\opencv2.4.5\build\include\opencv2\flann\dist.h : warning C4819: The file contains a character that cannot be represented in the current code page (950). Save the file in Unicode format to prevent data loss
+     1>d:\program files (green)\opencv2.4.5\build\include\opencv2\legacy\compat.hpp : warning C4819: The file contains a character that cannot be represented in the current code page (950). Save the file in Unicode format to prevent data loss
+         HeadPose.cc
+     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\includes\facedirection\headpose.cc(27): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\includes\facedirection\headpose.cc(28): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\includes\facedirection\headpose.cc(29): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\includes\facedirection\headpose.cc(52): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\includes\facedirection\headpose.cc(52): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\includes\facedirection\headpose.cc(52): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\includes\facedirection\headpose.cc(53): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\includes\facedirection\headpose.cc(53): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\includes\facedirection\headpose.cc(53): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\includes\facedirection\headpose.cc(54): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\includes\facedirection\headpose.cc(54): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\includes\facedirection\headpose.cc(54): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\includes\facedirection\headpose.cc(55): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\includes\facedirection\headpose.cc(55): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\includes\facedirection\headpose.cc(55): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\includes\facedirection\headpose.cc(56): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\includes\facedirection\headpose.cc(56): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\includes\facedirection\headpose.cc(56): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\includes\facedirection\headpose.cc(57): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\includes\facedirection\headpose.cc(57): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\includes\facedirection\headpose.cc(57): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\includes\facedirection\headpose.cc(58): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\includes\facedirection\headpose.cc(58): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\includes\facedirection\headpose.cc(58): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\includes\facedirection\headpose.cc(86): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\includes\facedirection\headpose.cc(86): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\includes\facedirection\headpose.cc(86): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\includes\facedirection\headpose.cc(100): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\includes\facedirection\headpose.cc(100): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+         FDet.cc
+     1>d:\program files (green)\opencv2.4.5\build\include\opencv2\flann\dist.h : warning C4819: The file contains a character that cannot be represented in the current code page (950). Save the file in Unicode format to prevent data loss
+     1>d:\program files (green)\opencv2.4.5\build\include\opencv2\flann\dist.h : warning C4819: The file contains a character that cannot be represented in the current code page (950). Save the file in Unicode format to prevent data loss
+     1>d:\program files (green)\opencv2.4.5\build\include\opencv2\flann\dist.h : warning C4819: The file contains a character that cannot be represented in the current code page (950). Save the file in Unicode format to prevent data loss
+     1>d:\program files (green)\opencv2.4.5\build\include\opencv2\flann\dist.h : warning C4819: The file contains a character that cannot be represented in the current code page (950). Save the file in Unicode format to prevent data loss
+     1>d:\program files (green)\opencv2.4.5\build\include\opencv2\legacy\compat.hpp : warning C4819: The file contains a character that cannot be represented in the current code page (950). Save the file in Unicode format to prevent data loss
+     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\includes\facedirection\fdet.cc(98): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
+     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\includes\facedirection\fdet.cc(98): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
+     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\includes\facedirection\fdet.cc(99): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
+     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\includes\facedirection\fdet.cc(99): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
+         FCheck.cc
+     1>d:\program files (green)\opencv2.4.5\build\include\opencv2\flann\dist.h : warning C4819: The file contains a character that cannot be represented in the current code page (950). Save the file in Unicode format to prevent data loss
+     1>d:\program files (green)\opencv2.4.5\build\include\opencv2\flann\dist.h : warning C4819: The file contains a character that cannot be represented in the current code page (950). Save the file in Unicode format to prevent data loss
+     1>d:\program files (green)\opencv2.4.5\build\include\opencv2\flann\dist.h : warning C4819: The file contains a character that cannot be represented in the current code page (950). Save the file in Unicode format to prevent data loss
+     1>d:\program files (green)\opencv2.4.5\build\include\opencv2\flann\dist.h : warning C4819: The file contains a character that cannot be represented in the current code page (950). Save the file in Unicode format to prevent data loss
+     1>d:\program files (green)\opencv2.4.5\build\include\opencv2\legacy\compat.hpp : warning C4819: The file contains a character that cannot be represented in the current code page (950). Save the file in Unicode format to prevent data loss
+         CLM.cc
+     1>d:\program files (green)\opencv2.4.5\build\include\opencv2\flann\dist.h : warning C4819: The file contains a character that cannot be represented in the current code page (950). Save the file in Unicode format to prevent data loss
+     1>d:\program files (green)\opencv2.4.5\build\include\opencv2\flann\dist.h : warning C4819: The file contains a character that cannot be represented in the current code page (950). Save the file in Unicode format to prevent data loss
+     1>d:\program files (green)\opencv2.4.5\build\include\opencv2\flann\dist.h : warning C4819: The file contains a character that cannot be represented in the current code page (950). Save the file in Unicode format to prevent data loss
+     1>d:\program files (green)\opencv2.4.5\build\include\opencv2\flann\dist.h : warning C4819: The file contains a character that cannot be represented in the current code page (950). Save the file in Unicode format to prevent data loss
+     1>d:\program files (green)\opencv2.4.5\build\include\opencv2\legacy\compat.hpp : warning C4819: The file contains a character that cannot be represented in the current code page (950). Save the file in Unicode format to prevent data loss
+         Generating Code...
+     1>Done Building Project "D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\FaceDirection\FaceDirection.vcxproj" (build target(s)) -- FAILED.
 
-Build succeeded.
+Build FAILED.
 
-Time Elapsed 00:00:00.05
+Time Elapsed 00:00:09.86

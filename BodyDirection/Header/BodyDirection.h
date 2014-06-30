@@ -3,6 +3,7 @@
 #define BODYDIRECTION_H
 
 #include "NiImageCaptor.h"
+#include <ctime>
 #include <conio.h>			// To use getch(), kbhit()
 
 class BodyDirection : public NiImageCaptor
@@ -38,6 +39,9 @@ public:
 		// ArmAreaSpanned
 	const int calculateArmAreaSpanned(const int& userID, const NiImageStruct& niImageStruct);
 	const vector< double > getArmAreaSpanned() {return userArmAreaSpanned;}
+		// HandSpeed
+	const int calculateHandSpeed(const int& userID, const NiImageStruct& niImageStruct, const int& intervalMax);
+	const vector< double > getHandSpeed() {return userHandSpeedMax;}
 		// HandToBody
 	const int calculateHandToBody(const int& userID, const NiImageStruct& niImageStruct);
 	const vector< double > getHandToBody() {return userHandToBody;}
@@ -46,6 +50,8 @@ public:
 	const vector< double > getPU() {return userUnpleasantness;}
 
 private:
+	double fps;
+
 		// Vector manipulation
 	const float point3fDist(const nite::Point3f a, const nite::Point3f b);
 	const float point3fLength(const nite::Point3f& a);
@@ -80,6 +86,11 @@ private:
 	vector< double > userArmAreaSpanned;
 	vector< double > userHandToBody;
 	vector< double > userUnpleasantness;
+		// For computing max hand speed over intervalMax
+	vector< double > userHandSpeedMax;
+	time_t startHS, endHS;
+
+	double w1, w2, w3, w4, w5;
 };
 
 

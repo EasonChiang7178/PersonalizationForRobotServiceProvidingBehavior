@@ -1,17 +1,30 @@
-﻿Build started 2014/6/30 上午 11:06:42.
-     1>Project "F:\Dropbox\Shu\Program\GitHub\PersonalizationForRobotServiceProvidingBehavior\HAE_Inference\HAE_Inference.vcxproj" on node 5 (build target(s)).
+﻿Build started 6/30/2014 5:20:53 PM.
+     1>Project "D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\HAE_Inference\HAE_Inference.vcxproj" on node 6 (build target(s)).
      1>InitializeBuildStatus:
          Creating "Debug\HAE_Inference.unsuccessfulbuild" because "AlwaysCreate" was specified.
        ClCompile:
-         All outputs are up-to-date.
-       Link:
-         All outputs are up-to-date.
-         HAE_Inference.vcxproj -> F:\Dropbox\Shu\Program\GitHub\PersonalizationForRobotServiceProvidingBehavior\\bin\Debug\HAE_Inference.exe
-       FinalizeBuildStatus:
-         Deleting file "Debug\HAE_Inference.unsuccessfulbuild".
-         Touching "Debug\HAE_Inference.lastbuildstate".
-     1>Done Building Project "F:\Dropbox\Shu\Program\GitHub\PersonalizationForRobotServiceProvidingBehavior\HAE_Inference\HAE_Inference.vcxproj" (build target(s)).
+         D:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt ..\includes\IPCserver\IntComm.cpp ..\includes\SmileInference\SmileInference.cpp ..\includes\Thread\Thread.cpp IPCserver\Client.cpp main.cpp
+         main.cpp
+     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\includes\ipcserver\messages.hpp(154): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 d:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(371) : see declaration of 'sprintf'
+     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\hae_inference\main.cpp(100): warning C4996: 'kbhit': The POSIX name for this item is deprecated. Instead, use the ISO C++ conformant name: _kbhit. See online help for details.
+                 d:\program files (x86)\microsoft visual studio 10.0\vc\include\conio.h(130) : see declaration of 'kbhit'
+     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\hae_inference\main.cpp(101): warning C4996: 'getch': The POSIX name for this item is deprecated. Instead, use the ISO C++ conformant name: _getch. See online help for details.
+                 d:\program files (x86)\microsoft visual studio 10.0\vc\include\conio.h(128) : see declaration of 'getch'
+         Client.cpp
+     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\includes\ipcserver\messages.hpp(154): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 d:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(371) : see declaration of 'sprintf'
+         Thread.cpp
+         SmileInference.cpp
+         IntComm.cpp
+     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\includes\ipcserver\messages.hpp(154): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 d:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(371) : see declaration of 'sprintf'
+     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\includes\ipcserver\intcomm.cpp(354): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 d:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(371) : see declaration of 'sprintf'
+         Generating Code...
+     1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\Platforms\Win32\Microsoft.Cpp.Win32.Targets(153,5): warning MSB4220: Waiting for the currently executing task "CL" to cancel.
+     1>Done Building Project "D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\HAE_Inference\HAE_Inference.vcxproj" (build target(s)) -- FAILED.
 
-Build succeeded.
+Build FAILED.
 
-Time Elapsed 00:00:00.05
+Time Elapsed 00:00:14.03
