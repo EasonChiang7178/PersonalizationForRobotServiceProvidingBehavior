@@ -24,23 +24,26 @@ public:
 	const int getBodyFformation(){return bodyFformation;};
 
 	/* For Human Attention Estimator */
-	const int calculateBodyDirectionToCamera(const int& userID);
+	const int calculateBodyDirectionToCamera(const int& userID, const NiImageStruct& niImageStruct);
 	const vector< int > getBodyDirectionHAE() {return bodyDirectionHAE;};
 	const vector< double > getBodyDirectionCont() {return bodyDirectionToCamera;};
 
 	/* For Human's Affective State Classification */
 		// HandToHead
-	const int calculateHandToHead(const int& userID);
+	const int calculateHandToHead(const int& userID, const NiImageStruct& niImageStruct);
 	const vector< double > getHandToHead() {return userHandToHead;}
 		// ArmAsymmetry
-	const int calculateArmAsymmetry(const int& userID);
+	const int calculateArmAsymmetry(const int& userID, const NiImageStruct& niImageStruct);
 	const vector< double > getArmAsymmetry() {return userArmAsymmetry;}
 		// ArmAreaSpanned
-	const int calculateArmAreaSpanned(const int& userID);
+	const int calculateArmAreaSpanned(const int& userID, const NiImageStruct& niImageStruct);
 	const vector< double > getArmAreaSpanned() {return userArmAreaSpanned;}
 		// HandToBody
-	const int calculateHandToBody(const int& userID);
+	const int calculateHandToBody(const int& userID, const NiImageStruct& niImageStruct);
 	const vector< double > getHandToBody() {return userHandToBody;}
+		// Pleasantness and Unpleasantness
+	const int calculatePU(const int& userID, const double& w1, const double& w2, const double& w3, const double& w4, const double&  w5);
+	const vector< double > getPU() {return userUnpleasantness;}
 
 private:
 		// Vector manipulation
@@ -76,6 +79,7 @@ private:
 	vector< double > userArmAsymmetry;
 	vector< double > userArmAreaSpanned;
 	vector< double > userHandToBody;
+	vector< double > userUnpleasantness;
 };
 
 

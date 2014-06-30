@@ -1,25 +1,17 @@
-﻿Build started 6/24/2014 9:52:23 PM.
-     1>Project "D:\Dropbox\Shu\Program\ThesisProgram\FaceDetection\FaceDetection.vcxproj" on node 2 (build target(s)).
+﻿Build started 2014/6/30 上午 11:06:42.
+     1>Project "F:\Dropbox\Shu\Program\GitHub\PersonalizationForRobotServiceProvidingBehavior\FaceDetection\FaceDetection.vcxproj" on node 3 (build target(s)).
      1>InitializeBuildStatus:
          Creating "Debug\FaceDetection.unsuccessfulbuild" because "AlwaysCreate" was specified.
        ClCompile:
-         D:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt FaceDetection\FaceDetection.cpp
-         FaceDetection.cpp
+         All outputs are up-to-date.
        Link:
-         D:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\Dropbox\Shu\Program\ThesisProgram\bin\Debug\FaceDetection.exe" /NOLOGO wsock32.lib ipcMDd_3.9.1.lib opencv_core245d.lib opencv_highgui245d.lib opencv_video245d.lib opencv_ml245d.lib opencv_legacy245d.lib opencv_imgproc245d.lib opencv_objdetect245d.lib opencv_calib3d245d.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Debug\FaceDetection.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"D:\Dropbox\Shu\Program\ThesisProgram\bin\Debug\FaceDetection.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\Dropbox\Shu\Program\ThesisProgram\bin\Debug\FaceDetection.lib" /MACHINE:X86 Debug\IntComm.obj
-         Debug\Thread.obj
-         Debug\FaceDetection.obj
-         Debug\Client.obj
-         Debug\main.obj
-         LINK : D:\Dropbox\Shu\Program\ThesisProgram\bin\Debug\FaceDetection.exe not found or not built by the last incremental link; performing full link
-         FaceDetection.vcxproj -> D:\Dropbox\Shu\Program\ThesisProgram\bin\Debug\FaceDetection.exe
-       Manifest:
-         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /outputresource:"D:\Dropbox\Shu\Program\ThesisProgram\bin\Debug\FaceDetection.exe;#1" /manifest Debug\FaceDetection.exe.intermediate.manifest
+         All outputs are up-to-date.
+         FaceDetection.vcxproj -> F:\Dropbox\Shu\Program\GitHub\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\FaceDetection.exe
        FinalizeBuildStatus:
          Deleting file "Debug\FaceDetection.unsuccessfulbuild".
          Touching "Debug\FaceDetection.lastbuildstate".
-     1>Done Building Project "D:\Dropbox\Shu\Program\ThesisProgram\FaceDetection\FaceDetection.vcxproj" (build target(s)).
+     1>Done Building Project "F:\Dropbox\Shu\Program\GitHub\PersonalizationForRobotServiceProvidingBehavior\FaceDetection\FaceDetection.vcxproj" (build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:00.88
+Time Elapsed 00:00:00.06

@@ -1,4 +1,4 @@
-﻿Build started 2014/6/26 下午 11:04:28.
+﻿Build started 2014/6/30 上午 11:06:42.
      1>Project "F:\Dropbox\Shu\Program\GitHub\PersonalizationForRobotServiceProvidingBehavior\OneKeyToOpen\OneKeyToOpen.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
          Creating "Debug\OneKeyToOpen.unsuccessfulbuild" because "AlwaysCreate" was specified.
@@ -14,4 +14,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:00.07
+Time Elapsed 00:00:00.09
