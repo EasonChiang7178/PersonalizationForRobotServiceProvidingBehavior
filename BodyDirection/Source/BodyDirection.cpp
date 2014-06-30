@@ -537,27 +537,34 @@ const int BodyDirection::calculateArmAreaSpanned(const int& userID) {
 	nite::Point3f rHand = niImageStruct.Users[userID][7].position3D;
 
 	/* Cross Product */
-	nite::Point3f vecOfUpperArmL(lElbow.x - lShould.x, lElbow.y - lShould.y, lElbow.z - lShould.z);
-	nite::Point3f vecOfLowerArmL(lHand.x - lElbow.x, lHand.y - lElbow.y, lHand.z - lElbow.z);
-	nite::Point3f vecOfUpperArmR(rElbow.x - rShould.x, rElbow.y - rShould.y, rElbow.z - rShould.z);
-	nite::Point3f vecOfLowerArmR(rHand.x - rElbow.x, rHand.y - rElbow.y, rHand.z - rElbow.z);
+	//nite::Point3f vecOfUpperArmL(lElbow.x - lShould.x, lElbow.y - lShould.y, lElbow.z - lShould.z);
+	//nite::Point3f vecOfLowerArmL(lHand.x - lElbow.x, lHand.y - lElbow.y, lHand.z - lElbow.z);
+	//nite::Point3f vecOfUpperArmR(rElbow.x - rShould.x, rElbow.y - rShould.y, rElbow.z - rShould.z);
+	//nite::Point3f vecOfLowerArmR(rHand.x - rElbow.x, rHand.y - rElbow.y, rHand.z - rElbow.z);
+	nite::Point3f vecOfUpperArmL(lElbow.x - lShould.x, lElbow.y - lShould.y, 0.0);
+	nite::Point3f vecOfLowerArmL(lHand.x - lElbow.x, lHand.y - lElbow.y, 0.0);
+	nite::Point3f vecOfUpperArmR(rElbow.x - rShould.x, rElbow.y - rShould.y, 0.0);
+	nite::Point3f vecOfLowerArmR(rHand.x - rElbow.x, rHand.y - rElbow.y, 0.0);
 	nite::Point3f vecOfCrossProductL, vecOfCrossProductR;
 	
-	vecOfCrossProductL.x = vecOfUpperArmL.y*vecOfLowerArmL.z
-						  -vecOfUpperArmL.z*vecOfLowerArmL.y;
-	vecOfCrossProductL.y = vecOfUpperArmL.z*vecOfLowerArmL.x
-						  -vecOfUpperArmL.x*vecOfLowerArmL.z;
+	//vecOfCrossProductL.x = vecOfUpperArmL.y*vecOfLowerArmL.z
+	//					  -vecOfUpperArmL.z*vecOfLowerArmL.y;
+	//vecOfCrossProductL.y = vecOfUpperArmL.z*vecOfLowerArmL.x
+	//					  -vecOfUpperArmL.x*vecOfLowerArmL.z;
 	vecOfCrossProductL.z = vecOfUpperArmL.x*vecOfLowerArmL.y
 						  -vecOfUpperArmL.y*vecOfLowerArmL.x;
 
-	vecOfCrossProductR.x = vecOfUpperArmR.y*vecOfLowerArmR.z
-						  -vecOfUpperArmR.z*vecOfLowerArmR.y;
-	vecOfCrossProductR.y = vecOfUpperArmR.z*vecOfLowerArmR.x
-						  -vecOfUpperArmR.x*vecOfLowerArmR.z;
+	//vecOfCrossProductR.x = vecOfUpperArmR.y*vecOfLowerArmR.z
+	//					  -vecOfUpperArmR.z*vecOfLowerArmR.y;
+	//vecOfCrossProductR.y = vecOfUpperArmR.z*vecOfLowerArmR.x
+	//					  -vecOfUpperArmR.x*vecOfLowerArmR.z;
 	vecOfCrossProductR.z = vecOfUpperArmR.x*vecOfLowerArmR.y
 						  -vecOfUpperArmR.y*vecOfLowerArmR.x;
 
-	userArmAreaSpanned[userID] = (point3fLength(vecOfCrossProductL) / point3fLength(vecOfUpperArmL) / point3fLength(vecOfLowerArmL));
+	userArmAreaSpanned[userID] = (fabs(vecOfCrossProductL.z) / point3fLength(vecOfUpperArmL) / point3fLength(vecOfLowerArmL)//);
+							   +  fabs(vecOfCrossProductR.z) /point3fLength(vecOfUpperArmR) / point3fLength(vecOfLowerArmR)) / 2;
+	
+	//userArmAreaSpanned[userID] = (point3fLength(vecOfCrossProductL) / point3fLength(vecOfUpperArmL) / point3fLength(vecOfLowerArmL));
 							   //+ point3fLength(vecOfCrossProductR) / point3fLength(vecOfUpperArmR) / point3fLength(vecOfLowerArmR)) / 2;
 	return 0;
 }
