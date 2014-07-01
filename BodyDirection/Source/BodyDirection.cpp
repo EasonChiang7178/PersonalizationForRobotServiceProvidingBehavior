@@ -12,244 +12,6 @@
 
 using namespace std;
 
-const int BodyDirection::analyzeFunc()
-{
-	NiImageStruct niImageStruct = getNiImageStruct();
-	cout << "user size: " << niImageStruct.Users.size() << endl;
-
-	/* Initialize	*/
-	vector<double> oneUserAngle;
-	nite::Point3f point3D;
-	double angle;
-	int valueDummy;
-	//int flag;
-		// For smoothing the body direction
-	while(thetaData.size() < niImageStruct.Users.size())
-		thetaData.push_back(oneUserAngle);
-		// Body direction
-	while(userBodyAngle.size() < niImageStruct.Users.size())
-		userBodyAngle.push_back(angle);
-		// Body leaning
-	//while(userLeanAngle.size() < niImageStruct.Users.size())
-	//	userLeanAngle.push_back(angle);
-		// Hand Speed of both two hands
-	while(userHandSpeed.size() < niImageStruct.Users.size())
-		userHandSpeed.push_back(angle);
-		// For counting the hand speed
-	while(leftHandTemp.size() < niImageStruct.Users.size())
-		leftHandTemp.push_back(point3D);
-	while(rightHandTemp.size() < niImageStruct.Users.size())
-		rightHandTemp.push_back(point3D);
-		// Touch flag
-	//while(userTouchFlag.size() < niImageStruct.Users.size())
-	//	userTouchFlag.push_back(flag);
-		// For bodyDirectionToCameraDiscrete
-	while(bodyDirectionHAE.size() < niImageStruct.Users.size())
-		bodyDirectionHAE.push_back(valueDummy);
-		// For bodyDirectionToCameraCont
-	while(bodyDirectionToCamera.size() < niImageStruct.Users.size())
-		bodyDirectionToCamera.push_back(angle);
-		// For Hand to Head
-	while(userHandToHead.size() < niImageStruct.Users.size())
-		userHandToHead.push_back(angle);
-		// For ArmAsymmetry
-	while(userArmAsymmetry.size() < niImageStruct.Users.size())
-		userArmAsymmetry.push_back(angle);
-		// For ArmAreaSpanned
-	while(userArmAreaSpanned.size() < niImageStruct.Users.size())
-		userArmAreaSpanned.push_back(angle);
-		// For Dynamics (HandSpeedMax)
-	while(userHandSpeedMax.size() < niImageStruct.Users.size())
-		userHandSpeedMax.push_back(angle);
-		// For HandToBody
-	while(userHandToBody.size() < niImageStruct.Users.size())
-		userHandToBody.push_back(angle);
-		// For PU
-	while(userUnpleasantness.size() < niImageStruct.Users.size())
-		userUnpleasantness.push_back(angle);
-
-		// Clear the value of body direction
-	if (niImageStruct.Users.size() == 0) {
-		for(auto itBDD = bodyDirectionHAE.begin(); itBDD != bodyDirectionHAE.end(); itBDD++)
-			*itBDD = 0;
-		for(auto itBDC = bodyDirectionToCamera.begin(); itBDC != bodyDirectionToCamera.end(); itBDC++)
-			*itBDC = 90.0;
-	}
-
-	/*	Counting features of users	*/
-	for(unsigned int i(0); i<niImageStruct.Users.size(); i++)	// for all users
-	{
-		/*	Calculating Body Orientation Angle	*/
-		nite::Point3f leftShoulder, rightShoulder;
-
-		leftShoulder = niImageStruct.Users[i][2].position3D;
-		rightShoulder = niImageStruct.Users[i][3].position3D;
-
-		double xdiff, zdiff, theta;
-		xdiff = rightShoulder.x - leftShoulder.x;
-		zdiff = rightShoulder.z - leftShoulder.z;
-		theta = atan2(xdiff,zdiff) * 180.0 / M_PI;
-
-			//maintain history data
-		thetaData[i].push_back(theta);
-		if(thetaData[i].size() > 7)
-			thetaData[i].erase(thetaData[i].begin());
-
-			//smooth data gaussian blur version
-		double g_mask[7] = {0.004429, 0.053994, 0.242038, 0.399074, 0.242038, 0.053994, 0.004429};
-		double gm_theta = 0;
-		for(unsigned int j(0); j<thetaData[i].size(); j++)
-			gm_theta += thetaData[i][j]*g_mask[j];
-
-		userBodyAngle[i] = fabs(gm_theta);
-		//cout << "userBodyAngle:" << userBodyAngle[i] << endl;	// for debug output
-
-		/* Calculating DirectionToCamera */
-		calculateBodyDirectionToCamera(i, niImageStruct);
-
-		/*	Calculating Body Lean Angle	*/
-		//nite::Point3f vecOfRightShoudlerToLeftHip;
-		//nite::Point3f vecOfLeftShoudlerToRightHip;
-
-		//nite::Point3f leftHip = niImageStruct.Users[i][9].position3D;
-		//nite::Point3f rightHip = niImageStruct.Users[i][10].position3D;
-
-		//vecOfRightShoudlerToLeftHip.x = leftHip.x - rightShoulder.x;
-		//vecOfRightShoudlerToLeftHip.y = leftHip.y - rightShoulder.y;
-		//vecOfRightShoudlerToLeftHip.z = leftHip.z - rightShoulder.z;
-
-		//vecOfLeftShoudlerToRightHip.x = rightHip.x - leftShoulder.x;
-		//vecOfLeftShoudlerToRightHip.y = rightHip.y - leftShoulder.y;
-		//vecOfLeftShoudlerToRightHip.z = rightHip.z - leftShoulder.z;
-
-		//nite::Point3f vecOfCrossProduct;
-		//vecOfCrossProduct.x = vecOfRightShoudlerToLeftHip.y*vecOfLeftShoudlerToRightHip.z
-		//					 -vecOfRightShoudlerToLeftHip.z*vecOfLeftShoudlerToRightHip.y;
-
-		//vecOfCrossProduct.y = vecOfRightShoudlerToLeftHip.z*vecOfLeftShoudlerToRightHip.x
-		//					 -vecOfRightShoudlerToLeftHip.x*vecOfLeftShoudlerToRightHip.z;
-		//
-		//vecOfCrossProduct.z = vecOfRightShoudlerToLeftHip.x*vecOfLeftShoudlerToRightHip.y
-		//					 -vecOfRightShoudlerToLeftHip.y*vecOfLeftShoudlerToRightHip.x;
-
-		//double lenghtOfCrossProduct = sqrt(	pow(vecOfCrossProduct.x,2)+
-		//									pow(vecOfCrossProduct.y,2)+
-		//									pow(vecOfCrossProduct.z,2));
-
-		//userLeanAngle[i] = asin(vecOfCrossProduct.y/lenghtOfCrossProduct) * 180.0 / M_PI;
-		
-		//cout << "userLeanAngle:" << userLeanAngle[i] << endl;	// debug  output
-
-		/*	Calculating Hand Speed	*/
-		this->calculateHandSpeed(i, niImageStruct, 2);
-		cout << "userHandSpeedMax:" << userHandSpeedMax[i] << endl;	// debug output
-
-		/* Calculating Hand To Head Feature */
-		this->calculateHandToHead(i, niImageStruct);
-
-		/* Calculating Hand To Trunk Feature */
-		this->calculateHandToBody(i, niImageStruct);
-
-		/* Calculating ArmAsymmety */
-		this->calculateArmAsymmetry(i, niImageStruct);
-
-		/* Calculating ArmAreaSpanned */
-		this->calculateArmAreaSpanned(i, niImageStruct);
-
-		if (kbhit()) {
-			int command = getch();
-			if (command == 'a')
-				w1 += 0.1;
-			if (command == 'z')
-				w1 -= 0.1;
-			if (command == 's')
-				w2 += 0.1;
-			if (command == 'x')
-				w2 -= 0.1;
-			if (command == 'd')
-				w3 += 0.1;
-			if (command == 'c')
-				w3 -= 0.1;
-			if (command == 'f')
-				w4 += 0.1;
-			if (command == 'v')
-				w4 -= 0.1;
-			if (command == 'g')
-				w5 += 0.1;
-			if (command == 'b')
-				w5 -= 0.1;
-			
-		}
-		cout << "w1: " << w1 << ", w2: " << w2 << ", w3: " << w3 << ", w4: " << w4 << ", w5: " << w5 << endl;
-		/* Calculating Pleasantness-Unpleasantness */
-		this->calculatePU(i, w1, w2, w3, w4, w5);
-
-		/*	Calculating Touch Flag	*/
-		// check the dist between both hand to sholders and another person's hands 
-		//float distThresh(300.0f);			// threshold is setting as 30cm = 300mm
-		//if(niImageStruct.Users.size()>1)	// more than two people
-		//{
-		//	if(i==0)	// for user 0
-		//	{
-		//		if(	point3fDist( leftHand, niImageStruct.Users[1][6].position3D) < distThresh ||	// both hand to left hand
-		//			point3fDist( rightHand, niImageStruct.Users[1][6].position3D) < distThresh )		
-		//			userTouchFlag[i] = 1;
-		//		
-		//		else if(	point3fDist( leftHand, niImageStruct.Users[1][7].position3D) < distThresh ||	// both hand to right hand
-		//					point3fDist( rightHand, niImageStruct.Users[1][7].position3D) < distThresh )		
-		//					userTouchFlag[i] = 1;
-
-		//		else if(	point3fDist( leftHand, niImageStruct.Users[1][2].position3D) < distThresh ||	// both hand to left shoulder
-		//					point3fDist( rightHand, niImageStruct.Users[1][2].position3D) < distThresh )		
-		//					userTouchFlag[i] = 1;
-
-		//		else if(	point3fDist( leftHand, niImageStruct.Users[1][3].position3D) < distThresh ||	// both hand to right shoulder
-		//					point3fDist( rightHand, niImageStruct.Users[1][3].position3D) < distThresh )		
-		//					userTouchFlag[i] = 1;
-		//		else
-		//			userTouchFlag[i] = 0;
-		//	}
-
-		//	if(i==1)	// for user 1
-		//	{
-		//		if(	point3fDist( leftHand, niImageStruct.Users[0][6].position3D) < distThresh ||	// both hand to left hand
-		//			point3fDist( rightHand, niImageStruct.Users[0][6].position3D) < distThresh )		
-		//			userTouchFlag[i] = 1;
-		//		
-		//		else if(	point3fDist( leftHand, niImageStruct.Users[0][7].position3D) < distThresh ||	// both hand to right hand
-		//					point3fDist( rightHand, niImageStruct.Users[0][7].position3D) < distThresh )		
-		//					userTouchFlag[i] = 1;
-
-		//		else if(	point3fDist( leftHand, niImageStruct.Users[0][2].position3D) < distThresh ||	// both hand to left shoulder
-		//					point3fDist( rightHand, niImageStruct.Users[0][2].position3D) < distThresh )		
-		//					userTouchFlag[i] = 1;
-
-		//		else if(	point3fDist( leftHand, niImageStruct.Users[0][3].position3D) < distThresh ||	// both hand to right shoulder
-		//					point3fDist( rightHand, niImageStruct.Users[0][3].position3D) < distThresh )		
-		//					userTouchFlag[i] = 1;
-		//		else
-		//			userTouchFlag[i] = 0;
-		//	}
-		//}
-		//else	// only one user or on user be seen
-		//	for(unsigned int j(0); j<userTouchFlag.size();j++) userTouchFlag[j]=0;
-
-		//cout << "userTouchFlag:" << userTouchFlag[i] << endl;	// debug output
-	}
-	//Sleep(1000);
-	//system("cls");
-	return 0;
-}
-
-const float BodyDirection::point3fDist(const nite::Point3f a, const nite::Point3f b)
-{
-	return sqrt((a.x - b.x) * (a.x - b.x) + (a.y - b.y) * (a.y - b.y) + (a.z - b.z) * (a.z - b.z));
-}
-
-const float BodyDirection::point3fLength(const nite::Point3f& a) {
-	return sqrt(a.x * a.x + a.y * a.y + a.z * a.z);
-}
-
 const int BodyDirection::startGetBodyDirection()
 {
 		// Enable the thread to capture the color and depth image
@@ -263,7 +25,7 @@ const int BodyDirection::startGetBodyDirection()
 
 	extern bool bodyDirectionFlag, bodyDirectionContFlag;
 
-	w1 = 0.8; w2 = 0.3; w3 = 2.0; w4 = 1.0; w5 = 2.0;
+	w1 = 0.8; w2 = 0.7; w3 = 2; w4 = 1.0; w5 = 2.0;
 
 	while (true)
 	{
@@ -336,6 +98,226 @@ const int BodyDirection::startGetBodyDirection()
 	return 0;
 }
 
+const int BodyDirection::analyzeFunc()
+{
+	NiImageStruct niImageStruct = getNiImageStruct();
+	cout << "user size: " << niImageStruct.Users.size() << endl;
+
+	/* Initialize	*/
+	vector< double > oneUserAngle;
+	nite::Point3f point3D;
+	double angle;
+	int valueDummy;
+	
+	/* Body Direction */
+		// For smoothing the body direction
+	while(thetaData.size() < niImageStruct.Users.size())
+		thetaData.push_back(oneUserAngle);
+		// Body direction
+	while(userBodyAngle.size() < niImageStruct.Users.size())
+		userBodyAngle.push_back(angle);
+		// For bodyDirectionToCameraDiscrete
+	while(bodyDirectionHAE.size() < niImageStruct.Users.size())
+		bodyDirectionHAE.push_back(valueDummy);
+		// For bodyDirectionToCameraCont
+	while(bodyDirectionToCamera.size() < niImageStruct.Users.size())
+		bodyDirectionToCamera.push_back(angle);
+
+	/* Pleasantness-Unpleasantness Detection */
+		// For Hand to Head
+	while(userHandToHead.size() < niImageStruct.Users.size())
+		userHandToHead.push_back(angle);
+		// For ArmAsymmetry
+	while(userArmAsymmetry.size() < niImageStruct.Users.size())
+		userArmAsymmetry.push_back(angle);
+		// For ArmAreaSpanned
+	while(userArmAreaSpanned.size() < niImageStruct.Users.size())
+		userArmAreaSpanned.push_back(angle);
+		// For HandToBody
+	while(userHandToBody.size() < niImageStruct.Users.size())
+		userHandToBody.push_back(angle);
+	//	// Body leaning
+	//while(userLeanAngle.size() < niImageStruct.Users.size())
+	//	userLeanAngle.push_back(angle);
+
+	/* Intimacy detection */
+		// Touch flag
+	//while(userTouchFlag.size() < niImageStruct.Users.size())
+	//	userTouchFlag.push_back(valueDummy);
+
+		// Clear the value of features if no user detected
+	if (niImageStruct.Users.size() == 0) {
+		for(auto itBDD = bodyDirectionHAE.begin(); itBDD != bodyDirectionHAE.end(); itBDD++)
+			*itBDD = 0;
+		for(auto itBDC = bodyDirectionToCamera.begin(); itBDC != bodyDirectionToCamera.end(); itBDC++)
+			*itBDC = 90.0;
+	}
+
+	/*	Counting features of users	*/
+	for(unsigned int i(0); i < niImageStruct.Users.size(); i++)	// for all users
+	{
+		/*	Calculating Body Orientation Angle	*/
+		nite::Point3f leftShoulder, rightShoulder;
+
+		leftShoulder = niImageStruct.Users[i][2].position3D;
+		rightShoulder = niImageStruct.Users[i][3].position3D;
+
+		double xdiff, zdiff, theta;
+		xdiff = rightShoulder.x - leftShoulder.x;
+		zdiff = rightShoulder.z - leftShoulder.z;
+		theta = atan2(xdiff,zdiff) * 180.0 / M_PI;
+
+			//maintain history data
+		thetaData[i].push_back(theta);
+		if(thetaData[i].size() > 7)
+			thetaData[i].erase(thetaData[i].begin());
+
+			//smooth data gaussian blur version
+		double g_mask[7] = {0.004429, 0.053994, 0.242038, 0.399074, 0.242038, 0.053994, 0.004429};
+		double gm_theta = 0;
+		for(unsigned int j(0); j<thetaData[i].size(); j++)
+			gm_theta += thetaData[i][j]*g_mask[j];
+
+		userBodyAngle[i] = fabs(gm_theta);
+		//cout << "userBodyAngle:" << userBodyAngle[i] << endl;	// for debug output
+
+		/* Calculating DirectionToCamera */
+		calculateBodyDirectionToCamera(i, niImageStruct);
+
+		/*	Calculating Body Lean Angle	*/
+		//nite::Point3f vecOfRightShoudlerToLeftHip;
+		//nite::Point3f vecOfLeftShoudlerToRightHip;
+
+		//nite::Point3f leftHip = niImageStruct.Users[i][9].position3D;
+		//nite::Point3f rightHip = niImageStruct.Users[i][10].position3D;
+
+		//vecOfRightShoudlerToLeftHip.x = leftHip.x - rightShoulder.x;
+		//vecOfRightShoudlerToLeftHip.y = leftHip.y - rightShoulder.y;
+		//vecOfRightShoudlerToLeftHip.z = leftHip.z - rightShoulder.z;
+
+		//vecOfLeftShoudlerToRightHip.x = rightHip.x - leftShoulder.x;
+		//vecOfLeftShoudlerToRightHip.y = rightHip.y - leftShoulder.y;
+		//vecOfLeftShoudlerToRightHip.z = rightHip.z - leftShoulder.z;
+
+		//nite::Point3f vecOfCrossProduct;
+		//vecOfCrossProduct.x = vecOfRightShoudlerToLeftHip.y*vecOfLeftShoudlerToRightHip.z
+		//					 -vecOfRightShoudlerToLeftHip.z*vecOfLeftShoudlerToRightHip.y;
+
+		//vecOfCrossProduct.y = vecOfRightShoudlerToLeftHip.z*vecOfLeftShoudlerToRightHip.x
+		//					 -vecOfRightShoudlerToLeftHip.x*vecOfLeftShoudlerToRightHip.z;
+		//
+		//vecOfCrossProduct.z = vecOfRightShoudlerToLeftHip.x*vecOfLeftShoudlerToRightHip.y
+		//					 -vecOfRightShoudlerToLeftHip.y*vecOfLeftShoudlerToRightHip.x;
+
+		//double lenghtOfCrossProduct = sqrt(	pow(vecOfCrossProduct.x,2)+
+		//									pow(vecOfCrossProduct.y,2)+
+		//									pow(vecOfCrossProduct.z,2));
+
+		//userLeanAngle[i] = asin(vecOfCrossProduct.y/lenghtOfCrossProduct) * 180.0 / M_PI;
+		
+		//cout << "userLeanAngle:" << userLeanAngle[i] << endl;	// debug  output
+
+		/*	Calculating Hand Speed	*/
+		this->calculateHandSpeed(i, niImageStruct, 2);
+		//cout << "userHandSpeedMax:" << userHandSpeedMax[i] << endl;	// debug output
+
+		/* Calculating Hand To Head Feature */
+		this->calculateHandToHead(i, niImageStruct);
+
+		/* Calculating Hand To Trunk Feature */
+		this->calculateHandToBody(i, niImageStruct);
+
+		/* Calculating ArmAsymmety */
+		this->calculateArmAsymmetry(i, niImageStruct);
+
+		/* Calculating ArmAreaSpanned */
+		this->calculateArmAreaSpanned(i, niImageStruct);
+
+		if (kbhit()) {
+			int command = getch();
+			if (command == 'a')
+				w1 += 0.1;
+			if (command == 'z')
+				w1 -= 0.1;
+			if (command == 's')
+				w2 += 0.1;
+			if (command == 'x')
+				w2 -= 0.1;
+			if (command == 'd')
+				w3 += 0.1;
+			if (command == 'c')
+				w3 -= 0.1;
+			if (command == 'f')
+				w4 += 0.1;
+			if (command == 'v')
+				w4 -= 0.1;
+			if (command == 'g')
+				w5 += 0.1;
+			if (command == 'b')
+				w5 -= 0.1;
+			
+		}
+		cout << "w1: " << w1 << ", w2: " << w2 << ", w3: " << w3 << ", w4: " << w4 << ", w5: " << w5 << endl;
+		/* Calculating Pleasantness-Unpleasantness */
+		this->calculatePU(i, niImageStruct, w1, w2, w3, w4, w5);
+
+		/*	Calculating Touch Flag	*/
+		// check the dist between both hand to sholders and another person's hands 
+		//float distThresh(300.0f);			// threshold is setting as 30cm = 300mm
+		//if(niImageStruct.Users.size()>1)	// more than two people
+		//{
+		//	if(i==0)	// for user 0
+		//	{
+		//		if(	point3fDist( leftHand, niImageStruct.Users[1][6].position3D) < distThresh ||	// both hand to left hand
+		//			point3fDist( rightHand, niImageStruct.Users[1][6].position3D) < distThresh )		
+		//			userTouchFlag[i] = 1;
+		//		
+		//		else if(	point3fDist( leftHand, niImageStruct.Users[1][7].position3D) < distThresh ||	// both hand to right hand
+		//					point3fDist( rightHand, niImageStruct.Users[1][7].position3D) < distThresh )		
+		//					userTouchFlag[i] = 1;
+
+		//		else if(	point3fDist( leftHand, niImageStruct.Users[1][2].position3D) < distThresh ||	// both hand to left shoulder
+		//					point3fDist( rightHand, niImageStruct.Users[1][2].position3D) < distThresh )		
+		//					userTouchFlag[i] = 1;
+
+		//		else if(	point3fDist( leftHand, niImageStruct.Users[1][3].position3D) < distThresh ||	// both hand to right shoulder
+		//					point3fDist( rightHand, niImageStruct.Users[1][3].position3D) < distThresh )		
+		//					userTouchFlag[i] = 1;
+		//		else
+		//			userTouchFlag[i] = 0;
+		//	}
+
+		//	if(i==1)	// for user 1
+		//	{
+		//		if(	point3fDist( leftHand, niImageStruct.Users[0][6].position3D) < distThresh ||	// both hand to left hand
+		//			point3fDist( rightHand, niImageStruct.Users[0][6].position3D) < distThresh )		
+		//			userTouchFlag[i] = 1;
+		//		
+		//		else if(	point3fDist( leftHand, niImageStruct.Users[0][7].position3D) < distThresh ||	// both hand to right hand
+		//					point3fDist( rightHand, niImageStruct.Users[0][7].position3D) < distThresh )		
+		//					userTouchFlag[i] = 1;
+
+		//		else if(	point3fDist( leftHand, niImageStruct.Users[0][2].position3D) < distThresh ||	// both hand to left shoulder
+		//					point3fDist( rightHand, niImageStruct.Users[0][2].position3D) < distThresh )		
+		//					userTouchFlag[i] = 1;
+
+		//		else if(	point3fDist( leftHand, niImageStruct.Users[0][3].position3D) < distThresh ||	// both hand to right shoulder
+		//					point3fDist( rightHand, niImageStruct.Users[0][3].position3D) < distThresh )		
+		//					userTouchFlag[i] = 1;
+		//		else
+		//			userTouchFlag[i] = 0;
+		//	}
+		//}
+		//else	// only one user or on user be seen
+		//	for(unsigned int j(0); j<userTouchFlag.size();j++) userTouchFlag[j]=0;
+
+		//cout << "userTouchFlag:" << userTouchFlag[i] << endl;	// debug output
+	}
+	//Sleep(1000);
+	//system("cls");
+	return 0;
+}
+
 const int BodyDirection::calculateBodyFformation()
 {
 	NiImageStruct niImageStruct = getNiImageStruct();
@@ -379,8 +361,6 @@ const int BodyDirection::calculateBodyFformation()
 
 const int BodyDirection::calculateBodyDirectionToCamera(const int& userID, const NiImageStruct& niImageStruct)
 {
-	//NiImageStruct niImageStruct = getNiImageStruct();
-
 	if (niImageStruct.Users.size() == 0) {		// None_HAE_Body
 		for(auto itBDD = bodyDirectionHAE.begin(); itBDD != bodyDirectionHAE.end(); itBDD++)
 			*itBDD = 0;
@@ -451,10 +431,6 @@ const int BodyDirection::drawImg()
 				cv::circle( niImageStructTemp.Color, niImageStructTemp.Users[i][s].position2D, 3, cv::Scalar( 0, 0, 255 ), 2 );
 			else
 				cv::circle( niImageStructTemp.Color, niImageStructTemp.Users[i][s].position2D, 3, cv::Scalar( 0, 255, 0 ), 2 );
-
-			//ss.str("");
-			//ss << s;
-			//cv::putText(niImageStructTemp.Color, ss.str(), niImageStructTemp.Users[i][s].position2D, CV_FONT_HERSHEY_PLAIN, 1, cv::Scalar(205,205,205), 2); // Show joint number
 		}
 
 		/* Draw Features */
@@ -464,19 +440,21 @@ const int BodyDirection::drawImg()
 		//cv::Point2f bd(niImageStructTemp.Users[i][ 8].position2D.x + 20, niImageStructTemp.Users[i][ 8].position2D.y + 20 * displayPos++);
 		//cv::putText(niImageStructTemp.Color, ss.str(), bd, CV_FONT_HERSHEY_PLAIN, 1, cv::Scalar(205,205,205), 2);
 		//	// Body Direction To Camera Discrete
-		//ss.str(""); ss << "BDtoCD: " << bodyDirectionHAE[i];
+		//ss.str(""); ss << "BD (D): " << bodyDirectionHAE[i];
 		//cv::Point2f bdd(niImageStructTemp.Users[i][ 8].position2D.x + 20, niImageStructTemp.Users[i][ 8].position2D.y + 20 * displayPos++);
 		//cv::putText(niImageStructTemp.Color, ss.str(), bdd, CV_FONT_HERSHEY_PLAIN, 1, cv::Scalar(205,205,205), 2);
 		//	// Body Direction To Camera Continous
 		//if (bodyDirectionToCamera.size() == 0)
 		//	return 1;
-		//ss.str(""); ss << "BDtoCC: " << bodyDirectionToCamera[i];
+		//ss.str(""); ss << "BD (C): " << bodyDirectionToCamera[i];
 		//cv::Point2f bdc(niImageStructTemp.Users[i][ 8].position2D.x + 20, niImageStructTemp.Users[i][ 8].position2D.y + 20 * displayPos++);
 		//cv::putText(niImageStructTemp.Color, ss.str(), bdc, CV_FONT_HERSHEY_PLAIN, 1, cv::Scalar(205,205,205), 2);
-		//	// Body Lean
+			// Body Lean
+		//if (userLeanAngle.size() < niImageStructTemp.Users.size())
+		//	return 1;
 		//ss.str(""); ss << "BL: " << userLeanAngle[i];
-		//cv::Point2f bl(niImageStructTemp.Users[i][ 8].position2D.x, niImageStructTemp.Users[i][ 8].position2D.y + 20 * displayPos++);
-		//cv::putText(niImageStructTemp.Color, ss.str(), bl, CV_FONT_HERSHEY_PLAIN, 1, cv::Scalar(205,205,205), 2);
+		//cv::Point2f bl(niImageStructTemp.Users[i][ 8].position2D.x + 20, niImageStructTemp.Users[i][ 8].position2D.y + 20 * displayPos++);
+		//cv::putText(niImageStructTemp.Color, ss.str(), bl, CV_FONT_HERSHEY_PLAIN, 1, cv::Scalar(0,255,230), 2);
 			// Hand To Head
 		if (userHandToHead.size() < niImageStructTemp.Users.size())
 			return 1;
@@ -501,6 +479,12 @@ const int BodyDirection::drawImg()
 		ss.str(""); ss << "HS: " << userHandSpeedMax[i];
 		cv::Point2f hs(niImageStructTemp.Users[i][ 8].position2D.x + 20, niImageStructTemp.Users[i][ 8].position2D.y + 20 * displayPos++);
 		cv::putText(niImageStructTemp.Color, ss.str(), hs, CV_FONT_HERSHEY_PLAIN, 1, cv::Scalar(0,255,230), 2);
+			// Dynamics
+		if (userDynamics.size() < niImageStructTemp.Users.size())
+			return 1;
+		ss.str(""); ss << "HS (D): " << userDynamics[i];
+		cv::Point2f d(niImageStructTemp.Users[i][ 8].position2D.x + 20, niImageStructTemp.Users[i][ 8].position2D.y + 20 * displayPos++);
+		cv::putText(niImageStructTemp.Color, ss.str(), d, CV_FONT_HERSHEY_PLAIN, 1, cv::Scalar(0,255,230), 2);
 			// Hand To Body
 		if (userHandToBody.size() < niImageStructTemp.Users.size())
 			return 1;
@@ -521,32 +505,28 @@ const int BodyDirection::drawImg()
 }
 
 const int BodyDirection::calculateHandToHead(const int& userID, const NiImageStruct& niImageStruct) {
-	//NiImageStruct niImageStruct = getNiImageStruct();
-
 	/* Initialization */
 	nite::Point3f head = niImageStruct.Users[userID][0].position3D;
 	nite::Point3f lHand = niImageStruct.Users[userID][6].position3D;
 	nite::Point3f rHand = niImageStruct.Users[userID][7].position3D;
 
 	/* Computation */
-	float lHandToHead = this->gaussianKernal3((head.x - lHand.x) / 500, (head.y - lHand.y) / 500, (head.z - lHand.z) / 500, 1.5);
-	float rHandToHead = this->gaussianKernal3((head.x - rHand.x) / 500, (head.y - rHand.y) / 500, (head.z - rHand.z) / 500, 1.5);
+	float lHandToHead = this->gaussianKernal3((head.x - lHand.x) / 500, (head.y - lHand.y) / 500, (head.z - lHand.z) / 500, 0.85);
+	float rHandToHead = this->gaussianKernal3((head.x - rHand.x) / 500, (head.y - rHand.y) / 500, (head.z - rHand.z) / 500, 0.85);
 
-	userHandToHead[userID] = lHandToHead * rHandToHead;// * std::exp(-1.0 / 2.0);
+	userHandToHead[userID] = (lHandToHead + rHandToHead) / 2;// * std::exp(-1.0 / 2.0);
 	return 0;
 }
 
 const int BodyDirection::calculateHandToBody(const int& userID, const NiImageStruct& niImageStruct) {
-	//NiImageStruct niImageStruct = getNiImageStruct();
-
 	/* Initialization */
 	nite::Point3f trunk = niImageStruct.Users[userID][8].position3D;
 	nite::Point3f lHand = niImageStruct.Users[userID][6].position3D;
 	nite::Point3f rHand = niImageStruct.Users[userID][7].position3D;
 
 	/* Computation */
-	float lHandToTrunk = this->gaussianKernal3(0, 0, (trunk.z - lHand.z) / 500, static_cast< float >(0.4));
-	float rHandToTrunk = this->gaussianKernal3(0, 0, (trunk.z - rHand.z) / 500, static_cast< float >(0.4));
+	float lHandToTrunk = this->gaussianKernal3(0, 0, (trunk.z - lHand.z) / 500, static_cast< float >(0.5));
+	float rHandToTrunk = this->gaussianKernal3(0, 0, (trunk.z - rHand.z) / 500, static_cast< float >(0.5));
 
 	//userHandToBody[userID] = lHandToTrunk * rHandToTrunk * std::exp(-1.0 / 2.0);
 	userHandToBody[userID] = (lHandToTrunk + rHandToTrunk) / 2;
@@ -554,8 +534,6 @@ const int BodyDirection::calculateHandToBody(const int& userID, const NiImageStr
 }
 
 const int BodyDirection::calculateArmAsymmetry(const int& userID, const NiImageStruct& niImageStruct) {
-	//NiImageStruct niImageStruct = getNiImageStruct();
-
 	/* Initialization */
 	nite::Point3f lShould = niImageStruct.Users[userID][2].position3D;
 	nite::Point3f rShould = niImageStruct.Users[userID][3].position3D;
@@ -565,28 +543,24 @@ const int BodyDirection::calculateArmAsymmetry(const int& userID, const NiImageS
 	nite::Point3f rHand = niImageStruct.Users[userID][7].position3D;
 	nite::Point3f trunk = niImageStruct.Users[userID][8].position3D;
 
-	/* Reflection */
+	/* Reflect left side of elbow and hand into right side */
 		// Calculate normal vector of the reflection plane
 	nite::Point3f normalVecReflection(lShould.x - rShould.x, lShould.y - rShould.y, lShould.z - rShould.z);
 	float normalLength = point3fLength(normalVecReflection);
-	normalVecReflection.x /= normalLength;
-	normalVecReflection.y /= normalLength;
-	normalVecReflection.z /= normalLength;
-
+	normalVecReflection.x /= normalLength; normalVecReflection.y /= normalLength; normalVecReflection.z /= normalLength;
+		// Reflect the lElbow point
 	nite::Point3f lElbowVec(lElbow.x - trunk.x, lElbow.y - trunk.y, lElbow.z - trunk.z);
 	float distElbowToProjTrunk = lElbowVec.x * normalVecReflection.x + lElbowVec.y * normalVecReflection.y + lElbowVec.z * normalVecReflection.z;
 	nite::Point3f lElbowRef(lElbow.x - 2 * distElbowToProjTrunk * normalVecReflection.x,
 							 lElbow.y - 2 * distElbowToProjTrunk * normalVecReflection.y,
 							 lElbow.z - 2 * distElbowToProjTrunk * normalVecReflection.z);
-	//nite::Point3f lElbowRef(lElbowProj.x + lElbowProj.x - lElbow.x, lElbowProj.y + lElbowProj.y - lElbow.y, lElbowProj.z + lElbowProj.z - lElbow.z);
-
+		// Reflect the lHand point
 	nite::Point3f lHandVec(lHand.x - trunk.x, lHand.y - trunk.y, lHand.z - trunk.z);
 	float distHandToProjTrunk = lHandVec.x * normalVecReflection.x + lHandVec.y * normalVecReflection.y + lHandVec.z * normalVecReflection.z;
 	nite::Point3f lHandRef(lHand.x - 2 * distHandToProjTrunk * normalVecReflection.x,
 							 lHand.y - 2 * distHandToProjTrunk * normalVecReflection.y,
 							 lHand.z - 2 * distHandToProjTrunk * normalVecReflection.z);
-	//nite::Point3f lHandRef(lHandProj.x + lHandProj.x - lHand.x, lHandProj.y + lHandProj.y - lHand.y, lHandProj.z + lHandProj.z - lHand.z);
-
+		// For debug output
 	//cout << "rElbow, x: " << rElbow.x << ", y: " << rElbow.y << ", z: " << rElbow.z << endl;
 	//cout << "lElbow, x: " << lElbowRef.x << ", y: " << lElbowRef.y << ", z: " << lElbowRef.z << endl;
 	//cout << "rHand, x: " << rHand.x << ", y: " << rHand.y << ", z: " << rHand.z << endl;
@@ -597,8 +571,6 @@ const int BodyDirection::calculateArmAsymmetry(const int& userID, const NiImageS
 }
 
 const int BodyDirection::calculateArmAreaSpanned(const int& userID, const NiImageStruct& niImageStruct) {
-	//NiImageStruct niImageStruct = getNiImageStruct();
-
 	/* Initialization */
 	nite::Point3f lShould = niImageStruct.Users[userID][2].position3D;
 	nite::Point3f rShould = niImageStruct.Users[userID][3].position3D;
@@ -608,10 +580,12 @@ const int BodyDirection::calculateArmAreaSpanned(const int& userID, const NiImag
 	nite::Point3f rHand = niImageStruct.Users[userID][7].position3D;
 
 	/* Cross Product */
+		// For 3-D vector
 	//nite::Point3f vecOfUpperArmL(lElbow.x - lShould.x, lElbow.y - lShould.y, lElbow.z - lShould.z);
 	//nite::Point3f vecOfLowerArmL(lHand.x - lElbow.x, lHand.y - lElbow.y, lHand.z - lElbow.z);
 	//nite::Point3f vecOfUpperArmR(rElbow.x - rShould.x, rElbow.y - rShould.y, rElbow.z - rShould.z);
 	//nite::Point3f vecOfLowerArmR(rHand.x - rElbow.x, rHand.y - rElbow.y, rHand.z - rElbow.z);
+		// For 2-D vector
 	nite::Point3f vecOfUpperArmL(lElbow.x - lShould.x, lElbow.y - lShould.y, 0.0);
 	nite::Point3f vecOfLowerArmL(lHand.x - lElbow.x, lHand.y - lElbow.y, 0.0);
 	nite::Point3f vecOfUpperArmR(rElbow.x - rShould.x, rElbow.y - rShould.y, 0.0);
@@ -632,9 +606,9 @@ const int BodyDirection::calculateArmAreaSpanned(const int& userID, const NiImag
 	vecOfCrossProductR.z = vecOfUpperArmR.x*vecOfLowerArmR.y
 						  -vecOfUpperArmR.y*vecOfLowerArmR.x;
 
-	
 	float lArmArea = this->gaussianKernal3(0.0f, 0.0f, 1 - (fabs(vecOfCrossProductL.z) / point3fLength(vecOfUpperArmL) / point3fLength(vecOfLowerArmL)), 0.375f);
 	float rArmArea = this->gaussianKernal3(0.0f, 0.0f, 1 - (fabs(vecOfCrossProductR.z) / point3fLength(vecOfUpperArmR) / point3fLength(vecOfLowerArmR)), 0.375f);
+		// Avoid the case when lower arm is too show, where the ArmArea may be 1
 	if (point3fLength(vecOfLowerArmL) < 65.0)
 		lArmArea = 0;
 	if (point3fLength(vecOfLowerArmR) < 65.0)
@@ -650,41 +624,114 @@ const int BodyDirection::calculateArmAreaSpanned(const int& userID, const NiImag
 }
 
 const int BodyDirection::calculateHandSpeed(const int& userID, const NiImageStruct& niImageStruct, const int& intervalMax) {
+	/* Initialization */
+		// Hand Speed of both two hands
+	while(userHandSpeed.size() < niImageStruct.Users.size())
+		userHandSpeed.push_back(double(0.0));
+	while(userHandSpeedHistory.size() < niImageStruct.Users.size())
+		userHandSpeedHistory.push_back(vector< double >(0));
+		// For counting the hand speed
+	while(leftHandTemp.size() < niImageStruct.Users.size())
+		leftHandTemp.push_back(nite::Point3f(0.0, 0.0, 0.0));
+	while(rightHandTemp.size() < niImageStruct.Users.size())
+		rightHandTemp.push_back(nite::Point3f(0.0, 0.0, 0.0));
+		// For Dynamics (HandSpeedMax)
+	while(userDynamics.size() < niImageStruct.Users.size())
+		userDynamics.push_back(double(0.0));
+		// For HandSpeedMax
+	while(userHandSpeedMax.size() < niImageStruct.Users.size())
+		userHandSpeedMax.push_back(double(0.0));
+
+	/* Computation */
+		// Current Hand Speed
 	nite::Point3f leftHand = niImageStruct.Users[userID][6].position3D;
 	nite::Point3f rightHand = niImageStruct.Users[userID][7].position3D;
 
-	float leftHandDisplacement;
-	float rightHandDisplacement;
+	float leftHandDisplacement = point3fDist( leftHand, leftHandTemp[userID]);
+	float rightHandDisplacement = point3fDist( rightHand, rightHandTemp[userID]);
 
-	leftHandDisplacement = point3fDist( leftHand, leftHandTemp[userID]);
-	rightHandDisplacement = point3fDist( rightHand, rightHandTemp[userID]);
-
-	float movingHand = rightHandDisplacement;
-	if (leftHandDisplacement > rightHandDisplacement)
-		movingHand = leftHandDisplacement;
-
-	userHandSpeed[userID] = movingHand * 10.0 / 2000.0; // avg in unit (m/s)
+	if (leftHandDisplacement > 300.0)
+		leftHandDisplacement = 0.0;
+	if (rightHandDisplacement > 300.0)
+		rightHandDisplacement = 0.0;
 
 	leftHandTemp[userID] = leftHand;
 	rightHandTemp[userID] = rightHand;
-	
-	if (userHandSpeed[userID] > userHandSpeedMax[userID]) {
-		userHandSpeedMax[userID] = userHandSpeed[userID];
+
+	float movingHand = rightHandDisplacement;
+	if (leftHandDisplacement > rightHandDisplacement) {
+		movingHand = leftHandDisplacement;
+
+	if (niImageStruct.Users[userID][6].jointConfidence <= 0.5)
+		movingHand = 0;
+	} else if (niImageStruct.Users[userID][7].jointConfidence <= 0.5)
+		movingHand = 0;
+
+	userHandSpeed[userID] = movingHand * 10.0 / 2000.0; // avg in unit (m/s)?
+
+	/* Smoothing */
+		// Maintain the history data
+	userHandSpeedHistory[userID].push_back(userHandSpeed[userID]);
+	if (userHandSpeedHistory[userID].size() > 8)
+		userHandSpeedHistory[userID].erase(userHandSpeedHistory[userID].begin());
+		// Smoothing
+	double hsTempSmoothed = 0.0;
+	for (unsigned int i(0); i < userHandSpeedHistory[userID].size(); i++)
+		hsTempSmoothed += userHandSpeedHistory[userID][i] * 0.125; // Mean average filter for 8 frames
+
+	/* Classify speed into light or sudden */
+	int dynamicTemp = 0;
+	if (hsTempSmoothed > 0.18)
+		dynamicTemp = -1;
+	if (hsTempSmoothed > 0.24)
+		dynamicTemp = 1;
+
+	if (hsTempSmoothed > userHandSpeedMax[userID]) {
+		userHandSpeedMax[userID] = hsTempSmoothed;
+		userDynamics[userID] = dynamicTemp;
 		time(&startHS);
 	}
 	time(&endHS);
 
-	if (difftime(endHS, startHS) > intervalMax)
-		userHandSpeedMax[userID] = userHandSpeed[userID];
+	if (difftime(endHS, startHS) > intervalMax) {
+		userHandSpeedMax[userID] = hsTempSmoothed;
+		userDynamics[userID] = dynamicTemp;
+	}
 
 	return 0;
 }
 
-const int BodyDirection::calculatePU(const int& userID, const double& w1, const double& w2, const double& w3, const double& w4, const double&  w5) {
-	userUnpleasantness[userID] = w1 * userHandToHead[userID] +
-								 w2 * userArmAsymmetry[userID] +
-								 w3 * userArmAreaSpanned[userID] +
-								 w4 * userHandSpeedMax[userID] +
-								 w5 * userHandToBody[userID];
+const int BodyDirection::calculatePU(const int& userID, const NiImageStruct& niImageStruct, const double& w1, const double& w2, const double& w3, const double& w4, const double& w5) {
+	/* Initialization */
+		// For Pleasantness-Unpleasantness
+	while (userUnpleasantness.size() < niImageStruct.Users.size())
+		userUnpleasantness.push_back(double(0.0));
+		// For History Data
+	while (userPUHistory.size() < niImageStruct.Users.size())
+		userPUHistory.push_back(vector< double >(0));
+	
+	/* Computing and Smoothing the PU */
+	double puTemp = w1 * userHandToHead[userID] +
+					w2 * userArmAsymmetry[userID] +
+					w3 * userArmAreaSpanned[userID] +
+					w4 * userDynamics[userID] +
+					w5 * userHandToBody[userID];
+		// Maintain the history data
+	userPUHistory[userID].push_back(puTemp);
+	if (userPUHistory[userID].size() > 8)
+		userPUHistory[userID].erase(userPUHistory[userID].begin());
+		// Smoothing
+	double puTempSmooth = 0.0;
+	for (unsigned int j(0); j < userPUHistory[userID].size(); j++)
+		puTempSmooth += userPUHistory[userID][j] * 0.125; // Mean average filter, for 8 frames
+
+	userUnpleasantness[userID] = puTempSmooth;
+
+	/* Unsmoothing version */
+	//userUnpleasantness[userID] = w1 * userHandToHead[userID] +
+	//							 w2 * userArmAsymmetry[userID] +
+	//							 w3 * userArmAreaSpanned[userID] +
+	//							 w4 * userHandSpeedMax[userID] +
+	//							 w5 * userHandToBody[userID];
 	return 0;
 }
