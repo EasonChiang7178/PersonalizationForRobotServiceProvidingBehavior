@@ -51,7 +51,7 @@ class RobotAction {
 			// For making a sound
 		const bool makeSounds(const string& pathToAudioFile);
 			// For robot speaking
-		const bool speaking(const string& textToSpeak);
+		const bool speaking(const string& textToSpeak, const float& voiceVolume);
 
 		/* Setting Set */
 		const int setTimeout(const int& second) {timeout = second; return 1;}

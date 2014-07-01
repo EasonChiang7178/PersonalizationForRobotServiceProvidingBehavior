@@ -257,9 +257,10 @@ const int BodyDirection::analyzeFunc()
 				w5 -= 0.1;
 			
 		}
-		cout << "w1: " << w1 << ", w2: " << w2 << ", w3: " << w3 << ", w4: " << w4 << ", w5: " << w5 << endl;
+
 		/* Calculating Pleasantness-Unpleasantness */
 		this->calculatePU(i, niImageStruct, w1, w2, w3, w4, w5);
+		cout << "w1: " << w1 << ", w2: " << w2 << ", w3: " << w3 << ", w4: " << w4 << ", w5: " << w5 << endl;
 
 		/*	Calculating Touch Flag	*/
 		// check the dist between both hand to sholders and another person's hands 
@@ -454,7 +455,7 @@ const int BodyDirection::drawImg()
 		//	return 1;
 		//ss.str(""); ss << "BL: " << userLeanAngle[i];
 		//cv::Point2f bl(niImageStructTemp.Users[i][ 8].position2D.x + 20, niImageStructTemp.Users[i][ 8].position2D.y + 20 * displayPos++);
-		//cv::putText(niImageStructTemp.Color, ss.str(), bl, CV_FONT_HERSHEY_PLAIN, 1, cv::Scalar(0,255,230), 2);
+		/*cv::putText(niImageStructTemp.Color, ss.str(), bl, CV_FONT_HERSHEY_PLAIN, 1, cv::Scalar(0,255,230), 2);*/
 			// Hand To Head
 		if (userHandToHead.size() < niImageStructTemp.Users.size())
 			return 1;
@@ -497,6 +498,39 @@ const int BodyDirection::drawImg()
 		ss.str(""); ss << "PU: " << userUnpleasantness[i];
 		cv::Point2f pu(niImageStructTemp.Users[i][ 8].position2D.x + 20, niImageStructTemp.Users[i][ 8].position2D.y + 20 * displayPos++);
 		cv::putText(niImageStructTemp.Color, ss.str(), pu, CV_FONT_HERSHEY_PLAIN, 1, cv::Scalar(0,255,230), 2);
+			// Display Pleasantness-Unpleasantness level
+		if (userUnpleasantness.size() < niImageStructTemp.Users.size())
+			return 1;
+		ss.str("");
+		cv::Point2f puDisplay(niImageStructTemp.Users[i][ 8].position2D.x + 20, niImageStructTemp.Users[i][ 8].position2D.y + 20 * displayPos++);
+		switch (static_cast< int > (userUnpleasantness[i])) {
+			case 0:
+				ss << "Pleasantness";
+				cv::putText(niImageStructTemp.Color, ss.str(), puDisplay, CV_FONT_HERSHEY_PLAIN, 1, cv::Scalar(255,188,0), 2);
+				break;
+
+			case 1:
+				ss << "Like";
+				cv::putText(niImageStructTemp.Color, ss.str(), puDisplay, CV_FONT_HERSHEY_PLAIN, 1, cv::Scalar(255,230,0), 2);
+				break;
+
+			case 2:
+				ss << "Neutral";
+				cv::putText(niImageStructTemp.Color, ss.str(), puDisplay, CV_FONT_HERSHEY_PLAIN, 1, cv::Scalar(0,255,230), 2);
+				break;
+
+			case 3:
+				ss << "Offensivenss";
+				cv::putText(niImageStructTemp.Color, ss.str(), puDisplay, CV_FONT_HERSHEY_PLAIN, 1, cv::Scalar(0,171,255), 2);
+				break;
+
+			case 4:
+			case 5:
+			case 6:
+				ss << "Unpleasantness";
+				cv::putText(niImageStructTemp.Color, ss.str(), puDisplay, CV_FONT_HERSHEY_PLAIN, 1, cv::Scalar(0,43,255), 2);
+				break;
+		}
 	}
 
 	cv::imshow( "Color Image", niImageStructTemp.Color );
@@ -511,8 +545,8 @@ const int BodyDirection::calculateHandToHead(const int& userID, const NiImageStr
 	nite::Point3f rHand = niImageStruct.Users[userID][7].position3D;
 
 	/* Computation */
-	float lHandToHead = this->gaussianKernal3((head.x - lHand.x) / 500, (head.y - lHand.y) / 500, (head.z - lHand.z) / 500, 0.85);
-	float rHandToHead = this->gaussianKernal3((head.x - rHand.x) / 500, (head.y - rHand.y) / 500, (head.z - rHand.z) / 500, 0.85);
+	float lHandToHead = this->gaussianKernal3((head.x - lHand.x) / 500, (head.y - lHand.y) / 500, (head.z - lHand.z) / 500, 0.85f);
+	float rHandToHead = this->gaussianKernal3((head.x - rHand.x) / 500, (head.y - rHand.y) / 500, (head.z - rHand.z) / 500, 0.85f);
 
 	userHandToHead[userID] = (lHandToHead + rHandToHead) / 2;// * std::exp(-1.0 / 2.0);
 	return 0;
@@ -685,6 +719,9 @@ const int BodyDirection::calculateHandSpeed(const int& userID, const NiImageStru
 		dynamicTemp = -1;
 	if (hsTempSmoothed > 0.24)
 		dynamicTemp = 1;
+
+	if (userDynamics[userID] == -1 || fabs(hsTempSmoothed - userHandSpeedMax[userID]) < 0.03)
+		time(&startHS);
 
 	if (hsTempSmoothed > userHandSpeedMax[userID]) {
 		userHandSpeedMax[userID] = hsTempSmoothed;

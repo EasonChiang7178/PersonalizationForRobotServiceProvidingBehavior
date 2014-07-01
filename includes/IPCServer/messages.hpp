@@ -159,10 +159,11 @@ public:
 
 class Action_Speak{
 public:
-	char words[256];
+	char words[64];
+	float voiceVolume;
 };
 #define ACTION_SPEAK_NAME "Action_Speak"
-#define ACTION_SPEAK_FORMAT "{ [char:256]}"
+#define ACTION_SPEAK_FORMAT "{ [char:64], float}"
 
 class Result_Speak{
 public:

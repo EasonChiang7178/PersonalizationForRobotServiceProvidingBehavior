@@ -498,11 +498,12 @@ const bool RobotAction::makeSounds(const string& pathToAudioFile) {
 	return true;
 }
 
-const bool RobotAction::speaking(const string& textToSpeak) {
+const bool RobotAction::speaking(const string& textToSpeak, const float& voiceVolume) {
 		// To check whethler TTS is speaking
 	if (TTSspeaking == false) {
 		Action_Speak speak;
 		sprintf(speak.words, textToSpeak.c_str());
+		speak.voiceVolume = voiceVolume;
 		sendActionSpeak(speak);
 		Sleep(sizeof(speak));
 

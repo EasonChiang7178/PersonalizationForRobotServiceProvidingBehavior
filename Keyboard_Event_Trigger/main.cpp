@@ -161,7 +161,7 @@ int main(int argc, char** argv) {
 				cout << keyboardInput << endl;
 				keyboardInput = '\0';
 
-				robotAction.speaking(string(PARTNERNAME));
+				robotAction.speaking(string(PARTNERNAME), 0.7f);
 				break;
 			}
 
@@ -180,7 +180,7 @@ int main(int argc, char** argv) {
 				cout << keyboardInput << endl;
 				keyboardInput = '\0';
 
-				robotAction.speaking("There is a message left for you, do you want to reply it now?");
+				robotAction.speaking("There is a message left for you, do you want to reply it now?", 0.7f);
 				break;
 			}
 
@@ -214,6 +214,11 @@ int main(int argc, char** argv) {
 			case 'I':
 				cout << keyboardInput << endl;
 				keyboardInput = '\0';
+
+				for (float i = 0; i < 10; i += 0.1) {
+					robotAction.speaking("Yen", i);
+					Sleep(500);
+				}
 				break;
 
 			case 'K':
