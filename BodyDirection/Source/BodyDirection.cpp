@@ -218,7 +218,7 @@ const int BodyDirection::analyzeFunc()
 		//cout << "userLeanAngle:" << userLeanAngle[i] << endl;	// debug  output
 
 		/*	Calculating Hand Speed	*/
-		this->calculateHandSpeed(i, niImageStruct, 2);
+		this->calculateHandSpeed(i, niImageStruct, 1);
 		//cout << "userHandSpeedMax:" << userHandSpeedMax[i] << endl;	// debug output
 
 		/* Calculating Hand To Head Feature */
@@ -649,6 +649,13 @@ const int BodyDirection::calculateArmAreaSpanned(const int& userID, const NiImag
 		rArmArea = 0;
 
 	userArmAreaSpanned[userID] = (lArmArea + rArmArea) / 2;
+/** WARNING: Rule-based **/
+	if (userDynamics[userID] == -1) {
+		userArmAreaSpanned[userID] -= 1;
+		if (userArmAreaSpanned[userID] < 0)
+			userArmAreaSpanned[userID] = 0;
+	}
+
 	//userArmAreaSpanned[userID] = (fabs(vecOfCrossProductL.z) / point3fLength(vecOfUpperArmL) / point3fLength(vecOfLowerArmL)//);
 	//						   +  fabs(vecOfCrossProductR.z) /point3fLength(vecOfUpperArmR) / point3fLength(vecOfLowerArmR)) / 2;
 	
@@ -715,12 +722,12 @@ const int BodyDirection::calculateHandSpeed(const int& userID, const NiImageStru
 
 	/* Classify speed into light or sudden */
 	int dynamicTemp = 0;
-	if (hsTempSmoothed > 0.18)
+	if (hsTempSmoothed > 0.205)
 		dynamicTemp = -1;
-	if (hsTempSmoothed > 0.24)
+	if (hsTempSmoothed > 0.255)
 		dynamicTemp = 1;
 
-	if (userDynamics[userID] == -1 || fabs(hsTempSmoothed - userHandSpeedMax[userID]) < 0.03)
+	if (userDynamics[userID] == -1 && fabs(hsTempSmoothed - userHandSpeedMax[userID]) < 0.13)
 		time(&startHS);
 
 	if (hsTempSmoothed > userHandSpeedMax[userID]) {
