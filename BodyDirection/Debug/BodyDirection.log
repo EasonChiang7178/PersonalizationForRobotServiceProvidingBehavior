@@ -1,36 +1,36 @@
-﻿Build started 7/1/2014 10:15:48 PM.
-     1>Project "D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\BodyDirection\BodyDirection.vcxproj" on node 2 (build target(s)).
+﻿Build started 2014/7/2 下午 03:17:44.
+     1>Project "C:\Users\robot\Desktop\Shu\PersonalizationForRobotServiceProvidingBehavior\BodyDirection\BodyDirection.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
          Creating "Debug\BodyDirection.unsuccessfulbuild" because "AlwaysCreate" was specified.
        ClCompile:
-         D:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt Source\BodyDirection.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt Source\BodyDirection.cpp
          BodyDirection.cpp
-     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\includes\ipcserver\messages.hpp(154): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-                 d:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(371) : see declaration of 'sprintf'
-     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\bodydirection\source\bodydirection.cpp(33): warning C4996: 'kbhit': The POSIX name for this item is deprecated. Instead, use the ISO C++ conformant name: _kbhit. See online help for details.
-                 d:\program files (x86)\microsoft visual studio 10.0\vc\include\conio.h(130) : see declaration of 'kbhit'
-     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\bodydirection\source\bodydirection.cpp(34): warning C4996: 'getch': The POSIX name for this item is deprecated. Instead, use the ISO C++ conformant name: _getch. See online help for details.
-                 d:\program files (x86)\microsoft visual studio 10.0\vc\include\conio.h(128) : see declaration of 'getch'
-     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\bodydirection\source\bodydirection.cpp(236): warning C4996: 'kbhit': The POSIX name for this item is deprecated. Instead, use the ISO C++ conformant name: _kbhit. See online help for details.
-                 d:\program files (x86)\microsoft visual studio 10.0\vc\include\conio.h(130) : see declaration of 'kbhit'
-     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\bodydirection\source\bodydirection.cpp(237): warning C4996: 'getch': The POSIX name for this item is deprecated. Instead, use the ISO C++ conformant name: _getch. See online help for details.
-                 d:\program files (x86)\microsoft visual studio 10.0\vc\include\conio.h(128) : see declaration of 'getch'
+     1>c:\users\robot\desktop\shu\personalizationforrobotserviceprovidingbehavior\includes\ipcserver\messages.hpp(154): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(371) : see declaration of 'sprintf'
+     1>c:\users\robot\desktop\shu\personalizationforrobotserviceprovidingbehavior\bodydirection\source\bodydirection.cpp(33): warning C4996: 'kbhit': The POSIX name for this item is deprecated. Instead, use the ISO C++ conformant name: _kbhit. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 10.0\vc\include\conio.h(130) : see declaration of 'kbhit'
+     1>c:\users\robot\desktop\shu\personalizationforrobotserviceprovidingbehavior\bodydirection\source\bodydirection.cpp(34): warning C4996: 'getch': The POSIX name for this item is deprecated. Instead, use the ISO C++ conformant name: _getch. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 10.0\vc\include\conio.h(128) : see declaration of 'getch'
+     1>c:\users\robot\desktop\shu\personalizationforrobotserviceprovidingbehavior\bodydirection\source\bodydirection.cpp(236): warning C4996: 'kbhit': The POSIX name for this item is deprecated. Instead, use the ISO C++ conformant name: _kbhit. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 10.0\vc\include\conio.h(130) : see declaration of 'kbhit'
+     1>c:\users\robot\desktop\shu\personalizationforrobotserviceprovidingbehavior\bodydirection\source\bodydirection.cpp(237): warning C4996: 'getch': The POSIX name for this item is deprecated. Instead, use the ISO C++ conformant name: _getch. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 10.0\vc\include\conio.h(128) : see declaration of 'getch'
        Link:
-         D:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\\bin\Debug\BodyDirection.exe" /NOLOGO wsock32.lib ipcMDd_3.9.1.lib NiTE2.lib OpenNI2.lib opencv_core245d.lib opencv_highgui245d.lib opencv_video245d.lib opencv_ml245d.lib opencv_legacy245d.lib opencv_imgproc245d.lib opencv_objdetect245d.lib opencv_calib3d245d.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Debug\BodyDirection.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\BodyDirection.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\\bin\Debug\BodyDirection.lib" /MACHINE:X86 Debug\IntComm.obj
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\robot\Desktop\Shu\PersonalizationForRobotServiceProvidingBehavior\\bin\Debug\BodyDirection.exe" /NOLOGO wsock32.lib ipcMDd_3.9.1.lib NiTE2.lib OpenNI2.lib opencv_core245d.lib opencv_highgui245d.lib opencv_video245d.lib opencv_ml245d.lib opencv_legacy245d.lib opencv_imgproc245d.lib opencv_objdetect245d.lib opencv_calib3d245d.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Debug\BodyDirection.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"C:\Users\robot\Desktop\Shu\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\BodyDirection.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\robot\Desktop\Shu\PersonalizationForRobotServiceProvidingBehavior\\bin\Debug\BodyDirection.lib" /MACHINE:X86 Debug\IntComm.obj
          Debug\Thread.obj
          Debug\Client.obj
          Debug\main.obj
          Debug\BodyDirection.obj
          Debug\NiImageCaptor.obj
-         LINK : D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\\bin\Debug\BodyDirection.exe not found or not built by the last incremental link; performing full link
-         BodyDirection.vcxproj -> D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\\bin\Debug\BodyDirection.exe
+         LINK : C:\Users\robot\Desktop\Shu\PersonalizationForRobotServiceProvidingBehavior\\bin\Debug\BodyDirection.exe not found or not built by the last incremental link; performing full link
+         BodyDirection.vcxproj -> C:\Users\robot\Desktop\Shu\PersonalizationForRobotServiceProvidingBehavior\\bin\Debug\BodyDirection.exe
        Manifest:
-         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /outputresource:"D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\\bin\Debug\BodyDirection.exe;#1" /manifest Debug\BodyDirection.exe.intermediate.manifest
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /outputresource:"C:\Users\robot\Desktop\Shu\PersonalizationForRobotServiceProvidingBehavior\\bin\Debug\BodyDirection.exe;#1" /manifest Debug\BodyDirection.exe.intermediate.manifest
        FinalizeBuildStatus:
          Deleting file "Debug\BodyDirection.unsuccessfulbuild".
          Touching "Debug\BodyDirection.lastbuildstate".
-     1>Done Building Project "D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\BodyDirection\BodyDirection.vcxproj" (build target(s)).
+     1>Done Building Project "C:\Users\robot\Desktop\Shu\PersonalizationForRobotServiceProvidingBehavior\BodyDirection\BodyDirection.vcxproj" (build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:02.14
+Time Elapsed 00:00:04.58

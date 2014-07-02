@@ -691,10 +691,21 @@ const int BodyDirection::calculateHandSpeed(const int& userID, const NiImageStru
 	float leftHandDisplacement = point3fDist( leftHand, leftHandTemp[userID]);
 	float rightHandDisplacement = point3fDist( rightHand, rightHandTemp[userID]);
 
-	if (leftHandDisplacement > 300.0)
-		leftHandDisplacement = 0.0;
-	if (rightHandDisplacement > 300.0)
-		rightHandDisplacement = 0.0;
+	cout << "y:  " << leftHand.y << endl;
+	cout << "y': " << leftHandTemp[userID].y << endl;
+	cout << "Dl: " << leftHandDisplacement << endl;
+	if (leftHandDisplacement > 300.0 || (leftHand.y - leftHandTemp[userID].y) < 0.0) {
+		if (leftHandDisplacement > 500.0)
+			leftHandDisplacement = 2000.0;
+		else
+			leftHandDisplacement = 0.0;
+	}
+	if (rightHandDisplacement > 300.0 || (rightHand.y - rightHandTemp[userID].y) < 0.0) {
+		if (rightHandDisplacement > 500.0)
+			rightHandDisplacement = 2000.0;
+		else
+			rightHandDisplacement = 0.0;
+	}
 
 	leftHandTemp[userID] = leftHand;
 	rightHandTemp[userID] = rightHand;
@@ -713,18 +724,18 @@ const int BodyDirection::calculateHandSpeed(const int& userID, const NiImageStru
 	/* Smoothing */
 		// Maintain the history data
 	userHandSpeedHistory[userID].push_back(userHandSpeed[userID]);
-	if (userHandSpeedHistory[userID].size() > 8)
+	if (userHandSpeedHistory[userID].size() > 5)
 		userHandSpeedHistory[userID].erase(userHandSpeedHistory[userID].begin());
 		// Smoothing
 	double hsTempSmoothed = 0.0;
 	for (unsigned int i(0); i < userHandSpeedHistory[userID].size(); i++)
-		hsTempSmoothed += userHandSpeedHistory[userID][i] * 0.125; // Mean average filter for 8 frames
+		hsTempSmoothed += userHandSpeedHistory[userID][i] * 0.2; // Mean average filter for 8 frames
 
 	/* Classify speed into light or sudden */
 	int dynamicTemp = 0;
-	if (hsTempSmoothed > 0.205)
+	if (hsTempSmoothed > 0.37)
 		dynamicTemp = -1;
-	if (hsTempSmoothed > 0.255)
+	if (hsTempSmoothed > 0.69)
 		dynamicTemp = 1;
 
 	if (userDynamics[userID] == -1 && fabs(hsTempSmoothed - userHandSpeedMax[userID]) < 0.13)
@@ -775,7 +786,7 @@ const int BodyDirection::calculatePU(const int& userID, const NiImageStruct& niI
 	//userUnpleasantness[userID] = w1 * userHandToHead[userID] +
 	//							 w2 * userArmAsymmetry[userID] +
 	//							 w3 * userArmAreaSpanned[userID] +
-	//							 w4 * userHandSpeedMax[userID] +
+	//							 w4 * userDynamics[userID] +
 	//							 w5 * userHandToBody[userID];
 	return 0;
 }
