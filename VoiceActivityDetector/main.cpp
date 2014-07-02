@@ -268,7 +268,9 @@ int main (void) {
 
 	while( ( err = Pa_IsStreamActive( stream ) ) == 1 )
 	{
-		Pa_Sleep(1000);
+		Pa_Sleep(500);
+		isVoice();
+		Pa_Sleep(500);
 		printf("second = %d index = %d\n", timeCount, data.frameIndex ); fflush(stdout);
 		timeCount++;
 		isVoice();
