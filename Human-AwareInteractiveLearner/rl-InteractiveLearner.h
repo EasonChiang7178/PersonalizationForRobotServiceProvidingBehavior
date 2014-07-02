@@ -83,8 +83,8 @@ namespace rl {
 			class AdaptiveInterruption {
 				public:
 					typedef enum ALR {Neglect,
-									  Medium,
-									  High} ALR;
+									  Contingency,
+									  HighAttention} ALR;
 					enum {ALRSize = 3};
 
 					typedef enum ToA {None,
@@ -145,17 +145,19 @@ namespace rl {
 					time_t interaction_start, interaction_current, ATR_high_start, ATR_high_current;
 					/* Define reward situation */
 					static inline double EngagedReward()		{return 100;}
-					static inline double HaveNoticedReward()	{return 20;}
+					static inline double HaveNoticedReward()	{return 10;}
 					static inline double HumanActiveReward()	{return 20;}
-					static inline double LoseAttentionReward()	{return -100;}
-					static inline double RejectReward()			{return -50;}
+					static inline double LoseAttentionReward()	{return -20;}
+					static inline double RejectReward()			{return -100;}
 					static inline double StepReward()			{return -1;}
 						// Perform the robot action
 					RobotAction robot;
 						// Test variable for personAttention
 					int userInput;
 						// For approach using, where the robot is
-					bool goFront, approached;
+					//bool goFront, approached;
+					int distanceToTarget;		// 0:Otherwise,	1: 3.0,	2: 2.1,	3: 1.2
+					int polarRelativeTarget;	// 0:Otherwise	1: -60,	2: -30,	3: 0
 
 					AdaptiveInterruption::ALR preAttentionState;
 
@@ -163,15 +165,15 @@ namespace rl {
 					/* User defined functions */
 					void restart(void) {
 						setPhase(phase_type());
-						interaction_start = time(NULL);
-						approached = false;
-						goFront = false;
+						distanceToTarget = 0;
+						polarRelativeTarget = 0;
 #ifndef SIMULATION
 						robot.toPoint(0.0, 0.0, 0.0);
-						//robot.turningFace(-45.0);
 						robot.turnFaceToHuman();
 						Sleep(5000);
 #endif
+							// Reset Time constriant
+						interaction_start = time(NULL);
 					}
 
 					void setPhase(const phase_type& s) {
@@ -198,6 +200,7 @@ namespace rl {
 
 					/** Fitting timeStep function **/
 					void timeStep(const action_type& a) {
+						/* Action! */
 						switch(current_state.robotBelief) {
 							case ADAPTIVE_INTERRUPTION::LoseAttention:
 							case ADAPTIVE_INTERRUPTION::Engaged:
@@ -213,7 +216,7 @@ namespace rl {
 								break;
 						}
 #ifndef SIMULATION
-						/* Query the next human attention level */
+						/* Query the next human attention level (Observing the environment) */
 						//robot.sensingATR(200);
 						//preAttentionState = static_cast< ADAPTIVE_INTERRUPTION::ALR >(robot.getATR());
 						Sleep(5000);
@@ -268,10 +271,8 @@ namespace rl {
 							case HeadShake:
 								cout << "> RobotAction: HeadShake" << endl;
 #ifndef SIMULATION
-								if (approached == false && goFront == false)
-									robot.headShake(15, 0);
-								else
-									robot.headShake(15, 0);
+//*************************************************************TOREVISE*************************************************************************//
+								robot.headShake(15, 0);
 								robot.turnFaceToHuman();
 #endif
 								break;
@@ -286,30 +287,26 @@ namespace rl {
 							case MoveToAroundOfPerson:
 								cout << "> RobotAction: MoveToFrontOfPerson" << endl;
 #ifndef SIMULATION
-								//if (approached == false && goFront == false) {
-								//	robot.toPoint(1.8, 0.0, 90.0);
-								//	goFront = true;
-								//} else if (goFront == false) {
-								//	robot.toPoint(1.8, 0.6, 90.0);
-								//	goFront = true;
-								//} else
-								//	cout << "> WARNING: INVALID APPROACH" << endl;
-								robot.movingToAroundOfHuman(0, 1.5, -30.0);
+								if (polarRelativeTarget > 3) {
+									cout << "> WARNING: INVALID MoveToFrontOfPerson" << endl;
+									break;
+								}
+								if (distanceToTarget == 0) {
+									robot.movingToAroundOfHuman(0, 2.5, -90.0 + 30.0 * ++polarRelativeTarget);
+									distanceToTarget = 0;
+								} else
+									robot.movingToAroundOfHuman(0, 3.9 - 0.9 * distanceToTarget, -90.0 + 30.0 * ++polarRelativeTarget);
 #endif
 								break;
 
 							case Approach:
 								cout << "> RobotAction: Approach" << endl;
 #ifndef SIMULATION
-								//if (goFront == false && approached == false) {
-								//	robot.toPoint(0.6, 0.6, 45.0);
-								//	approached = true;
-								//} else if (approached == false) {
-								//	robot.toPoint(1.8, 0.6, 90.0);
-								//	approached = true;
-								//} else
-								//	cout << "> WARNING: INVALID APPROACH" << endl;
-								robot.forwardApproach(0, 0.6);
+								if (distanceToTarget > 3) {
+									cout << "> WARNING: INVALID Approach" << endl;
+									break;
+								}
+								robot.forwardApproach(0, 3.9 - 0.9 * ++distanceToTarget);
 #endif
 								break;
 
@@ -323,7 +320,7 @@ namespace rl {
 							case CallName:
 								cout << "> RobotAction: CallName" << endl;
 #ifndef SIMULATION
-								robot.speaking(string(PARTNERNAME), 0.7f);
+								robot.speaking(string(PARTNERNAME));
 #endif
 								break;
 
@@ -348,8 +345,6 @@ namespace rl {
 								break;
 
 							case ADAPTIVE_INTERRUPTION::HasPersonNoticedMe:
-
-
 								/* Transition to DoesPersonLookingMe */
 								if (current_state.personAttention != ADAPTIVE_INTERRUPTION::High)
 									ATR_high_start = time(NULL);
@@ -412,7 +407,7 @@ namespace rl {
 						// Ask the partner whethler he/she can be interrupted
 					void TryToinitiatieInteraction() {
 #ifndef SIMULATION
-						robot.speaking("There is a message left for you, do you want to reply it now?", 0.7f);
+						robot.speaking("There is a message left for you, do you want to reply it now?");
 						Sleep(3000);
 #else
 						cout << "> Robot: There is a message left for you, do you want to reply it now?" << endl;
@@ -433,8 +428,8 @@ namespace rl {
 						stableATRTimeBound = 3;
 #endif
 						//noticedFrame = 0;
-						goFront = false;
-						approached = false;
+						distanceToTarget = 0;		// 0:Otherwise,	1: 3.0,	2: 2.1,	3: 1.2
+						polarRelativeTarget = 0;	// 0:Otherwise	1: -60,	2: -30,	3: 0
 						interaction_start = time(NULL);
 					}
 					
@@ -444,8 +439,8 @@ namespace rl {
 						noticedTimeOutBound = copy.noticedTimeOutBound;
 						stableATRTimeBound = copy.stableATRTimeBound;
 						noticedFrame = 0;
-						goFront = copy.goFront;
-						approached = copy.approached;
+						distanceToTarget = copy.distanceToTarget;
+						polarRelativeTarget = copy.polarRelativeTarget;
 						interaction_start = copy.interaction_start;
 					}
 
@@ -457,8 +452,8 @@ namespace rl {
 							noticedTimeOutBound = copy.noticedTimeOutBound;
 							stableATRTimeBound = copy.stableATRTimeBound;
 							noticedFrame = 0;
-							goFront = copy.goFront;
-							approached = copy.approached;
+							distanceToTarget = copy.distanceToTarget;
+							polarRelativeTarget = copy.polarRelativeTarget;
 							interaction_start = copy.interaction_start;
 							current_state = copy.current_state;
 						}

@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Header Files\CoordTrans">
+      <UniqueIdentifier>{421da404-6b47-4a59-b219-44ea438e550a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\RobotAction">
+      <UniqueIdentifier>{a08de285-9ea4-4eb9-a5a7-615cd21e26f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\CoordTrans">
+      <UniqueIdentifier>{9c6868bc-0865-47d7-a23f-0107dd4f771e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\IPCServer">
+      <UniqueIdentifier>{5c371465-3128-4cdc-b1fa-4a0b2826b265}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\RobotAction">
+      <UniqueIdentifier>{747cdb74-4b0a-4ea2-b1fc-b0e262027be1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Thread">
+      <UniqueIdentifier>{7533b101-305b-412d-9397-5264e8541e27}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\includes\CoordTrans\CoordTrans.h">
+      <Filter>Header Files\CoordTrans</Filter>
+    </ClInclude>
+    <ClInclude Include="..\includes\RobotAction\RobotAction.h">
+      <Filter>Header Files\RobotAction</Filter>
+    </ClInclude>
+    <ClInclude Include="InteractiveLearner_TabularQ.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="rl-InteractiveLearner.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\includes\CoordTrans\CoordTrans.cpp">
+      <Filter>Source Files\CoordTrans</Filter>
+    </ClCompile>
+    <ClCompile Include="..\includes\RobotAction\RobotAction.cpp">
+      <Filter>Source Files\RobotAction</Filter>
+    </ClCompile>
+    <ClCompile Include="..\includes\Thread\Thread.cpp">
+      <Filter>Source Files\Thread</Filter>
+    </ClCompile>
+    <ClCompile Include="..\includes\IPCServer\IntComm.cpp">
+      <Filter>Source Files\IPCServer</Filter>
+    </ClCompile>
+    <ClCompile Include="IPCserver\Client.cpp">
+      <Filter>Source Files\IPCServer</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
