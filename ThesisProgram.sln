@@ -25,6 +25,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Keyboard_Event_Trigger", "K
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OneKeyToOpen", "OneKeyToOpen\OneKeyToOpen.vcxproj", "{ECC7B54F-1209-486C-93A4-11D702F61630}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SAM_Inference", "SAM_Inference\SAM_Inference.vcxproj", "{836559EF-6776-4A93-96F0-0683E67C8146}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SAM_Learning", "SAM_Learning\SAM_Learning.vcxproj", "{3781D27A-0A4A-4914-BFC0-0D7181C6002E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -79,6 +83,14 @@ Global
 		{ECC7B54F-1209-486C-93A4-11D702F61630}.Debug|Win32.Build.0 = Debug|Win32
 		{ECC7B54F-1209-486C-93A4-11D702F61630}.Release|Win32.ActiveCfg = Release|Win32
 		{ECC7B54F-1209-486C-93A4-11D702F61630}.Release|Win32.Build.0 = Release|Win32
+		{836559EF-6776-4A93-96F0-0683E67C8146}.Debug|Win32.ActiveCfg = Debug|Win32
+		{836559EF-6776-4A93-96F0-0683E67C8146}.Debug|Win32.Build.0 = Debug|Win32
+		{836559EF-6776-4A93-96F0-0683E67C8146}.Release|Win32.ActiveCfg = Release|Win32
+		{836559EF-6776-4A93-96F0-0683E67C8146}.Release|Win32.Build.0 = Release|Win32
+		{3781D27A-0A4A-4914-BFC0-0D7181C6002E}.Debug|Win32.ActiveCfg = Debug|Win32
+		{3781D27A-0A4A-4914-BFC0-0D7181C6002E}.Debug|Win32.Build.0 = Debug|Win32
+		{3781D27A-0A4A-4914-BFC0-0D7181C6002E}.Release|Win32.ActiveCfg = Release|Win32
+		{3781D27A-0A4A-4914-BFC0-0D7181C6002E}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

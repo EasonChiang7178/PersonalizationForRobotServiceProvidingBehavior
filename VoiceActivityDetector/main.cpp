@@ -61,7 +61,7 @@ using namespace std;
 /* #define SAMPLE_RATE  (17932) // Test failure to open with this value. */
 #define SAMPLE_RATE  (8000)
 #define FRAMES_PER_BUFFER (1024)
-#define NUM_SECONDS     (600)
+#define NUM_SECONDS     (5)
 #define NUM_CHANNELS    (1)
 #define VOICE_THRESH (0.01)
 	// How long a timestep is (ms)
@@ -216,11 +216,11 @@ int main (void) {
 	printf("patest_record.c\n"); fflush(stdout);
 
 	/** Connect to IPC Server **/
-	init_comm();
-	connect_to_server("192.168.11.4");
-	subscribe(PERCEPTION_HAE, TOTAL_MSG_NUM);
-	publish(HAE, TOTAL_MSG_NUM);
-	listen();
+	//init_comm();
+	//connect_to_server("192.168.11.4");
+	//subscribe(PERCEPTION_HAE, TOTAL_MSG_NUM);
+	//publish(HAE, TOTAL_MSG_NUM);
+	//listen();
 
 	/* Proprecessing data structure */
 	data.maxFrameIndex = totalFrames = NUM_SECONDS * SAMPLE_RATE; /* Record for a few seconds. */
@@ -271,6 +271,9 @@ int main (void) {
 		Pa_Sleep(1000);
 		printf("second = %d index = %d\n", timeCount, data.frameIndex ); fflush(stdout);
 		timeCount++;
+		isVoice();
+		printf("\n");
+		data.frameIndex = data.frameIndex % static_cast< int >(SAMPLE_RATE * STEPTIME);
 	}
 	if( err < 0 )
 		goto done;
@@ -297,25 +300,7 @@ int main (void) {
 
 	printf("sample max amplitude = "PRINTF_S_FORMAT"\n", max );
 	printf("sample average = %lf\n", average );
-
-	/* Write recorded data to a file. */
-#if WRITE_TO_FILE
-	{
-		FILE  *fid;
-		fid = fopen("recorded.raw", "wb");
-		if( fid == NULL )
-		{
-			printf("Could not open file.");
-		}
-		else
-		{
-			fwrite( data.recordedSamples, NUM_CHANNELS * sizeof(SAMPLE), totalFrames, fid );
-			fclose( fid );
-			printf("Wrote data to 'recorded.raw'\n");
-		}
-	}
-#endif
-
+	
 done:
 	Pa_Terminate();
 	if( data.recordedSamples )       /* Sure it is NULL or valid. */
@@ -327,7 +312,6 @@ done:
 		fprintf( stderr, "Error message: %s\n", Pa_GetErrorText( err ) );
 		err = 1;          /* Always return 0 or 1, but no other return codes. */
 	}
-
-	disconnect_to_server();
+	//disconnect_to_server();
 	return err;
 }
