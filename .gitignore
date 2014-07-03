@@ -3,3 +3,7 @@
 *.obj
 *.tlog
 *.exe
+*.ipch
+*.opensdf
+*.pdb
+*.idb

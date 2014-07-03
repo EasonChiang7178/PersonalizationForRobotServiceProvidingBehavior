@@ -45,7 +45,7 @@ const int BodyDirection::startGetBodyDirection()
 			getHAE(HAEdata);
 				// Prepare the message for body directon to camera discrete
 			vector< int > bdd = getBodyDirectionHAE();
-			if (bdd.size() < 0) {
+			if (bdd.size() <= 0) {
 				cout << "> WARNING: user is not found" << endl;
 				HAEdata.body_direction = static_cast< Body_Direction_HAE_type >(0);
 			} else {
@@ -79,7 +79,7 @@ const int BodyDirection::startGetBodyDirection()
 			HAEMgr HAEdata;
 			getHAE(HAEdata);
 			vector< double > bdc = getBodyDirectionCont();
-			if (bdc.size() < 0) {
+			if (bdc.size() <= 0) {
 				cout << "> WARNING: user is not found" << endl;
 				HAEdata.body_direction_cont = 180.0;
 			} else {

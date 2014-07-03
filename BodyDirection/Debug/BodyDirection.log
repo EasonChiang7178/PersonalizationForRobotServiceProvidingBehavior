@@ -1,4 +1,4 @@
-﻿Build started 2014/7/2 下午 03:17:44.
+﻿Build started 2014/7/3 上午 11:13:06.
      1>Project "C:\Users\robot\Desktop\Shu\PersonalizationForRobotServiceProvidingBehavior\BodyDirection\BodyDirection.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
          Creating "Debug\BodyDirection.unsuccessfulbuild" because "AlwaysCreate" was specified.
@@ -33,4 +33,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:04.58
+Time Elapsed 00:00:06.89
