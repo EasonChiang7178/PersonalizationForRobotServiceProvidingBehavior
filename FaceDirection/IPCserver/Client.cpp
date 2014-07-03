@@ -391,6 +391,13 @@ void Reqeust_Inference_message_handler(MSG_INSTANCE msgRef, BYTE_ARRAY callData,
 }
 	/* For Toward Robot Attention Estimator (HAE) */
 
+void Robot_Parameter_message_handler(MSG_INSTANCE msgRef, BYTE_ARRAY callData, void *clientData) {
+	RobotParameterMgr data;
+	IPC_unmarshallData(IPC_msgInstanceFormatter(msgRef), callData, &data, sizeof(RobotParameterMgr));
+	setRobotParameter(data);
+	IPC_freeByteArray(callData);
+}
+
 //--------------------------------------------------//
 // IPC client
 //--------------------------------------------------//
@@ -510,6 +517,7 @@ void register_messages()
 	msg_info[HAE]	=	MsgInfo(HAE_NAME, HAE_FORMAT, HAE_message_handler);
 	msg_info[ATTENTIONLEVEL]	=	MsgInfo(ATTENTIONLEVEL_NAME, ATTENTIONLEVEL_FORMAT, Attention_Level_message_handler);
 	msg_info[REQUEST_INFERENCE]	=	MsgInfo(REQUEST_INFERENCE_NAME, REQUEST_INFERENCE_FORMAT, Reqeust_Inference_message_handler);
+	msg_info[ROBOTPARAMETER]	=	MsgInfo(ROBOTPARAMETER_NAME, ROBOTPARAMETER_FORMAT, Robot_Parameter_message_handler);
 }
 
 void define_message(const char *msgName, const char *formatString)
@@ -655,4 +663,8 @@ int sendAttentionLevel(AttentionLevelMgr& mgr){
 
 int sendRequestInference(RequestInferenceMgr& mgr){
 	return (int)IPC_publishData(REQUEST_INFERENCE_NAME, &mgr);
+}
+
+int sendRobotParameter(RobotParameterMgr& mgr) {
+	return (int) IPC_publishData(ROBOTPARAMETER_NAME, &mgr);
 }

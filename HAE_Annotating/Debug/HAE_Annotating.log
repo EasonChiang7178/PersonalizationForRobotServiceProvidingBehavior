@@ -1,26 +1,17 @@
-﻿Build started 6/30/2014 5:20:53 PM.
-     1>Project "D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\HAE_Annotating\HAE_Annotating.vcxproj" on node 4 (build target(s)).
+﻿Build started 2014/7/4 上午 01:26:57.
+     1>Project "F:\Dropbox\Shu\Program\GitHub\PersonalizationForRobotServiceProvidingBehavior\HAE_Annotating\HAE_Annotating.vcxproj" on node 5 (build target(s)).
      1>InitializeBuildStatus:
          Creating "Debug\HAE_Annotating.unsuccessfulbuild" because "AlwaysCreate" was specified.
        ClCompile:
-         D:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt ..\includes\SmileInference\SmileInference.cpp main.cpp
-         main.cpp
-     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\hae_annotating\main.cpp(149): warning C4996: 'getch': The POSIX name for this item is deprecated. Instead, use the ISO C++ conformant name: _getch. See online help for details.
-                 d:\program files (x86)\microsoft visual studio 10.0\vc\include\conio.h(128) : see declaration of 'getch'
-         SmileInference.cpp
-         Generating Code...
+         All outputs are up-to-date.
        Link:
-         D:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\\bin\Debug\HAE_Annotating.exe" /NOLOGO opencv_core245d.lib opencv_highgui245d.lib opencv_video245d.lib opencv_ml245d.lib opencv_legacy245d.lib opencv_imgproc245d.lib opencv_objdetect245d.lib opencv_calib3d245d.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Debug\HAE_Annotating.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\HAE_Annotating.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\\bin\Debug\HAE_Annotating.lib" /MACHINE:X86 Debug\SmileInference.obj
-         Debug\main.obj
-         LINK : D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\\bin\Debug\HAE_Annotating.exe not found or not built by the last incremental link; performing full link
-         HAE_Annotating.vcxproj -> D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\\bin\Debug\HAE_Annotating.exe
-       Manifest:
-         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /outputresource:"D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\\bin\Debug\HAE_Annotating.exe;#1" /manifest Debug\HAE_Annotating.exe.intermediate.manifest
+         All outputs are up-to-date.
+         HAE_Annotating.vcxproj -> F:\Dropbox\Shu\Program\GitHub\PersonalizationForRobotServiceProvidingBehavior\\bin\Debug\HAE_Annotating.exe
        FinalizeBuildStatus:
          Deleting file "Debug\HAE_Annotating.unsuccessfulbuild".
          Touching "Debug\HAE_Annotating.lastbuildstate".
-     1>Done Building Project "D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\HAE_Annotating\HAE_Annotating.vcxproj" (build target(s)).
+     1>Done Building Project "F:\Dropbox\Shu\Program\GitHub\PersonalizationForRobotServiceProvidingBehavior\HAE_Annotating\HAE_Annotating.vcxproj" (build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:03.84
+Time Elapsed 00:00:00.11

@@ -177,8 +177,8 @@ int main(int argc, char* argv[]) {
 			vector< string > evidencesOfNodes;
 				// Prepare the evidence
 			evidencesOfNodes.push_back(attributeNameArray[0][*itFace]);
-			evidencesOfNodes.push_back(attributeNameArray[0][*itBody]);
-			evidencesOfNodes.push_back(attributeNameArray[0][*itVoice]);
+			evidencesOfNodes.push_back(attributeNameArray[1][*itBody]);
+			evidencesOfNodes.push_back(attributeNameArray[2][*itVoice]);
 				// Set the evidence to network
 			bn::setEvidenceOfBN(theNet, evidencesNodesName, evidencesOfNodes, timeStep);
 		}

@@ -60,6 +60,7 @@ static PerceptionHAEMgr perception_HAE_mgr;
 static HAEMgr hae_mgr;
 static AttentionLevelMgr attention_level_mgr;
 static RequestInferenceMgr request_inference_mgr;
+static RobotParameterMgr robot_parameter_mgr;
 
 #ifdef WIN32
 
@@ -398,6 +399,12 @@ void getRequestInference(RequestInferenceMgr &mgr) {
 	UNLOCK( REQUEST_INFERENCE );
 }
 
+void getRobotParameter(RobotParameterMgr &mgr) {
+	RD_LOCK( ROBOTPARAMETER );
+	mgr = robot_parameter_mgr;
+	UNLOCK( ROBOTPARAMETER );
+}
+
 //--------------------------------------------------//
 // set messages
 //--------------------------------------------------//
@@ -681,4 +688,10 @@ void setRequestInference(RequestInferenceMgr &mgr) {
 	WR_LOCK( REQUEST_INFERENCE );
 	request_inference_mgr = mgr;
 	UNLOCK( REQUEST_INFERENCE );
+}
+
+void setRobotParameter(RobotParameterMgr &mgr) {
+	WR_LOCK( ROBOTPARAMETER );
+	robot_parameter_mgr = mgr;
+	UNLOCK( ROBOTPARAMETER );
 }

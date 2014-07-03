@@ -153,9 +153,9 @@ void Perception_HAE_handler()
 	printf("  FrameIndex: %d \n", data.frameIndex);
 	bool isVoiceFlag = isVoice();
 	if (isVoiceFlag)
-		percetData.voice_detection = true;
+		percetData.voice_detection = static_cast< AudioVolume_type > (1);
 	else
-		percetData.voice_detection = false;
+		percetData.voice_detection = static_cast< AudioVolume_type > (0);
 	
 		// Send VAD
 	sendHAE(percetData);

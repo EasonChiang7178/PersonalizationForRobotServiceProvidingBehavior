@@ -1,17 +1,17 @@
-﻿Build started 2014/7/2 下午 08:25:15.
-     1>Project "C:\Users\Mac\Desktop\Shu\PersonalizationForRobotServiceProvidingBehavior\SAM_Learning\SAM_Learning.vcxproj" on node 2 (build target(s)).
+﻿Build started 2014/7/4 上午 01:26:57.
+     1>Project "F:\Dropbox\Shu\Program\GitHub\PersonalizationForRobotServiceProvidingBehavior\SAM_Learning\SAM_Learning.vcxproj" on node 3 (build target(s)).
      1>InitializeBuildStatus:
          Creating "Debug\SAM_Learning.unsuccessfulbuild" because "AlwaysCreate" was specified.
        ClCompile:
          All outputs are up-to-date.
        Link:
          All outputs are up-to-date.
-         SAM_Learning.vcxproj -> C:\Users\Mac\Desktop\Shu\PersonalizationForRobotServiceProvidingBehavior\Bin\Debug\SAM_Learning.exe
+         SAM_Learning.vcxproj -> F:\Dropbox\Shu\Program\GitHub\PersonalizationForRobotServiceProvidingBehavior\Bin\Debug\SAM_Learning.exe
        FinalizeBuildStatus:
          Deleting file "Debug\SAM_Learning.unsuccessfulbuild".
          Touching "Debug\SAM_Learning.lastbuildstate".
-     1>Done Building Project "C:\Users\Mac\Desktop\Shu\PersonalizationForRobotServiceProvidingBehavior\SAM_Learning\SAM_Learning.vcxproj" (build target(s)).
+     1>Done Building Project "F:\Dropbox\Shu\Program\GitHub\PersonalizationForRobotServiceProvidingBehavior\SAM_Learning\SAM_Learning.vcxproj" (build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:00.08
+Time Elapsed 00:00:00.02

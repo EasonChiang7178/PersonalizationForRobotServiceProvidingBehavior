@@ -7,8 +7,8 @@
 #include <iostream>
 using namespace std;
 
-string trainingData = "../models/DBN_Model/TrainingData/HumanAttentionEstimator_Learning.txt";		// training set
-string partialNet	= "../models/DBN_Model/HumanAttentionEstimator.xdsl";					// EM的時候需要用到
+string trainingData = "../models/DBN_Model/TrainingData/SocialAttentionInferenceModel_Learning.txt";		// training set
+string partialNet	= "../models/DBN_Model/SocialAttentionInferenceModel.xdsl";					// EM的時候需要用到
 
 int main (int argc, char* argv[])
 {

@@ -1,91 +1,17 @@
-﻿Build started 2014/7/3 上午 01:07:35.
+﻿Build started 2014/7/4 上午 01:26:58.
      1>Project "F:\Dropbox\Shu\Program\GitHub\PersonalizationForRobotServiceProvidingBehavior\AdaptiveInitEngagementAgent\AdaptiveInitEngagementAgent.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
-         Touching "Debug\AdaptiveInitEngagementAgent.unsuccessfulbuild".
+         Creating "Debug\AdaptiveInitEngagementAgent.unsuccessfulbuild" because "AlwaysCreate" was specified.
        ClCompile:
-         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _USE_MATH_DEFINES /D WIN32 /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt ..\includes\IPCserver\IntComm.cpp ..\includes\RobotAction\RobotAction.cpp IPCserver\Client.cpp main.cpp
-         main.cpp
-     1>f:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\includes\ipcserver\messages.hpp(154): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-                 c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(371) : see declaration of 'sprintf'
-     1>f:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\adaptiveinitengagementagent\main.cpp(59): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-                 c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(234) : see declaration of 'fopen'
-     1>f:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\adaptiveinitengagementagent\main.cpp(83): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-                 c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(234) : see declaration of 'fopen'
-     1>f:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\adaptiveinitengagementagent\main.cpp(88): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-                 c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(234) : see declaration of 'fopen'
-     1>f:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\includes\rllib\rltransition.h(370): warning C4101: 'e' : unreferenced local variable
-                 f:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\includes\rllib\rltransition.h(437) : see reference to function template instantiation 'void rl::episode::sa::adaptation<SIMULATOR,AGENT,ONLINE_CRITIC,rl::sa::Transition<STATE,ACTION,REWARD>>(SIMULATOR &,const AGENT &,ONLINE_CRITIC &,SA_TRANSITION &,bool)' being compiled
-                 with
-                 [
-                     SIMULATOR=Simulator,
-                     AGENT=rl::agent::EpsilonGreedy<rl::sa::QLearning<TabularQ,rl::sa::GreedyFromAIteration<ActionIterator>,Param>,ActionToss,Param>,
-                     ONLINE_CRITIC=rl::sa::QLearning<TabularQ,rl::sa::GreedyFromAIteration<ActionIterator>,Param>,
-                     STATE=S,
-                     ACTION=A,
-                     REWARD=Reward,
-                     SA_TRANSITION=rl::sa::Transition<S,A,Reward>
-                 ]
-                 f:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\adaptiveinitengagementagent\main.cpp(72) : see reference to function template instantiation 'void rl::episode::sa::run_and_learn<Simulator,rl::agent::EpsilonGreedy<SA_ARGMAX_FUNCTION,TOSS,EPSILON_GREEDY_PARAM>,rl::sa::QLearning<SA_ARCHITECTURE,SA_GREEDY,SARSA_PARAM>,TransitionSet>(SIMULATOR &,const AGENT &,ONLINE_CRITIC &,SA_TRANSITION_SET &,int,int &)' being compiled
-                 with
-                 [
-                     SA_ARGMAX_FUNCTION=rl::sa::QLearning<TabularQ,rl::sa::GreedyFromAIteration<ActionIterator>,Param>,
-                     TOSS=ActionToss,
-                     EPSILON_GREEDY_PARAM=Param,
-                     SA_ARCHITECTURE=TabularQ,
-                     SA_GREEDY=rl::sa::GreedyFromAIteration<ActionIterator>,
-                     SARSA_PARAM=Param,
-                     SIMULATOR=Simulator,
-                     AGENT=rl::agent::EpsilonGreedy<rl::sa::QLearning<TabularQ,rl::sa::GreedyFromAIteration<ActionIterator>,Param>,ActionToss,Param>,
-                     ONLINE_CRITIC=rl::sa::QLearning<TabularQ,rl::sa::GreedyFromAIteration<ActionIterator>,Param>,
-                     SA_TRANSITION_SET=TransitionSet
-                 ]
-     1>f:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\includes\rllib\rltransition.h(389): warning C4101: 'e' : unreferenced local variable
-     1>f:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\includes\rllib\rltransition.h(337): warning C4101: 'e' : unreferenced local variable
-                 f:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\includes\rllib\rltransition.h(458) : see reference to function template instantiation 'void rl::episode::sa::interaction<SIMULATOR,AGENT,rl::sa::Transition<STATE,ACTION,REWARD>>(SIMULATOR &,const AGENT &,SA_TRANSITION &)' being compiled
-                 with
-                 [
-                     SIMULATOR=Simulator,
-                     AGENT=rl::agent::Greedy<rl::sa::QLearning<TabularQ,rl::sa::GreedyFromAIteration<ActionIterator>,Param>>,
-                     STATE=S,
-                     ACTION=A,
-                     REWARD=Reward,
-                     SA_TRANSITION=rl::sa::Transition<S,A,Reward>
-                 ]
-                 f:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\adaptiveinitengagementagent\main.cpp(111) : see reference to function template instantiation 'void rl::episode::sa::run_and_collect<Simulator,rl::agent::Greedy<SA_ARGMAX_FUNCTION>,TransitionSet>(SIMULATOR &,const AGENT &,SA_TRANSITION_SET &,int,int &)' being compiled
-                 with
-                 [
-                     SA_ARGMAX_FUNCTION=rl::sa::QLearning<TabularQ,rl::sa::GreedyFromAIteration<ActionIterator>,Param>,
-                     SIMULATOR=Simulator,
-                     AGENT=rl::agent::Greedy<rl::sa::QLearning<TabularQ,rl::sa::GreedyFromAIteration<ActionIterator>,Param>>,
-                     SA_TRANSITION_SET=TransitionSet
-                 ]
-     1>f:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\includes\rllib\rl-adaptive-interruption.h(326): error C2660: 'RobotAction::speaking' : function does not take 1 arguments
-                 f:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\includes\rllib\rl-adaptive-interruption.h(251) : while compiling class template member function 'void rl::problem::adaptive_interruption::Simulator<ADAPTIVE_INTERRUPTION>::step(const rl::problem::adaptive_interruption::Simulator<ADAPTIVE_INTERRUPTION>::action_type)'
-                 with
-                 [
-                     ADAPTIVE_INTERRUPTION=AdaptiveInterruption
-                 ]
-                 f:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\adaptiveinitengagementagent\example-defs-transition.h(34) : see reference to class template instantiation 'rl::problem::adaptive_interruption::Simulator<ADAPTIVE_INTERRUPTION>' being compiled
-                 with
-                 [
-                     ADAPTIVE_INTERRUPTION=AdaptiveInterruption
-                 ]
-         Client.cpp
-     1>f:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\includes\ipcserver\messages.hpp(154): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-                 c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(371) : see declaration of 'sprintf'
-         RobotAction.cpp
-     1>f:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\includes\ipcserver\messages.hpp(154): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-                 c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(371) : see declaration of 'sprintf'
-     1>f:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\includes\robotaction\robotaction.cpp(505): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-                 c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(371) : see declaration of 'sprintf'
-         IntComm.cpp
-     1>f:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\includes\ipcserver\messages.hpp(154): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-                 c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(371) : see declaration of 'sprintf'
-     1>f:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\includes\ipcserver\intcomm.cpp(354): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-                 c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(371) : see declaration of 'sprintf'
-         Generating Code...
-     1>Done Building Project "F:\Dropbox\Shu\Program\GitHub\PersonalizationForRobotServiceProvidingBehavior\AdaptiveInitEngagementAgent\AdaptiveInitEngagementAgent.vcxproj" (build target(s)) -- FAILED.
+         All outputs are up-to-date.
+       Link:
+         All outputs are up-to-date.
+         AdaptiveInitEngagementAgent.vcxproj -> F:\Dropbox\Shu\Program\GitHub\PersonalizationForRobotServiceProvidingBehavior\\bin\Debug\AdaptiveInitEngagementAgent.exe
+       FinalizeBuildStatus:
+         Deleting file "Debug\AdaptiveInitEngagementAgent.unsuccessfulbuild".
+         Touching "Debug\AdaptiveInitEngagementAgent.lastbuildstate".
+     1>Done Building Project "F:\Dropbox\Shu\Program\GitHub\PersonalizationForRobotServiceProvidingBehavior\AdaptiveInitEngagementAgent\AdaptiveInitEngagementAgent.vcxproj" (build target(s)).
 
-Build FAILED.
+Build succeeded.
 
-Time Elapsed 00:00:03.38
+Time Elapsed 00:00:00.06

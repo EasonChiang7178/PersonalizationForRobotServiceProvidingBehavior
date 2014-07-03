@@ -7,3 +7,6 @@
 *.opensdf
 *.pdb
 *.idb
+*.obj
+*.ilk
+*.ilk

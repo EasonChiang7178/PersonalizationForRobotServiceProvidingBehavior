@@ -35,8 +35,8 @@ class RobotAction {
 		const bool headShake(const int& swingRange, const int& destDegree);
 			// Turn face
 		const bool turningFace(const int& goalDegree);
-			// Turn face to human
-		const bool turnFaceToHuman();
+			// Turn face to human, return the degree that head turns
+		const int turnFaceToHuman();
 
 			// Arm wave
 		const bool armWave();

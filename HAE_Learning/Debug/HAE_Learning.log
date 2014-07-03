@@ -1,27 +1,17 @@
-﻿Build started 6/30/2014 5:20:53 PM.
-     1>Project "D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\HAE_Learning\HAE_Learning.vcxproj" on node 5 (build target(s)).
+﻿Build started 2014/7/4 上午 01:26:57.
+     1>Project "F:\Dropbox\Shu\Program\GitHub\PersonalizationForRobotServiceProvidingBehavior\HAE_Learning\HAE_Learning.vcxproj" on node 5 (build target(s)).
      1>InitializeBuildStatus:
          Creating "Debug\HAE_Learning.unsuccessfulbuild" because "AlwaysCreate" was specified.
        ClCompile:
-         D:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt ..\includes\SmileLearning\SmileLearning.cpp main.cpp
-         main.cpp
-         SmileLearning.cpp
-     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\includes\smilelearning\smilelearning.cpp(29): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-                 d:\program files (x86)\microsoft visual studio 10.0\vc\include\string.h(188) : see declaration of 'strncpy'
-     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\includes\smilelearning\smilelearning.cpp(60): warning C4018: '<' : signed/unsigned mismatch
-         Generating Code...
+         All outputs are up-to-date.
        Link:
-         D:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\\bin\Debug\HAE_Learning.exe" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Debug\HAE_Learning.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\HAE_Learning.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\\bin\Debug\HAE_Learning.lib" /MACHINE:X86 Debug\SmileLearning.obj
-         Debug\main.obj
-         LINK : D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\\bin\Debug\HAE_Learning.exe not found or not built by the last incremental link; performing full link
-         HAE_Learning.vcxproj -> D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\\bin\Debug\HAE_Learning.exe
-       Manifest:
-         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /outputresource:"D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\\bin\Debug\HAE_Learning.exe;#1" /manifest Debug\HAE_Learning.exe.intermediate.manifest
+         All outputs are up-to-date.
+         HAE_Learning.vcxproj -> F:\Dropbox\Shu\Program\GitHub\PersonalizationForRobotServiceProvidingBehavior\\bin\Debug\HAE_Learning.exe
        FinalizeBuildStatus:
          Deleting file "Debug\HAE_Learning.unsuccessfulbuild".
          Touching "Debug\HAE_Learning.lastbuildstate".
-     1>Done Building Project "D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\HAE_Learning\HAE_Learning.vcxproj" (build target(s)).
+     1>Done Building Project "F:\Dropbox\Shu\Program\GitHub\PersonalizationForRobotServiceProvidingBehavior\HAE_Learning\HAE_Learning.vcxproj" (build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:02.29
+Time Elapsed 00:00:00.08

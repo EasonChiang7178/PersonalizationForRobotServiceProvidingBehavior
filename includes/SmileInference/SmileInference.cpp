@@ -62,8 +62,10 @@ const int bn::setEvidenceOfBN(DSL_network& theDBN, const vector< string >& nodes
 				break;
 			}
 				// Error occurred! Evidences didn't exist!
-			if (j == numOfOutcomes - 1)
-				return 1;
+			if (j == numOfOutcomes - 1) {
+				cout << "> WARNING: Evidence did not exist!" << endl;
+				exit(1);
+			}
 		}
 	}
 

@@ -214,11 +214,6 @@ int main(int argc, char** argv) {
 			case 'I':
 				cout << keyboardInput << endl;
 				keyboardInput = '\0';
-
-				for (float i = 0; i < 10; i += 0.1) {
-					robotAction.speaking("Yen", i);
-					Sleep(500);
-				}
 				break;
 
 			case 'K':

@@ -131,7 +131,7 @@ const bool RobotAction::turningFace(const int& goalDegree) {
 	return false;
 }
 
-const bool RobotAction::turnFaceToHuman() {
+const int RobotAction::turnFaceToHuman() {
 	/* Request current human pose */
 	PerceptionMgr legRequest;
 	legRequest.sensing = legDetection;
@@ -174,7 +174,8 @@ const bool RobotAction::turnFaceToHuman() {
 	}
 
 	cout << "> Turning Face To " << goalDegree << endl;
-	return this->turningFace(goalDegree);
+	this->turningFace(goalDegree);
+	return -1 * goalDegree;
 }
 
 const bool RobotAction::armWave() {
@@ -367,7 +368,7 @@ const bool RobotAction::forwardApproach(const int& speed, const double& distance
 }
 
 const bool RobotAction::movingToAroundOfHuman(const int& speed, const float& distance, const double& angle2FrontOfHuman) {
-	this->turnFaceToHuman();
+	int headAngle = this->turnFaceToHuman();
 	Sleep(1000);
 
 	/* Request current robot pose */
@@ -420,20 +421,26 @@ const bool RobotAction::movingToAroundOfHuman(const int& speed, const float& dis
 		possibleCandidateY = minY / 100.0;
 	}
 
-	double dist_robot2human = sqrt(pow(possibleCandidateX / 100.0, 2) + pow(possibleCandidateY / 100.0, 2));
+	double dist_robot2human = sqrt(pow(possibleCandidateX, 2) + pow(possibleCandidateY, 2));
 	double theta_BD = (-1 * receivedBodyDir.body_direction_cont);
 	double theta_robotHeading = atan2(possibleCandidateY, possibleCandidateX) * 180 / M_PI;
 	
 	/* Coordinate Transformation */
 	CoordTrans coordinateTrans;
-		// From human coordinate (B) to robot coordinate (R)
+		// From human coordinate (B) to robot head coordinate (RH)
 	double X_g_H = distance * cos(angle2FrontOfHuman / 180 * M_PI), Y_g_H = distance * sin(angle2FrontOfHuman / 180 * M_PI), theta_g_H = 180.0 + angle2FrontOfHuman;
-	double X_g_R = 0.0, Y_g_R = 0.0, theta_g_R = 0.0;
+	double X_g_RH = 0.0, Y_g_RH = 0.0, theta_g_RH = 0.0;
 	coordinateTrans.trans2D(X_g_H, Y_g_H, theta_g_H,
 							dist_robot2human * cos(theta_BD / 180 * M_PI), dist_robot2human * sin(theta_BD / 180 * M_PI), 180.0 + theta_BD - theta_robotHeading, 
-							X_g_R, Y_g_R, theta_g_R);
+							X_g_RH, Y_g_RH, theta_g_RH);
 	
-		// From robot coordinate to world coordinate (W)
+		// From robot head coordinate (RH) to robot coordinate (R)
+	double X_g_R = 0.0, Y_g_R = 0.0, theta_g_R = 0.0;
+	coordinateTrans.trans2D(X_g_RH, Y_g_RH, theta_g_RH,
+							0, 0, -1 * headAngle,
+							X_g_R, Y_g_R, theta_g_R);
+
+		// From robot coordinate (R) to world coordinate (W)
 	double X_g_W = 0.0, Y_g_W = 0.0, theta_g_W = 0.0;
 	coordinateTrans.trans2D(X_g_R, Y_g_R, theta_g_R,
 							curPos.x - 0.0, curPos.y - 0.0, -1 * curPos.theta,

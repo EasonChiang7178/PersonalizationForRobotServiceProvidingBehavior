@@ -17,17 +17,17 @@ using namespace std;
 
 //** Problem Dependent Variable Setting **//
 	// The timestep of the dynamic Bayesian network
-#define STEPNUMBER	2
+#define STEPNUMBER	3
 	// How long a timestep is (ms)
 #define STEPTIME	750
 	// How long a delay for messages request
 #define DELAYTIME	200
 
-#define NDEBUG
+//#define NDEBUG
 
 /** Declration of Variables **/
 	// Path to unrolled DBN model
-string dynamicBN = "../models/DBN_Model/res_HumanAttentionEstimator_Unrolled.xdsl";
+string dynamicBN = "../models/DBN_Model/res_SocialAttentionInferenceModel_Unrolled.xdsl";
 	// To count whether if all the message received
 static int receivedCount = 0;
 	// Buffer result for Human Attention Level
@@ -36,12 +36,16 @@ static int attentionLevel = 0;
 HAEMgr sensingData;
 
 /** Declration of Functions **/
-	// Request all sensing data for HAE; param 1 delayTime for the message sending
-HAEMgr requestSensingHAE(int delayTime);
+	// Request all sensing data for SAM; param 1 delayTime for the message sending
+HAEMgr requestSensingSAM(int delayTime);
+	// Request the environment context information for SAM; param 1 delayTime for the message sending
+EnvirContextMgr requestEnvirContextSAM(int delayTime);
 	// Handler for receiving HAE message
 void HAE_handler();
 	// Handler for receiving RequestInference message
 void RequestInference_handler();
+	// Handler for receiving EnvirContext message
+void EnvirContext_handler();
 	// Wait for message received; param 1 delayTime = delayTime / 10
 bool buzyWaitForMgr(const int delayTime);
 
@@ -55,7 +59,7 @@ int main(int argc, char* argv[]) {
 	publish(PERCEPTION_HAE, ATTENTIONLEVEL, TOTAL_MSG_NUM);
 	listen();
 
-	cout << "\n\t< Human Attention Estimator Inference >" << endl;
+	cout << "\n\t< Social Attention Model Inference >" << endl;
 	cout << "> Press ENTER to inference";
 	getchar();
 
@@ -74,12 +78,14 @@ int main(int argc, char* argv[]) {
 	theNet.SetDefaultBNAlgorithm(DSL_ALG_BN_LAURITZEN);
 		// The nodes in the network
 	vector< string > nameOfNodes;
-	nameOfNodes.push_back("faceDirection");		nameOfNodes.push_back("bodyDirection");
-	nameOfNodes.push_back("voiceDetection");	nameOfNodes.push_back("attentionLevel");
+	nameOfNodes.push_back("faceDirection");		nameOfNodes.push_back("bodyDirection");	nameOfNodes.push_back("audioInput");
+	nameOfNodes.push_back("robotMotionSpeed");	nameOfNodes.push_back("robotPose");		nameOfNodes.push_back("robotSoundVolume");
+	nameOfNodes.push_back("audioNoise");		nameOfNodes.push_back("attentionContext");
+	nameOfNodes.push_back("attentionLevel");
 		// The nodes in the network
-	vector< string > evidencesNodesName;
-	evidencesNodesName.push_back("faceDirection");	evidencesNodesName.push_back("bodyDirection");
-	evidencesNodesName.push_back("voiceDetection");
+	vector< string > evidencesNodesName, envirContextNodesName;
+	evidencesNodesName.push_back("faceDirection");		evidencesNodesName.push_back("bodyDirection");	evidencesNodesName.push_back("audioInput");
+	evidencesNodesName.push_back("robotMotionSpeed");	evidencesNodesName.push_back("robotPose");		evidencesNodesName.push_back("robotSoundVolume");
 		// Extract each nodes' attributes name in the network
 	vector< map< int, string> > attributeNameArray;
 	for (int i = 0; i < static_cast< int>(nameOfNodes.size()); i++)
@@ -87,14 +93,28 @@ int main(int argc, char* argv[]) {
 		// To store the history observation information
 	list< int > faceFeature;
 	list< int > bodyFeature;
-	list< int > voiceFeature;
+	list< int > audioFeature;
+	list< int > robotSpeed;
+	list< int > robotPose;
+	list< int > robotVolume;
 		// String for nodes manipulate
 	stringstream ss;
 	string targetStep;
 	ss << (STEPNUMBER - 1); ss >> targetStep;
 
-	/** Inference main loop **/
+	/** Inference Start! **/
 	int stepPassed = 0;
+
+	/* Requst and set the environment context */
+//****************************************************** TOCHECK ***********************************************************************//
+	EnvirContextMgr envirContext;
+	envirContext = requestEnvirContextSAM(DELAYTIME);
+	envirContextNodesName.push_back("audioNoise"); envirContextNodesName.push_back("attentionContext");
+	vector< string > envirContextOfNodes;
+	envirContextOfNodes.push_back(attributeNameArray[6][envirContext.environmentalNose]);
+	envirContextOfNodes.push_back(attributeNameArray[7][envirContext.attentionContext]);
+	bn::setEvidenceOfBN(theNet, envirContextNodesName, envirContextOfNodes, 0);
+
 	while (true) {
 		/* Press 'Q' (81), 'q' (113) or esc (27) to leave */
 		if (kbhit()) {
@@ -104,36 +124,41 @@ int main(int argc, char* argv[]) {
 		}
 
 		/* Request the perceived data */
-		sensingData = requestSensingHAE(DELAYTIME);
+		sensingData = requestSensingSAM(DELAYTIME);
 
 		/* Setting the data received */
+//****************************************************** TOCHECK ***********************************************************************//
 		faceFeature.push_back(static_cast< int >(sensingData.face_direction));
 		bodyFeature.push_back(static_cast< int >(sensingData.body_direction));
-		voiceFeature.push_back(static_cast< int >(sensingData.voice_detection));
+		audioFeature.push_back(static_cast< int >(sensingData.voice_detection));
 		cout << "> F: " << sensingData.face_direction << ", B: " << sensingData.body_direction << ", V: " << sensingData.voice_detection << endl;
 
 		/* Ready to inference the result */
-			// If too few data
+			// If too few data to run the inference, continue collect data
 		if (stepPassed++ < STEPNUMBER - 1) {
 			Sleep(STEPTIME - 3 * DELAYTIME);
 			continue;
 		}
 
-		auto itFace = faceFeature.begin(), itBody = bodyFeature.begin(), itVoice = voiceFeature.begin();
+		auto itFace = faceFeature.begin(), itBody = bodyFeature.begin(), itAudio = audioFeature.begin();
+		auto itRobotSpeed = robotSpeed.begin(), itRobotPose = robotPose.begin(), itRobotVolume = robotVolume.begin();
 		for (int timeStep = 0; timeStep < STEPNUMBER; timeStep++) {
 				// To store evidences of one time step, for setting the observation
 			vector< string > evidencesOfNodes;
 				// Prepare the evidence
 			evidencesOfNodes.push_back(attributeNameArray[0][*itFace]);
-			evidencesOfNodes.push_back(attributeNameArray[0][*itBody]);
-			evidencesOfNodes.push_back(attributeNameArray[0][*itVoice]);
+			evidencesOfNodes.push_back(attributeNameArray[1][*itBody]);
+			evidencesOfNodes.push_back(attributeNameArray[2][*itAudio]);
+			evidencesOfNodes.push_back(attributeNameArray[3][*itRobotSpeed]);
+			evidencesOfNodes.push_back(attributeNameArray[4][*itRobotPose]);
+			evidencesOfNodes.push_back(attributeNameArray[5][*itRobotVolume]);
 				// Set the evidence to network
 			bn::setEvidenceOfBN(theNet, evidencesNodesName, evidencesOfNodes, timeStep);
 		}
 			// Inference!
 		theNet.UpdateBeliefs();
 			// double for confidence, string for outcome name
-		map< double, string > outcomes = bn::getBNOutcome(theNet, nameOfNodes[3] + "_" + targetStep);
+		map< double, string > outcomes = bn::getBNOutcome(theNet, nameOfNodes[8] + "_" + targetStep);
 
 		/* If the probabity of first and second candidate is too close, sample one ramdomly between two */
 		map< double, string >::reverse_iterator itOutcomes = outcomes.rbegin();
@@ -150,12 +175,13 @@ int main(int argc, char* argv[]) {
 		string inferredOutcome = (*itOutcomes).second;
 
 		/* Prepare the result to send */
-		for (auto itOutcomeName = attributeNameArray[3].begin(); itOutcomeName != attributeNameArray[3].end(); itOutcomeName++)
+		for (auto itOutcomeName = attributeNameArray[8].begin(); itOutcomeName != attributeNameArray[8].end(); itOutcomeName++)
 			if (inferredOutcome == itOutcomeName->second)
 				attentionLevel = itOutcomeName->first;
 
 			// Drop the oldest data
-		faceFeature.pop_front(); bodyFeature.pop_front(); voiceFeature.pop_front();
+		faceFeature.pop_front(); bodyFeature.pop_front(); audioFeature.pop_front();
+		robotSpeed.pop_front(); robotPose.pop_front(); robotVolume.pop_front();
 
 		/** Display the inference result! **/
 		cout << "\n\n> Attention Inferred: \t" << inferredOutcome << endl;
@@ -166,15 +192,16 @@ int main(int argc, char* argv[]) {
 
 		Sleep(STEPTIME - 3 * DELAYTIME);
 	}
-	cout << "> Human Attention Estimator End!" << endl << endl;
+	cout << "> Social Attention Inference End!" << endl << endl;
 		// Disconnect to IPC server, Clean up socket.
 	disconnect_to_server();
 	return 0;
 }
 
 //=============================================================================
+//****************************************************** TODO ***********************************************************************//
 	// Request all sensing data for HAE; param 1 delayTime for the message sending
-HAEMgr requestSensingHAE(int delayTime) {
+HAEMgr requestSensingSAM(int delayTime) {
 	HAEMgr receivedData, tempData;
 	getHAE(receivedData);
 
@@ -228,6 +255,12 @@ bool buzyWaitForMgr(const int delayTime) {
 	return true;
 }
 
+//****************************************************** TODO ***********************************************************************//
+	// Request the environment context information for SAM; param 1 delayTime for the message sending
+EnvirContextMgr requestEnvirContextSAM(int delayTime) {
+
+}
+
 	// Handler for receiving HAE message
 void HAE_handler() {
 	receivedCount += 1;
@@ -245,4 +278,10 @@ void RequestInference_handler() {
 	printf("\n> Send Success! (AttentionLevel: %d)\n", attentionLevel);
 
 	return;
+}
+
+//****************************************************** TODO ***********************************************************************//
+	// Handler for receiving EnvirContext message
+void EnvirContext_handler() {
+
 }

@@ -312,7 +312,7 @@ public:
 #define QUERY_RESULT_FORMAT "{[char:256]}"
 //Google Calendar
 
-typedef enum {faceRecog, bodyDirection, socialRange, faceDetect, DBNF, bodyDetection, legDetection} pCom;
+typedef enum {faceRecog, bodyDirection, socialRange, faceDetect, DBNF, bodyDetection, legDetection, robotSpeechVolume, robotMotionSpeed} pCom;
 class PerceptionMgr{
 public:
 	pCom sensing;				// content of query result
@@ -389,7 +389,7 @@ public:
 
 /*** Human Attention Estimator (HAE) ***/
 	// Perception Communication
-typedef enum{faceDirectionDiscrete, bodyDirectionDiscrete, voiceDetection, bodyDirectionCont} pCom_HAE;
+typedef enum{faceDirectionDiscrete, bodyDirectionDiscrete, voiceDetection, bodyDirectionCont, attentionContext, puMeasurement} pCom_HAE;
 class PerceptionHAEMgr{
 public:
 	pCom_HAE sensing;			// content of query result
@@ -400,19 +400,22 @@ public:
 	// Observation of HAE
 typedef enum {None_HAE_Face, Far_Center_Face, Near_Center_Face, Center_Face} Face_Direction_HAE_type;
 typedef enum {None_HAE_Body, Far_Center_Body, Near_Center_Body, Center_Body} Body_Direction_HAE_type;
+typedef enum {None, Low, Medium, High}										 AudioVolume_type;
+typedef enum {Pleasantness, Like, Neutral, Offensive, Unpleasantness}		 PU_type;
 class HAEMgr
 {
 public:
 	Face_Direction_HAE_type		face_direction;
 	Body_Direction_HAE_type		body_direction;
-	int							voice_detection;	// 0, No Voice; 1, Voice Exists
+	AudioVolume_type			voice_detection;
+	PU_type						pu;
 	float						body_direction_cont;
 };
 #define HAE_NAME	"HAEMgr"
-#define HAE_FORMAT	"{int, int, int, float}"
+#define HAE_FORMAT	"{int, int, int, int, float}"
 
 	// State of HAE, output to RL agent
-typedef enum{Neglect, AttentionMedium, AttentionHigh, InterestInRobot} AttentionLevel_HAE_type;
+typedef enum{Neglect, Contingency, AttentionHigh, InterestInRobot} AttentionLevel_HAE_type;
 class AttentionLevelMgr{
 public:
 	AttentionLevel_HAE_type attentionLevel;		// content of query result
@@ -429,5 +432,18 @@ public:
 #define REQUEST_INFERENCE_NAME		"RequestInferenceMgr"
 #define REQUEST_INFERENCE_FORMAT	"{int}"
 /*** Human Attention Estimator ***/
+
+/*** Social Attention Model (SAM) ***/
+	// Observation of robot parameters
+typedef enum {Low_RSV, Medium_RSV, High_RSV} robotSpeechVolume_type;
+typedef enum {Low_RMS, Medium_RMS, High_RMS} robotMotionSpeed_type;
+class RobotParameterMgr {
+public:
+	robotSpeechVolume_type	volume;
+	robotMotionSpeed_type	speed;
+};
+#define ROBOTPARAMETER_NAME		"RobotParameterMgr"
+#define ROBOTPARAMETER_FORMAT	"{int, int}"
+/*** Social Attention Model (SAM) ***/
 
 #endif
