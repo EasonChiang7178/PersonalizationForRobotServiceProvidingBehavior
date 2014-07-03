@@ -216,11 +216,11 @@ int main (void) {
 	printf("patest_record.c\n"); fflush(stdout);
 
 	/** Connect to IPC Server **/
-	//init_comm();
-	//connect_to_server("192.168.11.4");
-	//subscribe(PERCEPTION_HAE, TOTAL_MSG_NUM);
-	//publish(HAE, TOTAL_MSG_NUM);
-	//listen();
+	init_comm();
+	connect_to_server("192.168.11.4");
+	subscribe(PERCEPTION_HAE, TOTAL_MSG_NUM);
+	publish(HAE, TOTAL_MSG_NUM);
+	listen();
 
 	/* Proprecessing data structure */
 	data.maxFrameIndex = totalFrames = NUM_SECONDS * SAMPLE_RATE; /* Record for a few seconds. */

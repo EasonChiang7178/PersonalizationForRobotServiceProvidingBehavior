@@ -143,7 +143,7 @@ int main(int argc, char** argv) {
 				cout << keyboardInput << endl;
 				keyboardInput = '\0';
 
-				robotAction.makeSounds("C:\\Users\\Mac\\Desktop\\Shu\\ThesisProgram\\models\\Soundness\\AOE_bugle_2.wav");
+				robotAction.makeSounds("C:\\Users\\Mac\\Desktop\\Shu\\PersonalizationForRobotServiceProvidingBehavior\\models\\Soundness\\AOE_bugle_2.wav");
 				break;
 			}
 
@@ -152,7 +152,7 @@ int main(int argc, char** argv) {
 				cout << keyboardInput << endl;
 				keyboardInput = '\0';
 
-				robotAction.makeSounds("C:\\Users\\Mac\\Desktop\\Shu\\ThesisProgram\\models\\Soundness\\WindowsMessage.wav");
+				robotAction.makeSounds("C:\\Users\\Mac\\Desktop\\Shu\\PersonalizationForRobotServiceProvidingBehavior\\models\\Soundness\\WindowsMessage.wav");
 				break;
 			}
 

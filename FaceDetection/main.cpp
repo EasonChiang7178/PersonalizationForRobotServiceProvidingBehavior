@@ -26,8 +26,8 @@ using namespace cv;
 #define BODYMAXSIZE 480
 #define FACEMAXSIZE 300
 #define EYEMAXSIZE  30
-#define IPCSERVER "localhost"		// Local host
-//#define IPCSERVER "192.168.11.4"	// Old mac
+//#define IPCSERVER "localhost"		// Local host
+#define IPCSERVER "192.168.11.4"	// Old mac
 	// For front view face detection
 //String facefront_cascade_name = "../models/CascadeClassifiers/haarcascade_frontalface_alt.xml";
 //String facefront_cascade_name = "../models/CascadeClassifiers/haarcascade_frontalface_alt_tree.xml";

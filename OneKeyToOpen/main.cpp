@@ -122,8 +122,8 @@ void Exec(string ProgramName){
 		psexecHost		= "\\\\192.168.11.4 ";
 		psexecUser		= "-u robot ";
 		psexecPswd		= "-p robot ";
-		psexecProgDir	= "-w C:\\Users\\robot\\Desktop\\Shu\\ThesisProgram\\ ";
-		psexecProgName	= "C:\\Users\\robot\\Desktop\\Shu\\ThesisProgram\\central3.9.1.exe ";
+		psexecProgDir	= "-w C:\\Users\\robot\\Desktop\\Shu\\PersonalizationForRobotServiceProvidingBehavior\\ ";
+		psexecProgName	= "C:\\Users\\robot\\Desktop\\Shu\\PersonalizationForRobotServiceProvidingBehavior\\central3.9.1.exe ";
 
 		systemCallParam = psexecDir + psexecHost + psexecUser + psexecPswd + 
 			psexecParam + psexecProgDir + psexecProgName;
@@ -135,8 +135,8 @@ void Exec(string ProgramName){
 		psexecHost		= "\\\\192.168.11.3 ";
 		psexecUser		= "-u mac ";
 		psexecPswd		= "-p mac ";
-		psexecProgDir	= "-w C:\\Users\\Mac\\Desktop\\Shu\\uTTS_finish\\uTTS\\Debug\\ ";
-		psexecProgName	= "C:\\Users\\Mac\\Desktop\\Shu\\uTTS_finish\\uTTS\\Debug\\uTTS.exe ";
+		psexecProgDir	= "-w C:\\Users\\Mac\\Desktop\\Shu\\uTTS_finish_volumeControlable\\uTTS\\Debug\\ ";
+		psexecProgName	= "C:\\Users\\Mac\\Desktop\\Shu\\uTTS_finish_volumeControlable\\uTTS\\Debug\\uTTS.exe ";
 
 		systemCallParam = psexecDir + psexecHost + psexecUser + psexecPswd + 
 			psexecParam + psexecProgDir + psexecProgName;
@@ -148,8 +148,8 @@ void Exec(string ProgramName){
 		psexecHost		= "\\\\192.168.11.3 ";
 		psexecUser		= "-u mac ";
 		psexecPswd		= "-p mac ";
-		psexecProgDir	= "-w C:\\Users\\Mac\\Desktop\\Shu\\ThesisProgram\\Bin\\Debug\\ ";
-		psexecProgName	= "C:\\Users\\Mac\\Desktop\\Shu\\ThesisProgram\\Bin\\Debug\\AdaptiveInitEngagementAgent.exe ";
+		psexecProgDir	= "-w C:\\Users\\Mac\\Desktop\\Shu\\PersonalizationForRobotServiceProvidingBehavior\\Bin\\Debug\\ ";
+		psexecProgName	= "C:\\Users\\Mac\\Desktop\\Shu\\PersonalizationForRobotServiceProvidingBehavior\\Bin\\Debug\\Human-AwareInteractiveLearner.exe ";
 
 		systemCallParam = psexecDir + psexecHost + psexecUser + psexecPswd + 
 			psexecParam + psexecProgDir + psexecProgName;
@@ -200,8 +200,8 @@ void Exec(string ProgramName){
 		psexecHost		= "\\\\192.168.11.4 ";
 		psexecUser		= "-u robot ";
 		psexecPswd		= "-p robot ";
-		psexecProgDir	= "-w C:\\Users\\robot\\Desktop\\Shu\\ThesisProgram\\Bin\\Debug\\ ";
-		psexecProgName	= "C:\\Users\\robot\\Desktop\\Shu\\ThesisProgram\\Bin\\Debug\\BodyDirection.exe ";
+		psexecProgDir	= "-w C:\\Users\\robot\\Desktop\\Shu\\PersonalizationForRobotServiceProvidingBehavior\\Bin\\Debug\\ ";
+		psexecProgName	= "C:\\Users\\robot\\Desktop\\Shu\\PersonalizationForRobotServiceProvidingBehavior\\Bin\\Debug\\BodyDirection.exe ";
 
 		systemCallParam = psexecDir + psexecHost + psexecUser + psexecPswd + 
 			psexecParam + psexecProgDir + psexecProgName;
@@ -213,8 +213,8 @@ void Exec(string ProgramName){
 		psexecHost		= "\\\\192.168.11.3 ";
 		psexecUser		= "-u mac ";
 		psexecPswd		= "-p mac ";
-		psexecProgDir	= "-w C:\\Users\\Mac\\Desktop\\Shu\\ThesisProgram\\Bin\\Debug\\ ";
-		psexecProgName	= "C:\\Users\\Mac\\Desktop\\Shu\\ThesisProgram\\Bin\\Debug\\FaceDetection.exe ";
+		psexecProgDir	= "-w C:\\Users\\Mac\\Desktop\\Shu\\PersonalizationForRobotServiceProvidingBehavior\\Bin\\Debug\\ ";
+		psexecProgName	= "C:\\Users\\Mac\\Desktop\\Shu\\PersonalizationForRobotServiceProvidingBehavior\\Bin\\Debug\\FaceDetection.exe ";
 
 		systemCallParam = psexecDir + psexecHost + psexecUser + psexecPswd + 
 			psexecParam + psexecProgDir + psexecProgName;
@@ -226,8 +226,8 @@ void Exec(string ProgramName){
 		psexecHost		= "\\\\192.168.11.3 ";
 		psexecUser		= "-u mac ";
 		psexecPswd		= "-p mac ";
-		psexecProgDir	= "-w C:\\Users\\Mac\\Desktop\\Shu\\ThesisProgram\\Bin\\Debug\\ ";
-		psexecProgName	= "C:\\Users\\Mac\\Desktop\\Shu\\ThesisProgram\\Bin\\Debug\\VoiceActivityDetector.exe ";
+		psexecProgDir	= "-w C:\\Users\\Mac\\Desktop\\Shu\\PersonalizationForRobotServiceProvidingBehavior\\Bin\\Debug\\ ";
+		psexecProgName	= "C:\\Users\\Mac\\Desktop\\Shu\\PersonalizationForRobotServiceProvidingBehavior\\Bin\\Debug\\VoiceActivityDetector.exe ";
 
 		systemCallParam = psexecDir + psexecHost + psexecUser + psexecPswd + 
 			psexecParam + psexecProgDir + psexecProgName;
@@ -239,8 +239,8 @@ void Exec(string ProgramName){
 		psexecHost		= "\\\\192.168.11.4 ";
 		psexecUser		= "-u robot ";
 		psexecPswd		= "-p robot ";
-		psexecProgDir	= "-w C:\\Users\\robot\\Desktop\\Shu\\ThesisProgram\\Bin\\Debug\\ ";
-		psexecProgName	= "C:\\Users\\robot\\Desktop\\Shu\\ThesisProgram\\Bin\\Debug\\HAE_Inference.exe ";
+		psexecProgDir	= "-w C:\\Users\\robot\\Desktop\\Shu\\PersonalizationForRobotServiceProvidingBehavior\\Bin\\Debug\\ ";
+		psexecProgName	= "C:\\Users\\robot\\Desktop\\Shu\\PersonalizationForRobotServiceProvidingBehavior\\Bin\\Debug\\HAE_Inference.exe ";
 
 		systemCallParam = psexecDir + psexecHost + psexecUser + psexecPswd + 
 			psexecParam + psexecProgDir + psexecProgName;
@@ -298,7 +298,7 @@ void Kill(string ProgramName){
 		pskillHost		= "\\\\192.168.11.3 ";
 		pskillUser		= "-u mac ";
 		pskillPswd		= "-p mac ";
-		pskillProgName	= "AdaptiveInitEngagementAgent.exe ";
+		pskillProgName	= "Human-AwareInteractiveLearner.exe ";
 
 		systemCallParam = pskillDir + pskillHost + pskillUser + pskillPswd + 
 			pskillParam + pskillProgName;

@@ -316,7 +316,7 @@ namespace rl {
 							case MakeSound:
 								cout << "> RobotAction: MakeSound" << endl;
 #ifndef SIMULATION
-								robot.makeSounds("C:\\Users\\Mac\\Desktop\\Shu\\ThesisProgram\\models\\Soundness\\WindowsMessage.wav");
+								robot.makeSounds("C:\\Users\\Mac\\Desktop\\Shu\\PersonalizationForRobotServiceProvidingBehavior\\models\\Soundness\\WindowsMessage.wav");
 #endif
 								break;
 

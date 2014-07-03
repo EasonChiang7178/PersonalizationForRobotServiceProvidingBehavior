@@ -1,4 +1,4 @@
-﻿Build started 2014/7/2 下午 08:25:39.
+﻿Build started 2014/7/3 上午 10:56:38.
      1>Project "C:\Users\Mac\Desktop\Shu\PersonalizationForRobotServiceProvidingBehavior\VoiceActivityDetector\VoiceActivityDetector.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
          Creating "Debug\VoiceActivityDetector.unsuccessfulbuild" because "AlwaysCreate" was specified.
@@ -14,4 +14,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:00.07
+Time Elapsed 00:00:00.04
