@@ -312,7 +312,7 @@ public:
 #define QUERY_RESULT_FORMAT "{[char:256]}"
 //Google Calendar
 
-typedef enum {faceRecog, bodyDirection, socialRange, faceDetect, DBNF, bodyDetection, legDetection, robotSpeechVolume, robotMotionSpeed} pCom;
+typedef enum {faceRecog, bodyDirection, socialRange, faceDetect, DBNF, bodyDetection, legDetection, robotParameter} pCom;
 class PerceptionMgr{
 public:
 	pCom sensing;				// content of query result

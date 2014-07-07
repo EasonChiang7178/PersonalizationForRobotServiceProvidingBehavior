@@ -212,10 +212,15 @@ int main(int argc, char** argv) {
 			}
 
 			case 'I':
+			{
 				cout << keyboardInput << endl;
 				keyboardInput = '\0';
-				break;
 
+				robotAction.sensingPU(200);
+				int pu = robotAction.getPU();
+				cout << "PU: " << pu << endl;
+				break;
+			}
 			case 'K':
 				cout << keyboardInput << endl;
 				keyboardInput = '\0';

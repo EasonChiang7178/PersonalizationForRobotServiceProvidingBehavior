@@ -3,6 +3,7 @@
 
 bool bodyDirectionFlag = false;
 bool bodyDirectionContFlag = false;
+bool bodyPUFlag = false;
 
 /* Third-party Library */
 	// Body Direction developed by Chu

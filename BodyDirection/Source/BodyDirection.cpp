@@ -23,7 +23,7 @@ const int BodyDirection::startGetBodyDirection()
 	publish(HAE, TOTAL_MSG_NUM);
 	listen();
 
-	extern bool bodyDirectionFlag, bodyDirectionContFlag;
+	extern bool bodyDirectionFlag, bodyDirectionContFlag, bodyPUFlag;
 
 	w1 = 0.8; w2 = 0.7; w3 = 2; w4 = 1.0; w5 = 2.0;
 
@@ -88,9 +88,28 @@ const int BodyDirection::startGetBodyDirection()
 			}
 			sendHAE(HAEdata);
 			Sleep(sizeof(HAEdata));
-			printf("\n> Send Success! (BodyDirectionCont: %f)\n", getBodyDirectionHAE());
+			printf("\n> Send Success! (BodyDirectionCont: %f)\n", HAEdata.body_direction_cont);
 
 			bodyDirectionContFlag = false;
+		}
+
+		if (bodyPUFlag == true) {
+				// Send the body language message (Pleasantness-Unpleasantess)
+			HAEMgr HAEdata;
+			getHAE(HAEdata);
+			vector< double > pu = getPU();
+			if (pu.size() <= 0) {
+				cout << "> WARNING: user is not found" << endl;
+				HAEdata.pu = static_cast< PU_type >(2);
+			} else {
+//** WARNING: ONLY CONSIDER THE USER 1 **//
+				HAEdata.pu = static_cast< PU_type >((int)pu[0]);
+			}
+			sendHAE(HAEdata);
+			Sleep(sizeof(HAEdata));
+			printf("\n> Send Success! (BodyPU: %d)\n", HAEdata.pu);
+
+			bodyPUFlag = false;
 		}
 	}
 	

@@ -64,6 +64,7 @@ class RobotAction {
 		const int getTimeout() const { return timeout; }
 		const int getATR() const { return curAttentionLevel; }
 		const int getFaceDirection() const { return curFaceDirection; }
+		const int getPU() const { return curPU; }
 		const string getListenContent() { return keywordListened; }
 
 		/* For Human Attention Estimator */
@@ -71,6 +72,8 @@ class RobotAction {
 		const bool sensingATR(const int& waitingTime);
 			// Query current face direction
 		const bool sensingFD(const int& waitingTime);
+			// Query current pleasantness-unpleasantness
+		const bool sensingPU(const int& waitingTime);
 
 	private:
 		/* For IPC Communication */
@@ -96,6 +99,8 @@ class RobotAction {
 		/* For Human Attention Estimator */
 			// Current Attention Level
 		int curAttentionLevel, curFaceDirection;
+			// Current Pleasantness-Unpleasantness
+		int curPU;
 			// For buzy waiting for mgr receive
 		bool buzyWaitForMgr(const int& delayTime);
 

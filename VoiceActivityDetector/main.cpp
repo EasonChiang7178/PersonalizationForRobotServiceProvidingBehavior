@@ -58,18 +58,24 @@
 
 using namespace std;
 
+//#define SERVERNAME "192.168.11.4"
+#define SERVERNAME "localhost"
+
 /* #define SAMPLE_RATE  (17932) // Test failure to open with this value. */
-#define SAMPLE_RATE  (8000)
-#define FRAMES_PER_BUFFER (1024)
-#define NUM_SECONDS     (5)
-#define NUM_CHANNELS    (1)
-#define VOICE_THRESH (0.01)
+#define SAMPLE_RATE			(8000)
+#define FRAMES_PER_BUFFER	(1024)
+#define NUM_SECONDS			(5)
+#define NUM_CHANNELS		(1)
+#define VOICE_THRESH_LOW	(50)
+#define VOICE_THRESH_MEDIUM	(150)
+#define VOICE_THRESH_HIGH	(300)
+//#define VOICE_THRESH		(0.01)
 	// How long a timestep is (ms)
-#define STEPTIME	(0.5)
+#define STEPTIME			(0.5)
 /* #define DITHER_FLAG     (paDitherOff) */
-#define DITHER_FLAG     (0) /**/
+#define DITHER_FLAG			(0) /**/
 /** Set to 1 if you want to capture the recording to a file. */
-#define WRITE_TO_FILE   (1)
+#define WRITE_TO_FILE		(0)
 
 /* Select sample format. */
 #define PA_SAMPLE_TYPE  paFloat32
@@ -151,16 +157,12 @@ void Perception_HAE_handler()
 	getHAE(percetData);
 
 	printf("  FrameIndex: %d \n", data.frameIndex);
-	bool isVoiceFlag = isVoice();
-	if (isVoiceFlag)
-		percetData.voice_detection = static_cast< AudioVolume_type > (1);
-	else
-		percetData.voice_detection = static_cast< AudioVolume_type > (0);
-	
+	int VoiceFlag = isVoice();
+	percetData.voice_detection = static_cast< AudioVolume_type > (VoiceFlag);
 		// Send VAD
 	sendHAE(percetData);
 	Sleep(sizeof(percetData));
-	printf("\n> Send Success! (VAD: %d)\n", isVoiceFlag);
+	printf("\n> Send Success! (VAD: %d)\n", VoiceFlag);
 	return;
 }
 
@@ -187,15 +189,18 @@ int isVoice()
 			sumSample += fabs((*rptr++));
 	}
 
-	sumThresh = VOICE_THRESH*(float)NUM_CHANNELS*(float)(nowFrameIndex-startFrameIndex);
+	//sumThresh = VOICE_THRESH*(float)NUM_CHANNELS*(float)(nowFrameIndex-startFrameIndex);
 	//sumThresh = VOICE_THRESH;
-	printf("  sumSample= %f sumThresh = %f", sumSample , sumThresh);
+	printf("> SumSample= %f", sumSample);
 
-	if(sumSample > sumThresh)
+	if (sumSample > VOICE_THRESH_HIGH)
+		return 3;
+	else if (sumSample > VOICE_THRESH_MEDIUM)
+		return 2;
+	else if (sumSample > VOICE_THRESH_LOW)
 		return 1;
 	else
 		return 0;
-
 }
 
 /*******************************************************************/
@@ -217,7 +222,7 @@ int main (void) {
 
 	/** Connect to IPC Server **/
 	init_comm();
-	connect_to_server("192.168.11.4");
+	connect_to_server(SERVERNAME);
 	subscribe(PERCEPTION_HAE, TOTAL_MSG_NUM);
 	publish(HAE, TOTAL_MSG_NUM);
 	listen();
@@ -264,18 +269,22 @@ int main (void) {
 
 	err = Pa_StartStream( stream );
 	if( err != paNoError ) goto done;
-	printf("\n=== Now recording!! Please speak into the microphone. ===\n"); fflush(stdout);
 
+	/* Start collecting the audio input */
+	printf("\n> ---------- Now recording ----------\n"); fflush(stdout);
 	while( ( err = Pa_IsStreamActive( stream ) ) == 1 )
 	{
-		Pa_Sleep(500);
-		isVoice();
-		Pa_Sleep(500);
-		printf("second = %d index = %d\n", timeCount, data.frameIndex ); fflush(stdout);
-		timeCount++;
-		isVoice();
-		printf("\n");
-		data.frameIndex = data.frameIndex % static_cast< int >(SAMPLE_RATE * STEPTIME);
+		Pa_Sleep(1000);
+		printf("> Second = %d | Data Index = %d\n", timeCount++, data.frameIndex); fflush(stdout);
+		/* Reset the frameIndex to avoid the termination of the audio stream */
+		int bufferSize = SAMPLE_RATE * STEPTIME;
+		SAMPLE *rptr = &data.recordedSamples[data.frameIndex - bufferSize * NUM_CHANNELS];
+		for (i = 0; i < bufferSize; ) {
+			rptr[i++] = (*rptr++);
+			if(NUM_CHANNELS == 2)
+				rptr[i++] = (*rptr++);
+		}
+		data.frameIndex = bufferSize;
 	}
 	if( err < 0 )
 		goto done;

@@ -406,7 +406,7 @@ const bool RobotAction::movingToAroundOfHuman(const int& speed, const float& dis
 	if (targetPos.count == 0) {
 		cout << "> WARNING: No Human Candidate!" << endl;
 		return 1;
-	} else if(targetPos.count > 1) {
+	} else if(targetPos.count > 0) {
 		/* Find the person who is nearest to the robot */
 		float minX = 0.0, minY = 0.0, squaredDistance = 0.0, minSquaredDistance = 999999.0;
 		for (int i = 0; i < targetPos.count; i++) {
@@ -569,6 +569,28 @@ const bool RobotAction::sensingFD(const int& waitingTime) {
 
 	getHAE(receivedData);
 	curFaceDirection = static_cast< int >(receivedData.face_direction);
+
+	return success;
+}
+
+const bool RobotAction::sensingPU(const int& waitingTime) {
+	bool success = true;
+
+	HAEMgr receivedData;
+	PerceptionHAEMgr requestData;
+	
+	/* PU */
+	requestData.sensing = puMeasurement;
+	sendPerceptionHAE(requestData);
+	Sleep(sizeof(requestData) + waitingTime);
+
+	if (buzyWaitForMgr(waitingTime) == false) {
+		cout << "> WARNING: Receive Data Time Out, PU" << endl;
+		success = false;
+	}
+
+	getHAE(receivedData);
+	curPU = static_cast< int >(receivedData.pu);
 
 	return success;
 }

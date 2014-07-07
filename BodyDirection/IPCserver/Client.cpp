@@ -353,7 +353,7 @@ void resultarm_message_handler(MSG_INSTANCE msgRef, BYTE_ARRAY callData, void *c
 void Perception_HAE_message_handler(MSG_INSTANCE msgRef, BYTE_ARRAY callData, void *clientData) {
 	PerceptionHAEMgr data;
 	//extern void Perception_HAE_handler();
-	extern bool bodyDirectionFlag, bodyDirectionContFlag;
+	extern bool bodyDirectionFlag, bodyDirectionContFlag, bodyPUFlag;
 
 	IPC_unmarshallData(IPC_msgInstanceFormatter(msgRef), callData, &data, sizeof(PerceptionHAEMgr));
 	setPerceptionHAE(data);
@@ -364,6 +364,9 @@ void Perception_HAE_message_handler(MSG_INSTANCE msgRef, BYTE_ARRAY callData, vo
 	} else if (data.sensing == bodyDirectionCont) {
 		printf("> Sending... BodyDirectionCont\n");
 		bodyDirectionContFlag = true;
+	} else if (data.sensing == puMeasurement) {
+		printf("> Sending... PU\n");
+		bodyPUFlag = true;
 	}
 
 	IPC_freeByteArray(callData);

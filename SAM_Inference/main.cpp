@@ -19,9 +19,9 @@ using namespace std;
 	// The timestep of the dynamic Bayesian network
 #define STEPNUMBER	3
 	// How long a timestep is (ms)
-#define STEPTIME	750
+#define STEPTIME	600
 	// How long a delay for messages request
-#define DELAYTIME	200
+#define DELAYTIME	60
 
 //#define NDEBUG
 
@@ -33,13 +33,11 @@ static int receivedCount = 0;
 	// Buffer result for Human Attention Level
 static int attentionLevel = 0;
 
-HAEMgr sensingData;
-
 /** Declration of Functions **/
 	// Request all sensing data for SAM; param 1 delayTime for the message sending
-HAEMgr requestSensingSAM(int delayTime);
+void requestSensingSAM(int delayTime, HAEMgr& dataHAE, RobotParameterMgr& robotPara, int& robotPosition);
 	// Request the environment context information for SAM; param 1 delayTime for the message sending
-EnvirContextMgr requestEnvirContextSAM(int delayTime);
+void requestEnvirContextSAM(int delayTime, int& audioNoiseLevel, int& attenContextLevel);
 	// Handler for receiving HAE message
 void HAE_handler();
 	// Handler for receiving RequestInference message
@@ -54,9 +52,8 @@ int main(int argc, char* argv[]) {
 	/** Connect to IPC Server **/
 	init_comm();
 	connect_to_server();
-	//subscribe(HAE, PERCEPTION_HAE, TOTAL_MSG_NUM);
-	subscribe(HAE, REQUEST_INFERENCE, TOTAL_MSG_NUM);
-	publish(PERCEPTION_HAE, ATTENTIONLEVEL, TOTAL_MSG_NUM);
+	subscribe(HAE, REQUEST_INFERENCE, PEOPLE, ROBOTPARAMETER, TOTAL_MSG_NUM);
+	publish(PERCEPTION_HAE, ATTENTIONLEVEL, PERCEPTION, TOTAL_MSG_NUM);
 	listen();
 
 	cout << "\n\t< Social Attention Model Inference >" << endl;
@@ -83,7 +80,7 @@ int main(int argc, char* argv[]) {
 	nameOfNodes.push_back("audioNoise");		nameOfNodes.push_back("attentionContext");
 	nameOfNodes.push_back("attentionLevel");
 		// The nodes in the network
-	vector< string > evidencesNodesName, envirContextNodesName;
+	vector< string > evidencesNodesName;
 	evidencesNodesName.push_back("faceDirection");		evidencesNodesName.push_back("bodyDirection");	evidencesNodesName.push_back("audioInput");
 	evidencesNodesName.push_back("robotMotionSpeed");	evidencesNodesName.push_back("robotPose");		evidencesNodesName.push_back("robotSoundVolume");
 		// Extract each nodes' attributes name in the network
@@ -105,16 +102,21 @@ int main(int argc, char* argv[]) {
 	/** Inference Start! **/
 	int stepPassed = 0;
 
-	/* Requst and set the environment context */
-//****************************************************** TOCHECK ***********************************************************************//
-	EnvirContextMgr envirContext;
-	envirContext = requestEnvirContextSAM(DELAYTIME);
+	/* Setting the environment context */
+	cout << "> Collecting the environment context..." << endl;
+		// Requesting the environment context
+	int envirContext_audioLevel = 0, envirContext_attenContext = 0;
+	requestEnvirContextSAM(DELAYTIME, envirContext_audioLevel, envirContext_attenContext);
+		// Setting to the net
+	vector< string > envirContextNodesName, envirContextOfNodes;
 	envirContextNodesName.push_back("audioNoise"); envirContextNodesName.push_back("attentionContext");
-	vector< string > envirContextOfNodes;
-	envirContextOfNodes.push_back(attributeNameArray[6][envirContext.environmentalNose]);
-	envirContextOfNodes.push_back(attributeNameArray[7][envirContext.attentionContext]);
+	envirContextOfNodes.push_back(attributeNameArray[6][envirContext_audioLevel]);
+	envirContextOfNodes.push_back(attributeNameArray[7][envirContext_attenContext]);
 	bn::setEvidenceOfBN(theNet, envirContextNodesName, envirContextOfNodes, 0);
 
+	cout << "> EN: " << envirContext_audioLevel << ", AC: " << envirContext_attenContext << endl;
+
+	/* Main loop */
 	while (true) {
 		/* Press 'Q' (81), 'q' (113) or esc (27) to leave */
 		if (kbhit()) {
@@ -124,15 +126,21 @@ int main(int argc, char* argv[]) {
 		}
 
 		/* Request the perceived data */
-		sensingData = requestSensingSAM(DELAYTIME);
+		HAEMgr				sensingData;
+		RobotParameterMgr	parameterData;
+		int					robotPositionData;
+		requestSensingSAM(DELAYTIME, sensingData, parameterData, robotPositionData);
 
 		/* Setting the data received */
-//****************************************************** TOCHECK ***********************************************************************//
 		faceFeature.push_back(static_cast< int >(sensingData.face_direction));
 		bodyFeature.push_back(static_cast< int >(sensingData.body_direction));
 		audioFeature.push_back(static_cast< int >(sensingData.voice_detection));
-		cout << "> F: " << sensingData.face_direction << ", B: " << sensingData.body_direction << ", V: " << sensingData.voice_detection << endl;
-
+		robotSpeed.push_back(static_cast< int >(parameterData.speed));
+		robotPose.push_back(static_cast< int >(robotPositionData));
+		robotVolume.push_back(static_cast< int >(parameterData.volume));
+		cout << "> F:  " << sensingData.face_direction << ", B:  " << sensingData.body_direction << ", V:  " << sensingData.voice_detection << endl;
+		cout << "> RS: " << parameterData.speed << ", RP: " << robotPositionData << ", RV: " << parameterData.volume << endl;
+		
 		/* Ready to inference the result */
 			// If too few data to run the inference, continue collect data
 		if (stepPassed++ < STEPNUMBER - 1) {
@@ -190,7 +198,7 @@ int main(int argc, char* argv[]) {
 			cout << right << setw(11) << "|-" << left << setw(20) << (*it).second << setw(15) << " Confidence = " << (*it).first << endl;
 		cout << endl;
 
-		Sleep(STEPTIME - 3 * DELAYTIME);
+		Sleep(STEPTIME - 6 * DELAYTIME);
 	}
 	cout << "> Social Attention Inference End!" << endl << endl;
 		// Disconnect to IPC server, Clean up socket.
@@ -199,50 +207,6 @@ int main(int argc, char* argv[]) {
 }
 
 //=============================================================================
-//****************************************************** TODO ***********************************************************************//
-	// Request all sensing data for HAE; param 1 delayTime for the message sending
-HAEMgr requestSensingSAM(int delayTime) {
-	HAEMgr receivedData, tempData;
-	getHAE(receivedData);
-
-	PerceptionHAEMgr requestData;
-	/* Audio */
-	requestData.sensing = voiceDetection;
-	sendPerceptionHAE(requestData);
-	Sleep(sizeof(requestData) + DELAYTIME);
-
-	if (buzyWaitForMgr(20) == false)
-		cout << "> WARNING: Receive Data Time Out, Audio" << endl;
-	
-	getHAE(tempData);
-	receivedData.voice_detection = tempData.voice_detection;
-
-	/* Face */
-	requestData.sensing = faceDirectionDiscrete;
-	sendPerceptionHAE(requestData);
-	Sleep(sizeof(requestData) + DELAYTIME);
-
-	if (buzyWaitForMgr(20) == false)
-		cout << "> WARNING: Receive Data Time Out, Face" << endl;
-
-	
-	getHAE(tempData);
-	receivedData.face_direction = tempData.face_direction;
-
-	/* Body */
-	requestData.sensing = bodyDirectionDiscrete;
-	sendPerceptionHAE(requestData);
-	Sleep(sizeof(requestData) + DELAYTIME);
-
-	if (buzyWaitForMgr(20) == false)
-		cout << "> WARNING: Receive Data Time Out, Body" << endl;
-	
-	getHAE(tempData);
-	receivedData.body_direction = tempData.body_direction;
-
-	return receivedData;
-}
-
 bool buzyWaitForMgr(const int delayTime) {
 	for (int i = 0; i < 10 && receivedCount < 1; i++) {
 		Sleep(20);
@@ -255,14 +219,158 @@ bool buzyWaitForMgr(const int delayTime) {
 	return true;
 }
 
-//****************************************************** TODO ***********************************************************************//
-	// Request the environment context information for SAM; param 1 delayTime for the message sending
-EnvirContextMgr requestEnvirContextSAM(int delayTime) {
+	// Request all sensing data for HAE; param 1 delayTime for the message sending
+void requestSensingSAM(int delayTime, HAEMgr& dataHAE, RobotParameterMgr& robotPara, int& robotPosition) {
+	/** Requesting data about the perceived data **/
+	HAEMgr receivedDataHAE, tempDataHAE;
+	getHAE(receivedDataHAE);
 
+	PerceptionHAEMgr requestDataHAE;
+	/* Audio */
+	requestDataHAE.sensing = voiceDetection;
+	sendPerceptionHAE(requestDataHAE);
+	Sleep(sizeof(requestDataHAE) + DELAYTIME);
+
+	if (buzyWaitForMgr(20) == false)
+		cout << "> WARNING: Receive Data Time Out, Audio" << endl;
+	
+	getHAE(tempDataHAE);
+	receivedDataHAE.voice_detection = tempDataHAE.voice_detection;
+
+	/* Face */
+	requestDataHAE.sensing = faceDirectionDiscrete;
+	sendPerceptionHAE(requestDataHAE);
+	Sleep(sizeof(requestDataHAE) + DELAYTIME);
+
+	if (buzyWaitForMgr(20) == false)
+		cout << "> WARNING: Receive Data Time Out, Face" << endl;
+
+	getHAE(tempDataHAE);
+	receivedDataHAE.face_direction = tempDataHAE.face_direction;
+
+	/* Body */
+	requestDataHAE.sensing = bodyDirectionDiscrete;
+	sendPerceptionHAE(requestDataHAE);
+	Sleep(sizeof(requestDataHAE) + DELAYTIME);
+
+	if (buzyWaitForMgr(20) == false)
+		cout << "> WARNING: Receive Data Time Out, Body" << endl;
+	
+	getHAE(tempDataHAE);
+	receivedDataHAE.body_direction = tempDataHAE.body_direction;
+
+	dataHAE = receivedDataHAE;
+
+	/** Requesting data about parameters of the robot **/
+	RobotParameterMgr receivedDataRP, tempDataRP;
+	getRobotParameter(receivedDataRP);
+
+	PerceptionMgr requestDataRP;
+	/* Speech Volume and Motion Speed */
+	requestDataRP.sensing = robotParameter;
+	sendPerception(requestDataRP);
+	Sleep(sizeof(requestDataRP) + DELAYTIME);
+
+	if (buzyWaitForMgr(20) == false)
+		cout << "> WARNING: Receive Data Time Out, Speech Volume and Motion Speed" << endl;
+
+	getRobotParameter(tempDataRP);
+	receivedDataRP.speed = tempDataRP.speed;
+	receivedDataRP.volume = tempDataRP.volume;
+
+	robotPara = receivedDataRP;
+
+	/** Requesting the distance between the robot and the target **/
+	PerceptionMgr legRequest;
+	legRequest.sensing = legDetection;
+	sendPerception(legRequest);
+	Sleep(sizeof(legDetection));
+
+	if (buzyWaitForMgr(20) == false)
+		cout << "> WARNING: Receive Data Time Out, Laser" << endl;
+	PeopleMgr targetPos;
+	getPeople(targetPos);
+
+	/* Find the person who is nearest to the robot */
+	double possibleCandidateX = 0.0, possibleCandidateY = 0.0;
+	if(targetPos.count > 0) {
+		/* Find the person who is nearest to the robot */
+		float minX = 0.0, minY = 0.0, squaredDistance = 0.0, minSquaredDistance = 999999.0;
+		for (int i = 0; i < targetPos.count; i++) {
+			squaredDistance = pow(targetPos.x[i],2) + pow(targetPos.y[i],2);
+			if (squaredDistance <= minSquaredDistance) {
+				minSquaredDistance = squaredDistance;
+				minX = targetPos.x[i];
+				minY = targetPos.y[i];
+			}
+		}
+		possibleCandidateX = minX / 100.0;
+		possibleCandidateY = minY / 100.0;
+	}
+
+	double distance = sqrt(pow(possibleCandidateX, 2) + pow(possibleCandidateY, 2));
+	if (distance >= 3.0)
+		robotPosition = 0;
+	else if (distance >= 2.1)
+		robotPosition = 1;
+	else if (distance >= 1.2)
+		robotPosition = 2;
+	else
+		robotPosition = 0;
+
+	return;
+}
+
+	// Request the environment context information for SAM; param 1 delayTime for the message sending
+void requestEnvirContextSAM(int delayTime, int& audioNoiseLevel, int& attenContextLevel) {
+	/* Request 5 times audio input to calibrate the environmental noise */
+	HAEMgr tempDataHAE;
+	
+	PerceptionHAEMgr requestData;
+	requestData.sensing = voiceDetection;
+	vector< int > audioCount(4);			// Index for audioLevel, element for counts
+		// Sample 5 times
+	for (int i = 0; i < 5; i++) {
+		sendPerceptionHAE(requestData);
+		Sleep(sizeof(requestData) + DELAYTIME);
+
+		if (buzyWaitForMgr(20) == false)
+			cout << "> WARNING: Receive Data Time Out, Audio" << endl;
+	
+		getHAE(tempDataHAE);
+		audioCount[static_cast< int >(tempDataHAE.voice_detection)]++;
+	}
+		// Found the maximum one
+	audioNoiseLevel = 0;
+	int countMax = 0;
+	for (unsigned int i(0); i < audioCount.size(); i++) {
+		if (countMax <= audioCount[i]) {
+			countMax = audioCount[i];
+			audioNoiseLevel = i;
+		}
+	}
+
+	/* Request human-context message */
+	requestData.sensing = attentionContext;
+	sendPerceptionHAE(requestData);
+
+	if (buzyWaitForMgr(20) == false)
+		cout << "> WARNING: Receive Data Time Out, Attention-Context" << endl;
+
+	getHAE(tempDataHAE);
+	/** TODO **/
+	attenContextLevel = 0;
+
+	return;
 }
 
 	// Handler for receiving HAE message
 void HAE_handler() {
+	receivedCount += 1;
+}
+
+	// Handler for receiving robot parameter
+void RobotParameter_handler() {
 	receivedCount += 1;
 }
 
@@ -278,10 +386,4 @@ void RequestInference_handler() {
 	printf("\n> Send Success! (AttentionLevel: %d)\n", attentionLevel);
 
 	return;
-}
-
-//****************************************************** TODO ***********************************************************************//
-	// Handler for receiving EnvirContext message
-void EnvirContext_handler() {
-
 }

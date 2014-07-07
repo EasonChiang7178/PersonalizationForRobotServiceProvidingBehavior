@@ -1,28 +1,17 @@
-﻿Build started 2014/7/4 上午 01:11:11.
-     1>Project "F:\Dropbox\Shu\Program\GitHub\PersonalizationForRobotServiceProvidingBehavior\Keyboard_Event_Trigger\Keyboard_Event_Trigger.vcxproj" on node 2 (build target(s)).
+﻿Build started 7/7/2014 3:24:36 PM.
+     1>Project "D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\Keyboard_Event_Trigger\Keyboard_Event_Trigger.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
-         Touching "Debug\Keyboard_Event_Trigger.unsuccessfulbuild".
+         Creating "Debug\Keyboard_Event_Trigger.unsuccessfulbuild" because "AlwaysCreate" was specified.
        ClCompile:
-         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D _USE_MATH_DEFINES /D WIN32 /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt IPCserver\Client.cpp
-         Client.cpp
-     1>f:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\includes\ipcserver\messages.hpp(154): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-                 c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(371) : see declaration of 'sprintf'
+         All outputs are up-to-date.
        Link:
-         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"F:\Dropbox\Shu\Program\GitHub\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\Keyboard_Event_Trigger.exe" /NOLOGO wsock32.lib ipcMDd_3.9.1.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Debug\Keyboard_Event_Trigger.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"F:\Dropbox\Shu\Program\GitHub\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\Keyboard_Event_Trigger.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"F:\Dropbox\Shu\Program\GitHub\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\Keyboard_Event_Trigger.lib" /MACHINE:X86 Debug\CoordTrans.obj
-         Debug\IntComm.obj
-         Debug\RobotAction.obj
-         Debug\Thread.obj
-         Debug\Client.obj
-         Debug\main.obj
-         LINK : F:\Dropbox\Shu\Program\GitHub\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\Keyboard_Event_Trigger.exe not found or not built by the last incremental link; performing full link
-         Keyboard_Event_Trigger.vcxproj -> F:\Dropbox\Shu\Program\GitHub\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\Keyboard_Event_Trigger.exe
-       Manifest:
-         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /outputresource:"F:\Dropbox\Shu\Program\GitHub\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\Keyboard_Event_Trigger.exe;#1" /manifest Debug\Keyboard_Event_Trigger.exe.intermediate.manifest
+         All outputs are up-to-date.
+         Keyboard_Event_Trigger.vcxproj -> D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\Keyboard_Event_Trigger.exe
        FinalizeBuildStatus:
          Deleting file "Debug\Keyboard_Event_Trigger.unsuccessfulbuild".
          Touching "Debug\Keyboard_Event_Trigger.lastbuildstate".
-     1>Done Building Project "F:\Dropbox\Shu\Program\GitHub\PersonalizationForRobotServiceProvidingBehavior\Keyboard_Event_Trigger\Keyboard_Event_Trigger.vcxproj" (build target(s)).
+     1>Done Building Project "D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\Keyboard_Event_Trigger\Keyboard_Event_Trigger.vcxproj" (build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:01.57
+Time Elapsed 00:00:00.04

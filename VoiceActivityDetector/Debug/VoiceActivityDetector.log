@@ -1,5 +1,5 @@
-﻿Build started 2014/7/4 上午 01:26:58.
-     1>Project "F:\Dropbox\Shu\Program\GitHub\PersonalizationForRobotServiceProvidingBehavior\VoiceActivityDetector\VoiceActivityDetector.vcxproj" on node 4 (build target(s)).
+﻿Build started 2014/7/4 下午 08:03:02.
+     1>Project "F:\Dropbox\Shu\Program\GitHub\PersonalizationForRobotServiceProvidingBehavior\VoiceActivityDetector\VoiceActivityDetector.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
          Creating "Debug\VoiceActivityDetector.unsuccessfulbuild" because "AlwaysCreate" was specified.
        ClCompile:

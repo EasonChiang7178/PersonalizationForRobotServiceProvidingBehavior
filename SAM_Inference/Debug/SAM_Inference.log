@@ -1,32 +1,17 @@
-﻿Build started 2014/7/4 上午 01:26:57.
-     1>Project "F:\Dropbox\Shu\Program\GitHub\PersonalizationForRobotServiceProvidingBehavior\SAM_Inference\SAM_Inference.vcxproj" on node 4 (build target(s)).
+﻿Build started 2014/7/4 下午 08:03:09.
+     1>Project "F:\Dropbox\Shu\Program\GitHub\PersonalizationForRobotServiceProvidingBehavior\SAM_Inference\SAM_Inference.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
-         Touching "Debug\SAM_Inference.unsuccessfulbuild".
+         Creating "Debug\SAM_Inference.unsuccessfulbuild" because "AlwaysCreate" was specified.
        ClCompile:
-         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt main.cpp
-         main.cpp
-     1>f:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\includes\ipcserver\messages.hpp(154): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-                 c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(371) : see declaration of 'sprintf'
-     1>f:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\sam_inference\main.cpp(42): error C2146: syntax error : missing ';' before identifier 'requestEnvirContextSAM'
-     1>f:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\sam_inference\main.cpp(42): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
-     1>f:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\sam_inference\main.cpp(42): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
-     1>f:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\sam_inference\main.cpp(110): error C2146: syntax error : missing ';' before identifier 'envirContext'
-     1>f:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\sam_inference\main.cpp(110): error C2065: 'envirContext' : undeclared identifier
-     1>f:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\sam_inference\main.cpp(111): error C2065: 'envirContext' : undeclared identifier
-     1>f:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\sam_inference\main.cpp(114): error C2065: 'envirContext' : undeclared identifier
-     1>f:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\sam_inference\main.cpp(114): error C2228: left of '.environmentalNose' must have class/struct/union
-                 type is ''unknown-type''
-     1>f:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\sam_inference\main.cpp(115): error C2065: 'envirContext' : undeclared identifier
-     1>f:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\sam_inference\main.cpp(115): error C2228: left of '.attentionContext' must have class/struct/union
-                 type is ''unknown-type''
-     1>f:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\sam_inference\main.cpp(260): error C2146: syntax error : missing ';' before identifier 'requestEnvirContextSAM'
-     1>f:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\sam_inference\main.cpp(260): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
-     1>f:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\sam_inference\main.cpp(260): error C2086: 'int EnvirContextMgr' : redefinition
-                 f:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\sam_inference\main.cpp(42) : see declaration of 'EnvirContextMgr'
-     1>f:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\sam_inference\main.cpp(260): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
-     1>f:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\sam_inference\main.cpp(262): warning C4508: 'requestEnvirContextSAM' : function should return a value; 'void' return type assumed
-     1>Done Building Project "F:\Dropbox\Shu\Program\GitHub\PersonalizationForRobotServiceProvidingBehavior\SAM_Inference\SAM_Inference.vcxproj" (build target(s)) -- FAILED.
+         All outputs are up-to-date.
+       Link:
+         All outputs are up-to-date.
+         SAM_Inference.vcxproj -> F:\Dropbox\Shu\Program\GitHub\PersonalizationForRobotServiceProvidingBehavior\Bin\Debug\SAM_Inference.exe
+       FinalizeBuildStatus:
+         Deleting file "Debug\SAM_Inference.unsuccessfulbuild".
+         Touching "Debug\SAM_Inference.lastbuildstate".
+     1>Done Building Project "F:\Dropbox\Shu\Program\GitHub\PersonalizationForRobotServiceProvidingBehavior\SAM_Inference\SAM_Inference.vcxproj" (build target(s)).
 
-Build FAILED.
+Build succeeded.
 
-Time Elapsed 00:00:02.14
+Time Elapsed 00:00:00.06
