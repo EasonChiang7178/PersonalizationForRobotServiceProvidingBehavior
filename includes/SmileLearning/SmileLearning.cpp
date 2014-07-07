@@ -5,6 +5,7 @@ string dynamicEMTraining(string theNet, string trainingSet){
 	DSL_dataset ds;
 	if (ds.ReadFile(trainingSet.c_str()) != DSL_OKAY) {
 		cout << "Cannot read data file... exiting." << endl;
+		getchar();
 		exit(1);
 	}
 	
@@ -12,6 +13,7 @@ string dynamicEMTraining(string theNet, string trainingSet){
 	DSL_network net;
 	if (net.ReadFile(theNet.c_str(), DSL_XDSL_FORMAT) != DSL_OKAY) {
 		cout << "Cannot read network... exiting." << endl;
+		getchar();
 		exit(1);
 	}
 	

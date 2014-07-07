@@ -13,5 +13,24 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\SmileInference">
+      <UniqueIdentifier>{24d78671-1386-4cc5-9fb0-ada906add308}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\SmileInference">
+      <UniqueIdentifier>{03411ec7-18cb-4216-9c28-a8d9eab0390a}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\includes\SmileInference\SmileInference.h">
+      <Filter>Header Files\SmileInference</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\includes\SmileInference\SmileInference.cpp">
+      <Filter>Source Files\SmileInference</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

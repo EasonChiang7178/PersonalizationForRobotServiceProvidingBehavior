@@ -18,7 +18,7 @@ int main (int argc, char* argv[])
 	bayesianNetwork = dynamicEMTraining(partialNet, trainingData);
 	networkUnrolled = unrollNetwork(bayesianNetwork, STEPNUMBER);
 
-	cout << "> Training Succeeded!\n> Please press enter to exit...\n" << endl;
+	cout << "> Training Succeeded!\n> Please press enter to exit...";
 	getchar();
 
 	return 0;
