@@ -31,6 +31,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SAM_Learning", "SAM_Learnin
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Human-AwareInteractiveLearner", "Human-AwareInteractiveLearner\Human-AwareInteractiveLearner.vcxproj", "{4683E0C2-4003-47E6-8143-C11C9F08490D}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SAM_Recording", "SAM_Recording\SAM_Recording.vcxproj", "{87056C8C-DC2A-4E7E-BF5D-EED703F2F2DF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -97,6 +99,10 @@ Global
 		{4683E0C2-4003-47E6-8143-C11C9F08490D}.Debug|Win32.Build.0 = Debug|Win32
 		{4683E0C2-4003-47E6-8143-C11C9F08490D}.Release|Win32.ActiveCfg = Release|Win32
 		{4683E0C2-4003-47E6-8143-C11C9F08490D}.Release|Win32.Build.0 = Release|Win32
+		{87056C8C-DC2A-4E7E-BF5D-EED703F2F2DF}.Debug|Win32.ActiveCfg = Debug|Win32
+		{87056C8C-DC2A-4E7E-BF5D-EED703F2F2DF}.Debug|Win32.Build.0 = Debug|Win32
+		{87056C8C-DC2A-4E7E-BF5D-EED703F2F2DF}.Release|Win32.ActiveCfg = Release|Win32
+		{87056C8C-DC2A-4E7E-BF5D-EED703F2F2DF}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

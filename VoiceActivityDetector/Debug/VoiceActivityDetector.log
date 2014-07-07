@@ -1,17 +1,17 @@
-﻿Build started 2014/7/4 下午 08:03:02.
-     1>Project "F:\Dropbox\Shu\Program\GitHub\PersonalizationForRobotServiceProvidingBehavior\VoiceActivityDetector\VoiceActivityDetector.vcxproj" on node 2 (build target(s)).
+﻿Build started 7/7/2014 6:54:13 PM.
+     1>Project "D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\VoiceActivityDetector\VoiceActivityDetector.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
          Creating "Debug\VoiceActivityDetector.unsuccessfulbuild" because "AlwaysCreate" was specified.
        ClCompile:
          All outputs are up-to-date.
        Link:
          All outputs are up-to-date.
-         VoiceActivityDetector.vcxproj -> F:\Dropbox\Shu\Program\GitHub\PersonalizationForRobotServiceProvidingBehavior\\bin\Debug\VoiceActivityDetector.exe
+         VoiceActivityDetector.vcxproj -> D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\\bin\Debug\VoiceActivityDetector.exe
        FinalizeBuildStatus:
          Deleting file "Debug\VoiceActivityDetector.unsuccessfulbuild".
          Touching "Debug\VoiceActivityDetector.lastbuildstate".
-     1>Done Building Project "F:\Dropbox\Shu\Program\GitHub\PersonalizationForRobotServiceProvidingBehavior\VoiceActivityDetector\VoiceActivityDetector.vcxproj" (build target(s)).
+     1>Done Building Project "D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\VoiceActivityDetector\VoiceActivityDetector.vcxproj" (build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:00.06
+Time Elapsed 00:00:00.03

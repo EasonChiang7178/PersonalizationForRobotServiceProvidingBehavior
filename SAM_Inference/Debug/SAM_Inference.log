@@ -1,17 +1,17 @@
-﻿Build started 2014/7/4 下午 08:03:09.
-     1>Project "F:\Dropbox\Shu\Program\GitHub\PersonalizationForRobotServiceProvidingBehavior\SAM_Inference\SAM_Inference.vcxproj" on node 2 (build target(s)).
+﻿Build started 7/7/2014 5:26:35 PM.
+     1>Project "D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\SAM_Inference\SAM_Inference.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
          Creating "Debug\SAM_Inference.unsuccessfulbuild" because "AlwaysCreate" was specified.
        ClCompile:
          All outputs are up-to-date.
        Link:
          All outputs are up-to-date.
-         SAM_Inference.vcxproj -> F:\Dropbox\Shu\Program\GitHub\PersonalizationForRobotServiceProvidingBehavior\Bin\Debug\SAM_Inference.exe
+         SAM_Inference.vcxproj -> D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\Bin\Debug\SAM_Inference.exe
        FinalizeBuildStatus:
          Deleting file "Debug\SAM_Inference.unsuccessfulbuild".
          Touching "Debug\SAM_Inference.lastbuildstate".
-     1>Done Building Project "F:\Dropbox\Shu\Program\GitHub\PersonalizationForRobotServiceProvidingBehavior\SAM_Inference\SAM_Inference.vcxproj" (build target(s)).
+     1>Done Building Project "D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\SAM_Inference\SAM_Inference.vcxproj" (build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:00.06
+Time Elapsed 00:00:00.03

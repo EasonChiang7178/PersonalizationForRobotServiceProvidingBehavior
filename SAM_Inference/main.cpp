@@ -22,6 +22,8 @@ using namespace std;
 #define STEPTIME	600
 	// How long a delay for messages request
 #define DELAYTIME	60
+/** BAD example **/
+#define CONTEXT		0 //0, neutral; 1, concentrating; 2, sleepy; 3, social
 
 //#define NDEBUG
 
@@ -42,8 +44,6 @@ void requestEnvirContextSAM(int delayTime, int& audioNoiseLevel, int& attenConte
 void HAE_handler();
 	// Handler for receiving RequestInference message
 void RequestInference_handler();
-	// Handler for receiving EnvirContext message
-void EnvirContext_handler();
 	// Wait for message received; param 1 delayTime = delayTime / 10
 bool buzyWaitForMgr(const int delayTime);
 
@@ -339,6 +339,8 @@ void requestEnvirContextSAM(int delayTime, int& audioNoiseLevel, int& attenConte
 	
 		getHAE(tempDataHAE);
 		audioCount[static_cast< int >(tempDataHAE.voice_detection)]++;
+
+		Sleep(250);
 	}
 		// Found the maximum one
 	audioNoiseLevel = 0;
@@ -359,7 +361,7 @@ void requestEnvirContextSAM(int delayTime, int& audioNoiseLevel, int& attenConte
 
 	getHAE(tempDataHAE);
 	/** TODO **/
-	attenContextLevel = 0;
+	attenContextLevel = CONTEXT;
 
 	return;
 }

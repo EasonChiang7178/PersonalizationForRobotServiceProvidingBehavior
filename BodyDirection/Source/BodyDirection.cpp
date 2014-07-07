@@ -54,7 +54,7 @@ const int BodyDirection::startGetBodyDirection()
 			}
 			sendHAE(HAEdata);
 			Sleep(sizeof(HAEdata));
-			printf("\n> Send Success! (BodyDirection: %d)\n", bdd[0]);
+			printf("\n> Send Success! (BodyDirection: %d)\n", HAEdata.body_direction);
 
 			bodyDirectionFlag = false;
 			
