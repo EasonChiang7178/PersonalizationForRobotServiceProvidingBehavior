@@ -1,17 +1,17 @@
-﻿Build started 7/7/2014 6:51:49 PM.
-     1>Project "D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\BodyDirection\BodyDirection.vcxproj" on node 2 (build target(s)).
+﻿Build started 2014/7/8 下午 01:51:10.
+     1>Project "C:\Users\robot\Desktop\Shu\PersonalizationForRobotServiceProvidingBehavior\BodyDirection\BodyDirection.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
          Creating "Debug\BodyDirection.unsuccessfulbuild" because "AlwaysCreate" was specified.
        ClCompile:
          All outputs are up-to-date.
        Link:
          All outputs are up-to-date.
-         BodyDirection.vcxproj -> D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\\bin\Debug\BodyDirection.exe
+         BodyDirection.vcxproj -> C:\Users\robot\Desktop\Shu\PersonalizationForRobotServiceProvidingBehavior\\bin\Debug\BodyDirection.exe
        FinalizeBuildStatus:
          Deleting file "Debug\BodyDirection.unsuccessfulbuild".
          Touching "Debug\BodyDirection.lastbuildstate".
-     1>Done Building Project "D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\BodyDirection\BodyDirection.vcxproj" (build target(s)).
+     1>Done Building Project "C:\Users\robot\Desktop\Shu\PersonalizationForRobotServiceProvidingBehavior\BodyDirection\BodyDirection.vcxproj" (build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:00.06
+Time Elapsed 00:00:00.07

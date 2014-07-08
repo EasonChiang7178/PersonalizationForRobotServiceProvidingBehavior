@@ -122,8 +122,11 @@ void State_message_handler(MSG_INSTANCE msgRef, BYTE_ARRAY callData, void *clien
 void People_message_handler(MSG_INSTANCE msgRef, BYTE_ARRAY callData, void *clientData)
 {
 	PeopleMgr data;
+	extern void HAE_handler();
 	IPC_unmarshallData(IPC_msgInstanceFormatter(msgRef), callData, &data, sizeof(PeopleMgr));
 	setPeople( data );
+	
+	HAE_handler();
 	IPC_freeByteArray(callData);
 }
 

@@ -1,17 +1,17 @@
-﻿Build started 2014/7/4 上午 01:26:57.
-     1>Project "F:\Dropbox\Shu\Program\GitHub\PersonalizationForRobotServiceProvidingBehavior\HAE_Inference\HAE_Inference.vcxproj" on node 4 (build target(s)).
+﻿Build started 2014/7/8 下午 03:08:19.
+     1>Project "C:\Users\robot\Desktop\Shu\PersonalizationForRobotServiceProvidingBehavior\HAE_Inference\HAE_Inference.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
          Creating "Debug\HAE_Inference.unsuccessfulbuild" because "AlwaysCreate" was specified.
        ClCompile:
          All outputs are up-to-date.
        Link:
          All outputs are up-to-date.
-         HAE_Inference.vcxproj -> F:\Dropbox\Shu\Program\GitHub\PersonalizationForRobotServiceProvidingBehavior\\bin\Debug\HAE_Inference.exe
+         HAE_Inference.vcxproj -> C:\Users\robot\Desktop\Shu\PersonalizationForRobotServiceProvidingBehavior\\bin\Debug\HAE_Inference.exe
        FinalizeBuildStatus:
          Deleting file "Debug\HAE_Inference.unsuccessfulbuild".
          Touching "Debug\HAE_Inference.lastbuildstate".
-     1>Done Building Project "F:\Dropbox\Shu\Program\GitHub\PersonalizationForRobotServiceProvidingBehavior\HAE_Inference\HAE_Inference.vcxproj" (build target(s)).
+     1>Done Building Project "C:\Users\robot\Desktop\Shu\PersonalizationForRobotServiceProvidingBehavior\HAE_Inference\HAE_Inference.vcxproj" (build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:00.12
+Time Elapsed 00:00:00.06

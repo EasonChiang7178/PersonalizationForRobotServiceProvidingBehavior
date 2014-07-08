@@ -209,7 +209,7 @@ void requestSensingSAM(int delayTime, HAEMgr& dataHAE, RobotParameterMgr& robotP
 	sendPerception(legRequest);
 	Sleep(sizeof(legDetection));
 
-	if (buzyWaitForMgr(20) == false)
+	if (buzyWaitForMgr(40) == false)
 		cout << "> WARNING: Receive Data Time Out, Laser" << endl;
 	PeopleMgr targetPos;
 	getPeople(targetPos);
@@ -246,7 +246,7 @@ void requestSensingSAM(int delayTime, HAEMgr& dataHAE, RobotParameterMgr& robotP
 
 bool buzyWaitForMgr(const int delayTime) {
 	for (int i = 0; i < 10 && receivedCount < 1; i++) {
-		Sleep(20);
+		Sleep(delayTime);
 		if (i == 9) {
 			receivedCount = 0;
 			return false;
