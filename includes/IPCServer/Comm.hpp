@@ -18,7 +18,7 @@ enum MessageType{ LASER_POSE, GOAL, SUBGOAL, ODOMETRY,
 				  FACIAL_EXP, STATE, PEOPLE, KEY_WORD, FACE_DETECT, FACE_RECOG, LOC_STATE, ACTION_SPEAK, RESULT_SPEAK,
 				  NAVI_PAR, ACTION_NAVI, RESULT_NAVI, SERVER_VEL, INVALID_GOAL, POSE_MODE, MESSAGE_FREQ,
 				  ACTION_GCALENDAR, RESULT_GCALENDAR,SCHEDULE_INFO, CHECK_INFO, QUERY_RESULT, PERCEPTION, DBN, FFORMATION, ACTION_APSTATE, RESULT_APSTATE,
-				  ACTION_ARM, RESULT_ARM,								  // Messages for Arm Manipulating
+				  ACTION_ARM, RESULT_ARM, ARM_POSITION,					  // Messages for Arm Manipulating
 				  PERCEPTION_HAE, HAE, ATTENTIONLEVEL, REQUEST_INFERENCE, // Messages for Toward Robot Attention Estimator (HAE)
 				  ROBOTPARAMETER,										  // Messages for Parameters of Robot Action
 				  TOTAL_MSG_NUM};
@@ -69,6 +69,7 @@ void getFformation(FformationMgr& mgr);
 void getFaceDetect(FaceDetect& mgr);
 void getFaceRecog(FaceRecogMgr &mgr);
 	/* For arm manipulating */
+void getArmPosition(ArmPositionMgr& mgr);
 void getActionArm(ActionArmMgr& mgr);
 void getResultArm(ResultArmMgr& mgr);
 	/* For Toward Robot Attention Estimator (HAE) */
@@ -117,6 +118,7 @@ void setFformation(FformationMgr& mgr);
 void setFaceDetect(FaceDetect& mgr);
 void setFaceRecog(FaceRecogMgr &mgr);
 	/* For arm manipulating */
+void setArmPosition(ArmPositionMgr& mgr);
 void setActionArm(ActionArmMgr& mgr); 
 void setResultArm(ResultArmMgr& mgr); 
 	/* For Toward Robot Attention Estimator (HAE) */
@@ -165,6 +167,7 @@ int sendFformation(FformationMgr& mgr);
 int sendFaceDetect(FaceDetect& mgr);
 int snedFaceRecog(FaceRecogMgr &mgr);
 	/* For arm manipulating */
+int sendArmPosition(ArmPositionMgr& mgr);
 int sendActionArm(ActionArmMgr& mgr); 
 int sendResultArm(ResultArmMgr& mgr); 
 	/* For Toward Robot Attention Estimator (HAE) */

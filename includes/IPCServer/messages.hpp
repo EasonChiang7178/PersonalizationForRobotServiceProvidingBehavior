@@ -367,15 +367,27 @@ public:
 #define RESULT_APSTATE_FORMAT "{[char:16], int}"
 
 /* For arm manipulating */
+	//Arm Position for action planner
+class ArmPositionMgr{
+public:
+	double x_pos;
+	double y_pos;
+	double z_pos;
+	double move_time;
+	double headDeg;
+};
+#define ARMPOSITION_NAME "ArmPositionMgr"
+#define ARMPOSITION_FORMAT "{double, double, double, double, double}"
+
 	// ActionArm
-enum action_arm{ARM_STOP, ARM_MOVE, ARM_GRAB, ARM_PUT, ARM_INITIAL, ARM_ROLL_CLOCKWISE, ARM_ROLL_COUNTERCLOCKWISE, ARM_HEAD_DOWN, ARM_HEAD_SHAKE, ARM_WAVE};
-class ActionArmMgr{
+enum action_arm{ARM_STOP, ARM_MOVE, ARM_GRAB, ARM_PUT, ARM_HOME, ARM_PREGRASP, ARM_LIMIT_PREGRASP, ARM_BASE_MOVE, 
+				ARM_ROLL_HOME, ARM_ROLL_CLOCKWISE, ARM_ROLL_COUNTERCLOCKWISE, ARM_FORWARD_A_BIT, ARM_BACKWARD_A_BIT, 
+				ARM_HEAD_DOWN, ARM_HEAD_UP, ARM_HEAD_SHAKE, ARM_WAVE};class ActionArmMgr{
 public:
 	int armState;
-	int headDeg;
 };
 #define ACTIONARM_NAME "ActionArmMgr"
-#define ACTIONARM_FORMAT "{int,int}"
+#define ACTIONARM_FORMAT "{int}"
 
 	// ResultArm
 enum result_arm{ARM_IDLE, ARM_EXECUTING, ARM_FINISHED, ARM_ERROR, ARM_FAIL};

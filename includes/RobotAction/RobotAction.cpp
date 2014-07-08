@@ -102,10 +102,15 @@ const bool RobotAction::headShake(const int& swingRange, const int& destDegree) 
 const bool RobotAction::turningFace(const int& goalDegree) {
 	this->getCurrentTime();
 	ActionArmMgr actionmgr;
+	ArmPositionMgr armHeadPara;
 
 	/* Sending command to turn the robot head */
 	actionmgr.armState = ARM_HEAD_SHAKE;
-	actionmgr.headDeg = goalDegree;
+	armHeadPara.headDeg = goalDegree;
+
+	sendArmPosition(armHeadPara);
+	Sleep(sizeof(armHeadPara) + 50);
+
 	sendActionArm(actionmgr);
 	Sleep(sizeof(actionmgr));
 	armHeadManipulating = true;
@@ -178,11 +183,16 @@ const int RobotAction::turnFaceToHuman() {
 	return -1 * goalDegree;
 }
 
-const bool RobotAction::armWave() {
+const bool RobotAction::armWave(const int& motionSpeed) {
 	this->getCurrentTime();
 	ActionArmMgr actionmgr;
+	ArmPositionMgr armHeadPara;
 
-	/* Sending command to turn the robot head */
+	/* Sending command to wave the robot's arm */
+	armHeadPara.move_time = motionSpeed;
+	sendArmPosition(armHeadPara);
+	Sleep(sizeof(armHeadPara) + 50);
+
 	actionmgr.armState = ARM_WAVE;
 	sendActionArm(actionmgr);
 	Sleep(sizeof(actionmgr));

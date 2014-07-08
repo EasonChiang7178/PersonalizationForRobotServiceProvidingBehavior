@@ -1,17 +1,212 @@
-﻿Build started 2014/7/4 上午 01:26:58.
-     1>Project "F:\Dropbox\Shu\Program\GitHub\PersonalizationForRobotServiceProvidingBehavior\AdaptiveInitEngagementAgent\AdaptiveInitEngagementAgent.vcxproj" on node 2 (build target(s)).
+﻿Build started 7/8/2014 5:11:42 PM.
+     1>Project "D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\AdaptiveInitEngagementAgent\AdaptiveInitEngagementAgent.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
          Creating "Debug\AdaptiveInitEngagementAgent.unsuccessfulbuild" because "AlwaysCreate" was specified.
        ClCompile:
-         All outputs are up-to-date.
+         D:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _USE_MATH_DEFINES /D WIN32 /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt ..\includes\IPCserver\IntComm.cpp ..\includes\RobotAction\RobotAction.cpp IPCserver\Client.cpp main.cpp
+         main.cpp
+     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\includes\ipcserver\messages.hpp(154): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 d:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(371) : see declaration of 'sprintf'
+     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\adaptiveinitengagementagent\main.cpp(59): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 d:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(234) : see declaration of 'fopen'
+     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\adaptiveinitengagementagent\main.cpp(83): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 d:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(234) : see declaration of 'fopen'
+     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\adaptiveinitengagementagent\main.cpp(88): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 d:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(234) : see declaration of 'fopen'
+     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\includes\rllib\rltransition.h(370): warning C4101: 'e' : unreferenced local variable
+                 d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\includes\rllib\rltransition.h(437) : see reference to function template instantiation 'void rl::episode::sa::adaptation<SIMULATOR,AGENT,ONLINE_CRITIC,rl::sa::Transition<STATE,ACTION,REWARD>>(SIMULATOR &,const AGENT &,ONLINE_CRITIC &,SA_TRANSITION &,bool)' being compiled
+                 with
+                 [
+                     SIMULATOR=Simulator,
+                     AGENT=rl::agent::EpsilonGreedy<rl::sa::QLearning<TabularQ,rl::sa::GreedyFromAIteration<ActionIterator>,Param>,ActionToss,Param>,
+                     ONLINE_CRITIC=rl::sa::QLearning<TabularQ,rl::sa::GreedyFromAIteration<ActionIterator>,Param>,
+                     STATE=S,
+                     ACTION=A,
+                     REWARD=Reward,
+                     SA_TRANSITION=rl::sa::Transition<S,A,Reward>
+                 ]
+                 d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\adaptiveinitengagementagent\main.cpp(72) : see reference to function template instantiation 'void rl::episode::sa::run_and_learn<Simulator,rl::agent::EpsilonGreedy<SA_ARGMAX_FUNCTION,TOSS,EPSILON_GREEDY_PARAM>,rl::sa::QLearning<SA_ARCHITECTURE,SA_GREEDY,SARSA_PARAM>,TransitionSet>(SIMULATOR &,const AGENT &,ONLINE_CRITIC &,SA_TRANSITION_SET &,int,int &)' being compiled
+                 with
+                 [
+                     SA_ARGMAX_FUNCTION=rl::sa::QLearning<TabularQ,rl::sa::GreedyFromAIteration<ActionIterator>,Param>,
+                     TOSS=ActionToss,
+                     EPSILON_GREEDY_PARAM=Param,
+                     SA_ARCHITECTURE=TabularQ,
+                     SA_GREEDY=rl::sa::GreedyFromAIteration<ActionIterator>,
+                     SARSA_PARAM=Param,
+                     SIMULATOR=Simulator,
+                     AGENT=rl::agent::EpsilonGreedy<rl::sa::QLearning<TabularQ,rl::sa::GreedyFromAIteration<ActionIterator>,Param>,ActionToss,Param>,
+                     ONLINE_CRITIC=rl::sa::QLearning<TabularQ,rl::sa::GreedyFromAIteration<ActionIterator>,Param>,
+                     SA_TRANSITION_SET=TransitionSet
+                 ]
+     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\includes\rllib\rltransition.h(389): warning C4101: 'e' : unreferenced local variable
+     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\includes\rllib\rltransition.h(337): warning C4101: 'e' : unreferenced local variable
+                 d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\includes\rllib\rltransition.h(458) : see reference to function template instantiation 'void rl::episode::sa::interaction<SIMULATOR,AGENT,rl::sa::Transition<STATE,ACTION,REWARD>>(SIMULATOR &,const AGENT &,SA_TRANSITION &)' being compiled
+                 with
+                 [
+                     SIMULATOR=Simulator,
+                     AGENT=rl::agent::Greedy<rl::sa::QLearning<TabularQ,rl::sa::GreedyFromAIteration<ActionIterator>,Param>>,
+                     STATE=S,
+                     ACTION=A,
+                     REWARD=Reward,
+                     SA_TRANSITION=rl::sa::Transition<S,A,Reward>
+                 ]
+                 d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\adaptiveinitengagementagent\main.cpp(111) : see reference to function template instantiation 'void rl::episode::sa::run_and_collect<Simulator,rl::agent::Greedy<SA_ARGMAX_FUNCTION>,TransitionSet>(SIMULATOR &,const AGENT &,SA_TRANSITION_SET &,int,int &)' being compiled
+                 with
+                 [
+                     SA_ARGMAX_FUNCTION=rl::sa::QLearning<TabularQ,rl::sa::GreedyFromAIteration<ActionIterator>,Param>,
+                     SIMULATOR=Simulator,
+                     AGENT=rl::agent::Greedy<rl::sa::QLearning<TabularQ,rl::sa::GreedyFromAIteration<ActionIterator>,Param>>,
+                     SA_TRANSITION_SET=TransitionSet
+                 ]
+         Client.cpp
+     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\includes\ipcserver\messages.hpp(154): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 d:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(371) : see declaration of 'sprintf'
+         RobotAction.cpp
+     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\includes\ipcserver\messages.hpp(154): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 d:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(371) : see declaration of 'sprintf'
+     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\includes\robotaction\robotaction.cpp(512): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 d:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(371) : see declaration of 'sprintf'
+         IntComm.cpp
+     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\includes\ipcserver\messages.hpp(154): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 d:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(371) : see declaration of 'sprintf'
+     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\includes\ipcserver\intcomm.cpp(356): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 d:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(371) : see declaration of 'sprintf'
+         Generating Code...
        Link:
-         All outputs are up-to-date.
-         AdaptiveInitEngagementAgent.vcxproj -> F:\Dropbox\Shu\Program\GitHub\PersonalizationForRobotServiceProvidingBehavior\\bin\Debug\AdaptiveInitEngagementAgent.exe
+         D:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\\bin\Debug\AdaptiveInitEngagementAgent.exe" /NOLOGO wsock32.lib ipcMDd_3.9.1.lib gsl_d.lib cblas_d.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Debug\AdaptiveInitEngagementAgent.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\AdaptiveInitEngagementAgent.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\\bin\Debug\AdaptiveInitEngagementAgent.lib" /MACHINE:X86 Debug\CoordTrans.obj
+         Debug\IntComm.obj
+         Debug\RobotAction.obj
+         Debug\Thread.obj
+         Debug\Client.obj
+         Debug\main.obj
+         LINK : D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\\bin\Debug\AdaptiveInitEngagementAgent.exe not found or not built by the last incremental link; performing full link
+     1>gsl_d.lib(blas.obj) : warning LNK4099: PDB 'gsl_d.pdb' was not found with 'gsl_d.lib(blas.obj)' or at 'D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\gsl_d.pdb'; linking object as if no debug info
+     1>gsl_d.lib(error.obj) : warning LNK4099: PDB 'gsl_d.pdb' was not found with 'gsl_d.lib(error.obj)' or at 'D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\gsl_d.pdb'; linking object as if no debug info
+     1>gsl_d.lib(stream.obj) : warning LNK4099: PDB 'gsl_d.pdb' was not found with 'gsl_d.lib(stream.obj)' or at 'D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\gsl_d.pdb'; linking object as if no debug info
+     1>gsl_d.lib(rowcol.obj) : warning LNK4099: PDB 'gsl_d.pdb' was not found with 'gsl_d.lib(rowcol.obj)' or at 'D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\gsl_d.pdb'; linking object as if no debug info
+     1>gsl_d.lib(copy.obj) : warning LNK4099: PDB 'gsl_d.pdb' was not found with 'gsl_d.lib(copy.obj)' or at 'D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\gsl_d.pdb'; linking object as if no debug info
+     1>gsl_d.lib(file.obj) : warning LNK4099: PDB 'gsl_d.pdb' was not found with 'gsl_d.lib(file.obj)' or at 'D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\gsl_d.pdb'; linking object as if no debug info
+     1>gsl_d.lib(init.obj) : warning LNK4099: PDB 'gsl_d.pdb' was not found with 'gsl_d.lib(init.obj)' or at 'D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\gsl_d.pdb'; linking object as if no debug info
+     1>gsl_d.lib(file1.obj) : warning LNK4099: PDB 'gsl_d.pdb' was not found with 'gsl_d.lib(file1.obj)' or at 'D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\gsl_d.pdb'; linking object as if no debug info
+     1>gsl_d.lib(init1.obj) : warning LNK4099: PDB 'gsl_d.pdb' was not found with 'gsl_d.lib(init1.obj)' or at 'D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\gsl_d.pdb'; linking object as if no debug info
+     1>gsl_d.lib(init2.obj) : warning LNK4099: PDB 'gsl_d.pdb' was not found with 'gsl_d.lib(init2.obj)' or at 'D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\gsl_d.pdb'; linking object as if no debug info
+     1>gsl_d.lib(bspline1.obj) : warning LNK4099: PDB 'gsl_d.pdb' was not found with 'gsl_d.lib(bspline1.obj)' or at 'D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\gsl_d.pdb'; linking object as if no debug info
+     1>cblas_d.lib(caxpy.obj) : warning LNK4099: PDB 'cblas_d.pdb' was not found with 'cblas_d.lib(caxpy.obj)' or at 'D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\cblas_d.pdb'; linking object as if no debug info
+     1>cblas_d.lib(ccopy.obj) : warning LNK4099: PDB 'cblas_d.pdb' was not found with 'cblas_d.lib(ccopy.obj)' or at 'D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\cblas_d.pdb'; linking object as if no debug info
+     1>cblas_d.lib(cdotc_sub.obj) : warning LNK4099: PDB 'cblas_d.pdb' was not found with 'cblas_d.lib(cdotc_sub.obj)' or at 'D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\cblas_d.pdb'; linking object as if no debug info
+     1>cblas_d.lib(cdotu_sub.obj) : warning LNK4099: PDB 'cblas_d.pdb' was not found with 'cblas_d.lib(cdotu_sub.obj)' or at 'D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\cblas_d.pdb'; linking object as if no debug info
+     1>cblas_d.lib(cgemm.obj) : warning LNK4099: PDB 'cblas_d.pdb' was not found with 'cblas_d.lib(cgemm.obj)' or at 'D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\cblas_d.pdb'; linking object as if no debug info
+     1>cblas_d.lib(cgemv.obj) : warning LNK4099: PDB 'cblas_d.pdb' was not found with 'cblas_d.lib(cgemv.obj)' or at 'D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\cblas_d.pdb'; linking object as if no debug info
+     1>cblas_d.lib(cgerc.obj) : warning LNK4099: PDB 'cblas_d.pdb' was not found with 'cblas_d.lib(cgerc.obj)' or at 'D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\cblas_d.pdb'; linking object as if no debug info
+     1>cblas_d.lib(cgeru.obj) : warning LNK4099: PDB 'cblas_d.pdb' was not found with 'cblas_d.lib(cgeru.obj)' or at 'D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\cblas_d.pdb'; linking object as if no debug info
+     1>cblas_d.lib(chemm.obj) : warning LNK4099: PDB 'cblas_d.pdb' was not found with 'cblas_d.lib(chemm.obj)' or at 'D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\cblas_d.pdb'; linking object as if no debug info
+     1>cblas_d.lib(chemv.obj) : warning LNK4099: PDB 'cblas_d.pdb' was not found with 'cblas_d.lib(chemv.obj)' or at 'D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\cblas_d.pdb'; linking object as if no debug info
+     1>cblas_d.lib(cher.obj) : warning LNK4099: PDB 'cblas_d.pdb' was not found with 'cblas_d.lib(cher.obj)' or at 'D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\cblas_d.pdb'; linking object as if no debug info
+     1>cblas_d.lib(cher2.obj) : warning LNK4099: PDB 'cblas_d.pdb' was not found with 'cblas_d.lib(cher2.obj)' or at 'D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\cblas_d.pdb'; linking object as if no debug info
+     1>cblas_d.lib(cher2k.obj) : warning LNK4099: PDB 'cblas_d.pdb' was not found with 'cblas_d.lib(cher2k.obj)' or at 'D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\cblas_d.pdb'; linking object as if no debug info
+     1>cblas_d.lib(cherk.obj) : warning LNK4099: PDB 'cblas_d.pdb' was not found with 'cblas_d.lib(cherk.obj)' or at 'D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\cblas_d.pdb'; linking object as if no debug info
+     1>cblas_d.lib(cscal.obj) : warning LNK4099: PDB 'cblas_d.pdb' was not found with 'cblas_d.lib(cscal.obj)' or at 'D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\cblas_d.pdb'; linking object as if no debug info
+     1>cblas_d.lib(csscal.obj) : warning LNK4099: PDB 'cblas_d.pdb' was not found with 'cblas_d.lib(csscal.obj)' or at 'D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\cblas_d.pdb'; linking object as if no debug info
+     1>cblas_d.lib(cswap.obj) : warning LNK4099: PDB 'cblas_d.pdb' was not found with 'cblas_d.lib(cswap.obj)' or at 'D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\cblas_d.pdb'; linking object as if no debug info
+     1>cblas_d.lib(csymm.obj) : warning LNK4099: PDB 'cblas_d.pdb' was not found with 'cblas_d.lib(csymm.obj)' or at 'D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\cblas_d.pdb'; linking object as if no debug info
+     1>cblas_d.lib(csyr2k.obj) : warning LNK4099: PDB 'cblas_d.pdb' was not found with 'cblas_d.lib(csyr2k.obj)' or at 'D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\cblas_d.pdb'; linking object as if no debug info
+     1>cblas_d.lib(csyrk.obj) : warning LNK4099: PDB 'cblas_d.pdb' was not found with 'cblas_d.lib(csyrk.obj)' or at 'D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\cblas_d.pdb'; linking object as if no debug info
+     1>cblas_d.lib(ctrmm.obj) : warning LNK4099: PDB 'cblas_d.pdb' was not found with 'cblas_d.lib(ctrmm.obj)' or at 'D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\cblas_d.pdb'; linking object as if no debug info
+     1>cblas_d.lib(ctrmv.obj) : warning LNK4099: PDB 'cblas_d.pdb' was not found with 'cblas_d.lib(ctrmv.obj)' or at 'D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\cblas_d.pdb'; linking object as if no debug info
+     1>cblas_d.lib(ctrsm.obj) : warning LNK4099: PDB 'cblas_d.pdb' was not found with 'cblas_d.lib(ctrsm.obj)' or at 'D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\cblas_d.pdb'; linking object as if no debug info
+     1>cblas_d.lib(ctrsv.obj) : warning LNK4099: PDB 'cblas_d.pdb' was not found with 'cblas_d.lib(ctrsv.obj)' or at 'D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\cblas_d.pdb'; linking object as if no debug info
+     1>cblas_d.lib(dasum.obj) : warning LNK4099: PDB 'cblas_d.pdb' was not found with 'cblas_d.lib(dasum.obj)' or at 'D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\cblas_d.pdb'; linking object as if no debug info
+     1>cblas_d.lib(daxpy.obj) : warning LNK4099: PDB 'cblas_d.pdb' was not found with 'cblas_d.lib(daxpy.obj)' or at 'D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\cblas_d.pdb'; linking object as if no debug info
+     1>cblas_d.lib(dcopy.obj) : warning LNK4099: PDB 'cblas_d.pdb' was not found with 'cblas_d.lib(dcopy.obj)' or at 'D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\cblas_d.pdb'; linking object as if no debug info
+     1>cblas_d.lib(ddot.obj) : warning LNK4099: PDB 'cblas_d.pdb' was not found with 'cblas_d.lib(ddot.obj)' or at 'D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\cblas_d.pdb'; linking object as if no debug info
+     1>cblas_d.lib(dgemm.obj) : warning LNK4099: PDB 'cblas_d.pdb' was not found with 'cblas_d.lib(dgemm.obj)' or at 'D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\cblas_d.pdb'; linking object as if no debug info
+     1>cblas_d.lib(dgemv.obj) : warning LNK4099: PDB 'cblas_d.pdb' was not found with 'cblas_d.lib(dgemv.obj)' or at 'D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\cblas_d.pdb'; linking object as if no debug info
+     1>cblas_d.lib(dger.obj) : warning LNK4099: PDB 'cblas_d.pdb' was not found with 'cblas_d.lib(dger.obj)' or at 'D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\cblas_d.pdb'; linking object as if no debug info
+     1>cblas_d.lib(dnrm2.obj) : warning LNK4099: PDB 'cblas_d.pdb' was not found with 'cblas_d.lib(dnrm2.obj)' or at 'D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\cblas_d.pdb'; linking object as if no debug info
+     1>cblas_d.lib(drot.obj) : warning LNK4099: PDB 'cblas_d.pdb' was not found with 'cblas_d.lib(drot.obj)' or at 'D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\cblas_d.pdb'; linking object as if no debug info
+     1>cblas_d.lib(drotg.obj) : warning LNK4099: PDB 'cblas_d.pdb' was not found with 'cblas_d.lib(drotg.obj)' or at 'D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\cblas_d.pdb'; linking object as if no debug info
+     1>cblas_d.lib(drotm.obj) : warning LNK4099: PDB 'cblas_d.pdb' was not found with 'cblas_d.lib(drotm.obj)' or at 'D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\cblas_d.pdb'; linking object as if no debug info
+     1>cblas_d.lib(drotmg.obj) : warning LNK4099: PDB 'cblas_d.pdb' was not found with 'cblas_d.lib(drotmg.obj)' or at 'D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\cblas_d.pdb'; linking object as if no debug info
+     1>cblas_d.lib(dscal.obj) : warning LNK4099: PDB 'cblas_d.pdb' was not found with 'cblas_d.lib(dscal.obj)' or at 'D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\cblas_d.pdb'; linking object as if no debug info
+     1>cblas_d.lib(dsdot.obj) : warning LNK4099: PDB 'cblas_d.pdb' was not found with 'cblas_d.lib(dsdot.obj)' or at 'D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\cblas_d.pdb'; linking object as if no debug info
+     1>cblas_d.lib(dswap.obj) : warning LNK4099: PDB 'cblas_d.pdb' was not found with 'cblas_d.lib(dswap.obj)' or at 'D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\cblas_d.pdb'; linking object as if no debug info
+     1>cblas_d.lib(dsymm.obj) : warning LNK4099: PDB 'cblas_d.pdb' was not found with 'cblas_d.lib(dsymm.obj)' or at 'D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\cblas_d.pdb'; linking object as if no debug info
+     1>cblas_d.lib(dsymv.obj) : warning LNK4099: PDB 'cblas_d.pdb' was not found with 'cblas_d.lib(dsymv.obj)' or at 'D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\cblas_d.pdb'; linking object as if no debug info
+     1>cblas_d.lib(dsyr.obj) : warning LNK4099: PDB 'cblas_d.pdb' was not found with 'cblas_d.lib(dsyr.obj)' or at 'D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\cblas_d.pdb'; linking object as if no debug info
+     1>cblas_d.lib(dsyr2.obj) : warning LNK4099: PDB 'cblas_d.pdb' was not found with 'cblas_d.lib(dsyr2.obj)' or at 'D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\cblas_d.pdb'; linking object as if no debug info
+     1>cblas_d.lib(dsyr2k.obj) : warning LNK4099: PDB 'cblas_d.pdb' was not found with 'cblas_d.lib(dsyr2k.obj)' or at 'D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\cblas_d.pdb'; linking object as if no debug info
+     1>cblas_d.lib(dsyrk.obj) : warning LNK4099: PDB 'cblas_d.pdb' was not found with 'cblas_d.lib(dsyrk.obj)' or at 'D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\cblas_d.pdb'; linking object as if no debug info
+     1>cblas_d.lib(dtrmm.obj) : warning LNK4099: PDB 'cblas_d.pdb' was not found with 'cblas_d.lib(dtrmm.obj)' or at 'D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\cblas_d.pdb'; linking object as if no debug info
+     1>cblas_d.lib(dtrmv.obj) : warning LNK4099: PDB 'cblas_d.pdb' was not found with 'cblas_d.lib(dtrmv.obj)' or at 'D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\cblas_d.pdb'; linking object as if no debug info
+     1>cblas_d.lib(dtrsm.obj) : warning LNK4099: PDB 'cblas_d.pdb' was not found with 'cblas_d.lib(dtrsm.obj)' or at 'D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\cblas_d.pdb'; linking object as if no debug info
+     1>cblas_d.lib(dtrsv.obj) : warning LNK4099: PDB 'cblas_d.pdb' was not found with 'cblas_d.lib(dtrsv.obj)' or at 'D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\cblas_d.pdb'; linking object as if no debug info
+     1>cblas_d.lib(dzasum.obj) : warning LNK4099: PDB 'cblas_d.pdb' was not found with 'cblas_d.lib(dzasum.obj)' or at 'D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\cblas_d.pdb'; linking object as if no debug info
+     1>cblas_d.lib(dznrm2.obj) : warning LNK4099: PDB 'cblas_d.pdb' was not found with 'cblas_d.lib(dznrm2.obj)' or at 'D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\cblas_d.pdb'; linking object as if no debug info
+     1>cblas_d.lib(icamax.obj) : warning LNK4099: PDB 'cblas_d.pdb' was not found with 'cblas_d.lib(icamax.obj)' or at 'D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\cblas_d.pdb'; linking object as if no debug info
+     1>cblas_d.lib(idamax.obj) : warning LNK4099: PDB 'cblas_d.pdb' was not found with 'cblas_d.lib(idamax.obj)' or at 'D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\cblas_d.pdb'; linking object as if no debug info
+     1>cblas_d.lib(isamax.obj) : warning LNK4099: PDB 'cblas_d.pdb' was not found with 'cblas_d.lib(isamax.obj)' or at 'D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\cblas_d.pdb'; linking object as if no debug info
+     1>cblas_d.lib(izamax.obj) : warning LNK4099: PDB 'cblas_d.pdb' was not found with 'cblas_d.lib(izamax.obj)' or at 'D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\cblas_d.pdb'; linking object as if no debug info
+     1>cblas_d.lib(sasum.obj) : warning LNK4099: PDB 'cblas_d.pdb' was not found with 'cblas_d.lib(sasum.obj)' or at 'D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\cblas_d.pdb'; linking object as if no debug info
+     1>cblas_d.lib(saxpy.obj) : warning LNK4099: PDB 'cblas_d.pdb' was not found with 'cblas_d.lib(saxpy.obj)' or at 'D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\cblas_d.pdb'; linking object as if no debug info
+     1>cblas_d.lib(scasum.obj) : warning LNK4099: PDB 'cblas_d.pdb' was not found with 'cblas_d.lib(scasum.obj)' or at 'D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\cblas_d.pdb'; linking object as if no debug info
+     1>cblas_d.lib(scnrm2.obj) : warning LNK4099: PDB 'cblas_d.pdb' was not found with 'cblas_d.lib(scnrm2.obj)' or at 'D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\cblas_d.pdb'; linking object as if no debug info
+     1>cblas_d.lib(scopy.obj) : warning LNK4099: PDB 'cblas_d.pdb' was not found with 'cblas_d.lib(scopy.obj)' or at 'D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\cblas_d.pdb'; linking object as if no debug info
+     1>cblas_d.lib(sdot.obj) : warning LNK4099: PDB 'cblas_d.pdb' was not found with 'cblas_d.lib(sdot.obj)' or at 'D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\cblas_d.pdb'; linking object as if no debug info
+     1>cblas_d.lib(sdsdot.obj) : warning LNK4099: PDB 'cblas_d.pdb' was not found with 'cblas_d.lib(sdsdot.obj)' or at 'D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\cblas_d.pdb'; linking object as if no debug info
+     1>cblas_d.lib(sgemm.obj) : warning LNK4099: PDB 'cblas_d.pdb' was not found with 'cblas_d.lib(sgemm.obj)' or at 'D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\cblas_d.pdb'; linking object as if no debug info
+     1>cblas_d.lib(sgemv.obj) : warning LNK4099: PDB 'cblas_d.pdb' was not found with 'cblas_d.lib(sgemv.obj)' or at 'D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\cblas_d.pdb'; linking object as if no debug info
+     1>cblas_d.lib(sger.obj) : warning LNK4099: PDB 'cblas_d.pdb' was not found with 'cblas_d.lib(sger.obj)' or at 'D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\cblas_d.pdb'; linking object as if no debug info
+     1>cblas_d.lib(snrm2.obj) : warning LNK4099: PDB 'cblas_d.pdb' was not found with 'cblas_d.lib(snrm2.obj)' or at 'D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\cblas_d.pdb'; linking object as if no debug info
+     1>cblas_d.lib(srot.obj) : warning LNK4099: PDB 'cblas_d.pdb' was not found with 'cblas_d.lib(srot.obj)' or at 'D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\cblas_d.pdb'; linking object as if no debug info
+     1>cblas_d.lib(srotg.obj) : warning LNK4099: PDB 'cblas_d.pdb' was not found with 'cblas_d.lib(srotg.obj)' or at 'D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\cblas_d.pdb'; linking object as if no debug info
+     1>cblas_d.lib(srotm.obj) : warning LNK4099: PDB 'cblas_d.pdb' was not found with 'cblas_d.lib(srotm.obj)' or at 'D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\cblas_d.pdb'; linking object as if no debug info
+     1>cblas_d.lib(srotmg.obj) : warning LNK4099: PDB 'cblas_d.pdb' was not found with 'cblas_d.lib(srotmg.obj)' or at 'D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\cblas_d.pdb'; linking object as if no debug info
+     1>cblas_d.lib(sscal.obj) : warning LNK4099: PDB 'cblas_d.pdb' was not found with 'cblas_d.lib(sscal.obj)' or at 'D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\cblas_d.pdb'; linking object as if no debug info
+     1>cblas_d.lib(sswap.obj) : warning LNK4099: PDB 'cblas_d.pdb' was not found with 'cblas_d.lib(sswap.obj)' or at 'D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\cblas_d.pdb'; linking object as if no debug info
+     1>cblas_d.lib(ssymm.obj) : warning LNK4099: PDB 'cblas_d.pdb' was not found with 'cblas_d.lib(ssymm.obj)' or at 'D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\cblas_d.pdb'; linking object as if no debug info
+     1>cblas_d.lib(ssymv.obj) : warning LNK4099: PDB 'cblas_d.pdb' was not found with 'cblas_d.lib(ssymv.obj)' or at 'D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\cblas_d.pdb'; linking object as if no debug info
+     1>cblas_d.lib(ssyr.obj) : warning LNK4099: PDB 'cblas_d.pdb' was not found with 'cblas_d.lib(ssyr.obj)' or at 'D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\cblas_d.pdb'; linking object as if no debug info
+     1>cblas_d.lib(ssyr2.obj) : warning LNK4099: PDB 'cblas_d.pdb' was not found with 'cblas_d.lib(ssyr2.obj)' or at 'D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\cblas_d.pdb'; linking object as if no debug info
+     1>cblas_d.lib(ssyr2k.obj) : warning LNK4099: PDB 'cblas_d.pdb' was not found with 'cblas_d.lib(ssyr2k.obj)' or at 'D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\cblas_d.pdb'; linking object as if no debug info
+     1>cblas_d.lib(ssyrk.obj) : warning LNK4099: PDB 'cblas_d.pdb' was not found with 'cblas_d.lib(ssyrk.obj)' or at 'D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\cblas_d.pdb'; linking object as if no debug info
+     1>cblas_d.lib(strmm.obj) : warning LNK4099: PDB 'cblas_d.pdb' was not found with 'cblas_d.lib(strmm.obj)' or at 'D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\cblas_d.pdb'; linking object as if no debug info
+     1>cblas_d.lib(strmv.obj) : warning LNK4099: PDB 'cblas_d.pdb' was not found with 'cblas_d.lib(strmv.obj)' or at 'D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\cblas_d.pdb'; linking object as if no debug info
+     1>cblas_d.lib(strsm.obj) : warning LNK4099: PDB 'cblas_d.pdb' was not found with 'cblas_d.lib(strsm.obj)' or at 'D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\cblas_d.pdb'; linking object as if no debug info
+     1>cblas_d.lib(strsv.obj) : warning LNK4099: PDB 'cblas_d.pdb' was not found with 'cblas_d.lib(strsv.obj)' or at 'D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\cblas_d.pdb'; linking object as if no debug info
+     1>cblas_d.lib(xerbla.obj) : warning LNK4099: PDB 'cblas_d.pdb' was not found with 'cblas_d.lib(xerbla.obj)' or at 'D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\cblas_d.pdb'; linking object as if no debug info
+     1>cblas_d.lib(zaxpy.obj) : warning LNK4099: PDB 'cblas_d.pdb' was not found with 'cblas_d.lib(zaxpy.obj)' or at 'D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\cblas_d.pdb'; linking object as if no debug info
+     1>cblas_d.lib(zcopy.obj) : warning LNK4099: PDB 'cblas_d.pdb' was not found with 'cblas_d.lib(zcopy.obj)' or at 'D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\cblas_d.pdb'; linking object as if no debug info
+     1>cblas_d.lib(zdotc_sub.obj) : warning LNK4099: PDB 'cblas_d.pdb' was not found with 'cblas_d.lib(zdotc_sub.obj)' or at 'D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\cblas_d.pdb'; linking object as if no debug info
+     1>cblas_d.lib(zdotu_sub.obj) : warning LNK4099: PDB 'cblas_d.pdb' was not found with 'cblas_d.lib(zdotu_sub.obj)' or at 'D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\cblas_d.pdb'; linking object as if no debug info
+     1>cblas_d.lib(zdscal.obj) : warning LNK4099: PDB 'cblas_d.pdb' was not found with 'cblas_d.lib(zdscal.obj)' or at 'D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\cblas_d.pdb'; linking object as if no debug info
+     1>cblas_d.lib(zgemm.obj) : warning LNK4099: PDB 'cblas_d.pdb' was not found with 'cblas_d.lib(zgemm.obj)' or at 'D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\cblas_d.pdb'; linking object as if no debug info
+     1>cblas_d.lib(zgemv.obj) : warning LNK4099: PDB 'cblas_d.pdb' was not found with 'cblas_d.lib(zgemv.obj)' or at 'D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\cblas_d.pdb'; linking object as if no debug info
+     1>cblas_d.lib(zgerc.obj) : warning LNK4099: PDB 'cblas_d.pdb' was not found with 'cblas_d.lib(zgerc.obj)' or at 'D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\cblas_d.pdb'; linking object as if no debug info
+     1>cblas_d.lib(zgeru.obj) : warning LNK4099: PDB 'cblas_d.pdb' was not found with 'cblas_d.lib(zgeru.obj)' or at 'D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\cblas_d.pdb'; linking object as if no debug info
+     1>cblas_d.lib(zhemm.obj) : warning LNK4099: PDB 'cblas_d.pdb' was not found with 'cblas_d.lib(zhemm.obj)' or at 'D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\cblas_d.pdb'; linking object as if no debug info
+     1>cblas_d.lib(zhemv.obj) : warning LNK4099: PDB 'cblas_d.pdb' was not found with 'cblas_d.lib(zhemv.obj)' or at 'D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\cblas_d.pdb'; linking object as if no debug info
+     1>cblas_d.lib(zher.obj) : warning LNK4099: PDB 'cblas_d.pdb' was not found with 'cblas_d.lib(zher.obj)' or at 'D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\cblas_d.pdb'; linking object as if no debug info
+     1>cblas_d.lib(zher2.obj) : warning LNK4099: PDB 'cblas_d.pdb' was not found with 'cblas_d.lib(zher2.obj)' or at 'D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\cblas_d.pdb'; linking object as if no debug info
+     1>cblas_d.lib(zher2k.obj) : warning LNK4099: PDB 'cblas_d.pdb' was not found with 'cblas_d.lib(zher2k.obj)' or at 'D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\cblas_d.pdb'; linking object as if no debug info
+     1>cblas_d.lib(zherk.obj) : warning LNK4099: PDB 'cblas_d.pdb' was not found with 'cblas_d.lib(zherk.obj)' or at 'D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\cblas_d.pdb'; linking object as if no debug info
+     1>cblas_d.lib(zscal.obj) : warning LNK4099: PDB 'cblas_d.pdb' was not found with 'cblas_d.lib(zscal.obj)' or at 'D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\cblas_d.pdb'; linking object as if no debug info
+     1>cblas_d.lib(zswap.obj) : warning LNK4099: PDB 'cblas_d.pdb' was not found with 'cblas_d.lib(zswap.obj)' or at 'D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\cblas_d.pdb'; linking object as if no debug info
+     1>cblas_d.lib(zsymm.obj) : warning LNK4099: PDB 'cblas_d.pdb' was not found with 'cblas_d.lib(zsymm.obj)' or at 'D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\cblas_d.pdb'; linking object as if no debug info
+     1>cblas_d.lib(zsyr2k.obj) : warning LNK4099: PDB 'cblas_d.pdb' was not found with 'cblas_d.lib(zsyr2k.obj)' or at 'D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\cblas_d.pdb'; linking object as if no debug info
+     1>cblas_d.lib(zsyrk.obj) : warning LNK4099: PDB 'cblas_d.pdb' was not found with 'cblas_d.lib(zsyrk.obj)' or at 'D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\cblas_d.pdb'; linking object as if no debug info
+     1>cblas_d.lib(ztrmm.obj) : warning LNK4099: PDB 'cblas_d.pdb' was not found with 'cblas_d.lib(ztrmm.obj)' or at 'D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\cblas_d.pdb'; linking object as if no debug info
+     1>cblas_d.lib(ztrmv.obj) : warning LNK4099: PDB 'cblas_d.pdb' was not found with 'cblas_d.lib(ztrmv.obj)' or at 'D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\cblas_d.pdb'; linking object as if no debug info
+     1>cblas_d.lib(ztrsm.obj) : warning LNK4099: PDB 'cblas_d.pdb' was not found with 'cblas_d.lib(ztrsm.obj)' or at 'D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\cblas_d.pdb'; linking object as if no debug info
+     1>cblas_d.lib(ztrsv.obj) : warning LNK4099: PDB 'cblas_d.pdb' was not found with 'cblas_d.lib(ztrsv.obj)' or at 'D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\cblas_d.pdb'; linking object as if no debug info
+         AdaptiveInitEngagementAgent.vcxproj -> D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\\bin\Debug\AdaptiveInitEngagementAgent.exe
+       Manifest:
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /outputresource:"D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\\bin\Debug\AdaptiveInitEngagementAgent.exe;#1" /manifest Debug\AdaptiveInitEngagementAgent.exe.intermediate.manifest
        FinalizeBuildStatus:
          Deleting file "Debug\AdaptiveInitEngagementAgent.unsuccessfulbuild".
          Touching "Debug\AdaptiveInitEngagementAgent.lastbuildstate".
-     1>Done Building Project "F:\Dropbox\Shu\Program\GitHub\PersonalizationForRobotServiceProvidingBehavior\AdaptiveInitEngagementAgent\AdaptiveInitEngagementAgent.vcxproj" (build target(s)).
+     1>Done Building Project "D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\AdaptiveInitEngagementAgent\AdaptiveInitEngagementAgent.vcxproj" (build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:00.06
+Time Elapsed 00:00:02.79

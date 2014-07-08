@@ -53,6 +53,7 @@ static FformationMgr fformation_mgr;
 static FaceDetect face_detect_mgr;
 static FaceRecogMgr face_recog_mgr;
 	/* For arm manipulating */
+static ArmPositionMgr arm_position_mgr;
 static ActionArmMgr action_arm_mgr;
 static ResultArmMgr result_arm_mgr;
 	/* For Toward Robot Attention Estimator (HAE) */
@@ -360,6 +361,13 @@ void getFaceRecog(FaceRecogMgr& mgr)
 }
 
 	/* For arm manipulating */
+void getArmPosition(ArmPositionMgr& mgr)
+{
+	RD_LOCK( ARM_POSITION );
+	mgr = arm_position_mgr;
+	UNLOCK( ARM_POSITION );
+}
+
 void getActionArm(ActionArmMgr& mgr)
 {
 	RD_LOCK( ACTION_ARM );
@@ -651,6 +659,13 @@ void setFaceRecog(FaceRecogMgr& mgr)
 }
 
 	/* For arm manipulating */
+void setArmPosition(ArmPositionMgr& mgr)
+{
+	WR_LOCK(ARM_POSITION);
+	arm_position_mgr = mgr;
+	UNLOCK(ARM_POSITION);
+}
+
 void setActionArm(ActionArmMgr& mgr)
 {
 	WR_LOCK( ACTION_ARM );

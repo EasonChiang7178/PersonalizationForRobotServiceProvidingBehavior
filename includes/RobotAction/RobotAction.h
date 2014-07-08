@@ -39,7 +39,7 @@ class RobotAction {
 		const int turnFaceToHuman();
 
 			// Arm wave
-		const bool armWave();
+		const bool armWave(const int& motionSpeed);
 
 			// For Navigation
 		const bool toPoint(const double& x, const double& y, const double& theta);

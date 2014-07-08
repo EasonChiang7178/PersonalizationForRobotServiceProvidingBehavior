@@ -1,12 +1,35 @@
-﻿Build started 7/7/2014 6:54:13 PM.
+﻿Build started 7/8/2014 5:12:35 PM.
      1>Project "D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\VoiceActivityDetector\VoiceActivityDetector.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
          Creating "Debug\VoiceActivityDetector.unsuccessfulbuild" because "AlwaysCreate" was specified.
        ClCompile:
-         All outputs are up-to-date.
+         D:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt ..\includes\IPCserver\IntComm.cpp IPCserver\Client.cpp main.cpp
+         Client.cpp
+     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\includes\ipcserver\messages.hpp(154): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 d:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(371) : see declaration of 'sprintf'
+         IntComm.cpp
+     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\includes\ipcserver\messages.hpp(154): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 d:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(371) : see declaration of 'sprintf'
+     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\includes\ipcserver\intcomm.cpp(356): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 d:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(371) : see declaration of 'sprintf'
+         Generating Code...
+         Compiling...
+         main.cpp
+     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\includes\ipcserver\messages.hpp(154): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 d:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(371) : see declaration of 'sprintf'
+     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\voiceactivitydetector\main.cpp(179): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
+     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\voiceactivitydetector\main.cpp(174): warning C4101: 'sumThresh' : unreferenced local variable
+     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\voiceactivitydetector\main.cpp(280): warning C4244: 'initializing' : conversion from 'double' to 'int', possible loss of data
+         Generating Code...
        Link:
-         All outputs are up-to-date.
+         D:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\\bin\Debug\VoiceActivityDetector.exe" /NOLOGO wsock32.lib ipcMDd_3.9.1.lib portaudio_x86d.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Debug\VoiceActivityDetector.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\bin\Debug\VoiceActivityDetector.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\\bin\Debug\VoiceActivityDetector.lib" /MACHINE:X86 Debug\IntComm.obj
+         Debug\Thread.obj
+         Debug\Client.obj
+         Debug\main.obj
+         LINK : D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\\bin\Debug\VoiceActivityDetector.exe not found or not built by the last incremental link; performing full link
          VoiceActivityDetector.vcxproj -> D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\\bin\Debug\VoiceActivityDetector.exe
+       Manifest:
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /outputresource:"D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\\bin\Debug\VoiceActivityDetector.exe;#1" /manifest Debug\VoiceActivityDetector.exe.intermediate.manifest
        FinalizeBuildStatus:
          Deleting file "Debug\VoiceActivityDetector.unsuccessfulbuild".
          Touching "Debug\VoiceActivityDetector.lastbuildstate".
@@ -14,4 +37,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:00.03
+Time Elapsed 00:00:01.92

@@ -134,7 +134,9 @@ int main(int argc, char** argv) {
 				cout << keyboardInput << endl;
 				keyboardInput = '\0';
 
-				robotAction.armWave();
+				robotAction.armWave(3);
+				robotAction.armWave(2);
+				//robotAction.armWave(1);
 				break;
 			}
 

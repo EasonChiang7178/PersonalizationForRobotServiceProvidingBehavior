@@ -335,6 +335,14 @@ void result_apState_message_handler(MSG_INSTANCE msgRef, BYTE_ARRAY callData, vo
 }
 
 	/* For arm manipulating */
+void armposition_message_handler(MSG_INSTANCE msgRef, BYTE_ARRAY callData, void *clientData)
+{
+	ArmPositionMgr data;
+	IPC_unmarshallData(IPC_msgInstanceFormatter(msgRef), callData, &data, sizeof(ArmPositionMgr));
+	setArmPosition( data );
+	IPC_freeByteArray(callData);
+}
+
 void actionarm_message_handler(MSG_INSTANCE msgRef, BYTE_ARRAY callData, void *clientData)
 {
 	ActionArmMgr data;
@@ -509,6 +517,7 @@ void register_messages()
 	msg_info[ACTION_APSTATE]  = MsgInfo( ACTION_APSTATE_NAME, ACTION_APSTATE_FORMAT, action_apState_message_handler );
 	msg_info[RESULT_APSTATE]  = MsgInfo( RESULT_APSTATE_NAME, RESULT_APSTATE_FORMAT, result_apState_message_handler );
 		/* For arm manipulating */
+	msg_info[ARM_POSITION] = MsgInfo( ARMPOSITION_NAME, ARMPOSITION_FORMAT, armposition_message_handler );
 	msg_info[ACTION_ARM] = MsgInfo( ACTIONARM_NAME, ACTIONARM_FORMAT, actionarm_message_handler );
 	msg_info[RESULT_ARM] = MsgInfo( RESULTARM_NAME, RESULTARM_FORMAT, resultarm_message_handler );
 		/* For Toward Robot Attention Estimator (HAE) */
@@ -641,6 +650,10 @@ int sendResult_apState(Result_apStateMgr& mgr){
 }
 
 	/* For arm manipulating */
+int sendArmPosition(ArmPositionMgr& mgr){
+	return (int)IPC_publishData(ARMPOSITION_NAME, &mgr);
+}
+
 int sendActionArm(ActionArmMgr& mgr){
 	return (int)IPC_publishData(ACTIONARM_NAME, &mgr);
 }
