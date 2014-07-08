@@ -15,6 +15,9 @@ int receivedCount = 0;
 	// To store the keyword listened
 string humanSpeechInput = "";
 
+int robotSpeed = 0;
+int robotVolume = 0;
+
 // ======================================================================
 //							Initialization
 // ======================================================================
@@ -42,8 +45,8 @@ RobotAction::RobotAction(const string& IPAddress) {
 }
 
 void RobotAction::subcribeAndPublish() {
-	subscribe(KEY_WORD, ODOMETRY, PEOPLE, RESULT_NAVI, RESULT_ARM, RESULT_SPEAK, HAE, ATTENTIONLEVEL, TOTAL_MSG_NUM);
-	publish(MESSAGE_FREQ, PERCEPTION, SUBGOAL, ACTION_NAVI, ACTION_ARM, ACTION_SPEAK, ARM_POSITION, REQUEST_INFERENCE, TOTAL_MSG_NUM);
+	subscribe(PERCEPTION, KEY_WORD, ODOMETRY, PEOPLE, RESULT_NAVI, RESULT_ARM, RESULT_SPEAK, HAE, ATTENTIONLEVEL, TOTAL_MSG_NUM);
+	publish(ROBOTPARAMETER, MESSAGE_FREQ, PERCEPTION, SUBGOAL, ACTION_NAVI, ACTION_ARM, ACTION_SPEAK, ARM_POSITION, REQUEST_INFERENCE, TOTAL_MSG_NUM);
 	
 }
 
@@ -341,7 +344,7 @@ const bool RobotAction::forwardApproach(const int& speed, const double& distance
 	double dX = (targetPos.x[0] / 100.0) - curPos.x;
 	double dY = (targetPos.y[0] / 100.0) - curPos.y;
 
-	if (sqrt(pow(dX, 2) + pow(dY, 2)) < 1.5) {
+	if (sqrt(pow(dX, 2) + pow(dY, 2)) < 1.1) {
 		cout << "> WARNING: Too close to human!" << endl;
 		return false;
 	}
@@ -538,6 +541,28 @@ const bool RobotAction::speaking(const string& textToSpeak, const float& voiceVo
 	return false;
 }
 
+const int RobotAction::setSpeechVolume(const int& volume) {
+	speechVolume = volume;
+	robotVolume = speechVolume;
+	return 1;
+}
+
+const int RobotAction::setMotionSpeed(const int& speed) {
+	motionSpeed = speed;
+	robotSpeed = motionSpeed;
+	return 1;
+}
+
+const int RobotAction::getMotionSpeed() const {
+	robotSpeed = motionSpeed;
+	return motionSpeed;
+}
+
+const int RobotAction::getSpeechVolume() const {
+	robotVolume = speechVolume;
+	return speechVolume;
+}
+
 // ======================================================================
 //						High Level Inference Result
 // ======================================================================
@@ -656,4 +681,12 @@ void PeopleMgr_handler() {
 
 void KeyWord_handler(KeyWordMgr data) {
 	humanSpeechInput = data.keyword;
+}
+
+void Perception_handler(PerceptionMgr data) {
+	RobotParameterMgr robot;
+	robot.speed = static_cast< robotMotionSpeed_type >(robotSpeed);
+	robot.volume = static_cast< robotSpeechVolume_type >(robotVolume);
+	sendRobotParameter(robot);
+	Sleep(sizeof(robot));
 }

@@ -60,12 +60,18 @@ class RobotAction {
 		const int setKeywordListened();
 		const int resetKeyword(const string& str) { keywordListened = str; return 1; }
 
+		const int setSpeechVolume(const int& volume);
+		const int setMotionSpeed(const int& speed);
+
 		/* Getting Set */
 		const int getTimeout() const { return timeout; }
 		const int getATR() const { return curAttentionLevel; }
 		const int getFaceDirection() const { return curFaceDirection; }
 		const int getPU() const { return curPU; }
 		const string getListenContent() { return keywordListened; }
+
+		const int getMotionSpeed() const;
+		const int getSpeechVolume() const;
 
 		/* For Human Attention Estimator */
 			// Query current attention toward the robot
@@ -103,6 +109,9 @@ class RobotAction {
 		int curPU;
 			// For buzy waiting for mgr receive
 		bool buzyWaitForMgr(const int& delayTime);
+
+		int motionSpeed;
+		int speechVolume;
 
 		/* For Robot Pose Manipulation */
 
