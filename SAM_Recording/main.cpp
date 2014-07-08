@@ -244,6 +244,11 @@ void requestSensingSAM(int delayTime, HAEMgr& dataHAE, RobotParameterMgr& robotP
 	return;
 }
 
+	// Handler for receiving robot parameter
+void RobotParameter_handler() {
+	receivedCount += 1;
+}
+
 bool buzyWaitForMgr(const int delayTime) {
 	for (int i = 0; i < 10 && receivedCount < 1; i++) {
 		Sleep(delayTime);

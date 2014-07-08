@@ -403,8 +403,12 @@ void Reqeust_Inference_message_handler(MSG_INSTANCE msgRef, BYTE_ARRAY callData,
 
 void Robot_Parameter_message_handler(MSG_INSTANCE msgRef, BYTE_ARRAY callData, void *clientData) {
 	RobotParameterMgr data;
+	extern void RobotParameter_handler();
+
 	IPC_unmarshallData(IPC_msgInstanceFormatter(msgRef), callData, &data, sizeof(RobotParameterMgr));
 	setRobotParameter(data);
+
+	RobotParameter_handler();
 	IPC_freeByteArray(callData);
 }
 

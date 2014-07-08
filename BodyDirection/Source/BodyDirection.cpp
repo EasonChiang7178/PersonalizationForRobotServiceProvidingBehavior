@@ -279,7 +279,7 @@ const int BodyDirection::analyzeFunc()
 
 		/* Calculating Pleasantness-Unpleasantness */
 		this->calculatePU(i, niImageStruct, w1, w2, w3, w4, w5);
-		cout << "w1: " << w1 << ", w2: " << w2 << ", w3: " << w3 << ", w4: " << w4 << ", w5: " << w5 << endl;
+		//cout << "w1: " << w1 << ", w2: " << w2 << ", w3: " << w3 << ", w4: " << w4 << ", w5: " << w5 << endl;
 
 		/*	Calculating Touch Flag	*/
 		// check the dist between both hand to sholders and another person's hands 
@@ -499,12 +499,12 @@ const int BodyDirection::drawImg()
 		ss.str(""); ss << "HS: " << userHandSpeedMax[i];
 		cv::Point2f hs(niImageStructTemp.Users[i][ 8].position2D.x + 20, niImageStructTemp.Users[i][ 8].position2D.y + 20 * displayPos++);
 		cv::putText(niImageStructTemp.Color, ss.str(), hs, CV_FONT_HERSHEY_PLAIN, 1, cv::Scalar(0,255,230), 2);
-			// Dynamics
-		if (userDynamics.size() < niImageStructTemp.Users.size())
-			return 1;
-		ss.str(""); ss << "HS (D): " << userDynamics[i];
-		cv::Point2f d(niImageStructTemp.Users[i][ 8].position2D.x + 20, niImageStructTemp.Users[i][ 8].position2D.y + 20 * displayPos++);
-		cv::putText(niImageStructTemp.Color, ss.str(), d, CV_FONT_HERSHEY_PLAIN, 1, cv::Scalar(0,255,230), 2);
+		//	// Dynamics
+		//if (userDynamics.size() < niImageStructTemp.Users.size())
+		//	return 1;
+		//ss.str(""); ss << "HS (D): " << userDynamics[i];
+		//cv::Point2f d(niImageStructTemp.Users[i][ 8].position2D.x + 20, niImageStructTemp.Users[i][ 8].position2D.y + 20 * displayPos++);
+		//cv::putText(niImageStructTemp.Color, ss.str(), d, CV_FONT_HERSHEY_PLAIN, 1, cv::Scalar(0,255,230), 2);
 			// Hand To Body
 		if (userHandToBody.size() < niImageStructTemp.Users.size())
 			return 1;
@@ -710,9 +710,9 @@ const int BodyDirection::calculateHandSpeed(const int& userID, const NiImageStru
 	float leftHandDisplacement = point3fDist( leftHand, leftHandTemp[userID]);
 	float rightHandDisplacement = point3fDist( rightHand, rightHandTemp[userID]);
 
-	cout << "y:  " << leftHand.y << endl;
-	cout << "y': " << leftHandTemp[userID].y << endl;
-	cout << "Dl: " << leftHandDisplacement << endl;
+	//cout << "y:  " << leftHand.y << endl;
+	//cout << "y': " << leftHandTemp[userID].y << endl;
+	//cout << "Dl: " << leftHandDisplacement << endl;
 	if (leftHandDisplacement > 300.0 || (leftHand.y - leftHandTemp[userID].y) < 0.0) {
 		if (leftHandDisplacement > 500.0)
 			leftHandDisplacement = 2000.0;
