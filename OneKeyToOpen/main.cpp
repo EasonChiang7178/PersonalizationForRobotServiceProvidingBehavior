@@ -240,7 +240,7 @@ void Exec(string ProgramName){
 		psexecUser		= "-u robot ";
 		psexecPswd		= "-p robot ";
 		psexecProgDir	= "-w C:\\Users\\robot\\Desktop\\Shu\\PersonalizationForRobotServiceProvidingBehavior\\Bin\\Debug\\ ";
-		psexecProgName	= "C:\\Users\\robot\\Desktop\\Shu\\PersonalizationForRobotServiceProvidingBehavior\\Bin\\Debug\\HAE_Inference.exe ";
+		psexecProgName	= "C:\\Users\\robot\\Desktop\\Shu\\PersonalizationForRobotServiceProvidingBehavior\\Bin\\Debug\\SAM_Inference.exe ";
 
 		systemCallParam = psexecDir + psexecHost + psexecUser + psexecPswd + 
 			psexecParam + psexecProgDir + psexecProgName;
@@ -410,7 +410,7 @@ void Kill(string ProgramName){
 		pskillHost		= "\\\\192.168.11.4 ";
 		pskillUser		= "-u robot ";
 		pskillPswd		= "-p robot ";
-		pskillProgName	= "HAE_Inference.exe ";
+		pskillProgName	= "SAM_Inference.exe ";
 
 		systemCallParam = pskillDir + pskillHost + pskillUser + pskillPswd + 
 			pskillParam + pskillProgName;

@@ -58,8 +58,8 @@
 
 using namespace std;
 
-//#define SERVERNAME "192.168.11.4"
-#define SERVERNAME "localhost"
+#define SERVERNAME "192.168.11.4"
+//#define SERVERNAME "localhost"
 
 /* #define SAMPLE_RATE  (17932) // Test failure to open with this value. */
 #define SAMPLE_RATE			(8000)

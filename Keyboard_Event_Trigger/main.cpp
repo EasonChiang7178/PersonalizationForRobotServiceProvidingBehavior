@@ -11,8 +11,8 @@ using namespace std;
 
 //** Problem Dependent Variable Setting **//
 #define PARTNERNAME "®a©ú"
-#define SERVER_NAME "localhost"
-//#define SERVER_NAME "192.168.11.4"
+//#define SERVER_NAME "localhost"
+#define SERVER_NAME "192.168.11.4"
 
 /** Declration of Variables **/
 char keyboardInput = '\0';
@@ -134,9 +134,11 @@ int main(int argc, char** argv) {
 				cout << keyboardInput << endl;
 				keyboardInput = '\0';
 
+				robotAction.armWave(5);
+				robotAction.armWave(4);
 				robotAction.armWave(3);
 				robotAction.armWave(2);
-				//robotAction.armWave(1);
+				robotAction.armWave(1);
 				break;
 			}
 
