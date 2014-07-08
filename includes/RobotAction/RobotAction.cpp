@@ -327,7 +327,7 @@ const bool RobotAction::forwardApproach(const int& speed, const double& distance
 	if (targetPos.count == 0) {
 		cout << "> WARNING: No Human!" << endl;
 		return 1;
-	} else if(targetPos.count > 1) {
+	} else if(targetPos.count >= 1) {
 		/* Find the person who is nearest to the robot */
 		float minX = 0.0, minY = 0.0, squaredDistance = 0.0, minSquaredDistance = 999999.0;
 		for (int i = 0; i < targetPos.count; i++) {
@@ -341,8 +341,10 @@ const bool RobotAction::forwardApproach(const int& speed, const double& distance
 		targetPos.x[0] = minX;
 		targetPos.y[0] = minY;
 	}
-	double dX = (targetPos.x[0] / 100.0) - curPos.x;
-	double dY = (targetPos.y[0] / 100.0) - curPos.y;
+	//double dX = (targetPos.x[0] / 100.0) - curPos.x;
+	//double dY = (targetPos.y[0] / 100.0) - curPos.y;
+	double dX = targetPos.x[0] / 100.0;
+	double dY = targetPos.y[0] / 100.0;
 
 	if (sqrt(pow(dX, 2) + pow(dY, 2)) < 1.1) {
 		cout << "> WARNING: Too close to human!" << endl;

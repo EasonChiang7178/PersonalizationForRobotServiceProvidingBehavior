@@ -306,8 +306,12 @@ void QueryResult_message_handler(MSG_INSTANCE msgRef, BYTE_ARRAY callData, void 
 void Perception_message_handler(MSG_INSTANCE msgRef, BYTE_ARRAY callData, void *clientData)
 {
 	PerceptionMgr data;
+	extern void Perception_handler(PerceptionMgr data);
 	IPC_unmarshallData(IPC_msgInstanceFormatter(msgRef), callData, &data, sizeof(PerceptionMgr));
 	setPerception( data );
+
+	if (data.sensing = robotParameter)
+		Perception_handler(data);
 	IPC_freeByteArray(callData);
 }
 

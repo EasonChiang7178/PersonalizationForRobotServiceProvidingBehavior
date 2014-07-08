@@ -48,7 +48,7 @@ String eyes_cascade_name = "../models/CascadeClassifiers/haarcascade_eye_tree_ey
 String window_name = "Capture - Face detection";
 Mat frame;
 static int faceDirectionHAE = 0;
-int imageIndex = 94;
+int imageIndex = 0;
 
 /** Declration of Functions **/
 	// Handler for receiving Request HAE message
@@ -133,6 +133,8 @@ void Perception_HAE_handler()
 #ifdef RECORDING
 	/* Store the image for annotating data */
 	cv::Mat img;
+	if (frame.empty() == true)
+		return;
 	cv::resize(frame, img, cv::Size(frame.cols / 2, frame.rows / 2));
 	
 	stringstream ss;

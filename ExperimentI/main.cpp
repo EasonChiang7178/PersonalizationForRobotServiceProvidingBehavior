@@ -262,8 +262,8 @@ int main(int argc, char** argv) {
 		}
 
 		Sleep(1000);
-		robotVolume = 0;
-		robotSpeed = 0;
+		robotAction.setSpeechVolume(0);
+		robotAction.setMotionSpeed(0);
 	}
 	cout << "The program is end by user." << endl;
 	disconnect_to_server();
