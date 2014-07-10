@@ -1,7 +1,11 @@
 /* Third-party Library */
 	// Import Inter-Process Communication Server
-#include "IPCserver\Client.hpp"
+//#include "IPCserver\Client.hpp"
 #include "BodyDirection.h"
+// LCM headers
+#include "lcm\lcm-cpp.hpp"
+#include "lcm\LcmComm.hpp"
+#include "lcm\BodyDirectionLcm.hpp"
 
 #include <cmath>
 #include <sstream>
@@ -11,18 +15,27 @@
 #define M_PI       3.14159265358979323846
 
 using namespace std;
+using namespace lcm;
 
 const int BodyDirection::startGetBodyDirection()
 {
 		// Enable the thread to capture the color and depth image
 	startCapture();
-		/** Connect to IPC Server **/
-	init_comm();
-	connect_to_server();
-	subscribe(PERCEPTION_HAE, TOTAL_MSG_NUM);
-	publish(HAE, TOTAL_MSG_NUM);
-	listen();
+	//	/** Connect to IPC Server **/
+	//init_comm();
+	//connect_to_server();
+	//subscribe(PERCEPTION_HAE, TOTAL_MSG_NUM);
+	//publish(HAE, TOTAL_MSG_NUM);
+	//listen();
 
+	// Initialize LCM
+	LCM lcm(LCM_CTOR_PARAMS);
+	if (!lcm.good())
+	{
+		cout << "ERROR: cannot initialize LCM" << endl;
+		return 1;
+	}
+	
 	extern bool bodyDirectionFlag, bodyDirectionContFlag, bodyPUFlag;
 
 	w1 = 0.8; w2 = 0.7; w3 = 2; w4 = 1.0; w5 = 2.0;
@@ -39,81 +52,118 @@ const int BodyDirection::startGetBodyDirection()
 		analyzeFunc();
 		drawImg();
 
-		if (bodyDirectionFlag == true) {
-			/* Send the body direction message */
-			HAEMgr HAEdata;
-			getHAE(HAEdata);
-				// Prepare the message for body directon to camera discrete
-			vector< int > bdd = getBodyDirectionHAE();
-			if (bdd.size() <= 0) {
-				cout << "> WARNING: user is not found" << endl;
-				HAEdata.body_direction = static_cast< Body_Direction_HAE_type >(0);
-			} else {
-//** WARNING: ONLY CONSIDER THE USER 1 **//
-				HAEdata.body_direction = static_cast< Body_Direction_HAE_type >(bdd[0]);
-			}
-			sendHAE(HAEdata);
-			Sleep(sizeof(HAEdata));
-			printf("\n> Send Success! (BodyDirection: %d)\n", HAEdata.body_direction);
+		// Message for LCM
+		BodyDirectionLcm bodyMsg;
 
-			bodyDirectionFlag = false;
-			
-			/* Store the image for annotating data */
-			//NiImageStruct niImageStruct = getNiImageStruct();
-			//cv::Mat img;
-			//cv::resize(niImageStruct.Color, img, cv::Size(niImageStruct.Color.cols / 2, niImageStruct.Color.rows / 2));
-			//
-			//stringstream ss;
-			//string imgNumber;
-			//ss << savedNumber++;
-			//ss >> imgNumber;
-			//
-			//img = cv::imread("../models/DBN_Model/TrainingData/TEST.png");
-			//cv::imshow("TEST", img);
-			////cv::imwrite("raw" + imgNumber + ".jpg", img);
-			//cout << cv::imwrite("../models/DBN_Model/TrainingData/raw" + imgNumber + ".jpg", img) << endl;
+		// Filling body direction discrete data
+		vector< int > bdd = getBodyDirectionHAE();
+		if (bdd.size() <= 0) {
+			cout << "> WARNING: user is not found" << endl;
+			bodyMsg.body_direction = 0;
+		} else {
+			//** WARNING: ONLY CONSIDER THE USER 1 **//
+			bodyMsg.body_direction = bdd[0];
 		}
 
-		if (bodyDirectionContFlag == true) {
-				// Send the body direction continous message
-			HAEMgr HAEdata;
-			getHAE(HAEdata);
-			vector< double > bdc = getBodyDirectionCont();
-			if (bdc.size() <= 0) {
-				cout << "> WARNING: user is not found" << endl;
-				HAEdata.body_direction_cont = 180.0;
-			} else {
-//** WARNING: ONLY CONSIDER THE USER 1 **//
-				HAEdata.body_direction_cont = static_cast< float >(bdc[0]);
-			}
-			sendHAE(HAEdata);
-			Sleep(sizeof(HAEdata));
-			printf("\n> Send Success! (BodyDirectionCont: %f)\n", HAEdata.body_direction_cont);
-
-			bodyDirectionContFlag = false;
+		// Filling body direction cont data
+		vector< double > bdc = getBodyDirectionCont();
+		if (bdc.size() <= 0) {
+			cout << "> WARNING: user is not found" << endl;
+			bodyMsg.body_direction_cont = 180.0;
+		} else {
+			//** WARNING: ONLY CONSIDER THE USER 1 **//
+			bodyMsg.body_direction_cont = static_cast< float >(bdc[0]);
 		}
 
-		if (bodyPUFlag == true) {
-				// Send the body language message (Pleasantness-Unpleasantess)
-			HAEMgr HAEdata;
-			getHAE(HAEdata);
-			vector< double > pu = getPU();
-			if (pu.size() <= 0) {
-				cout << "> WARNING: user is not found" << endl;
-				HAEdata.pu = static_cast< PU_type >(2);
-			} else {
-//** WARNING: ONLY CONSIDER THE USER 1 **//
-				HAEdata.pu = static_cast< PU_type >((int)pu[0]);
-			}
-			sendHAE(HAEdata);
-			Sleep(sizeof(HAEdata));
-			printf("\n> Send Success! (BodyPU: %d)\n", HAEdata.pu);
-
-			bodyPUFlag = false;
+		// Filling pu measurement data
+		vector< double > pu = getPU();
+		if (pu.size() <= 0) {
+			cout << "> WARNING: user is not found" << endl;
+			bodyMsg.pu = 2;
+		} else {
+			//** WARNING: ONLY CONSIDER THE USER 1 **//
+			bodyMsg.pu = (int)pu[0];
 		}
+
+		// Sending Message
+		lcm.publish(BODY_DIRECTION, &bodyMsg);
+		
+
+//		if (bodyDirectionFlag == true) {
+//			/* Send the body direction message */
+//			HAEMgr HAEdata;
+//			getHAE(HAEdata);
+//				// Prepare the message for body directon to camera discrete
+//			vector< int > bdd = getBodyDirectionHAE();
+//			if (bdd.size() <= 0) {
+//				cout << "> WARNING: user is not found" << endl;
+//				HAEdata.body_direction = static_cast< Body_Direction_HAE_type >(0);
+//			} else {
+////** WARNING: ONLY CONSIDER THE USER 1 **//
+//				HAEdata.body_direction = static_cast< Body_Direction_HAE_type >(bdd[0]);
+//			}
+//			sendHAE(HAEdata);
+//			Sleep(sizeof(HAEdata));
+//			printf("\n> Send Success! (BodyDirection: %d)\n", HAEdata.body_direction);
+//
+//			bodyDirectionFlag = false;
+//			
+//			/* Store the image for annotating data */
+//			//NiImageStruct niImageStruct = getNiImageStruct();
+//			//cv::Mat img;
+//			//cv::resize(niImageStruct.Color, img, cv::Size(niImageStruct.Color.cols / 2, niImageStruct.Color.rows / 2));
+//			//
+//			//stringstream ss;
+//			//string imgNumber;
+//			//ss << savedNumber++;
+//			//ss >> imgNumber;
+//			//
+//			//img = cv::imread("../models/DBN_Model/TrainingData/TEST.png");
+//			//cv::imshow("TEST", img);
+//			////cv::imwrite("raw" + imgNumber + ".jpg", img);
+//			//cout << cv::imwrite("../models/DBN_Model/TrainingData/raw" + imgNumber + ".jpg", img) << endl;
+//		}
+//
+//		if (bodyDirectionContFlag == true) {
+//				// Send the body direction continous message
+//			HAEMgr HAEdata;
+//			getHAE(HAEdata);
+//			vector< double > bdc = getBodyDirectionCont();
+//			if (bdc.size() <= 0) {
+//				cout << "> WARNING: user is not found" << endl;
+//				HAEdata.body_direction_cont = 180.0;
+//			} else {
+////** WARNING: ONLY CONSIDER THE USER 1 **//
+//				HAEdata.body_direction_cont = static_cast< float >(bdc[0]);
+//			}
+//			sendHAE(HAEdata);
+//			Sleep(sizeof(HAEdata));
+//			printf("\n> Send Success! (BodyDirectionCont: %f)\n", HAEdata.body_direction_cont);
+//
+//			bodyDirectionContFlag = false;
+//		}
+//
+//		if (bodyPUFlag == true) {
+//				// Send the body language message (Pleasantness-Unpleasantess)
+//			HAEMgr HAEdata;
+//			getHAE(HAEdata);
+//			vector< double > pu = getPU();
+//			if (pu.size() <= 0) {
+//				cout << "> WARNING: user is not found" << endl;
+//				HAEdata.pu = static_cast< PU_type >(2);
+//			} else {
+////** WARNING: ONLY CONSIDER THE USER 1 **//
+//				HAEdata.pu = static_cast< PU_type >((int)pu[0]);
+//			}
+//			sendHAE(HAEdata);
+//			Sleep(sizeof(HAEdata));
+//			printf("\n> Send Success! (BodyPU: %d)\n", HAEdata.pu);
+//
+//			bodyPUFlag = false;
+//		}
 	}
 	
-	disconnect_to_server();
+	//disconnect_to_server();
 	return 0;
 }
 

@@ -1,0 +1,18 @@
+// message data type definition
+
+struct BodyDirectionLcm
+{
+	int32_t body_direction;
+	int32_t pu;
+	float body_direction_cont;
+}
+
+struct FaceDetectionLcm
+{
+	int32_t face_direction;
+}
+
+struct VoiceDetectorLcm
+{
+	int32_t voice_detection;
+}

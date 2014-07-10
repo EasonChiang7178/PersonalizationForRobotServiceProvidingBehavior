@@ -14,6 +14,16 @@ using namespace std;
 #include "IPCserver\Client.hpp"
 	// To use bayesain network and it's inference algorithm
 #include "SmileInference\SmileInference.h"
+	// LCM core
+#include "lcm\lcm-cpp.hpp"
+	// LCM shared consts
+#include "lcm\LcmComm.hpp"
+	// LCM message data types
+#include "lcm\BodyDirectionLcm.hpp"
+#include "lcm\FaceDetectionLcm.hpp"
+#include "lcm\VoiceDetectorLcm.hpp"
+	// Handlers for LCM receiving
+#include "lcm\LcmHandlers.hpp"
 
 //** Problem Dependent Variable Setting **//
 	// The timestep of the dynamic Bayesian network
@@ -34,6 +44,8 @@ string dynamicBN = "../models/DBN_Model/res_SocialAttentionInferenceModel_Unroll
 static int receivedCount = 0;
 	// Buffer result for Human Attention Level
 static int attentionLevel = 0;
+	// LCM object
+static lcm::LCM lcmObject(LCM_CTOR_PARAMS);
 
 /** Declration of Functions **/
 	// Request all sensing data for SAM; param 1 delayTime for the message sending
@@ -55,6 +67,13 @@ int main(int argc, char* argv[]) {
 	subscribe(HAE, REQUEST_INFERENCE, PEOPLE, ROBOTPARAMETER, TOTAL_MSG_NUM);
 	publish(PERCEPTION_HAE, ATTENTIONLEVEL, PERCEPTION, TOTAL_MSG_NUM);
 	listen();
+
+	/* Test LCM */
+	if (!lcmObject.good())
+	{
+		cout << "> ERROR: Cannot initialize LCM" << endl;
+		return 1;
+	}
 
 	cout << "\n\t< Social Attention Model Inference >" << endl;
 	cout << "> Press ENTER to inference";
@@ -221,45 +240,33 @@ bool buzyWaitForMgr(const int delayTime) {
 
 	// Request all sensing data for HAE; param 1 delayTime for the message sending
 void requestSensingSAM(int delayTime, HAEMgr& dataHAE, RobotParameterMgr& robotPara, int& robotPosition) {
-	/** Requesting data about the perceived data **/
-	HAEMgr receivedDataHAE, tempDataHAE;
-	getHAE(receivedDataHAE);
+	/* Receive data through LCM */
+		// Handler object, received data is stored inside
+	HAEHandlerLcm handler;
+		// Pointer for subscription, used for unsubscribing channel
+	lcm::Subscription* sub_ptr;
 
-	PerceptionHAEMgr requestDataHAE;
-	/* Audio */
-	requestDataHAE.sensing = voiceDetection;
-	sendPerceptionHAE(requestDataHAE);
-	Sleep(sizeof(requestDataHAE) + DELAYTIME);
+		// Subscribe BODY_DIRECTION channel, receive data, then unsubscribe
+	sub_ptr = lcmObject.subscribe(BODY_DIRECTION, &HAEHandlerLcm::handleBody, &handler);
+	lcmObject.handle();
+	lcmObject.unsubscribe(sub_ptr);
 
-	if (buzyWaitForMgr(20) == false)
-		cout << "> WARNING: Receive Data Time Out, Audio" << endl;
-	
-	getHAE(tempDataHAE);
-	receivedDataHAE.voice_detection = tempDataHAE.voice_detection;
+		// Subscribe FACE_DETECTION channel, receive data, then unsubscribe
+	sub_ptr = lcmObject.subscribe(FACE_DETECTION, &HAEHandlerLcm::handleFace, &handler);
+	lcmObject.handle();
+	lcmObject.unsubscribe(sub_ptr);
 
-	/* Face */
-	requestDataHAE.sensing = faceDirectionDiscrete;
-	sendPerceptionHAE(requestDataHAE);
-	Sleep(sizeof(requestDataHAE) + DELAYTIME);
+		// Subscribe VOICE_DETECTION channel, receive data, then unsubscribe
+	sub_ptr = lcmObject.subscribe(VOICE_DETECTION, &HAEHandlerLcm::handleVoice, &handler);
+	lcmObject.handle();
+	lcmObject.unsubscribe(sub_ptr);
 
-	if (buzyWaitForMgr(20) == false)
-		cout << "> WARNING: Receive Data Time Out, Face" << endl;
-
-	getHAE(tempDataHAE);
-	receivedDataHAE.face_direction = tempDataHAE.face_direction;
-
-	/* Body */
-	requestDataHAE.sensing = bodyDirectionDiscrete;
-	sendPerceptionHAE(requestDataHAE);
-	Sleep(sizeof(requestDataHAE) + DELAYTIME);
-
-	if (buzyWaitForMgr(20) == false)
-		cout << "> WARNING: Receive Data Time Out, Body" << endl;
-	
-	getHAE(tempDataHAE);
-	receivedDataHAE.body_direction = tempDataHAE.body_direction;
-
-	dataHAE = receivedDataHAE;
+		// Copy data to dataHAE
+	dataHAE.body_direction =	static_cast<Body_Direction_HAE_type>	(handler.body_direction);
+	dataHAE.pu =				static_cast<PU_type>					(handler.pu);
+	dataHAE.face_direction =	static_cast<Face_Direction_HAE_type>	(handler.face_direction);
+	dataHAE.voice_detection =	static_cast<AudioVolume_type>			(handler.voice_detection);
+	dataHAE.body_direction_cont = handler.body_direction_cont;
 
 	/** Requesting data about parameters of the robot **/
 	RobotParameterMgr receivedDataRP, tempDataRP;
@@ -323,25 +330,27 @@ void requestSensingSAM(int delayTime, HAEMgr& dataHAE, RobotParameterMgr& robotP
 
 	// Request the environment context information for SAM; param 1 delayTime for the message sending
 void requestEnvirContextSAM(int delayTime, int& audioNoiseLevel, int& attenContextLevel) {
+	/* Initialization LCM object */
+		// Handler object, received data is stored inside
+	HAEHandlerLcm handler;
+		// Pointer for subscription, used for unsubscribing channel
+	lcm::Subscription* sub_ptr;
+
+		// Subscribe VOICE_DETECTION channel, receive data, then unsubscribe
+	sub_ptr = lcmObject.subscribe(VOICE_DETECTION, &HAEHandlerLcm::handleVoice, &handler);
+
 	/* Request 5 times audio input to calibrate the environmental noise */
-	HAEMgr tempDataHAE;
-	
-	PerceptionHAEMgr requestData;
-	requestData.sensing = voiceDetection;
-	vector< int > audioCount(4);			// Index for audioLevel, element for counts
-		// Sample 5 times
+	vector< int > audioCount(4);
 	for (int i = 0; i < 5; i++) {
-		sendPerceptionHAE(requestData);
-		Sleep(sizeof(requestData) + DELAYTIME);
+		lcmObject.handle();
+		audioCount[static_cast< int >(handler.voice_detection)]++;
 
-		if (buzyWaitForMgr(20) == false)
-			cout << "> WARNING: Receive Data Time Out, Audio" << endl;
-	
-		getHAE(tempDataHAE);
-		audioCount[static_cast< int >(tempDataHAE.voice_detection)]++;
+		cout << "> Audio Detected: " << handler.voice_detection << endl;
 
-		Sleep(250);
+		Sleep(1000);
 	}
+	lcmObject.unsubscribe(sub_ptr);
+
 		// Found the maximum one
 	audioNoiseLevel = 0;
 	int countMax = 0;
@@ -353,14 +362,15 @@ void requestEnvirContextSAM(int delayTime, int& audioNoiseLevel, int& attenConte
 	}
 
 	/* Request human-context message */
-	requestData.sensing = attentionContext;
+	/*requestData.sensing = attentionContext;
 	sendPerceptionHAE(requestData);
 
 	if (buzyWaitForMgr(20) == false)
 		cout << "> WARNING: Receive Data Time Out, Attention-Context" << endl;
 
-	getHAE(tempDataHAE);
+	getHAE(tempDataHAE);*/
 	/** TODO **/
+	cout << "> Human Task Context Detected: " << CONTEXT << endl;
 	attenContextLevel = CONTEXT;
 
 	return;

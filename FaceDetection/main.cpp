@@ -10,11 +10,19 @@ using namespace std;
 	// OpenCV2
 #include <opencv2/objdetect/objdetect.hpp>
 #include <opencv2/highgui/highgui.hpp>
-	// Import Inter-Process Communication Server
-#include "IPCserver\Client.hpp"
+//	// Import Inter-Process Communication Server
+//#include "IPCserver\Client.hpp"
 	// Object for manipulating face detection
 #include "FaceDetection\FaceDetection.h"
+	// LCM core
+#include "lcm\lcm-cpp.hpp"
+	// LCM message data type
+#include "lcm\FaceDetectionLcm.hpp"
+	// LCM shared consts
+#include "lcm\LcmComm.hpp"
+
 using namespace cv;
+using namespace lcm;
 
 //** Problem Dependent Variable Setting **//
 #define RECORDING
@@ -57,12 +65,20 @@ void Perception_HAE_handler();
 //=============================================================================
 int main( void )
 {
-	/** Connect to IPC Server **/
-	init_comm();
-	connect_to_server(IPCSERVER);
-	subscribe(PERCEPTION_HAE,TOTAL_MSG_NUM);
-	publish(HAE, TOTAL_MSG_NUM);
-	listen();
+	///** Connect to IPC Server **/
+	//init_comm();
+	//connect_to_server(IPCSERVER);
+	//subscribe(PERCEPTION_HAE,TOTAL_MSG_NUM);
+	//publish(HAE, TOTAL_MSG_NUM);
+	//listen();
+
+	/* Initialize LCM */
+	LCM lcm(LCM_CTOR_PARAMS);
+	if (!lcm.good())
+	{
+		cout << "> ERROR: Cannot initialize LCM" << endl;
+		return 1;
+	}
 	
 	/* Initialize and load the cascades */
 	FaceDetection faceDetector(facefront_cascade_name, faceProfile_cascade_name, upperbody_cascade_name, eyes_cascade_name, 
@@ -112,6 +128,11 @@ int main( void )
 		putText(frame, "FPS: " + fpsStr, Point(0,15), CV_FONT_HERSHEY_PLAIN, 1, Scalar(255, 255, 255), 1);
 		imshow( window_name, frame );
 
+		/* Send message through LCM */
+		FaceDetectionLcm faceMgr;
+		faceMgr.face_direction = faceDirectionHAE;
+		lcm.publish(FACE_DETECTION, &faceMgr);
+
 		int c = waitKey(10);
 		if( (char)c == 27 ) { break; } // escape
 	}
@@ -121,29 +142,29 @@ int main( void )
 //=============================================================================
 void Perception_HAE_handler()
 {
-	HAEMgr percetData;
-	getHAE(percetData);
-
-	percetData.face_direction = static_cast< Face_Direction_HAE_type >(faceDirectionHAE);
-		// Send FaceDirectionHAE
-	sendHAE(percetData);
-	Sleep(sizeof(percetData));
-	printf("\n> Send Success! (FaceDirection: %d)\n", faceDirectionHAE);
-
-#ifdef RECORDING
-	/* Store the image for annotating data */
-	cv::Mat img;
-	if (frame.empty() == true)
-		return;
-	cv::resize(frame, img, cv::Size(frame.cols / 2, frame.rows / 2));
-	
-	stringstream ss;
-	string imgNumber;
-	ss << imageIndex++;
-	ss >> imgNumber;
-	
-	cv::imwrite("../models/DBN_Model/TrainingData/raw_" + imgNumber + ".png", img);
-#endif
-
-	return;
+//	HAEMgr percetData;
+//	getHAE(percetData);
+//
+//	percetData.face_direction = static_cast< Face_Direction_HAE_type >(faceDirectionHAE);
+//		// Send FaceDirectionHAE
+//	sendHAE(percetData);
+//	Sleep(sizeof(percetData));
+//	printf("\n> Send Success! (FaceDirection: %d)\n", faceDirectionHAE);
+//
+//#ifdef RECORDING
+//	/* Store the image for annotating data */
+//	cv::Mat img;
+//	if (frame.empty() == true)
+//		return;
+//	cv::resize(frame, img, cv::Size(frame.cols / 2, frame.rows / 2));
+//	
+//	stringstream ss;
+//	string imgNumber;
+//	ss << imageIndex++;
+//	ss >> imgNumber;
+//	
+//	cv::imwrite("../models/DBN_Model/TrainingData/raw_" + imgNumber + ".png", img);
+//#endif
+//
+//	return;
 }

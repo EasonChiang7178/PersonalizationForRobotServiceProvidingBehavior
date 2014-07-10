@@ -53,10 +53,19 @@
 /* Third-party Library */
 	// For audio processing
 #include "portaudio.h"
-	// Import Inter-Process Communication Server
-#include "IPCserver\Client.hpp"
+//	// Import Inter-Process Communication Server
+//#include "IPCserver\Client.hpp"
+	// LCM core
+#include "lcm\lcm-cpp.hpp"
+	// LCM shared consts
+#include "lcm\LcmComm.hpp"
+	// LCM message data type
+#include "lcm\VoiceDetectorLcm.hpp"
+
 
 using namespace std;
+using namespace lcm;
+
 
 #define SERVERNAME "192.168.11.4"
 //#define SERVERNAME "localhost"
@@ -153,17 +162,17 @@ int isVoice();
 
 void Perception_HAE_handler()
 {
-	HAEMgr percetData;
-	getHAE(percetData);
+	//HAEMgr percetData;
+	//getHAE(percetData);
 
-	printf("  FrameIndex: %d \n", data.frameIndex);
-	int VoiceFlag = isVoice();
-	percetData.voice_detection = static_cast< AudioVolume_type > (VoiceFlag);
-		// Send VAD
-	sendHAE(percetData);
-	Sleep(sizeof(percetData));
-	printf("\n> Send Success! (VAD: %d)\n", VoiceFlag);
-	return;
+	//printf("  FrameIndex: %d \n", data.frameIndex);
+	//int VoiceFlag = isVoice();
+	//percetData.voice_detection = static_cast< AudioVolume_type > (VoiceFlag);
+	//	// Send VAD
+	//sendHAE(percetData);
+	//Sleep(sizeof(percetData));
+	//printf("\n> Send Success! (VAD: %d)\n", VoiceFlag);
+	//return;
 }
 
 int isVoice()
@@ -191,7 +200,7 @@ int isVoice()
 
 	//sumThresh = VOICE_THRESH*(float)NUM_CHANNELS*(float)(nowFrameIndex-startFrameIndex);
 	//sumThresh = VOICE_THRESH;
-	printf("> SumSample= %f", sumSample);
+	printf("> SumSample= %f\n", sumSample);
 
 	if (sumSample > VOICE_THRESH_HIGH)
 		return 3;
@@ -220,12 +229,20 @@ int main (void) {
 
 	printf("patest_record.c\n"); fflush(stdout);
 
-	/** Connect to IPC Server **/
-	init_comm();
-	connect_to_server(SERVERNAME);
-	subscribe(PERCEPTION_HAE, TOTAL_MSG_NUM);
-	publish(HAE, TOTAL_MSG_NUM);
-	listen();
+	///** Connect to IPC Server **/
+	//init_comm();
+	//connect_to_server(SERVERNAME);
+	//subscribe(PERCEPTION_HAE, TOTAL_MSG_NUM);
+	//publish(HAE, TOTAL_MSG_NUM);
+	//listen();
+
+	/* Initialize LCM */
+	LCM lcm(LCM_CTOR_PARAMS);
+	if (!lcm.good()) 
+	{
+		printf("> ERROR: Cannot initialize LCM.\n");
+		goto done;
+	}
 
 	/* Proprecessing data structure */
 	data.maxFrameIndex = totalFrames = NUM_SECONDS * SAMPLE_RATE; /* Record for a few seconds. */
@@ -272,10 +289,19 @@ int main (void) {
 
 	/* Start collecting the audio input */
 	printf("\n> ---------- Now recording ----------\n"); fflush(stdout);
+	int sampleRate = STEPTIME * 1000 + 500;
 	while( ( err = Pa_IsStreamActive( stream ) ) == 1 )
 	{
-		Pa_Sleep(1000);
+		Pa_Sleep(sampleRate);
+
+		/* Send message through LCM */
+		VoiceDetectorLcm voiceMgr;
+		int VoiceFlag = isVoice();
+		voiceMgr.voice_detection = VoiceFlag;
+		lcm.publish(VOICE_DETECTION, &voiceMgr);
+
 		printf("> Second = %d | Data Index = %d\n", timeCount++, data.frameIndex); fflush(stdout);
+
 		/* Reset the frameIndex to avoid the termination of the audio stream */
 		int bufferSize = SAMPLE_RATE * STEPTIME;
 		SAMPLE *rptr = &data.recordedSamples[data.frameIndex - bufferSize * NUM_CHANNELS];
