@@ -19,6 +19,9 @@
     <Filter Include="Source Files\Thread">
       <UniqueIdentifier>{9579772b-5fa2-4de0-8f46-d288e86131cb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\LCM">
+      <UniqueIdentifier>{d3982d0c-8d5c-4101-87e4-bbcd96a9c503}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="IPCserver\Client.cpp">
@@ -33,5 +36,16 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\includes\lcm\BodyDirectionLcm.hpp">
+      <Filter>Header Files\LCM</Filter>
+    </ClInclude>
+    <ClInclude Include="..\includes\lcm\FaceDetectionLcm.hpp">
+      <Filter>Header Files\LCM</Filter>
+    </ClInclude>
+    <ClInclude Include="..\includes\lcm\VoiceDetectorLcm.hpp">
+      <Filter>Header Files\LCM</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

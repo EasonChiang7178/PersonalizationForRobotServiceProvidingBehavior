@@ -34,7 +34,7 @@
     <Import Project="..\propertySheets\OpenCV245d.props" />
     <Import Project="..\propertySheets\OpenNI2.props" />
     <Import Project="..\propertySheets\NITE2.props" />
-    <Import Project="..\PropertySheets\IPCd.props" />
+    <Import Project="..\PropertySheets\LCM.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
@@ -77,14 +77,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\includes\IPCserver\IntComm.cpp" />
-    <ClCompile Include="..\includes\Thread\Thread.cpp" />
-    <ClCompile Include="IPCserver\Client.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Source\BodyDirection.cpp" />
     <ClCompile Include="Source\NiImageCaptor.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\includes\lcm\BodyDirectionLcm.hpp" />
+    <ClInclude Include="..\includes\lcm\lcm-cpp.hpp" />
+    <ClInclude Include="..\includes\lcm\LcmComm.hpp" />
     <ClInclude Include="Header\BodyDirection.h" />
     <ClInclude Include="Header\ChuThread.h" />
     <ClInclude Include="Header\NiImageCaptor.h" />

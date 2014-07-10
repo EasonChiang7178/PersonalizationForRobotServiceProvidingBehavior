@@ -25,10 +25,22 @@
     <Filter Include="Source Files\Thread">
       <UniqueIdentifier>{d38d07b6-fd26-49ac-b15d-ecb25e3eb893}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\LCM">
+      <UniqueIdentifier>{ad777871-6d40-418b-8011-ea736c4bd99b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\includes\SmileInference\SmileInference.h">
       <Filter>Header Files\SmileInference</Filter>
+    </ClInclude>
+    <ClInclude Include="..\includes\lcm\BodyDirectionLcm.hpp">
+      <Filter>Header Files\LCM</Filter>
+    </ClInclude>
+    <ClInclude Include="..\includes\lcm\FaceDetectionLcm.hpp">
+      <Filter>Header Files\LCM</Filter>
+    </ClInclude>
+    <ClInclude Include="..\includes\lcm\VoiceDetectorLcm.hpp">
+      <Filter>Header Files\LCM</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -28,11 +28,8 @@
     <Filter Include="Source Files\NiImageCaptor">
       <UniqueIdentifier>{b2cef421-6e12-404e-b5f0-135c09aaed11}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\IPCServer">
-      <UniqueIdentifier>{d4a354a2-07d7-4bc6-bd43-b0fdf2ecd6af}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Thread">
-      <UniqueIdentifier>{d5bf319f-1367-4cf1-af8e-af5de802d3a2}</UniqueIdentifier>
+    <Filter Include="Header Files\LCM">
+      <UniqueIdentifier>{abc399eb-6313-49bb-81c1-da382e54bd42}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -45,15 +42,6 @@
     <ClCompile Include="Source\NiImageCaptor.cpp">
       <Filter>Source Files\NiImageCaptor</Filter>
     </ClCompile>
-    <ClCompile Include="IPCserver\Client.cpp">
-      <Filter>Source Files\IPCServer</Filter>
-    </ClCompile>
-    <ClCompile Include="..\includes\Thread\Thread.cpp">
-      <Filter>Source Files\Thread</Filter>
-    </ClCompile>
-    <ClCompile Include="..\includes\IPCserver\IntComm.cpp">
-      <Filter>Source Files\IPCServer</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Header\BodyDirection.h">
@@ -64,6 +52,15 @@
     </ClInclude>
     <ClInclude Include="Header\NiImageCaptor.h">
       <Filter>Header Files\NiImageCaptor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\includes\lcm\BodyDirectionLcm.hpp">
+      <Filter>Header Files\LCM</Filter>
+    </ClInclude>
+    <ClInclude Include="..\includes\lcm\LcmComm.hpp">
+      <Filter>Header Files\LCM</Filter>
+    </ClInclude>
+    <ClInclude Include="..\includes\lcm\lcm-cpp.hpp">
+      <Filter>Header Files\LCM</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

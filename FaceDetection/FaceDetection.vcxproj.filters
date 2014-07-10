@@ -13,31 +13,19 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Source Files\IPCSerVer">
-      <UniqueIdentifier>{b6e33249-53e4-4d6b-bb07-07167a5fe3b7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Thread">
-      <UniqueIdentifier>{36d984c7-9853-4fef-9ff5-1ef80f7a3adb}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\FaceDetection">
       <UniqueIdentifier>{bc3aa4b4-41a6-4c6e-8f3f-8467b4f3505d}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\FaceDetection">
       <UniqueIdentifier>{4df8e113-9361-4571-be85-023ea383ff24}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\LCM">
+      <UniqueIdentifier>{b096e657-3350-4f2d-8200-e4ed7349c917}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="IPCserver\Client.cpp">
-      <Filter>Source Files\IPCSerVer</Filter>
-    </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\includes\IPCserver\IntComm.cpp">
-      <Filter>Source Files\IPCSerVer</Filter>
-    </ClCompile>
-    <ClCompile Include="..\includes\Thread\Thread.cpp">
-      <Filter>Source Files\Thread</Filter>
     </ClCompile>
     <ClCompile Include="FaceDetection\FaceDetection.cpp">
       <Filter>Source Files\FaceDetection</Filter>
@@ -46,6 +34,9 @@
   <ItemGroup>
     <ClInclude Include="FaceDetection\FaceDetection.h">
       <Filter>Header Files\FaceDetection</Filter>
+    </ClInclude>
+    <ClInclude Include="..\includes\lcm\FaceDetectionLcm.hpp">
+      <Filter>Header Files\LCM</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

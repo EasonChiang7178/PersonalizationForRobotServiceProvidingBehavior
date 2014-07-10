@@ -13,25 +13,18 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Source Files\IPCServer">
-      <UniqueIdentifier>{e7b632de-05f8-4cfe-b217-5bc89a123a9a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Thread">
-      <UniqueIdentifier>{04755c88-23f3-4641-9ecc-a34686ce94f5}</UniqueIdentifier>
+    <Filter Include="Header Files\LCM">
+      <UniqueIdentifier>{1a0d9369-29dd-4874-8143-9f6f2e50a86f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="IPCserver\Client.cpp">
-      <Filter>Source Files\IPCServer</Filter>
-    </ClCompile>
-    <ClCompile Include="..\includes\IPCserver\IntComm.cpp">
-      <Filter>Source Files\IPCServer</Filter>
-    </ClCompile>
-    <ClCompile Include="..\includes\Thread\Thread.cpp">
-      <Filter>Source Files\Thread</Filter>
-    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\includes\lcm\VoiceDetectorLcm.hpp">
+      <Filter>Header Files\LCM</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
