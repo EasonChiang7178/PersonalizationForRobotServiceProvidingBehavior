@@ -74,6 +74,7 @@
   <ItemGroup>
     <ClInclude Include="..\includes\lcm\BodyDirectionLcm.hpp" />
     <ClInclude Include="..\includes\lcm\FaceDetectionLcm.hpp" />
+    <ClInclude Include="..\includes\lcm\LegDetectLcm.hpp" />
     <ClInclude Include="..\includes\lcm\VoiceDetectorLcm.hpp" />
     <ClInclude Include="..\includes\SmileInference\SmileInference.h" />
   </ItemGroup>

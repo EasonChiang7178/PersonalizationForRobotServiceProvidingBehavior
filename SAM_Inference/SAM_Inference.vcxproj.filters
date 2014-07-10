@@ -42,6 +42,9 @@
     <ClInclude Include="..\includes\lcm\VoiceDetectorLcm.hpp">
       <Filter>Header Files\LCM</Filter>
     </ClInclude>
+    <ClInclude Include="..\includes\lcm\LegDetectLcm.hpp">
+      <Filter>Header Files\LCM</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\includes\IPCServer\IntComm.cpp">

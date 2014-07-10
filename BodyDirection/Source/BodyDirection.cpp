@@ -87,7 +87,9 @@ const int BodyDirection::startGetBodyDirection()
 
 		// Sending Message
 		lcm.publish(BODY_DIRECTION, &bodyMsg);
-		
+		cout << "> Sending (BodyDirection):      " << bodyMsg.body_direction << endl
+			 << "          (BodyDirection_Cont): " << bodyMsg.body_direction_cont << endl
+			 << "          (PU):                 " << bodyMsg.pu << endl;
 
 //		if (bodyDirectionFlag == true) {
 //			/* Send the body direction message */

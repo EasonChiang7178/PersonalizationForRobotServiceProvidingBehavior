@@ -79,6 +79,7 @@
   <ItemGroup>
     <ClInclude Include="..\includes\lcm\BodyDirectionLcm.hpp" />
     <ClInclude Include="..\includes\lcm\FaceDetectionLcm.hpp" />
+    <ClInclude Include="..\includes\lcm\LegDetectLcm.hpp" />
     <ClInclude Include="..\includes\lcm\VoiceDetectorLcm.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

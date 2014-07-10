@@ -22,7 +22,7 @@ using namespace std;
 
 //** Problem Dependent Variable Setting **//
 	// How long a timestep is (ms)
-#define STEPTIME	600
+#define STEPTIME	250
 	// How long a delay for messages request
 #define DELAYTIME	60
 /** BAD example **/
@@ -124,15 +124,14 @@ void requestEnvirContextSAM(int delayTime, int& audioNoiseLevel, int& attenConte
 		// Pointer for subscription, used for unsubscribing channel
 	lcm::Subscription* sub_ptr;
 
-		// Subscribe VOICE_DETECTION channel, receive data, then unsubscribe
-	sub_ptr = lcmObject.subscribe(VOICE_DETECTION, &HAEHandlerLcm::handleVoice, &handler);
-
 	/* Request 5 times audio input to calibrate the environmental noise */
 	vector< int > audioCount(4);
 	for (int i = 0; i < 5; i++) {
+		// Subscribe VOICE_DETECTION channel, receive data, then unsubscribe
+		sub_ptr = lcmObject.subscribe(VOICE_DETECTION, &HAEHandlerLcm::handleVoice, &handler);
 		lcmObject.handle();
 		audioCount[static_cast< int >(handler.voice_detection)]++;
-
+		lcmObject.unsubscribe(sub_ptr);
 		cout << "> Audio Detected: " << handler.voice_detection << endl;
 
 		Sleep(1000);

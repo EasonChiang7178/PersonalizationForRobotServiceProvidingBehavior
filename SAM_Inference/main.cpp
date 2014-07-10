@@ -29,7 +29,7 @@ using namespace std;
 	// The timestep of the dynamic Bayesian network
 #define STEPNUMBER	3
 	// How long a timestep is (ms)
-#define STEPTIME	600
+#define STEPTIME	250
 	// How long a delay for messages request
 #define DELAYTIME	60
 /** BAD example **/
@@ -217,7 +217,7 @@ int main(int argc, char* argv[]) {
 			cout << right << setw(11) << "|-" << left << setw(20) << (*it).second << setw(15) << " Confidence = " << (*it).first << endl;
 		cout << endl;
 
-		Sleep(STEPTIME - 6 * DELAYTIME);
+		//Sleep(STEPTIME - 6 * DELAYTIME);
 	}
 	cout << "> Social Attention Inference End!" << endl << endl;
 		// Disconnect to IPC server, Clean up socket.
@@ -243,6 +243,7 @@ void requestSensingSAM(int delayTime, HAEMgr& dataHAE, RobotParameterMgr& robotP
 	/* Receive data through LCM */
 		// Handler object, received data is stored inside
 	HAEHandlerLcm handler;
+	lcmLegDetect handlerLeg;
 		// Pointer for subscription, used for unsubscribing channel
 	lcm::Subscription* sub_ptr;
 
@@ -288,27 +289,31 @@ void requestSensingSAM(int delayTime, HAEMgr& dataHAE, RobotParameterMgr& robotP
 	robotPara = receivedDataRP;
 
 	/** Requesting the distance between the robot and the target **/
-	PerceptionMgr legRequest;
-	legRequest.sensing = legDetection;
-	sendPerception(legRequest);
-	Sleep(sizeof(legDetection));
+	sub_ptr = lcmObject.subscribe(LEG_CHANNEL, &lcmLegDetect::handleMessage, &handlerLeg);
+	lcmObject.handle();
+	lcmObject.unsubscribe(sub_ptr);
 
-	if (buzyWaitForMgr(40) == false)
-		cout << "> WARNING: Receive Data Time Out, Laser" << endl;
-	PeopleMgr targetPos;
-	getPeople(targetPos);
+	//PerceptionMgr legRequest;
+	//legRequest.sensing = legDetection;
+	//sendPerception(legRequest);
+	//Sleep(sizeof(legDetection));
+
+	//if (buzyWaitForMgr(40) == false)
+	//	cout << "> WARNING: Receive Data Time Out, Laser" << endl;
+	//PeopleMgr targetPos;
+	//getPeople(targetPos);
 
 	/* Find the person who is nearest to the robot */
 	double possibleCandidateX = 0.0, possibleCandidateY = 0.0;
-	if(targetPos.count > 0) {
+	if(handlerLeg.count >= 0) {
 		/* Find the person who is nearest to the robot */
 		float minX = 0.0, minY = 0.0, squaredDistance = 0.0, minSquaredDistance = 999999.0;
-		for (int i = 0; i < targetPos.count; i++) {
-			squaredDistance = pow(targetPos.x[i],2) + pow(targetPos.y[i],2);
+		for (int i = 0; i < handlerLeg.count; i++) {
+			squaredDistance = pow(handlerLeg.x[i],2) + pow(handlerLeg.y[i],2);
 			if (squaredDistance <= minSquaredDistance) {
 				minSquaredDistance = squaredDistance;
-				minX = targetPos.x[i];
-				minY = targetPos.y[i];
+				minX = handlerLeg.x[i];
+				minY = handlerLeg.y[i];
 			}
 		}
 		possibleCandidateX = minX / 100.0;
@@ -336,20 +341,18 @@ void requestEnvirContextSAM(int delayTime, int& audioNoiseLevel, int& attenConte
 		// Pointer for subscription, used for unsubscribing channel
 	lcm::Subscription* sub_ptr;
 
-		// Subscribe VOICE_DETECTION channel, receive data, then unsubscribe
-	sub_ptr = lcmObject.subscribe(VOICE_DETECTION, &HAEHandlerLcm::handleVoice, &handler);
-
 	/* Request 5 times audio input to calibrate the environmental noise */
 	vector< int > audioCount(4);
 	for (int i = 0; i < 5; i++) {
+			// Subscribe VOICE_DETECTION channel, receive data, then unsubscribe
+		sub_ptr = lcmObject.subscribe(VOICE_DETECTION, &HAEHandlerLcm::handleVoice, &handler);
 		lcmObject.handle();
 		audioCount[static_cast< int >(handler.voice_detection)]++;
-
+		lcmObject.unsubscribe(sub_ptr);
 		cout << "> Audio Detected: " << handler.voice_detection << endl;
 
 		Sleep(1000);
 	}
-	lcmObject.unsubscribe(sub_ptr);
 
 		// Found the maximum one
 	audioNoiseLevel = 0;
