@@ -23,7 +23,7 @@ using namespace std;
 	// How long a delay for messages request
 #define DELAYTIME	20
 /** BAD example **/
-#define CONTEXT		0 //0, neutral; 1, concentrating; 2, sleepy; 3, social
+#define CONTEXT		1 //0, neutral; 1, concentrating; 2, sleepy; 3, social
 
 /** Declration of Variables **/
 	// To count whether if all the message received
@@ -49,7 +49,7 @@ int main(int argc, char* argv[])
 	init_comm();
 	connect_to_server();
 	subscribe(ROBOTPARAMETER, TOTAL_MSG_NUM);
-	publish(PERCEPTION, TOTAL_MSG_NUM);
+	publish(PERCEPTION_HAE, PERCEPTION, TOTAL_MSG_NUM);
 	listen();
 
 	/* Test LCM */
@@ -99,6 +99,11 @@ int main(int argc, char* argv[])
 		cout << "> F:  " << sensingData.face_direction << ", B:  " << sensingData.body_direction << ", V:  " << sensingData.voice_detection << endl;
 		cout << "> RS: " << parameterData.speed << ", RP: " << robotPositionData << ", RV: " << parameterData.volume << endl;
 		
+			// For saving images
+		PerceptionHAEMgr requestData;
+		requestData.sensing = faceDirectionDiscrete;
+		sendPerceptionHAE(requestData);
+		Sleep(sizeof(requestData) + DELAYTIME);
 		Sleep(STEPTIME);
 	}
 
