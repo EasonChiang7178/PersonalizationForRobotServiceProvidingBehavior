@@ -211,7 +211,7 @@ int main(int argc, char** argv) {
 				cout << keyboardInput << endl;
 				keyboardInput = '\0';
 
-				robotAction.movingToAroundOfHuman(0, 1.5, -30.0);
+				robotAction.movingToAroundOfHuman(0, 1.2, -30.0);
 				break;
 			}
 
