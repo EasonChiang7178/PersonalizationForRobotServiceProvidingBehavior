@@ -58,7 +58,7 @@ public:
 #ifdef DEBUG
 		cout << "> Received message on channel \""<< chan.c_str() << "\"" << endl;
 #endif //DEBUG
-		
+
 		count = msg->count;
 		for (int i(0); i < msg->count; ++i) {
 			x[i] = msg->x[i];
@@ -68,7 +68,7 @@ public:
 		}
 	}
 
-	float count;
+	int32_t count;
 	float x[10];
 	float y[10];
 	float vel[10];

@@ -122,11 +122,8 @@ void State_message_handler(MSG_INSTANCE msgRef, BYTE_ARRAY callData, void *clien
 void People_message_handler(MSG_INSTANCE msgRef, BYTE_ARRAY callData, void *clientData)
 {
 	PeopleMgr data;
-	extern void HAE_handler();
 	IPC_unmarshallData(IPC_msgInstanceFormatter(msgRef), callData, &data, sizeof(PeopleMgr));
 	setPeople( data );
-	
-	HAE_handler();
 	IPC_freeByteArray(callData);
 }
 
@@ -373,12 +370,8 @@ void Perception_HAE_message_handler(MSG_INSTANCE msgRef, BYTE_ARRAY callData, vo
 
 void HAE_message_handler(MSG_INSTANCE msgRef, BYTE_ARRAY callData, void *clientData) {
 	HAEMgr data;
-	extern void HAE_handler();
-	
 	IPC_unmarshallData(IPC_msgInstanceFormatter(msgRef), callData, &data, sizeof(HAEMgr));
 	setHAE(data);
-
-	HAE_handler();
 	IPC_freeByteArray(callData);
 }
 
@@ -391,12 +384,8 @@ void Attention_Level_message_handler(MSG_INSTANCE msgRef, BYTE_ARRAY callData, v
 
 void Reqeust_Inference_message_handler(MSG_INSTANCE msgRef, BYTE_ARRAY callData, void *clientData) {
 	RequestInferenceMgr data;
-	//extern void RequestInference_handler();
-	
 	IPC_unmarshallData(IPC_msgInstanceFormatter(msgRef), callData, &data, sizeof(RequestInferenceMgr));
 	setRequestInference(data);
-
-	//RequestInference_handler();
 	IPC_freeByteArray(callData);
 }
 	/* For Toward Robot Attention Estimator (HAE) */

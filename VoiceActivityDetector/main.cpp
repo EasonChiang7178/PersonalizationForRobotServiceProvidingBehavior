@@ -47,14 +47,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
-	// For windows multi-thread
-//#include <process.h>
 
 /* Third-party Library */
 	// For audio processing
 #include "portaudio.h"
-//	// Import Inter-Process Communication Server
-//#include "IPCserver\Client.hpp"
 	// LCM core
 #include "lcm\lcm-cpp.hpp"
 	// LCM shared consts
@@ -62,25 +58,20 @@
 	// LCM message data type
 #include "lcm\VoiceDetectorLcm.hpp"
 
-
 using namespace std;
 using namespace lcm;
-
-
-#define SERVERNAME "192.168.11.4"
-//#define SERVERNAME "localhost"
 
 /* #define SAMPLE_RATE  (17932) // Test failure to open with this value. */
 #define SAMPLE_RATE			(8000)
 #define FRAMES_PER_BUFFER	(1024)
-#define NUM_SECONDS			(5)
+#define NUM_SECONDS			(1)
 #define NUM_CHANNELS		(1)
-#define VOICE_THRESH_LOW	(50)
-#define VOICE_THRESH_MEDIUM	(150)
-#define VOICE_THRESH_HIGH	(300)
+#define VOICE_THRESH_LOW	(25)//(50)
+#define VOICE_THRESH_MEDIUM	(75)//(150)
+#define VOICE_THRESH_HIGH	(150)//(300)
 //#define VOICE_THRESH		(0.01)
 	// How long a timestep is (ms)
-#define STEPTIME			(0.5)
+#define STEPTIME			(250)
 /* #define DITHER_FLAG     (paDitherOff) */
 #define DITHER_FLAG			(0) /**/
 /** Set to 1 if you want to capture the recording to a file. */
@@ -157,35 +148,17 @@ static int recordCallback( const void *inputBuffer, void *outputBuffer,
 }
 
 /*******************************************************************/
-void Perception_HAE_handler();
-int isVoice();
-
-void Perception_HAE_handler()
-{
-	//HAEMgr percetData;
-	//getHAE(percetData);
-
-	//printf("  FrameIndex: %d \n", data.frameIndex);
-	//int VoiceFlag = isVoice();
-	//percetData.voice_detection = static_cast< AudioVolume_type > (VoiceFlag);
-	//	// Send VAD
-	//sendHAE(percetData);
-	//Sleep(sizeof(percetData));
-	//printf("\n> Send Success! (VAD: %d)\n", VoiceFlag);
-	//return;
-}
-
 int isVoice()
 {
 	int nowFrameIndex;
 	int startFrameIndex;
 	float sumSample;
-	float sumThresh;
+	//float sumThresh;
 	int i;
 
 	sumSample = 0.0;
 	nowFrameIndex = data.frameIndex;
-	startFrameIndex = (nowFrameIndex - SAMPLE_RATE * STEPTIME);
+	startFrameIndex = (nowFrameIndex - SAMPLE_RATE * STEPTIME / 1000);
 
 	if(startFrameIndex < 0)
 		startFrameIndex = 0;
@@ -228,13 +201,6 @@ int main (void) {
 	int timeCount = 0;
 
 	printf("patest_record.c\n"); fflush(stdout);
-
-	///** Connect to IPC Server **/
-	//init_comm();
-	//connect_to_server(SERVERNAME);
-	//subscribe(PERCEPTION_HAE, TOTAL_MSG_NUM);
-	//publish(HAE, TOTAL_MSG_NUM);
-	//listen();
 
 	/* Initialize LCM */
 	LCM lcm(LCM_CTOR_PARAMS);
@@ -289,7 +255,7 @@ int main (void) {
 
 	/* Start collecting the audio input */
 	printf("\n> ---------- Now recording ----------\n"); fflush(stdout);
-	int sampleRate = STEPTIME * 1000 + 500;
+	int sampleRate = STEPTIME + 15;
 	while( ( err = Pa_IsStreamActive( stream ) ) == 1 )
 	{
 		Pa_Sleep(sampleRate);
@@ -299,18 +265,18 @@ int main (void) {
 		int VoiceFlag = isVoice();
 		voiceMgr.voice_detection = VoiceFlag;
 		lcm.publish(VOICE_DETECTION, &voiceMgr);
-
-		printf("> Second = %d | Data Index = %d\n", timeCount++, data.frameIndex); fflush(stdout);
+		printf("> Second = %d | Data Index = %d | Sending... (VAD: %d) \n", timeCount++, data.frameIndex, VoiceFlag); fflush(stdout);
 
 		/* Reset the frameIndex to avoid the termination of the audio stream */
-		int bufferSize = SAMPLE_RATE * STEPTIME;
-		SAMPLE *rptr = &data.recordedSamples[data.frameIndex - bufferSize * NUM_CHANNELS];
-		for (i = 0; i < bufferSize; ) {
-			rptr[i++] = (*rptr++);
-			if(NUM_CHANNELS == 2)
-				rptr[i++] = (*rptr++);
-		}
-		data.frameIndex = bufferSize;
+		//int bufferSize = SAMPLE_RATE * STEPTIME / 1000;
+		//SAMPLE *rptr = &data.recordedSamples[data.frameIndex - bufferSize * NUM_CHANNELS];
+		//for (i = 0; i < bufferSize; ) {
+		//	rptr[i++] = (*rptr++);
+		//	if(NUM_CHANNELS == 2)
+		//		rptr[i++] = (*rptr++);
+		//}
+		//data.frameIndex = bufferSize;
+		data.frameIndex = 0;
 	}
 	if( err < 0 )
 		goto done;

@@ -1,5 +1,10 @@
 
 #include "RobotAction.h"
+	// LCM core
+#include "lcm\lcm-cpp.hpp"
+	// LCM shared consts
+#include "lcm\LcmComm.hpp"
+using namespace lcm;
 
 // ======================================================================
 //						Variables for handler use
@@ -22,47 +27,58 @@ int robotVolume = 0;
 //							Initialization
 // ======================================================================
 
-RobotAction::RobotAction() {
+RobotAction::RobotAction() : lcmObject(LCM_CTOR_PARAMS) {
 	/* Connect to the IPC server */
 	init_comm();
 	connect_to_server();
 	subcribeAndPublish();
 	listen();
 
+	/* Initialize LCM */
+	if (!lcmObject.good()) {
+		cout << "> ERROR: Cannot initialize LCM" << endl;
+		exit(1);
+	}
+
 		// Initialize timeout
 	this->setTimeout(25);
 }
 
-RobotAction::RobotAction(const string& IPAddress) {
+RobotAction::RobotAction(const string& IPAddress) : lcmObject(LCM_CTOR_PARAMS) {
 	/* Connect to the IPC server */
 	init_comm();
 	connect_to_server(IPAddress.c_str());
 	subcribeAndPublish();
 	listen();
 
+	/* Initialize LCM */
+	if (!lcmObject.good()) {
+		cout << "> ERROR: Cannot initialize LCM" << endl;
+		exit(1);
+	}
+
 		// Initialize timeout
 	this->setTimeout(25);
-}
-
-void RobotAction::subcribeAndPublish() {
-	subscribe(PERCEPTION, KEY_WORD, ODOMETRY, PEOPLE, RESULT_NAVI, RESULT_ARM, RESULT_SPEAK, HAE, ATTENTIONLEVEL, TOTAL_MSG_NUM);
-	publish(ROBOTPARAMETER, MESSAGE_FREQ, PERCEPTION, SUBGOAL, ACTION_NAVI, ACTION_ARM, ACTION_SPEAK, ARM_POSITION, REQUEST_INFERENCE, TOTAL_MSG_NUM);
-	
 }
 
 RobotAction::RobotAction(const RobotAction& copy) {
 	this->setTimeout(copy.getTimeout());
 }
 
-RobotAction::~RobotAction()
-{
+RobotAction::~RobotAction() {
 	disconnect_to_server();
 }
 
-RobotAction& RobotAction::operator=(const RobotAction& copy) {
+RobotAction& RobotAction::operator=(const RobotAction& copy){
 	this->setTimeout(copy.getTimeout());
 
 	return *this;
+}
+
+void RobotAction::subcribeAndPublish() {
+	subscribe(PERCEPTION, KEY_WORD, ODOMETRY, RESULT_NAVI, RESULT_ARM, RESULT_SPEAK, ATTENTIONLEVEL, TOTAL_MSG_NUM);
+	publish(ROBOTPARAMETER, MESSAGE_FREQ, PERCEPTION, SUBGOAL, ACTION_NAVI, ACTION_ARM, ACTION_SPEAK, ARM_POSITION, REQUEST_INFERENCE, TOTAL_MSG_NUM);
+	
 }
 
 // ======================================================================
@@ -112,7 +128,7 @@ const bool RobotAction::turningFace(const int& goalDegree) {
 	armHeadPara.headDeg = goalDegree;
 
 	sendArmPosition(armHeadPara);
-	Sleep(sizeof(armHeadPara) + 50);
+	Sleep(sizeof(armHeadPara) + 100);
 
 	sendActionArm(actionmgr);
 	Sleep(sizeof(actionmgr));
@@ -140,38 +156,26 @@ const bool RobotAction::turningFace(const int& goalDegree) {
 }
 
 const int RobotAction::turnFaceToHuman() {
+	/* Receive data through LCM */
+	lcmLegDetect handlerLeg;
+	lcm::Subscription* sub_ptr;
+
 	/* Request current human pose */
-	PerceptionMgr legRequest;
-	legRequest.sensing = legDetection;
-	sendPerception(legRequest);
-	Sleep(sizeof(legDetection));
+	sub_ptr = lcmObject.subscribe(LEG_CHANNEL, &lcmLegDetect::handleMessage, &handlerLeg);
+	lcmObject.handle();
+	lcmObject.unsubscribe(sub_ptr);
 
-	this->buzyWaitForMgr(250);
-	PeopleMgr targetPos;
-	getPeople(targetPos);
-
-		// Find the possible candidate of the target, the nearest one
-	double possibleCandidateX = 0.0, possibleCandidateY = 0.0;
-	if (targetPos.count == 0) {
-		cout << "> WARNING: No Human Candidate!" << endl;
-		return 1;
-	} else if(targetPos.count > 1) {
-		/* Find the person who is nearest to the robot */
-		float minX = 0.0, minY = 0.0, squaredDistance = 0.0, minSquaredDistance = 999999.0;
-		for (int i = 0; i < targetPos.count; i++) {
-			squaredDistance = pow(targetPos.x[i],2) + pow(targetPos.y[i],2);
-			if (squaredDistance <= minSquaredDistance) {
-				minSquaredDistance = squaredDistance;
-				minX = targetPos.x[i];
-				minY = targetPos.y[i];
-			}
-		}
-		possibleCandidateX = minX / 100.0;
-		possibleCandidateY = minY / 100.0;
+	/* Find the person who is nearest to the robot */
+	auto peopleSorted = sortingPeople(handlerLeg);
+	if (peopleSorted.empty() == true) {
+		cout << "> WARNING: No people found!" << endl;
+		return false;
 	}
+	auto itPeopleSorted = peopleSorted.begin();
 
 	/* Prepare the angle to turn the head */
-	int goalDegree = -1 * static_cast< int >(atan2(possibleCandidateY, possibleCandidateX) / M_PI * 180.0);
+	int goalDegree = -1 * static_cast< int >(atan2(handlerLeg.y[itPeopleSorted->second],
+												   handlerLeg.x[itPeopleSorted->second]) / M_PI * 180.0);
 
 	if (abs(goalDegree) > 35) {
 		cout << "> WARNING: Head cannot turn to this angle, " << goalDegree << endl;
@@ -194,7 +198,7 @@ const bool RobotAction::armWave(const int& motionSpeed) {
 	/* Sending command to wave the robot's arm */
 	armHeadPara.move_time = motionSpeed;
 	sendArmPosition(armHeadPara);
-	Sleep(sizeof(armHeadPara) + 50);
+	Sleep(sizeof(armHeadPara) + 100);
 
 	actionmgr.armState = ARM_WAVE;
 	sendActionArm(actionmgr);
@@ -224,10 +228,6 @@ const bool RobotAction::armWave(const int& motionSpeed) {
 
 	// @Param: x, the heading direction of the navi starting; theta, 0 where the navi executed;
 const bool RobotAction::toPoint(const double& x, const double& y, const double& theta) {
-	this->turningFace(0);
-
-	this->getCurrentTime();
-
 	/* Prepare subgoal message */
 	SubgoalMgr goal;
 	goal.x = x;
@@ -238,6 +238,9 @@ const bool RobotAction::toPoint(const double& x, const double& y, const double& 
 	sendSubgoal(goal);
 	naviExecuting = true;
 	Sleep(sizeof(goal) + 500);
+
+	this->turningFace(0);
+	this->getCurrentTime();
 
 	Result_Navi resultNaviStatus;
 	getResultNavi(resultNaviStatus);
@@ -302,8 +305,6 @@ const bool RobotAction::rotation(const double& swingRange) {
 }
 
 const bool RobotAction::forwardApproach(const int& speed, const double& distance) {
-	this->turningFace(0);
-
 	/* Request current robot pose */
 	MessageFreqMgr requestOdo;
 	sendMessageFreq(requestOdo);
@@ -314,37 +315,24 @@ const bool RobotAction::forwardApproach(const int& speed, const double& distance
 	getOdometry(curPos);
 
 	/* Request current human pose */
-	PerceptionMgr legRequest;
-	legRequest.sensing = legDetection;
-	sendPerception(legRequest);
-	Sleep(sizeof(legDetection));
+	lcmLegDetect handlerLeg;
+	lcm::Subscription* sub_ptr;
 
-	this->buzyWaitForMgr(500);
-	PeopleMgr targetPos;
-	getPeople(targetPos);
+	sub_ptr = lcmObject.subscribe(LEG_CHANNEL, &lcmLegDetect::handleMessage, &handlerLeg);
+	lcmObject.handle();
+	lcmObject.unsubscribe(sub_ptr);
 
-	/* Prepare subgoal message */
-	if (targetPos.count == 0) {
-		cout << "> WARNING: No Human!" << endl;
-		return 1;
-	} else if(targetPos.count >= 1) {
-		/* Find the person who is nearest to the robot */
-		float minX = 0.0, minY = 0.0, squaredDistance = 0.0, minSquaredDistance = 999999.0;
-		for (int i = 0; i < targetPos.count; i++) {
-			squaredDistance = pow(targetPos.x[i],2) + pow(targetPos.y[i],2);
-			if (squaredDistance <= minSquaredDistance) {
-				minSquaredDistance = squaredDistance;
-				minX = targetPos.x[i];
-				minY = targetPos.y[i];
-			}
-		}
-		targetPos.x[0] = minX;
-		targetPos.y[0] = minY;
+	/* Find the person who is nearest to the robot */
+	auto peopleSorted = sortingPeople(handlerLeg);
+	if (peopleSorted.empty() == true) {
+		cout << "> WARNING: No people found!" << endl;
+		return false;
 	}
-	//double dX = (targetPos.x[0] / 100.0) - curPos.x;
-	//double dY = (targetPos.y[0] / 100.0) - curPos.y;
-	double dX = targetPos.x[0] / 100.0;
-	double dY = targetPos.y[0] / 100.0;
+	auto itPeopleSorted = peopleSorted.begin();
+
+	/* Preparing the subgoal message */
+	double dX = handlerLeg.x[itPeopleSorted->second] / 100.0;
+	double dY = handlerLeg.y[itPeopleSorted->second] / 100.0;
 
 	if (sqrt(pow(dX, 2) + pow(dY, 2)) < 1.1) {
 		cout << "> WARNING: Too close to human!" << endl;
@@ -357,7 +345,7 @@ const bool RobotAction::forwardApproach(const int& speed, const double& distance
 	goal.y = curPos.y + distance * sin(goal.theta / 180 * M_PI);
 
 	cout << "Xr: " << curPos.x << ", Yr: " << curPos.y << endl;
-	cout << "Xh: " << targetPos.x[0] << ", Yh: " << targetPos.y[0] << endl;
+	cout << "Xh: " << dX << ", Yh: " << dY << endl;
 	cout << "Xg: " << goal.x << ", Yg: " << goal.y << endl;
 
 	/* Send subgoal message */
@@ -365,6 +353,7 @@ const bool RobotAction::forwardApproach(const int& speed, const double& distance
 	naviExecuting = true;
 	Sleep(sizeof(goal) + 500);
 
+	this->turningFace(0);
 	this->getCurrentTime();
 
 	Result_Navi resultNaviStatus;
@@ -396,46 +385,43 @@ const bool RobotAction::movingToAroundOfHuman(const int& speed, const float& dis
 	getOdometry(curPos);
 
 	/* Request current human pose */
-	PerceptionMgr legRequest;
-	legRequest.sensing = legDetection;
-	sendPerception(legRequest);
-	Sleep(sizeof(legDetection));
+	lcmLegDetect handlerLeg;
+	lcm::Subscription* sub_ptr;
 
-	this->buzyWaitForMgr(250);
-	PeopleMgr targetPos;
-	getPeople(targetPos);
+	sub_ptr = lcmObject.subscribe(LEG_CHANNEL, &lcmLegDetect::handleMessage, &handlerLeg);
+	lcmObject.handle();
+	lcmObject.unsubscribe(sub_ptr);
+
+	/* Find the person who is nearest to the robot */
+	auto peopleSorted = sortingPeople(handlerLeg);
+	if (peopleSorted.empty() == true) {
+		cout << "> WARNING: No people found!" << endl;
+		return false;
+	}
+	auto itPeopleSorted = peopleSorted.begin();
 
 	/* Request body direction */
-	PerceptionHAEMgr requestBody;
-	requestBody.sensing = bodyDirectionCont;
-	sendPerceptionHAE(requestBody);
-	Sleep(sizeof(requestBody));
+	HAEHandlerLcm bodyDirMgr;
 
-	this->buzyWaitForMgr(250);
+	sub_ptr = lcmObject.subscribe(BODY_DIRECTION, &HAEHandlerLcm::handleBody, &bodyDirMgr);
+	lcmObject.handle();
+	lcmObject.unsubscribe(sub_ptr);
+
 	HAEMgr receivedBodyDir;
-	getHAE(receivedBodyDir);
+	receivedBodyDir.body_direction_cont = bodyDirMgr.body_direction_cont;
+
+	//PerceptionHAEMgr requestBody;
+	//requestBody.sensing = bodyDirectionCont;
+	//sendPerceptionHAE(requestBody);
+	//Sleep(sizeof(requestBody));
+
+	//this->buzyWaitForMgr(250);
+	//HAEMgr receivedBodyDir;
+	//getHAE(receivedBodyDir);
 
 	/* Prepare subgoal message */
-		// Find the possible candidate of the target, the nearest one
-	double possibleCandidateX = 0.0, possibleCandidateY = 0.0;
-	if (targetPos.count == 0) {
-		cout << "> WARNING: No Human Candidate!" << endl;
-		return 1;
-	} else if(targetPos.count > 0) {
-		/* Find the person who is nearest to the robot */
-		float minX = 0.0, minY = 0.0, squaredDistance = 0.0, minSquaredDistance = 999999.0;
-		for (int i = 0; i < targetPos.count; i++) {
-			squaredDistance = pow(targetPos.x[i],2) + pow(targetPos.y[i],2);
-			if (squaredDistance <= minSquaredDistance) {
-				minSquaredDistance = squaredDistance;
-				minX = targetPos.x[i];
-				minY = targetPos.y[i];
-			}
-		}
-		possibleCandidateX = minX / 100.0;
-		possibleCandidateY = minY / 100.0;
-	}
-
+	float possibleCandidateX = handlerLeg.x[itPeopleSorted->second] / 100.0f;
+	float possibleCandidateY = handlerLeg.y[itPeopleSorted->second] / 100.0f;
 	double dist_robot2human = sqrt(pow(possibleCandidateX, 2) + pow(possibleCandidateY, 2));
 	double theta_BD = (-1 * receivedBodyDir.body_direction_cont);
 	double theta_robotHeading = atan2(possibleCandidateY, possibleCandidateX) * 180 / M_PI;
@@ -492,8 +478,8 @@ const bool RobotAction::movingToAroundOfHuman(const int& speed, const float& dis
 	naviExecuting = true;
 	Sleep(sizeof(goal) + 500);
 
-	this->getCurrentTime();
 	this->turningFace(0);
+	this->getCurrentTime();
 
 	Result_Navi resultNaviStatus;
 	getResultNavi(resultNaviStatus);
@@ -521,6 +507,8 @@ const bool RobotAction::makeSounds(const string& pathToAudioFile) {
 }
 
 const bool RobotAction::speaking(const string& textToSpeak, const float& voiceVolume) {
+	this->getCurrentTime();
+
 		// To check whethler TTS is speaking
 	if (TTSspeaking == false) {
 		Action_Speak speak;
@@ -648,6 +636,18 @@ const int RobotAction::setKeywordListened() {
 	this->keywordListened = humanSpeechInput;
 	humanSpeechInput = "";
 	return 1;
+}
+
+	// Sorting the people we found
+map< float, int > RobotAction::sortingPeople(const lcmLegDetect& people) {
+	map< float, int > sortedResult;
+		// For every candidate detected
+	for (int i = 0; i < people.count; i++) {
+		float squaredDistance = pow(people.x[i], 2) + pow(people.y[i], 2);
+		sortedResult.insert(pair< float, int >(squaredDistance, i));
+	}
+
+	return sortedResult;
 }
 
 // ======================================================================

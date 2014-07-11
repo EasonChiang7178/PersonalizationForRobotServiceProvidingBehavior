@@ -34,8 +34,6 @@ using namespace lcm;
 #define BODYMAXSIZE 480
 #define FACEMAXSIZE 300
 #define EYEMAXSIZE  30
-//#define IPCSERVER "localhost"		// Local host
-#define IPCSERVER "192.168.11.4"	// Old mac
 	// For front view face detection
 //String facefront_cascade_name = "../models/CascadeClassifiers/haarcascade_frontalface_alt.xml";
 //String facefront_cascade_name = "../models/CascadeClassifiers/haarcascade_frontalface_alt_tree.xml";
@@ -65,13 +63,6 @@ void Perception_HAE_handler();
 //=============================================================================
 int main( void )
 {
-	///** Connect to IPC Server **/
-	//init_comm();
-	//connect_to_server(IPCSERVER);
-	//subscribe(PERCEPTION_HAE,TOTAL_MSG_NUM);
-	//publish(HAE, TOTAL_MSG_NUM);
-	//listen();
-
 	/* Initialize LCM */
 	LCM lcm(LCM_CTOR_PARAMS);
 	if (!lcm.good())
@@ -81,8 +72,8 @@ int main( void )
 	}
 	
 	/* Initialize and load the cascades */
-	FaceDetection faceDetector(facefront_cascade_name, faceProfile_cascade_name, upperbody_cascade_name, eyes_cascade_name, 
-							   BODYMINSIZE, BODYMAXSIZE, FACEMINSIZE, FACEMAXSIZE, EYEMINSIZE, EYEMAXSIZE);
+	FaceDetection faceDetector(facefront_cascade_name, faceProfile_cascade_name, upperbody_cascade_name,
+							   BODYMINSIZE, FACEMINSIZE);
 
 	/* Read the video stream */
 		// Open the default camera
@@ -133,7 +124,7 @@ int main( void )
 		faceMgr.face_direction = faceDirectionHAE;
 		lcm.publish(FACE_DETECTION, &faceMgr);
 
-		int c = waitKey(10);
+		int c = waitKey(5);
 		if( (char)c == 27 ) { break; } // escape
 	}
 	return 0;

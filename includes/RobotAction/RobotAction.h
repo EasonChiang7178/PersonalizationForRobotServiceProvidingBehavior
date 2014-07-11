@@ -2,6 +2,7 @@
 #ifndef ROBOTACTION_H
 #define ROBOTACTION_H
 
+/* Standrad Included Library */
 #include <iostream>
 #include <sstream>
 #include <string>
@@ -10,8 +11,13 @@ using namespace std;
 
 #define M_PI       3.14159265358979323846
 
+/* Third-party Library */
+	// Import Inter-Process Communication Server, Kuo-Chen version
 #include "IPCserver/client.hpp"
+	// Coordinate Transformation, Chu version
 #include "../CoordTrans/CoordTrans.h"
+	// Handlers for LCM receiving
+#include "lcm\LcmHandlers.hpp"
 
 class RobotAction {
 	public:
@@ -85,6 +91,9 @@ class RobotAction {
 		/* For IPC Communication */
 		void subcribeAndPublish();
 
+		/* For LCM */
+		lcm::LCM lcmObject;
+
 		/* Human Speech Input */
 		string keywordListened;
 
@@ -110,11 +119,15 @@ class RobotAction {
 			// For buzy waiting for mgr receive
 		bool buzyWaitForMgr(const int& delayTime);
 
+		/* Action Parameters */
 		int motionSpeed;
 		int speechVolume;
 
-		/* For Robot Pose Manipulation */
-
+		/* Maintain candidates of humans from LCF */
+		lcmLegDetect peopleCandidates;
+		map< float, int > sortedPeople;
+			// Sorting the people we found
+		map< float, int > sortingPeople(const lcmLegDetect& people);
 };
 
 #endif

@@ -31,6 +31,9 @@
     <Filter Include="Source Files\CoordTrans">
       <UniqueIdentifier>{441c7e05-ac9d-4d29-89f3-1acb4d3379f3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\LCM">
+      <UniqueIdentifier>{7f0cc2f2-e577-4abb-b40d-66bd5adc1166}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">

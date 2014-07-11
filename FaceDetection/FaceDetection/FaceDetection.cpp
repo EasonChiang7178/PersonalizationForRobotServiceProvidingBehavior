@@ -158,15 +158,15 @@ const bool FaceDetection::detectFaceAndDirection(const Mat& imageToProcess)
 				itFace->y += it->y;
 
 				/* Detect Eye */
-				Mat FrontFaceROI = tempGray(*itFace);
-				if (this->detectEye(FrontFaceROI) == true) {
-						// Offset back image pixels
-					for (auto itEye = resultEye.begin(); itEye != resultEye.end(); itEye++) {
-						itEye->x += itFace->x;
-						itEye->y += itFace->y;
-						tempEye.push_back(*itEye);
-					}
-				}
+				//Mat FrontFaceROI = tempGray(*itFace);
+				//if (this->detectEye(FrontFaceROI) == true) {
+				//		// Offset back image pixels
+				//	for (auto itEye = resultEye.begin(); itEye != resultEye.end(); itEye++) {
+				//		itEye->x += itFace->x;
+				//		itEye->y += itFace->y;
+				//		tempEye.push_back(*itEye);
+				//	}
+				//}
 			}
 			tempFFace.push_back(resultFrontalFace[0]);
 			continue;

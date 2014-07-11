@@ -18,10 +18,6 @@ using namespace std;
 #include "lcm\lcm-cpp.hpp"
 	// LCM shared consts
 #include "lcm\LcmComm.hpp"
-	// LCM message data types
-#include "lcm\BodyDirectionLcm.hpp"
-#include "lcm\FaceDetectionLcm.hpp"
-#include "lcm\VoiceDetectorLcm.hpp"
 	// Handlers for LCM receiving
 #include "lcm\LcmHandlers.hpp"
 
@@ -31,7 +27,7 @@ using namespace std;
 	// How long a timestep is (ms)
 #define STEPTIME	250
 	// How long a delay for messages request
-#define DELAYTIME	60
+#define DELAYTIME	20
 /** BAD example **/
 #define CONTEXT		0 //0, neutral; 1, concentrating; 2, sleepy; 3, social
 
@@ -52,25 +48,24 @@ static lcm::LCM lcmObject(LCM_CTOR_PARAMS);
 void requestSensingSAM(int delayTime, HAEMgr& dataHAE, RobotParameterMgr& robotPara, int& robotPosition);
 	// Request the environment context information for SAM; param 1 delayTime for the message sending
 void requestEnvirContextSAM(int delayTime, int& audioNoiseLevel, int& attenContextLevel);
-	// Handler for receiving HAE message
-void HAE_handler();
 	// Handler for receiving RequestInference message
 void RequestInference_handler();
 	// Wait for message received; param 1 delayTime = delayTime / 10
 bool buzyWaitForMgr(const int delayTime);
+	// Sorting the people we found
+map< float, int > sortingPeople(const lcmLegDetect& people);
 
 //=============================================================================
 int main(int argc, char* argv[]) {
 	/** Connect to IPC Server **/
 	init_comm();
 	connect_to_server();
-	subscribe(HAE, REQUEST_INFERENCE, PEOPLE, ROBOTPARAMETER, TOTAL_MSG_NUM);
-	publish(PERCEPTION_HAE, ATTENTIONLEVEL, PERCEPTION, TOTAL_MSG_NUM);
+	subscribe(REQUEST_INFERENCE, ROBOTPARAMETER, TOTAL_MSG_NUM);
+	publish(ATTENTIONLEVEL, PERCEPTION, TOTAL_MSG_NUM);
 	listen();
 
 	/* Test LCM */
-	if (!lcmObject.good())
-	{
+	if (!lcmObject.good()) {
 		cout << "> ERROR: Cannot initialize LCM" << endl;
 		return 1;
 	}
@@ -217,7 +212,7 @@ int main(int argc, char* argv[]) {
 			cout << right << setw(11) << "|-" << left << setw(20) << (*it).second << setw(15) << " Confidence = " << (*it).first << endl;
 		cout << endl;
 
-		//Sleep(STEPTIME - 6 * DELAYTIME);
+		Sleep(STEPTIME);
 	}
 	cout << "> Social Attention Inference End!" << endl << endl;
 		// Disconnect to IPC server, Clean up socket.
@@ -274,10 +269,10 @@ void requestSensingSAM(int delayTime, HAEMgr& dataHAE, RobotParameterMgr& robotP
 	getRobotParameter(receivedDataRP);
 
 	PerceptionMgr requestDataRP;
-	/* Speech Volume and Motion Speed */
+		// Speech Volume and Motion Speed 
 	requestDataRP.sensing = robotParameter;
 	sendPerception(requestDataRP);
-	Sleep(sizeof(requestDataRP) + DELAYTIME);
+	Sleep(sizeof(requestDataRP) + delayTime);
 
 	if (buzyWaitForMgr(20) == false)
 		cout << "> WARNING: Receive Data Time Out, Speech Volume and Motion Speed" << endl;
@@ -293,39 +288,16 @@ void requestSensingSAM(int delayTime, HAEMgr& dataHAE, RobotParameterMgr& robotP
 	lcmObject.handle();
 	lcmObject.unsubscribe(sub_ptr);
 
-	//PerceptionMgr legRequest;
-	//legRequest.sensing = legDetection;
-	//sendPerception(legRequest);
-	//Sleep(sizeof(legDetection));
-
-	//if (buzyWaitForMgr(40) == false)
-	//	cout << "> WARNING: Receive Data Time Out, Laser" << endl;
-	//PeopleMgr targetPos;
-	//getPeople(targetPos);
-
 	/* Find the person who is nearest to the robot */
-	double possibleCandidateX = 0.0, possibleCandidateY = 0.0;
-	if(handlerLeg.count >= 0) {
-		/* Find the person who is nearest to the robot */
-		float minX = 0.0, minY = 0.0, squaredDistance = 0.0, minSquaredDistance = 999999.0;
-		for (int i = 0; i < handlerLeg.count; i++) {
-			squaredDistance = pow(handlerLeg.x[i],2) + pow(handlerLeg.y[i],2);
-			if (squaredDistance <= minSquaredDistance) {
-				minSquaredDistance = squaredDistance;
-				minX = handlerLeg.x[i];
-				minY = handlerLeg.y[i];
-			}
-		}
-		possibleCandidateX = minX / 100.0;
-		possibleCandidateY = minY / 100.0;
-	}
+	auto peopleSorted = sortingPeople(handlerLeg);
+	auto itPeopleSorted = peopleSorted.begin();
 
-	double distance = sqrt(pow(possibleCandidateX, 2) + pow(possibleCandidateY, 2));
-	if (distance >= 3.0)
+	float nearestDistance = itPeopleSorted->first;
+	if (nearestDistance >= 3.0)
 		robotPosition = 0;
-	else if (distance >= 2.1)
+	else if (nearestDistance >= 2.1)
 		robotPosition = 1;
-	else if (distance >= 1.2)
+	else if (nearestDistance >= 1.2)
 		robotPosition = 2;
 	else
 		robotPosition = 0;
@@ -347,14 +319,13 @@ void requestEnvirContextSAM(int delayTime, int& audioNoiseLevel, int& attenConte
 			// Subscribe VOICE_DETECTION channel, receive data, then unsubscribe
 		sub_ptr = lcmObject.subscribe(VOICE_DETECTION, &HAEHandlerLcm::handleVoice, &handler);
 		lcmObject.handle();
-		audioCount[static_cast< int >(handler.voice_detection)]++;
 		lcmObject.unsubscribe(sub_ptr);
+		audioCount[static_cast< int >(handler.voice_detection)]++;
 		cout << "> Audio Detected: " << handler.voice_detection << endl;
 
-		Sleep(1000);
+		Sleep(500);
 	}
-
-		// Found the maximum one
+		// Find the maximum one
 	audioNoiseLevel = 0;
 	int countMax = 0;
 	for (unsigned int i(0); i < audioCount.size(); i++) {
@@ -379,11 +350,6 @@ void requestEnvirContextSAM(int delayTime, int& audioNoiseLevel, int& attenConte
 	return;
 }
 
-	// Handler for receiving HAE message
-void HAE_handler() {
-	receivedCount += 1;
-}
-
 	// Handler for receiving robot parameter
 void RobotParameter_handler() {
 	receivedCount += 1;
@@ -401,4 +367,16 @@ void RequestInference_handler() {
 	printf("\n> Send Success! (AttentionLevel: %d)\n", attentionLevel);
 
 	return;
+}
+
+	// Sorting the people we found
+map< float, int > sortingPeople(const lcmLegDetect& people) {
+	map< float, int > sortedResult;
+		// For every candidate detected
+	for (int i = 0; i < people.count; i++) {
+		float squaredDistance = pow(people.x[i], 2) + pow(people.y[i], 2);
+		sortedResult.insert(pair< float, int >(squaredDistance, i));
+	}
+
+	return sortedResult;
 }

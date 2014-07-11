@@ -1,9 +1,10 @@
 
 /* Standrad Included Library */
-#include<iostream>
-#include<fstream>
-#include<vector>
-#include<conio.h>			// To use getch(), kbhit()
+#include <iostream>
+#include <fstream>
+#include <vector>
+#include <map>
+#include <conio.h>			// To use getch(), kbhit()
 using namespace std;
 
 /* Third-party Library */
@@ -13,10 +14,6 @@ using namespace std;
 #include "lcm\lcm-cpp.hpp"
 	// LCM shared consts
 #include "lcm\LcmComm.hpp"
-	// LCM message data types
-#include "lcm\BodyDirectionLcm.hpp"
-#include "lcm\FaceDetectionLcm.hpp"
-#include "lcm\VoiceDetectorLcm.hpp"
 	// Handlers for LCM receiving
 #include "lcm\LcmHandlers.hpp"
 
@@ -24,7 +21,7 @@ using namespace std;
 	// How long a timestep is (ms)
 #define STEPTIME	250
 	// How long a delay for messages request
-#define DELAYTIME	60
+#define DELAYTIME	20
 /** BAD example **/
 #define CONTEXT		0 //0, neutral; 1, concentrating; 2, sleepy; 3, social
 
@@ -41,18 +38,18 @@ static lcm::LCM lcmObject(LCM_CTOR_PARAMS);
 void requestSensingSAM(int delayTime, HAEMgr& dataHAE, RobotParameterMgr& robotPara, int& robotPosition);
 	// Request the environment context information for SAM; param 1 delayTime for the message sending
 void requestEnvirContextSAM(int delayTime, int& audioNoiseLevel, int& attenContextLevel);
-	// Handler for receiving HAE message
-void HAE_handler();
 	// Wait for message received; param 1 delayTime = delayTime / 10
 bool buzyWaitForMgr(const int delayTime);
+	// Sorting the people we found
+map< float, int > sortingPeople(const lcmLegDetect& people);
 
 int main(int argc, char* argv[])
 {
 	/** Connect to IPC Server **/
 	init_comm();
 	connect_to_server();
-	subscribe(HAE, PEOPLE, ROBOTPARAMETER, TOTAL_MSG_NUM);
-	publish(PERCEPTION_HAE, PERCEPTION, TOTAL_MSG_NUM);
+	subscribe(ROBOTPARAMETER, TOTAL_MSG_NUM);
+	publish(PERCEPTION, TOTAL_MSG_NUM);
 	listen();
 
 	/* Test LCM */
@@ -102,7 +99,7 @@ int main(int argc, char* argv[])
 		cout << "> F:  " << sensingData.face_direction << ", B:  " << sensingData.body_direction << ", V:  " << sensingData.voice_detection << endl;
 		cout << "> RS: " << parameterData.speed << ", RP: " << robotPositionData << ", RV: " << parameterData.volume << endl;
 		
-		Sleep(STEPTIME - 6 * DELAYTIME);
+		Sleep(STEPTIME);
 	}
 
 	frawData.close();
@@ -110,10 +107,6 @@ int main(int argc, char* argv[])
 	cout << "\n> Recording End!" << endl;
 
 	return 0;
-}
-
-void HAE_handler() {
-	receivedCount += 1;
 }
 
 	// Request the environment context information for SAM; param 1 delayTime for the message sending
@@ -130,14 +123,12 @@ void requestEnvirContextSAM(int delayTime, int& audioNoiseLevel, int& attenConte
 		// Subscribe VOICE_DETECTION channel, receive data, then unsubscribe
 		sub_ptr = lcmObject.subscribe(VOICE_DETECTION, &HAEHandlerLcm::handleVoice, &handler);
 		lcmObject.handle();
-		audioCount[static_cast< int >(handler.voice_detection)]++;
 		lcmObject.unsubscribe(sub_ptr);
+		audioCount[static_cast< int >(handler.voice_detection)]++;
 		cout << "> Audio Detected: " << handler.voice_detection << endl;
 
-		Sleep(1000);
+		Sleep(500);
 	}
-	lcmObject.unsubscribe(sub_ptr);
-
 		// Found the maximum one
 	audioNoiseLevel = 0;
 	int countMax = 0;
@@ -168,6 +159,7 @@ void requestSensingSAM(int delayTime, HAEMgr& dataHAE, RobotParameterMgr& robotP
 	/* Receive data through LCM */
 		// Handler object, received data is stored inside
 	HAEHandlerLcm handler;
+	lcmLegDetect handlerLeg;
 		// Pointer for subscription, used for unsubscribing channel
 	lcm::Subscription* sub_ptr;
 
@@ -192,46 +184,6 @@ void requestSensingSAM(int delayTime, HAEMgr& dataHAE, RobotParameterMgr& robotP
 	dataHAE.face_direction =	static_cast<Face_Direction_HAE_type>	(handler.face_direction);
 	dataHAE.voice_detection =	static_cast<AudioVolume_type>			(handler.voice_detection);
 	dataHAE.body_direction_cont = handler.body_direction_cont;
-
-	///** Requesting data about the perceived data **/
-	//HAEMgr receivedDataHAE, tempDataHAE;
-	//getHAE(receivedDataHAE);
-
-	//PerceptionHAEMgr requestDataHAE;
-	///* Audio */
-	//requestDataHAE.sensing = voiceDetection;
-	//sendPerceptionHAE(requestDataHAE);
-	//Sleep(sizeof(requestDataHAE) + DELAYTIME);
-
-	//if (buzyWaitForMgr(20) == false)
-	//	cout << "> WARNING: Receive Data Time Out, Audio" << endl;
-	//
-	//getHAE(tempDataHAE);
-	//receivedDataHAE.voice_detection = tempDataHAE.voice_detection;
-
-	///* Face */
-	//requestDataHAE.sensing = faceDirectionDiscrete;
-	//sendPerceptionHAE(requestDataHAE);
-	//Sleep(sizeof(requestDataHAE) + DELAYTIME);
-
-	//if (buzyWaitForMgr(20) == false)
-	//	cout << "> WARNING: Receive Data Time Out, Face" << endl;
-
-	//getHAE(tempDataHAE);
-	//receivedDataHAE.face_direction = tempDataHAE.face_direction;
-
-	///* Body */
-	//requestDataHAE.sensing = bodyDirectionDiscrete;
-	//sendPerceptionHAE(requestDataHAE);
-	//Sleep(sizeof(requestDataHAE) + DELAYTIME);
-
-	//if (buzyWaitForMgr(20) == false)
-	//	cout << "> WARNING: Receive Data Time Out, Body" << endl;
-	//
-	//getHAE(tempDataHAE);
-	//receivedDataHAE.body_direction = tempDataHAE.body_direction;
-
-	//dataHAE = receivedDataHAE;
 
 	/** Requesting data about parameters of the robot **/
 	RobotParameterMgr receivedDataRP, tempDataRP;
@@ -264,28 +216,20 @@ void requestSensingSAM(int delayTime, HAEMgr& dataHAE, RobotParameterMgr& robotP
 	getPeople(targetPos);
 
 	/* Find the person who is nearest to the robot */
-	double possibleCandidateX = 0.0, possibleCandidateY = 0.0;
-	if(targetPos.count > 0) {
-		/* Find the person who is nearest to the robot */
-		float minX = 0.0, minY = 0.0, squaredDistance = 0.0, minSquaredDistance = 999999.0;
-		for (int i = 0; i < targetPos.count; i++) {
-			squaredDistance = pow(targetPos.x[i],2) + pow(targetPos.y[i],2);
-			if (squaredDistance <= minSquaredDistance) {
-				minSquaredDistance = squaredDistance;
-				minX = targetPos.x[i];
-				minY = targetPos.y[i];
-			}
-		}
-		possibleCandidateX = minX / 100.0;
-		possibleCandidateY = minY / 100.0;
-	}
+	sub_ptr = lcmObject.subscribe(LEG_CHANNEL, &lcmLegDetect::handleMessage, &handlerLeg);
+	lcmObject.handle();
+	lcmObject.unsubscribe(sub_ptr);
 
-	double distance = sqrt(pow(possibleCandidateX, 2) + pow(possibleCandidateY, 2));
-	if (distance >= 3.0)
+	/* Find the person who is nearest to the robot */
+	auto peopleSorted = sortingPeople(handlerLeg);
+	auto itPeopleSorted = peopleSorted.begin();
+
+	float nearestDistance = itPeopleSorted->first;
+	if (nearestDistance >= 3.0)
 		robotPosition = 0;
-	else if (distance >= 2.1)
+	else if (nearestDistance >= 2.1)
 		robotPosition = 1;
-	else if (distance >= 1.2)
+	else if (nearestDistance >= 1.2)
 		robotPosition = 2;
 	else
 		robotPosition = 0;
@@ -308,4 +252,16 @@ bool buzyWaitForMgr(const int delayTime) {
 	}
 	receivedCount = 0;
 	return true;
+}
+
+	// Sorting the people we found
+map< float, int > sortingPeople(const lcmLegDetect& people) {
+	map< float, int > sortedResult;
+		// For every candidate detected
+	for (int i = 0; i < people.count; i++) {
+		float squaredDistance = pow(people.x[i], 2) + pow(people.y[i], 2);
+		sortedResult.insert(pair< float, int >(squaredDistance, i));
+	}
+
+	return sortedResult;
 }

@@ -44,7 +44,7 @@ int main(int argc, char** argv) {
 			{
 				cout << keyboardInput << endl;
 				keyboardInput = '\0';
-					// Attention-Aware Interactive Learner
+					// Human-Aware Interactive Learner
 				Exec("AdaptiveInitEngagementAgent");
 					// RobotAction components
 				Exec("Navi_echo");
@@ -355,7 +355,7 @@ void Kill(string ProgramName){
 
 		cout << "Kill:" << ProgramName << endl;
 	}
-	else if(ProgramName == "BodyDetection"){
+	else if(ProgramName == "BodyDirection"){
 		pskillDir = "..\\models\\pstool\\pskill ";
 		pskillParam = "";
 

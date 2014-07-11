@@ -41,7 +41,7 @@
     <Import Project="..\propertySheets\OpenCV245.props" />
     <Import Project="..\propertySheets\OpenNI2.props" />
     <Import Project="..\propertySheets\NITE2.props" />
-    <Import Project="..\PropertySheets\IPC.props" />
+    <Import Project="..\PropertySheets\LCM.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
