@@ -10,7 +10,7 @@ using namespace std;
 #include "RobotAction/RobotAction.h"
 
 //** Problem Dependent Variable Setting **//
-#define PARTNERNAME "Chen"
+#define PARTNERNAME "ªF¿Î"
 //#define SERVER_NAME "localhost"
 #define SERVER_NAME "192.168.11.4"
 

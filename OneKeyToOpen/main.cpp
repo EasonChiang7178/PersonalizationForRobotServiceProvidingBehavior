@@ -161,8 +161,8 @@ void Exec(string ProgramName){
 		psexecHost		= "\\\\192.168.11.2 ";
 		psexecUser		= "-u robot ";
 		psexecPswd		= "-p robot ";
-		psexecProgDir	= "-w E:\\desktop\\Tung-Yen\\Human_Tracking_2.0\\Debug\\ ";
-		psexecProgName	= "E:\\desktop\\Tung-Yen\\Human_Tracking_2.0\\Debug\\HumanTracking_newmac.exe ";
+		psexecProgDir	= "-w E:\\desktop\\Shu\\Human_Tracking_2.0_lcm\\Debug\\ ";
+		psexecProgName	= "E:\\desktop\\Shu\\Human_Tracking_2.0_lcm\\Debug\\HumanTracking.exe ";
 
 		systemCallParam = psexecDir + psexecHost + psexecUser + psexecPswd + 
 			psexecParam + psexecProgDir + psexecProgName;
@@ -314,7 +314,7 @@ void Kill(string ProgramName){
 		pskillHost		= "\\\\192.168.11.2 ";
 		pskillUser		= "-u robot ";
 		pskillPswd		= "-p robot ";
-		pskillProgName	= "HumanTracking_newmac.exe ";
+		pskillProgName	= "HumanTracking.exe ";
 
 		systemCallParam = pskillDir + pskillHost + pskillUser + pskillPswd + 
 			pskillParam + pskillProgName;

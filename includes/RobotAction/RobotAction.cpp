@@ -432,7 +432,7 @@ const bool RobotAction::movingToAroundOfHuman(const int& speed, const float& dis
 	double X_g_H = distance * cos(angle2FrontOfHuman / 180 * M_PI), Y_g_H = distance * sin(angle2FrontOfHuman / 180 * M_PI), theta_g_H = 180.0 + angle2FrontOfHuman;
 	double X_g_RH = 0.0, Y_g_RH = 0.0, theta_g_RH = 0.0;
 	coordinateTrans.trans2D(X_g_H, Y_g_H, theta_g_H,
-							dist_robot2human * cos(theta_BD / 180 * M_PI), dist_robot2human * sin(theta_BD / 180 * M_PI), 180.0 + theta_BD - theta_robotHeading, 
+							dist_robot2human * cos(theta_BD / 180 * M_PI), dist_robot2human * sin(theta_BD / 180 * M_PI), 180.0 + theta_BD,// - theta_robotHeading, 
 							X_g_RH, Y_g_RH, theta_g_RH);
 	
 		// From robot head coordinate (RH) to robot coordinate (R)
@@ -643,8 +643,8 @@ map< float, int > RobotAction::sortingPeople(const lcmLegDetect& people) {
 	map< float, int > sortedResult;
 		// For every candidate detected
 	for (int i = 0; i < people.count; i++) {
-		float squaredDistance = pow(people.x[i], 2) + pow(people.y[i], 2);
-		sortedResult.insert(pair< float, int >(squaredDistance, i));
+		float squaredDistance = pow(people.x[i] / 100.0f, 2) + pow(people.y[i] / 100.0f, 2);
+		sortedResult.insert(pair< float, int >(sqrt(squaredDistance), i));
 	}
 
 	return sortedResult;
