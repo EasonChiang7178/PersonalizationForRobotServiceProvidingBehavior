@@ -290,9 +290,13 @@ void requestSensingSAM(int delayTime, HAEMgr& dataHAE, RobotParameterMgr& robotP
 
 	/* Find the person who is nearest to the robot */
 	auto peopleSorted = sortingPeople(handlerLeg);
-	auto itPeopleSorted = peopleSorted.begin();
+	float nearestDistance;
+	if (peopleSorted.empty() == false) {
+		auto itPeopleSorted = peopleSorted.begin();
+		nearestDistance = itPeopleSorted->first;
+	} else
+		nearestDistance = 80.0f;
 
-	float nearestDistance = itPeopleSorted->first;
 	if (nearestDistance >= 3.0)
 		robotPosition = 0;
 	else if (nearestDistance >= 2.1)
@@ -374,8 +378,8 @@ map< float, int > sortingPeople(const lcmLegDetect& people) {
 	map< float, int > sortedResult;
 		// For every candidate detected
 	for (int i = 0; i < people.count; i++) {
-		float squaredDistance = pow(people.x[i], 2) + pow(people.y[i], 2);
-		sortedResult.insert(pair< float, int >(squaredDistance, i));
+		float squaredDistance = pow(people.x[i] / 100.0f, 2) + pow(people.y[i] / 100.0f, 2);
+		sortedResult.insert(pair< float, int >(sqrt(squaredDistance), i));
 	}
 
 	return sortedResult;
