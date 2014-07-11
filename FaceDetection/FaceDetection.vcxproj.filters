@@ -22,6 +22,12 @@
     <Filter Include="Header Files\LCM">
       <UniqueIdentifier>{b096e657-3350-4f2d-8200-e4ed7349c917}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\IPCServer">
+      <UniqueIdentifier>{5c491afd-420c-4fe1-9f56-f1f0795202a8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Thread">
+      <UniqueIdentifier>{db6213a0-57cc-42ee-a4c5-6c8eaba0b66e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -29,6 +35,15 @@
     </ClCompile>
     <ClCompile Include="FaceDetection\FaceDetection.cpp">
       <Filter>Source Files\FaceDetection</Filter>
+    </ClCompile>
+    <ClCompile Include="..\includes\IPCServer\IntComm.cpp">
+      <Filter>Source Files\IPCServer</Filter>
+    </ClCompile>
+    <ClCompile Include="IPCserver\Client.cpp">
+      <Filter>Source Files\IPCServer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\includes\Thread\Thread.cpp">
+      <Filter>Source Files\Thread</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

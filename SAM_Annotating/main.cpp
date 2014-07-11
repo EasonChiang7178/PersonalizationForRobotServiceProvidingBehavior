@@ -18,7 +18,7 @@ using namespace std;
 
 /** Declration of Variables **/
 	// Path to store the raw data
-string rawData = "../models/DBN_Model/TrainingData/raw_dataset/SocialAttentionModel_raw.txt";
+string rawData = "../models/DBN_Model/TrainingData/raw_dataset/Merged/SocialAttentionModel_Chin_Yen_Shu_raw.txt";
 	// Path to result training data
 string trainingData = "../models/DBN_Model/TrainingData/SocialAttentionInferenceModel_Learning.txt";
 	// Path to annotated label
