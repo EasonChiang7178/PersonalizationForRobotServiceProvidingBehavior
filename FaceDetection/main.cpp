@@ -11,7 +11,7 @@ using namespace std;
 #include <opencv2/objdetect/objdetect.hpp>
 #include <opencv2/highgui/highgui.hpp>
 //	// Import Inter-Process Communication Server
-//#include "IPCserver\Client.hpp"
+#include "IPCserver\Client.hpp"
 	// Object for manipulating face detection
 #include "FaceDetection\FaceDetection.h"
 	// LCM core
@@ -34,6 +34,8 @@ using namespace lcm;
 #define BODYMAXSIZE 480
 #define FACEMAXSIZE 300
 #define EYEMAXSIZE  30
+//#define IPCSERVER "localhost"		// Local host
+#define IPCSERVER "192.168.11.4"
 	// For front view face detection
 //String facefront_cascade_name = "../models/CascadeClassifiers/haarcascade_frontalface_alt.xml";
 //String facefront_cascade_name = "../models/CascadeClassifiers/haarcascade_frontalface_alt_tree.xml";
@@ -63,6 +65,15 @@ void Perception_HAE_handler();
 //=============================================================================
 int main( void )
 {
+#ifdef RECORDING
+	/** Connect to IPC Server **/
+	init_comm();
+	connect_to_server(IPCSERVER);
+	subscribe(PERCEPTION_HAE, TOTAL_MSG_NUM);
+	publish(HAE, TOTAL_MSG_NUM);
+	listen();
+#endif
+
 	/* Initialize LCM */
 	LCM lcm(LCM_CTOR_PARAMS);
 	if (!lcm.good())
@@ -142,20 +153,20 @@ void Perception_HAE_handler()
 //	Sleep(sizeof(percetData));
 //	printf("\n> Send Success! (FaceDirection: %d)\n", faceDirectionHAE);
 //
-//#ifdef RECORDING
-//	/* Store the image for annotating data */
-//	cv::Mat img;
-//	if (frame.empty() == true)
-//		return;
-//	cv::resize(frame, img, cv::Size(frame.cols / 2, frame.rows / 2));
-//	
-//	stringstream ss;
-//	string imgNumber;
-//	ss << imageIndex++;
-//	ss >> imgNumber;
-//	
-//	cv::imwrite("../models/DBN_Model/TrainingData/raw_" + imgNumber + ".png", img);
-//#endif
-//
-//	return;
+#ifdef RECORDING
+	/* Store the image for annotating data */
+	cv::Mat img;
+	if (frame.empty() == true)
+		return;
+	cv::resize(frame, img, cv::Size(frame.cols / 2, frame.rows / 2));
+	
+	stringstream ss;
+	string imgNumber;
+	ss << imageIndex++;
+	ss >> imgNumber;
+	
+	cv::imwrite("../models/DBN_Model/TrainingData/raw_" + imgNumber + ".png", img);
+#endif
+
+	return;
 }
