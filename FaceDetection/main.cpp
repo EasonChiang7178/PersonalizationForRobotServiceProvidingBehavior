@@ -164,7 +164,9 @@ void Perception_HAE_handler()
 	string imgNumber;
 	ss << imageIndex++;
 	ss >> imgNumber;
-	
+	while (imgNumber.length() < 4)
+		imgNumber.insert(0, "0");
+
 	cv::imwrite("../models/DBN_Model/TrainingData/raw_" + imgNumber + ".png", img);
 #endif
 

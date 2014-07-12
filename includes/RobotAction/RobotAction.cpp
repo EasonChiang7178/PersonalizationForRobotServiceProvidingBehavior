@@ -334,7 +334,8 @@ const bool RobotAction::forwardApproach(const int& speed, const double& distance
 	double dX = handlerLeg.x[itPeopleSorted->second] / 100.0;
 	double dY = handlerLeg.y[itPeopleSorted->second] / 100.0;
 
-	if (sqrt(pow(dX, 2) + pow(dY, 2)) < 1.1) {
+	//if (sqrt(pow(dX, 2) + pow(dY, 2)) < 1.1) {
+	if (itPeopleSorted->first < 1.1) {
 		cout << "> WARNING: Too close to human!" << endl;
 		return false;
 	}
