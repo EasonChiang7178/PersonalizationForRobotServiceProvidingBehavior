@@ -48,8 +48,13 @@ int main(int argc, char* argv[])
 	/** Connect to IPC Server **/
 	init_comm();
 	connect_to_server();
+<<<<<<< HEAD
+	subscribe(ROBOTPARAMETER, TOTAL_MSG_NUM);
+	publish(PERCEPTION_HAE, PERCEPTION, TOTAL_MSG_NUM);
+=======
 	subscribe(PERCEPTION_HAE, ROBOTPARAMETER, TOTAL_MSG_NUM);
 	publish(PERCEPTION, TOTAL_MSG_NUM);
+>>>>>>> origin/Using_LCM
 	listen();
 
 	/* Test LCM */
@@ -91,7 +96,13 @@ int main(int argc, char* argv[])
 		RobotParameterMgr	parameterData;
 		int					robotPositionData;
 		requestSensingSAM(DELAYTIME, sensingData, parameterData, robotPositionData);
-
+		
+		/* Saving the image */
+		PerceptionHAEMgr requestData;
+		requestData.sensing = faceDirectionDiscrete;
+		sendPerceptionHAE(requestData);
+		Sleep(sizeof(requestData) + DELAYTIME);
+		
 		/* Store the raw data received */
 		frawData << envirContext_audioLevel << " " << envirContext_attenContext << " "
 				 << sensingData.face_direction << " " << sensingData.body_direction << " " << sensingData.voice_detection << " "
@@ -214,15 +225,15 @@ void requestSensingSAM(int delayTime, HAEMgr& dataHAE, RobotParameterMgr& robotP
 	robotPara = receivedDataRP;
 
 	/** Requesting the distance between the robot and the target **/
-	PerceptionMgr legRequest;
-	legRequest.sensing = legDetection;
-	sendPerception(legRequest);
-	Sleep(sizeof(legDetection));
+	//PerceptionMgr legRequest;
+	//legRequest.sensing = legDetection;
+	//sendPerception(legRequest);
+	//Sleep(sizeof(legDetection));
 
-	if (buzyWaitForMgr(40) == false)
-		cout << "> WARNING: Receive Data Time Out, Laser" << endl;
-	PeopleMgr targetPos;
-	getPeople(targetPos);
+	//if (buzyWaitForMgr(40) == false)
+	//	cout << "> WARNING: Receive Data Time Out, Laser" << endl;
+	//PeopleMgr targetPos;
+	//getPeople(targetPos);
 
 	/* Find the person who is nearest to the robot */
 	sub_ptr = lcmObject.subscribe(LEG_CHANNEL, &lcmLegDetect::handleMessage, &handlerLeg);
@@ -230,10 +241,14 @@ void requestSensingSAM(int delayTime, HAEMgr& dataHAE, RobotParameterMgr& robotP
 	lcmObject.unsubscribe(sub_ptr);
 
 	/* Find the person who is nearest to the robot */
+	float nearestDistance = 80.0;
+	
 	auto peopleSorted = sortingPeople(handlerLeg);
-	auto itPeopleSorted = peopleSorted.begin();
+	if (peopleSorted.empty() == false) {
+		auto itPeopleSorted = peopleSorted.begin();
+		nearestDistance = itPeopleSorted->first;
+	}
 
-	float nearestDistance = itPeopleSorted->first;
 	if (nearestDistance >= 3.0)
 		robotPosition = 0;
 	else if (nearestDistance >= 2.1)
@@ -268,8 +283,8 @@ map< float, int > sortingPeople(const lcmLegDetect& people) {
 	map< float, int > sortedResult;
 		// For every candidate detected
 	for (int i = 0; i < people.count; i++) {
-		float squaredDistance = pow(people.x[i], 2) + pow(people.y[i], 2);
-		sortedResult.insert(pair< float, int >(squaredDistance, i));
+		float squaredDistance = pow(people.x[i] / 100.0, 2) + pow(people.y[i] / 100.0, 2);
+		sortedResult.insert(pair< float, int >(sqrt(squaredDistance), i));
 	}
 
 	return sortedResult;
