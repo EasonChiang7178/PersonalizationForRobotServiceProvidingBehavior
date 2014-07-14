@@ -44,34 +44,24 @@ const int BodyDirection::startGetBodyDirection()
 		// Message for LCM
 		BodyDirectionLcm bodyMsg;
 
-		// Filling body direction discrete data
-		vector< int > bdd = getBodyDirectionHAE();
-		if (bdd.size() <= 0) {
-			cout << "> WARNING: user is not found" << endl;
+		// Filling body direction discrete data, body direction cont data, pu measurement data
+		if (userCount <= 0) {
+			cout << "> WARNING: user is not found!" << endl;
 			bodyMsg.body_direction = 0;
-		} else {
-			//** WARNING: ONLY CONSIDER THE USER 1 **//
-			bodyMsg.body_direction = bdd[0];
-		}
-
-		// Filling body direction cont data
-		vector< double > bdc = getBodyDirectionCont();
-		if (bdc.size() <= 0) {
-			cout << "> WARNING: user is not found" << endl;
 			bodyMsg.body_direction_cont = 180.0;
-		} else {
-			//** WARNING: ONLY CONSIDER THE USER 1 **//
-			bodyMsg.body_direction_cont = static_cast< float >(bdc[0]);
-		}
-
-		// Filling pu measurement data
-		vector< double > pu = getPU();
-		if (pu.size() <= 0) {
-			cout << "> WARNING: user is not found" << endl;
 			bodyMsg.pu = 2;
-		} else {
+			for (auto bodyDD = bodyDirectionHAE.begin(); bodyDD != bodyDirectionHAE.end(); bodyDD++)
+				*bodyDD = 0;
+			for (auto bodyDC = bodyDirectionToCamera.begin(); bodyDC != bodyDirectionToCamera.end(); bodyDC++)
+				*bodyDC = 180.0;
+			for (auto itPU = userUnpleasantness.begin(); itPU != userUnpleasantness.end(); itPU++)
+				*itPU = 0;
+		}
+		else {
 			//** WARNING: ONLY CONSIDER THE USER 1 **//
-			bodyMsg.pu = (int)pu[0];
+			bodyMsg.body_direction = this->bodyDirectionHAE[0];
+			bodyMsg.body_direction_cont = static_cast< float >(this->bodyDirectionToCamera[0]);
+			bodyMsg.pu = (int) this->userUnpleasantness[0];
 		}
 
 		// Sending Message
@@ -87,7 +77,8 @@ const int BodyDirection::startGetBodyDirection()
 const int BodyDirection::analyzeFunc()
 {
 	NiImageStruct niImageStruct = getNiImageStruct();
-	cout << "user size: " << niImageStruct.Users.size() << endl;
+	userCount = niImageStruct.Users.size();
+	cout << "user size: " << userCount << endl;
 
 	/* Initialize	*/
 	vector< double > oneUserAngle;

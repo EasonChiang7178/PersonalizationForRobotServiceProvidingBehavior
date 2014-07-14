@@ -182,7 +182,7 @@ namespace rl {
 #ifndef SIMULATION
 						robot.toPoint(0.0, 0.0, 0.0);
 						robot.turnFaceToHuman();
-						Sleep(500);
+						Sleep(250);
 #endif
 							// Reset Time constriant
 						interaction_start = time(NULL);
@@ -253,7 +253,7 @@ namespace rl {
 #endif
 						updateToA();
 						cout << "  \t<Current state> SAR: " << current_state.personAttention << ", ToA: " << current_state.robotBelief << endl
-							 << "  \t<Reward received> r: " << r << endl;
+							 << "  \t<Reward received> r: " << r << endl << endl;
 					}
 
 				private:
@@ -320,8 +320,8 @@ namespace rl {
 								}
 								if (distanceToTarget == 0) {
 									//robot.movingToAroundOfHuman(0, 2.5, -90.0 + 30.0 * ++polarRelativeTarget);
-									robot.movingToAroundOfHuman(0, 2.5, 0.0);
-									distanceToTarget = 0;
+									robot.movingToAroundOfHuman(0, 2.1, 0.0);
+									distanceToTarget = 2;
 								} else
 									robot.movingToAroundOfHuman(0, 3.9 - 0.9 * distanceToTarget, 0.0);
 									//robot.movingToAroundOfHuman(0, 3.9 - 0.9 * distanceToTarget, -90.0 + 30.0 * ++polarRelativeTarget);
@@ -331,11 +331,11 @@ namespace rl {
 							case Approach:
 								cout << "> RobotAction: Approach" << endl;
 #ifndef SIMULATION
-								if (distanceToTarget > 3) {
+								if (distanceToTarget++ > 3) {
 									cout << "> WARNING: INVALID Approach" << endl;
 									break;
 								}
-								robot.forwardApproach(0, 3.9 - 0.9 * ++distanceToTarget);
+								robot.forwardApproach(0, 0.9);
 #endif
 								break;
 
@@ -511,7 +511,7 @@ namespace rl {
 									cout << "> WARNING: INVALID Approach" << endl;
 									break;
 								}
-								robot.forwardApproach(0, 3.9 - 0.9 * ++distanceToTarget);
+								robot.forwardApproach(0, 0.9);
 								robot.speaking(string(PARTNERNAME) + "，我這裡有一封訊息要傳遞給你", 0.7f);
 								Sleep(5000);
 #else
@@ -525,7 +525,7 @@ namespace rl {
 									cout << "> WARNING: INVALID Approach" << endl;
 									break;
 								}
-								robot.forwardApproach(0, 3.9 - 0.9 * ++distanceToTarget);
+								robot.forwardApproach(0, 0.9);
 								robot.speaking("不好意思打擾您了，我這裡有一則訊息要轉交給您", 0.7f);
 								Sleep(5000);
 #else
@@ -539,7 +539,7 @@ namespace rl {
 									cout << "> WARNING: INVALID Approach" << endl;
 									break;
 								}
-								robot.forwardApproach(0, 3.9 - 0.9 * ++distanceToTarget);
+								robot.forwardApproach(0, 0.9);
 								robot.speaking(string(PARTNERNAME) + "，我想分享一個故事給你聽，", 0.7f);
 								robot.speaking("有一天小明回到家跟他爸媽說，", 0.7f);
 								robot.speaking("老師問同學一個問題，只有我答的出來", 0.7f);

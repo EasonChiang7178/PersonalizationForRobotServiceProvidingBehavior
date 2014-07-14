@@ -75,6 +75,8 @@ private:
 
 	vector<int> userTouchFlag;				// only detect for user 1 and 2
 
+	int userCount;
+
 	/* For F-Formation Recognition */
 	int bodyFformation;
 

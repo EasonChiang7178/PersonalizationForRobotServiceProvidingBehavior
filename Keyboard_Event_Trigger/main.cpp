@@ -11,8 +11,8 @@ using namespace std;
 
 //** Problem Dependent Variable Setting **//
 #define PARTNERNAME "®a©ú"
-//#define SERVER_NAME "localhost"
-#define SERVER_NAME "192.168.11.4"
+#define SERVER_NAME "localhost"
+//#define SERVER_NAME "192.168.11.4"
 
 /** Declration of Variables **/
 char keyboardInput = '\0';
@@ -231,19 +231,40 @@ int main(int argc, char** argv) {
 				break;
 
 			case 'O':
+			{
 				cout << keyboardInput << endl;
 				keyboardInput = '\0';
+
+				AttentionLevelMgr ATR;
+				ATR.attentionLevel = static_cast< AttentionLevel_HAE_type >(0);
+				sendAttentionLevel(ATR);
+				Sleep(sizeof(ATR));
 				break;
+			}
 
 			case 'L':
+			{
 				cout << keyboardInput << endl;
 				keyboardInput = '\0';
+
+				AttentionLevelMgr ATR;
+				ATR.attentionLevel = static_cast< AttentionLevel_HAE_type >(1);
+				sendAttentionLevel(ATR);
+				Sleep(sizeof(ATR));
 				break;
+			}
 
 			case 'P':
+			{
 				cout << keyboardInput << endl;
 				keyboardInput = '\0';
+
+				AttentionLevelMgr ATR;
+				ATR.attentionLevel = static_cast< AttentionLevel_HAE_type >(2);
+				sendAttentionLevel(ATR);
+				Sleep(sizeof(ATR));
 				break;
+			}
 		}
 	}
 	cout << "The program is end by user." << endl;
