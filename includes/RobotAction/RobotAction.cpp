@@ -352,14 +352,14 @@ const bool RobotAction::forwardApproach(const int& speed, const double& distance
 		return false;
 	}
 
+	int robotSpeed = speed;
+	if (speed == 0)
+		robotSpeed = 1;
+
 	SubgoalMgr goal;
 	goal.theta = atan2(dY, dX) * 180 / M_PI;
-	goal.x = curPos.x + distance * cos(goal.theta / 180 * M_PI);
-	goal.y = curPos.y + distance * sin(goal.theta / 180 * M_PI);
-
-	cout << "Xr: " << curPos.x << ", Yr: " << curPos.y << endl;
-	cout << "Xh: " << dX << ", Yh: " << dY << endl;
-	cout << "Xg: " << goal.x << ", Yg: " << goal.y << endl;
+	goal.x = curPos.x + robotSpeed * distance * cos(goal.theta / 180 * M_PI);
+	goal.y = curPos.y + robotSpeed * distance * sin(goal.theta / 180 * M_PI);
 
 	/* Send subgoal message */
 	sendSubgoal(goal);
@@ -368,6 +368,16 @@ const bool RobotAction::forwardApproach(const int& speed, const double& distance
 
 	this->turningFace(0);
 	this->getCurrentTime();
+
+	goal.x = curPos.x + distance * cos(goal.theta / 180 * M_PI);
+	goal.y = curPos.y + distance * sin(goal.theta / 180 * M_PI);
+	sendSubgoal(goal);
+	naviExecuting = true;
+	Sleep(sizeof(goal) + 500);
+
+	cout << "Xr: " << curPos.x << ", Yr: " << curPos.y << endl;
+	cout << "Xh: " << dX << ", Yh: " << dY << endl;
+	cout << "Xg: " << goal.x << ", Yg: " << goal.y << endl;
 
 	Result_Navi resultNaviStatus;
 	getResultNavi(resultNaviStatus);
