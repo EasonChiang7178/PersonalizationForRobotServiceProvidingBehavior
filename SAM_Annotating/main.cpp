@@ -14,11 +14,11 @@ using namespace std;
 
 //** Problem Dependent Variable Setting **//
 	// The timestep of the dynamic Bayesian network
-#define STEPNUMBER	3
+#define STEPNUMBER	4
 
 /** Declration of Variables **/
 	// Path to store the raw data
-string rawData = "../models/DBN_Model/TrainingData/raw_dataset/Merged/SocialAttentionModel_Chin_Yen_Shu_raw.txt";
+string rawData = "../models/DBN_Model/TrainingData/raw_dataset/SocialAttentionModel_raw_overall.txt";
 	// Path to result training data
 string trainingData = "../models/DBN_Model/TrainingData/SocialAttentionInferenceModel_Learning.txt";
 	// Path to annotated label
@@ -60,29 +60,29 @@ int main(int argc, char* argv[])
 		attributeNameArray.push_back(bn::getBNOutcomeNames(net, nameOfNodes[i]));
 
 	/* Load the annotated label */
+	vector< forward_list< vector< int > > > labelDataset(3);
+
 	fstream fannotatedLabel;
 	fannotatedLabel.open(annotatedData.c_str(), ios::in);
 	if (!fannotatedLabel) {
 		cout << "> WARNING: Fail to open the file: " << annotatedData << endl
 			 << ">          Please press enter to exit..." << endl;
 		getchar();
-	}
+	} else {
+		while (fannotatedLabel.eof() == 0) {
+			int observation = 0, label = 0;
+			vector< int > featureVector;
 
-	vector< forward_list< vector< int > > > labelDataset(3);
-	while (fannotatedLabel.eof() == 0) {
-		int observation = 0, label = 0;
-		vector< int > featureVector;
+			for (int i = 0; i < 8; i++) {
+				fannotatedLabel >> observation;
+				featureVector.push_back(observation);
+			}
+			fannotatedLabel >> label;
 
-		for (int i = 0; i < 8; i++) {
-			fannotatedLabel >> observation;
-			featureVector.push_back(observation);
+			labelDataset[label].push_front(featureVector);
 		}
-		fannotatedLabel >> label;
-
-		labelDataset[label].push_front(featureVector);
+		fannotatedLabel.close();
 	}
-	fannotatedLabel.close();
-
 	/*** Main loop to annotated data ***/
 	/* Prepare the training data: Insert nodes of the network */
 	fstream ftrainingData;
@@ -137,11 +137,13 @@ int main(int argc, char* argv[])
 			break;
 
 		/* If discover new data */
-		if (searchInLabeledSet(labelDataset, featureVector, label) == false) {
+		//if (searchInLabeledSet(labelDataset, featureVector, label) == false) {
 			stringstream ss;
 			string dataNumberStr;
 			char newLabel;
 			ss << dataNumber; ss >> dataNumberStr;
+			/*while (dataNumberStr.size() < 4)
+				dataNumberStr.insert(0, "0");*/
 			cv::Mat rawImg = cv::imread(rawData.substr(0, rawData.find_last_of("/") + 1) + "raw_" + dataNumberStr + ".png");
 			
 			if (rawImg.empty() != true)
@@ -175,14 +177,14 @@ int main(int argc, char* argv[])
 				continue;
 			}
 
-			/* Added to annotated dataset */
-			labelDataset[label].push_front(featureVector);
+			///* Added to annotated dataset */
+			//labelDataset[label].push_front(featureVector);
 
-			/* Write to annotated data set */
-			for (auto it = featureVector.begin(); it != featureVector.end(); it++)
-				fannotatedLabel << *it << " ";
-			fannotatedLabel << label << endl;
-		}
+			///* Write to annotated data set */
+			//for (auto it = featureVector.begin(); it != featureVector.end(); it++)
+			//	fannotatedLabel << *it << " ";
+			//fannotatedLabel << label << endl;
+		//}
 
 		/* Store the data to history repository */
 		audioNoise.push_back(featureVector[0]);
