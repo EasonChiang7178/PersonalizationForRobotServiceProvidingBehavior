@@ -20,8 +20,20 @@ int receivedCount = 0;
 	// To store the keyword listened
 string humanSpeechInput = "";
 
+/* For Theory of Awareness */
+	// To store the attention level
+int attentionLevelHandled = 0;
+	// Flag for contingency
+int contingencyFlag = 0;
+	// Flag for HighAttention
+int highFlag = 0;
+	// Flag for LosingAttention
+int loseAttentionFlag = 0;
+
 int robotSpeed = 0;
 int robotVolume = 0;
+
+void Attention_Level_handler(AttentionLevelMgr data);
 
 // ======================================================================
 //							Initialization
@@ -544,6 +556,35 @@ const int RobotAction::setMotionSpeed(const int& speed) {
 	return 1;
 }
 
+const int RobotAction::setAttentionLevel() {
+	this->curAttentionLevel = attentionLevelHandled;
+	return 1;
+}
+
+const int RobotAction::setAttentionLevel(const int& input) {
+	AttentionLevelMgr data;
+	data.attentionLevel = static_cast< AttentionLevel_HAE_type >(input);
+
+	Attention_Level_handler(data);
+
+	return 1;
+}
+
+const int RobotAction::resetToA() {
+	attentionLevelHandled = 0;
+	contingencyFlag = 0;
+	highFlag = 0;
+	loseAttentionFlag = 0;
+
+	return 1;
+}
+
+const int RobotAction::resetContingencyFlag() {
+	contingencyFlag = 0;
+
+	return 1;
+}
+
 const int RobotAction::getMotionSpeed() const {
 	robotSpeed = motionSpeed;
 	return motionSpeed;
@@ -552,6 +593,18 @@ const int RobotAction::getMotionSpeed() const {
 const int RobotAction::getSpeechVolume() const {
 	robotVolume = speechVolume;
 	return speechVolume;
+}
+
+const int RobotAction::getContingencyFlag() const {
+	return contingencyFlag;
+}
+
+const int RobotAction::getHighAttentionFlag() const {
+	return highFlag;
+}
+
+const int RobotAction::getLoseAttentionFlag() const {
+	return loseAttentionFlag;
 }
 
 // ======================================================================
@@ -580,21 +633,21 @@ const bool RobotAction::sensingATR(const int& waitingTime) {
 const bool RobotAction::sensingFD(const int& waitingTime) {
 	bool success = true;
 
-	HAEMgr receivedData;
-	PerceptionHAEMgr requestData;
-	
-	/* Face */
-	requestData.sensing = faceDirectionDiscrete;
-	sendPerceptionHAE(requestData);
-	Sleep(sizeof(requestData) + waitingTime);
+	//HAEMgr receivedData;
+	//PerceptionHAEMgr requestData;
+	//
+	///* Face */
+	//requestData.sensing = faceDirectionDiscrete;
+	//sendPerceptionHAE(requestData);
+	//Sleep(sizeof(requestData) + waitingTime);
 
-	if (buzyWaitForMgr(waitingTime) == false) {
-		cout << "> WARNING: Receive Data Time Out, Face" << endl;
-		success = false;
-	}
+	//if (buzyWaitForMgr(waitingTime) == false) {
+	//	cout << "> WARNING: Receive Data Time Out, Face" << endl;
+	//	success = false;
+	//}
 
-	getHAE(receivedData);
-	curFaceDirection = static_cast< int >(receivedData.face_direction);
+	//getHAE(receivedData);
+	//curFaceDirection = static_cast< int >(receivedData.face_direction);
 
 	return success;
 }
@@ -602,21 +655,50 @@ const bool RobotAction::sensingFD(const int& waitingTime) {
 const bool RobotAction::sensingPU(const int& waitingTime) {
 	bool success = true;
 
-	HAEMgr receivedData;
-	PerceptionHAEMgr requestData;
-	
-	/* PU */
-	requestData.sensing = puMeasurement;
-	sendPerceptionHAE(requestData);
-	Sleep(sizeof(requestData) + waitingTime);
+	/* Create LCM handler */
+	HAEHandlerLcm bodyDirMgr;
+	lcm::Subscription* sub_ptr;
 
-	if (buzyWaitForMgr(waitingTime) == false) {
-		cout << "> WARNING: Receive Data Time Out, PU" << endl;
-		success = false;
+	/* Get five times to get the possible PU */
+	vector< int > puCount(5);
+	for (int i = 0; i < 5; i++) {
+			// Subscribe BODY_DIRECTION channel, receive data, then unsubscribe
+		sub_ptr = lcmObject.subscribe(BODY_DIRECTION, &HAEHandlerLcm::handleBody, &bodyDirMgr);
+		lcmObject.handle();
+		lcmObject.unsubscribe(sub_ptr);
+		if (bodyDirMgr.pu < 0 || bodyDirMgr.pu > 4) {
+			cout << "> WARNING: Message lost!" << endl;
+			continue;
+		}
+		puCount[static_cast< int >(bodyDirMgr.pu)]++;
+		cout << "> PU Detected: " << bodyDirMgr.pu << endl;
+
+		Sleep(250);
+	}
+		// Find the maximum one
+	int countMax = 0;
+	for (unsigned int i(0); i < puCount.size(); i++) {
+		if (countMax <= puCount[i]) {
+			countMax = puCount[i];
+			curPU = i;
+		}
 	}
 
-	getHAE(receivedData);
-	curPU = static_cast< int >(receivedData.pu);
+	//HAEMgr receivedData;
+	//PerceptionHAEMgr requestData;
+	//
+	///* PU */
+	//requestData.sensing = puMeasurement;
+	//sendPerceptionHAE(requestData);
+	//Sleep(sizeof(requestData) + waitingTime);
+
+	//if (buzyWaitForMgr(waitingTime) == false) {
+	//	cout << "> WARNING: Receive Data Time Out, PU" << endl;
+	//	success = false;
+	//}
+
+	//getHAE(receivedData);
+	//curPU = static_cast< int >(receivedData.pu);
 
 	return success;
 }
@@ -666,8 +748,22 @@ void ResultArm_handler() {
 	armHeadManipulating = false;
 }
 
-void Attention_Level_handler() {
-	receivedCount += 1;
+void Attention_Level_handler(const AttentionLevelMgr data) {
+	attentionLevelHandled = data.attentionLevel;
+	cout << "> Message received! (AttentionLevel: " << attentionLevelHandled << ")" << endl;
+
+	/* Prepare the information to update the ToA */
+		// Contingency
+	if (attentionLevelHandled == 1)
+		contingencyFlag++;
+		// HighAttention
+	if (attentionLevelHandled == 2)
+		highFlag++;
+		// LoseAttention
+	if (highFlag == true && attentionLevelHandled == 0)
+		loseAttentionFlag++;
+
+	//receivedCount += 1;
 }
 
 void HAE_handler() {

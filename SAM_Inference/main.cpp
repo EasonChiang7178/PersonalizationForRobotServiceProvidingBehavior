@@ -40,6 +40,7 @@ string dynamicBN = "../models/DBN_Model/res_SocialAttentionInferenceModel_Unroll
 static int receivedCount = 0;
 	// Buffer result for Human Attention Level
 static int attentionLevel = 0;
+static int preAttentionLevel = 0;
 	// LCM object
 static lcm::LCM lcmObject(LCM_CTOR_PARAMS);
 
@@ -198,8 +199,22 @@ int main(int argc, char* argv[]) {
 
 		/* Prepare the result to send */
 		for (auto itOutcomeName = attributeNameArray[8].begin(); itOutcomeName != attributeNameArray[8].end(); itOutcomeName++)
-			if (inferredOutcome == itOutcomeName->second)
+			if (inferredOutcome == itOutcomeName->second) {
+				preAttentionLevel = attentionLevel;
 				attentionLevel = itOutcomeName->first;
+			}
+
+			// ATR change, send out
+		if (preAttentionLevel != attentionLevel) {
+			AttentionLevelMgr percetData;
+			getAttentionLevel(percetData);
+
+			percetData.attentionLevel = static_cast< AttentionLevel_HAE_type >(attentionLevel);
+				// Send Attention Level
+			sendAttentionLevel(percetData);
+			Sleep(sizeof(percetData));
+			cout << "> Send Success! (AttentionLevel: " << attentionLevel << ")\n" << endl;
+		}
 
 			// Drop the oldest data
 		faceFeature.pop_front(); bodyFeature.pop_front(); audioFeature.pop_front();

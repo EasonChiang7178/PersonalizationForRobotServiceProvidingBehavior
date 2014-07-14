@@ -47,7 +47,7 @@
 #include <rl-inverted-pendulum.h>
 #include <rl-cliff-walking.h>
 
-#include <rl-adaptive-interruption.h>
+//#include <rl-adaptive-interruption.h>
 
 /**
  * @example example-000-000-overview.cc

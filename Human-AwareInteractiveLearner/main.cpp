@@ -8,15 +8,24 @@ using namespace std;
 	// To use rllib
 #include <rl.h>
 
+#include "rl-InteractiveLearner.h"
+
 /** Declration of Variables **/
 typedef rl::problem::adaptive_interruption::AdaptiveInterruption AdaptiveInterruption;
 typedef rl::problem::adaptive_interruption::Simulator<AdaptiveInterruption> Simulator;
 
+//class Param {
+//public: 
+//  double gamma(void)   const {return .99;}
+//  double alpha(void)   const {return .05;}
+//  double epsilon(void) const {return 0.2;}
+//};
+
 class Param {
-public: 
-  double gamma(void)   const {return .99;}
-  double alpha(void)   const {return .05;}
-  double epsilon(void) const {return 0.2;}
+public:
+	double temperature(void) const {return 32.0;}
+	double gamma(void)   const {return 1;}
+	double alpha(void)   const {return .075;}
 };
 
 // Definition of Reward, S, A, SA, Transition and TransitionSet.
@@ -27,7 +36,7 @@ public:
 
 //** Problem Dependent Variable Setting **//
 #define NB_EPISODES				10
-#define MAX_EPISODE_DURATION	100
+//#define MAX_EPISODE_DURATION	100
 #define PARTNERNAME				"TEST"
 //#define TESTRESULT
 
@@ -43,13 +52,15 @@ int main(int argc, char* argv[]) {
 	auto argmax_critic	= rl::sa::q_learning(q, greedy, param);
 
 	Simulator				simulator;
-	ActionToss				a_toss;
+	//ActionToss				a_toss;
 	int						episode,frame;
 	TransitionSet			transition;
 	Reward					sum = 0.0;
 	int						episode_length;
 
-	auto explore_agent	= rl::agent::epsilon_greedy(argmax_critic, a_toss, param);
+	//auto explore_agent	= rl::agent::epsilon_greedy(argmax_critic, a_toss, param);
+	//auto explore_agent	= rl::agent::softmax(argmax_critic, a_iter, param);
+	auto explore_agent	= rl::agent::diberateactionselection(argmax_critic, a_iter, param);
 	auto test_agent		= rl::agent::greedy(argmax_critic);
 
 	cout << "\n\t\t< Human-aware Interactive Learner >" << endl;

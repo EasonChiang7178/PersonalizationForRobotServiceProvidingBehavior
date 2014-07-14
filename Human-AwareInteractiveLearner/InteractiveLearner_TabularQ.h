@@ -26,8 +26,8 @@
 
 
 typedef rl::Iterator<A,
-			 rl::problem::adaptive_interruption::HeadShake,
-			 rl::problem::adaptive_interruption::MakeSound> ActionIterator;
+			 rl::problem::adaptive_interruption::Approach,
+			 rl::problem::adaptive_interruption::Joke> ActionIterator;
 typedef ActionIterator													ActionToss;
 
 

@@ -261,7 +261,7 @@ namespace rl {
 							case ArmWave:
 								cout << "> RobotAction: ArmWave" << endl;
 #ifndef SIMULATION
-								robot.armWave();
+								robot.armWave(1);
 #endif
 								break;
 

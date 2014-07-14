@@ -31,6 +31,7 @@
 #include <rlTypes.h>
 #include <rlConcept.h>
 #include <vector>
+#include "../../Human-AwareInteractiveLearner/rl-InteractiveLearner.h"
 
 namespace rl {
 
@@ -202,8 +203,81 @@ namespace rl {
 								      const SOFTMAX_PARAM& p) {
       return SoftMax<SA_FUNCTION,ACTION_SIZED_ITERATOR,SOFTMAX_PARAM>(critic,aiter,p);
     }
-    
-  }
+
+		/**
+		 * @short This builds a Diberate agent from an existing critic instance (Diberate Policy of Action Selection)
+		 */
+		template<typename SA_FUNCTION, 
+				 typename ACTION_SIZED_ITERATOR,
+				 typename DPAS_PARAM>
+		class DiberateActionSelection {
+			private:
+				const SA_FUNCTION& that;
+				const ACTION_SIZED_ITERATOR& iter;
+				const DPAS_PARAM& param;
+				std::vector<double> cumul;
+				DiberateActionSelection(void) {};
+				DiberateActionSelection<SA_FUNCTION,ACTION_SIZED_ITERATOR,DPAS_PARAM>& operator=(const DiberateActionSelection<SA_FUNCTION,ACTION_SIZED_ITERATOR,DPAS_PARAM>&) {};
+
+			public:
+				typedef typename SA_FUNCTION::state_type  state_type;
+				typedef typename SA_FUNCTION::action_type action_type;
+				typedef typename SA_FUNCTION::output_type output_type;
+		
+				DiberateActionSelection(const SA_FUNCTION& critic,
+										const ACTION_SIZED_ITERATOR& aiter,
+										const DPAS_PARAM& p) : that(critic), iter(aiter), param(p), cumul() {}
+				DiberateActionSelection(const SoftMax<SA_FUNCTION,ACTION_SIZED_ITERATOR,DPAS_PARAM>& cp)
+									    : that(cp.that), iter(cp.iter), param(cp.param), cumul(cp.cumul) {}
+
+				action_type policy(const state_type& s) const {
+					std::vector<double>& cum = const_cast<std::vector<double>&>(cumul);
+					action_type a = iter.first();
+					if (s.robotBelief != AdaptiveInterruption::DoesPersonIgnoreMe && s.robotBelief != AdaptiveInterruption::DoesPersonLookingMe) {
+						cum.resize(11);
+						int i = 0;
+						double value;
+
+						cum[i] = exp(that(s,a)/param.temperature());
+						while (iter.next(a) != rl::problem::adaptive_interruption::StraightStyle) {
+							++i;
+							a = iter.next(a);
+							cum[i] = exp(that(s,a)/param.temperature()) + cum[i-1];
+						}
+						value = rl::random::toss(0,cum[10]);
+						for (i = 0; value >= cum[i]; ++i);
+							return iter.value(i);
+					}
+					else {
+						cum.resize(3);
+						for (int i = 0; i < 11; i++)
+							a = iter.next(a);
+
+						int i = 0;
+						double value;
+
+						cum[i] = exp(that(s,a)/param.temperature());
+						while (iter.hasNext(a)) {
+							++i;
+							a = iter.next(a);
+							cum[i] = exp(that(s,a)/param.temperature()) + cum[i-1];
+						}
+						value = rl::random::toss(0,cum[2]);
+						for (i = 0; value >= cum[i]; ++i);
+							return iter.value(i + 11);
+					}
+				}
+		};
+
+		template<typename SA_FUNCTION, 
+				 typename ACTION_SIZED_ITERATOR,
+				 typename DPAS_PARAM>
+		DiberateActionSelection<SA_FUNCTION,ACTION_SIZED_ITERATOR,DPAS_PARAM> diberateactionselection(const SA_FUNCTION& critic,
+																									  const ACTION_SIZED_ITERATOR& aiter,
+																									  const DPAS_PARAM& p) {
+			return DiberateActionSelection<SA_FUNCTION,ACTION_SIZED_ITERATOR,DPAS_PARAM>(critic,aiter,p);
+		}
+	}
 }
 
 #endif

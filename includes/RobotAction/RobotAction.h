@@ -69,6 +69,12 @@ class RobotAction {
 		const int setSpeechVolume(const int& volume);
 		const int setMotionSpeed(const int& speed);
 
+		const int setAttentionLevel();
+		const int setAttentionLevel(const int& input);
+
+		const int resetToA();
+		const int resetContingencyFlag();
+
 		/* Getting Set */
 		const int getTimeout() const { return timeout; }
 		const int getATR() const { return curAttentionLevel; }
@@ -78,6 +84,10 @@ class RobotAction {
 
 		const int getMotionSpeed() const;
 		const int getSpeechVolume() const;
+
+		const int getContingencyFlag() const;
+		const int getHighAttentionFlag() const;
+		const int getLoseAttentionFlag() const;
 
 		/* For Human Attention Estimator */
 			// Query current attention toward the robot
@@ -125,7 +135,6 @@ class RobotAction {
 
 		/* Maintain candidates of humans from LCF */
 		lcmLegDetect peopleCandidates;
-		map< float, int > sortedPeople;
 			// Sorting the people we found
 		map< float, int > sortingPeople(const lcmLegDetect& people);
 };

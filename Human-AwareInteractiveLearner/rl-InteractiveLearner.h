@@ -27,8 +27,11 @@
 #ifndef rlADAPTIVE_INTERRUPTION_H
 #define rlADAPTIVE_INTERRUPTION_H
 
-//#define SIMULATION
+#define SIMULATION
+#define URGENCY		(0)
 #define PARTNERNAME "TEST"
+//#define IPCSERVER	"192.168.11.4"
+#define IPCSERVER	"localhost"
 
 /* Standrad Included Library */
 #include <iomanip>
@@ -57,17 +60,24 @@ namespace rl {
 #endif
 
 			/* Define the action space for the robot */
-			typedef enum Action {HeadShake,
+			typedef enum Action {Approach,
+								 HeadShake,
+								 MakeSound,
 								 Rotation,
-								 Approach,
-								 CallName,
-								 ArmWave,
+								 CallNameLow,
+								 ArmWaveLow,
+								 CallNameMedium,
+								 ArmWaveMedium,
+								 CallNameHigh,
+								 ArmWaveHigh,
 								 MoveToAroundOfPerson,
-								 MakeSound} RobotActionSet;
-			enum {actionSize = 7};
+								 StraightStyle,
+								 SocialStyle,
+								 Joke} RobotActionSet;
+			enum {actionSize = 14};
 
 			/* Some exceptions for state and action consistancy */
-				// Can be throwed in inapprioate approach (When the robot is already too closed to the person
+				// Can be throwed in inapprioate approach (When the robot is already too closed to the person)
 			class BadAction : public rl::exception::Any {
 				public:
 					BadAction(std::string comment) : Any(std::string("Bad action performed : ") + comment) {}
@@ -90,9 +100,10 @@ namespace rl {
 					typedef enum ToA {None,
 									  HasPersonNoticedMe,
 									  DoesPersonLookingMe,
+									  DoesPersonIgnoreMe,
 									  LoseAttention,
 									  Engaged} ToA;
-					enum {ToASize = 5};
+					enum {ToASize = 6};
 
 						// Pair of states
 					ALR personAttention;
@@ -125,7 +136,7 @@ namespace rl {
 			//** Fitting the Simulator, rl::concept **//
 			template<typename ADAPTIVE_INTERRUPTION>
 			class Simulator {
-				/** Fitting the rl::concept::Simulator */
+				/** Fitting the rl::concept::Simulator **/
 				public:
 					typedef typename ADAPTIVE_INTERRUPTION		phase_type;
 					typedef phase_type							observation_type;
@@ -144,12 +155,12 @@ namespace rl {
 						// To store the interaction time
 					time_t interaction_start, interaction_current, ATR_high_start, ATR_high_current;
 					/* Define reward situation */
-					static inline double EngagedReward()		{return 100;}
-					static inline double HaveNoticedReward()	{return 10;}
-					static inline double HumanActiveReward()	{return 20;}
-					static inline double LoseAttentionReward()	{return -20;}
-					static inline double RejectReward()			{return -100;}
-					static inline double StepReward()			{return -1;}
+					static inline double EngagedReward(int u, int pu)	{return 50 - (50 - u) * (pu - 2);}
+					static inline double HaveNoticedReward(int u)		{return 3 * u;}
+					static inline double HighAttentionReward(int u)		{return 10 * u;}
+					static inline double LoseAttentionReward(int u)		{return -100 + u;}
+					static inline double RejectReward(int u)			{return -100 + u;}
+					static inline double StepReward()					{return -1;}
 						// Perform the robot action
 					RobotAction robot;
 						// Test variable for personAttention
@@ -159,7 +170,7 @@ namespace rl {
 					int distanceToTarget;		// 0:Otherwise,	1: 3.0,	2: 2.1,	3: 1.2
 					int polarRelativeTarget;	// 0:Otherwise	1: -60,	2: -30,	3: 0
 
-					AdaptiveInterruption::ALR preAttentionState;
+					//AdaptiveInterruption::ALR preAttentionState;
 
 				public:
 					/* User defined functions */
@@ -167,10 +178,11 @@ namespace rl {
 						setPhase(phase_type());
 						distanceToTarget = 0;
 						polarRelativeTarget = 0;
+						robot.resetToA();
 #ifndef SIMULATION
 						robot.toPoint(0.0, 0.0, 0.0);
 						robot.turnFaceToHuman();
-						Sleep(5000);
+						Sleep(500);
 #endif
 							// Reset Time constriant
 						interaction_start = time(NULL);
@@ -208,7 +220,8 @@ namespace rl {
 								break;
 
 							case ADAPTIVE_INTERRUPTION::DoesPersonLookingMe:
-								TryToinitiatieInteraction();
+							case ADAPTIVE_INTERRUPTION::DoesPersonIgnoreMe:
+								TryToinitiatieInteraction(a);
 								break;
 
 							default:
@@ -219,8 +232,8 @@ namespace rl {
 						/* Query the next human attention level (Observing the environment) */
 						//robot.sensingATR(200);
 						//preAttentionState = static_cast< ADAPTIVE_INTERRUPTION::ALR >(robot.getATR());
-						Sleep(5000);
-						robot.sensingATR(200);
+						//Sleep(5000);
+						//robot.sensingATR(200);
 						current_state.personAttention = static_cast< ADAPTIVE_INTERRUPTION::ALR >(robot.getATR());
 #else
 						/* Random generate HAE for simulation */
@@ -234,13 +247,13 @@ namespace rl {
 
 						cout << "> INFO: Your attention level to robot: ";
 						cin >> userInput;
-						preAttentionState = current_state.personAttention;
+						//preAttentionState = current_state.personAttention;
 						current_state.personAttention = static_cast< ADAPTIVE_INTERRUPTION::ALR > (userInput);
-						
+						robot.setAttentionLevel(userInput);
 #endif
-
 						updateToA();
-						cout << "> \tCurrent state, HAR:" << current_state.personAttention << ", ToA: " << current_state.robotBelief << endl;
+						cout << "  \t<Current state> SAR: " << current_state.personAttention << ", ToA: " << current_state.robotBelief << endl
+							 << "  \t<Reward received> r: " << r << endl;
 					}
 
 				private:
@@ -261,10 +274,24 @@ namespace rl {
 //#endif
 //								break;
 
-							case ArmWave:
-								cout << "> RobotAction: ArmWave" << endl;
+							case ArmWaveLow:
+								cout << "> RobotAction: ArmWaveLow" << endl;
 #ifndef SIMULATION
-								robot.armWave();
+								robot.armWave(3);
+#endif
+								break;
+
+							case ArmWaveMedium:
+								cout << "> RobotAction: ArmWaveMedium" << endl;
+#ifndef SIMULATION
+								robot.armWave(2);
+#endif
+								break;
+
+							case ArmWaveHigh:
+								cout << "> RobotAction: ArmWaveHigh" << endl;
+#ifndef SIMULATION
+								robot.armWave(1);
 #endif
 								break;
 
@@ -272,7 +299,7 @@ namespace rl {
 								cout << "> RobotAction: HeadShake" << endl;
 #ifndef SIMULATION
 //*************************************************************TOREVISE*************************************************************************//
-								robot.headShake(15, 0);
+								robot.headShake(10, 0);
 								robot.turnFaceToHuman();
 #endif
 								break;
@@ -280,7 +307,7 @@ namespace rl {
 							case Rotation:
 								cout << "> RobotAction: Rotation" << endl;
 #ifndef SIMULATION
-							robot.rotation(15);
+							robot.rotation(10);
 #endif
 								break;
 
@@ -292,10 +319,12 @@ namespace rl {
 									break;
 								}
 								if (distanceToTarget == 0) {
-									robot.movingToAroundOfHuman(0, 2.5, -90.0 + 30.0 * ++polarRelativeTarget);
+									//robot.movingToAroundOfHuman(0, 2.5, -90.0 + 30.0 * ++polarRelativeTarget);
+									robot.movingToAroundOfHuman(0, 2.5, 0.0);
 									distanceToTarget = 0;
 								} else
-									robot.movingToAroundOfHuman(0, 3.9 - 0.9 * distanceToTarget, -90.0 + 30.0 * ++polarRelativeTarget);
+									robot.movingToAroundOfHuman(0, 3.9 - 0.9 * distanceToTarget, 0.0);
+									//robot.movingToAroundOfHuman(0, 3.9 - 0.9 * distanceToTarget, -90.0 + 30.0 * ++polarRelativeTarget);
 #endif
 								break;
 
@@ -317,10 +346,24 @@ namespace rl {
 #endif
 								break;
 
-							case CallName:
-								cout << "> RobotAction: CallName" << endl;
+							case CallNameLow:
+								cout << "> RobotAction: CallNameLow" << endl;
 #ifndef SIMULATION
-								robot.speaking(string(PARTNERNAME));
+								robot.speaking(string(PARTNERNAME), 0.3f);
+#endif
+								break;
+
+							case CallNameMedium:
+								cout << "> RobotAction: CallNameMedium" << endl;
+#ifndef SIMULATION
+								robot.speaking(string(PARTNERNAME), 0.6f);
+#endif
+								break;
+
+							case CallNameHigh:
+								cout << "> RobotAction: CallNameHigh" << endl;
+#ifndef SIMULATION
+								robot.speaking(string(PARTNERNAME), 0.9f);
 #endif
 								break;
 
@@ -332,91 +375,194 @@ namespace rl {
 					}
 	
 					void updateToA() {
-						switch(current_state.robotBelief) {
-							case ADAPTIVE_INTERRUPTION::None:
-								/* Check the person is aware of the robot and transition to HasPersonNoticedMe */
-								//if (current_state.personAttention == ADAPTIVE_INTERRUPTION::High && preAttentionState == ADAPTIVE_INTERRUPTION::High) {
-								if (current_state.personAttention == ADAPTIVE_INTERRUPTION::High) {
-									r = HaveNoticedReward();
-									current_state.robotBelief = ADAPTIVE_INTERRUPTION::HasPersonNoticedMe;
-
-									ATR_high_start = time(NULL);
-								}
-								break;
-
-							case ADAPTIVE_INTERRUPTION::HasPersonNoticedMe:
-								/* Transition to DoesPersonLookingMe */
-								if (current_state.personAttention != ADAPTIVE_INTERRUPTION::High)
-									ATR_high_start = time(NULL);
-								else
-									ATR_high_current = time(NULL);
-
-									// The high attention level last for stableATRTimeBound
-								if (difftime(ATR_high_current, ATR_high_start) > stableATRTimeBound)
-									current_state.robotBelief = ADAPTIVE_INTERRUPTION::DoesPersonLookingMe;
-
-								interaction_current = time(NULL);
-								if (difftime(interaction_current, ATR_high_start) > noticedTimeOutBound) {
-									r = LoseAttentionReward();
-									current_state.robotBelief = ADAPTIVE_INTERRUPTION::LoseAttention;
-								}
-								break;
-
-							case ADAPTIVE_INTERRUPTION::DoesPersonLookingMe:
-									// Lose Attetnion
-								if (current_state.personAttention == ADAPTIVE_INTERRUPTION::Neglect) {
-									r = LoseAttentionReward();
-									current_state.robotBelief = ADAPTIVE_INTERRUPTION::LoseAttention;
-								}
-
-								/* Speech feedback from the partner */
-									// Engaged if no Rejected or lose attention occurred
-								r = EngagedReward();
-								current_state.robotBelief = ADAPTIVE_INTERRUPTION::Engaged;
-								break;
-						}
-
 						/* Check whether the partner reject or accept the interaction */
 						robot.setKeywordListened();
 						if (robot.getListenContent() == "Rejected") {
-							r = RejectReward();
+							r = RejectReward(URGENCY);
 							current_state.robotBelief = ADAPTIVE_INTERRUPTION::LoseAttention;
 							robot.resetKeyword("");
-							return;
-						}
-							// The partner initiate the interaction
-						if (robot.getListenContent() == "ARIO") {
-							r = HumanActiveReward();
-							current_state.robotBelief = ADAPTIVE_INTERRUPTION::Engaged;
-							robot.resetKeyword("");
-							TryToinitiatieInteraction();
-
 							return;
 						}
 
 						/* Check the timeout and transition to LoseAttention */
 						interaction_current = time(NULL);
 						if (difftime(interaction_current, interaction_start) > timeOutBound) {
-							r = LoseAttentionReward();
+							r = LoseAttentionReward(URGENCY);
 							current_state.robotBelief = ADAPTIVE_INTERRUPTION::LoseAttention;
+
+							return;
+						}
+
+						switch(current_state.robotBelief) {
+							case ADAPTIVE_INTERRUPTION::None:
+								/* Check the person is aware of the robot and transition to HasPersonNoticedMe */
+								if (robot.getContingencyFlag() > 0) {
+									r = HaveNoticedReward(URGENCY);
+									current_state.robotBelief = ADAPTIVE_INTERRUPTION::HasPersonNoticedMe;
+										// Extend the overall bound time
+									timeOutBound += noticedTimeOutBound;
+								}
+								//if (current_state.personAttention == ADAPTIVE_INTERRUPTION::Contingency) {
+								//	r = HaveNoticedReward();
+								//	current_state.robotBelief = ADAPTIVE_INTERRUPTION::HasPersonNoticedMe;
+								//		// Extend the overall bound time
+								//	timeOutBound += noticeTimeOutBound;
+
+									ATR_high_start = time(NULL);
+								//}
+								break;
+
+							case ADAPTIVE_INTERRUPTION::HasPersonNoticedMe:
+								/* Transition to DoesPersonLookingMe */
+								if (robot.getHighAttentionFlag() > 0)
+									current_state.robotBelief = ADAPTIVE_INTERRUPTION::DoesPersonLookingMe;
+								//if (current_state.personAttention != ADAPTIVE_INTERRUPTION::High)
+								//	ATR_high_start = time(NULL);
+								//else
+								//	ATR_high_current = time(NULL);
+
+								//	// The high attention level last for stableATRTimeBound
+								//if (difftime(ATR_high_current, ATR_high_start) > stableATRTimeBound)
+								//	current_state.robotBelief = ADAPTIVE_INTERRUPTION::DoesPersonLookingMe;
+
+								/* Transition to DoesPersonIgnoreMe */
+								if (robot.getContingencyFlag() > 2)
+									current_state.robotBelief = ADAPTIVE_INTERRUPTION::DoesPersonIgnoreMe;
+
+								/* Check for losing attention */
+								interaction_current = time(NULL);
+								if (difftime(interaction_current, ATR_high_start) > noticedTimeOutBound) {
+									r = LoseAttentionReward(URGENCY);
+									current_state.robotBelief = ADAPTIVE_INTERRUPTION::LoseAttention;
+								}
+								break;
+
+							case ADAPTIVE_INTERRUPTION::DoesPersonIgnoreMe:
+#ifdef SIMULATION
+									// Recheck your current SAR
+								cout << "> INFO: Your attention level to robot (recheck): ";
+								cin >> userInput;
+								current_state.personAttention = static_cast< ADAPTIVE_INTERRUPTION::ALR > (userInput);
+								robot.setAttentionLevel(userInput);
+#endif
+								/* Lose Attetnion */
+								if (robot.getLoseAttentionFlag() > 0) {
+									r = LoseAttentionReward(URGENCY);
+									current_state.robotBelief = ADAPTIVE_INTERRUPTION::LoseAttention;
+									break;
+								}
+								/* Catching the attention! */
+								if (robot.getHighAttentionFlag() > 0) {
+									int pu = robot.getPU();
+									r = EngagedReward(URGENCY, pu);
+									current_state.robotBelief = ADAPTIVE_INTERRUPTION::Engaged;
+								}
+
+								robot.resetContingencyFlag();
+								current_state.robotBelief = ADAPTIVE_INTERRUPTION::HasPersonNoticedMe;
+									// Penalty on interaction time
+								timeOutBound -= noticedTimeOutBound;
+								break;
+
+							case ADAPTIVE_INTERRUPTION::DoesPersonLookingMe:
+#ifdef SIMULATION
+									// Recheck your current SAR
+								cout << "> INFO: Your attention level to robot (recheck): ";
+								cin >> userInput;
+								current_state.personAttention = static_cast< ADAPTIVE_INTERRUPTION::ALR > (userInput);
+								robot.setAttentionLevel(userInput);
+#endif
+								/* Lose Attetnion */
+								if (robot.getLoseAttentionFlag() > 0) {
+									r = LoseAttentionReward(URGENCY);
+									current_state.robotBelief = ADAPTIVE_INTERRUPTION::LoseAttention;
+									break;
+								}
+								//if (current_state.personAttention == ADAPTIVE_INTERRUPTION::Neglect) {
+								//	r = LoseAttentionReward();
+								//	current_state.robotBelief = ADAPTIVE_INTERRUPTION::LoseAttention;
+								//}
+
+								/* Speech feedback from the partner */
+									// Engaged if no Rejected or lose attention occurred
+								int pu = robot.getPU();
+								r = EngagedReward(URGENCY, pu);
+								current_state.robotBelief = ADAPTIVE_INTERRUPTION::Engaged;
+								break;
+						}
+
+							// The partner initiate the interaction
+						if (robot.getListenContent() == "ARIO") {
+							//r = HumanActiveReward();
+							current_state.robotBelief = ADAPTIVE_INTERRUPTION::DoesPersonIgnoreMe;
+							robot.resetKeyword("");
+							//TryToinitiatieInteraction();
 
 							return;
 						}
 					}
 
 						// Ask the partner whethler he/she can be interrupted
-					void TryToinitiatieInteraction() {
+					void TryToinitiatieInteraction(const action_type& a) {
+						switch(a) {
+							case StraightStyle:
 #ifndef SIMULATION
-						robot.speaking("There is a message left for you, do you want to reply it now?");
-						Sleep(3000);
+								if (distanceToTarget > 3) {
+									cout << "> WARNING: INVALID Approach" << endl;
+									break;
+								}
+								robot.forwardApproach(0, 3.9 - 0.9 * ++distanceToTarget);
+								robot.speaking(string(PARTNERNAME) + "，我這裡有一封訊息要傳遞給你", 0.7f);
+								Sleep(5000);
 #else
-						cout << "> Robot: There is a message left for you, do you want to reply it now?" << endl;
+								cout << "> Robot: " << string(PARTNERNAME) + "，我這裡有一封訊息要傳遞給你" << endl;
 #endif
+								break;
+
+							case SocialStyle:
+#ifndef SIMULATION
+								if (distanceToTarget > 3) {
+									cout << "> WARNING: INVALID Approach" << endl;
+									break;
+								}
+								robot.forwardApproach(0, 3.9 - 0.9 * ++distanceToTarget);
+								robot.speaking("不好意思打擾您了，我這裡有一則訊息要轉交給您", 0.7f);
+								Sleep(5000);
+#else
+								cout << "> Robot: 不好意思打擾您了，我這裡有一則訊息要轉交給您" << endl;
+#endif
+								break;
+
+							case Joke:
+#ifndef SIMULATION
+								if (distanceToTarget > 3) {
+									cout << "> WARNING: INVALID Approach" << endl;
+									break;
+								}
+								robot.forwardApproach(0, 3.9 - 0.9 * ++distanceToTarget);
+								robot.speaking(string(PARTNERNAME) + "，我想分享一個故事給你聽，", 0.7f);
+								robot.speaking("有一天小明回到家跟他爸媽說，", 0.7f);
+								robot.speaking("老師問同學一個問題，只有我答的出來", 0.7f);
+								robot.speaking("爸媽問，那是什麼問題", 0.7f);
+								robot.speaking("誰沒有交作業", 0.9f);
+								Sleep(1000);
+								robot.speaking("對了，我這裡有一封訊息要傳遞給你", 0.7f);
+								Sleep(5000);
+#else
+								cout << "> Robot: " + string(PARTNERNAME) + "，我想分享一個故事給你聽，" << endl
+									 << "         有一天小明回到家跟他爸媽說，" << endl
+									 << "         老師問同學一個問題，只有我答的出來" << endl
+									 << "         爸媽問，那是什麼問題" << endl
+									 << "         誰沒有交作業" << endl
+									 << "         對了，我這裡有一封訊息要傳遞給你" << endl;
+#endif
+								break;
+						}
 					}
 
 				public:
 					/** Fitting the constructors, rl::concept::Simulator **/
-					Simulator(void) : current_state(), robot("192.168.11.4")
+					Simulator(void) : current_state(), robot(IPCSERVER)
 					{
 #ifndef SIMULATION
 						timeOutBound = 180;
@@ -433,12 +579,12 @@ namespace rl {
 						interaction_start = time(NULL);
 					}
 					
-					Simulator(const Simulator& copy) : current_state(copy.current_state), robot("192.168.11.4")
+					Simulator(const Simulator& copy) : current_state(copy.current_state), robot(IPCSERVER)
 					{
 						timeOutBound = copy.timeOutBound;
 						noticedTimeOutBound = copy.noticedTimeOutBound;
 						stableATRTimeBound = copy.stableATRTimeBound;
-						noticedFrame = 0;
+						//noticedFrame = 0;
 						distanceToTarget = copy.distanceToTarget;
 						polarRelativeTarget = copy.polarRelativeTarget;
 						interaction_start = copy.interaction_start;
@@ -451,7 +597,7 @@ namespace rl {
 							timeOutBound = copy.timeOutBound;
 							noticedTimeOutBound = copy.noticedTimeOutBound;
 							stableATRTimeBound = copy.stableATRTimeBound;
-							noticedFrame = 0;
+							//noticedFrame = 0;
 							distanceToTarget = copy.distanceToTarget;
 							polarRelativeTarget = copy.polarRelativeTarget;
 							interaction_start = copy.interaction_start;

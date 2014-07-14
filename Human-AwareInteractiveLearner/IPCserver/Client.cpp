@@ -408,12 +408,12 @@ void HAE_message_handler(MSG_INSTANCE msgRef, BYTE_ARRAY callData, void *clientD
 
 void Attention_Level_message_handler(MSG_INSTANCE msgRef, BYTE_ARRAY callData, void *clientData) {
 	AttentionLevelMgr data;
-	extern void Attention_Level_handler();
+	extern void Attention_Level_handler(AttentionLevelMgr data);
 
 	IPC_unmarshallData(IPC_msgInstanceFormatter(msgRef), callData, &data, sizeof(AttentionLevelMgr));
 	setAttentionLevel(data);
 
-	Attention_Level_handler();
+	Attention_Level_handler(data);
 	IPC_freeByteArray(callData);
 }
 
