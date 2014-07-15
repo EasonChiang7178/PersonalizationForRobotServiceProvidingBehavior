@@ -52,6 +52,8 @@ RobotAction::RobotAction() : lcmObject(LCM_CTOR_PARAMS) {
 		exit(1);
 	}
 
+	curAttentionLevel = 0;
+
 		// Initialize timeout
 	this->setTimeout(25);
 }
@@ -68,6 +70,8 @@ RobotAction::RobotAction(const string& IPAddress) : lcmObject(LCM_CTOR_PARAMS) {
 		cout << "> ERROR: Cannot initialize LCM" << endl;
 		exit(1);
 	}
+
+	curAttentionLevel = 0;
 
 		// Initialize timeout
 	this->setTimeout(25);
@@ -189,12 +193,12 @@ const int RobotAction::turnFaceToHuman() {
 	int goalDegree = -1 * static_cast< int >(atan2(handlerLeg.y[itPeopleSorted->second],
 												   handlerLeg.x[itPeopleSorted->second]) / M_PI * 180.0);
 
-	if (abs(goalDegree) > 35) {
+	if (goalDegree > 45) {
 		cout << "> WARNING: Head cannot turn to this angle, " << goalDegree << endl;
-		goalDegree = 35;
-	} else if (abs(goalDegree) < -35) {
+		goalDegree = 45;
+	} else if (goalDegree < -45) {
 		cout << "> WARNING: Head cannot turn to this angle, " << goalDegree << endl;
-		goalDegree = -35;
+		goalDegree = -45;
 	}
 
 	cout << "> Turning Face To " << goalDegree << endl;
@@ -352,12 +356,22 @@ const bool RobotAction::forwardApproach(const int& speed, const double& distance
 		return false;
 	}
 
+	/* Coordinate Transformation: Robot (R) -> (W) */
+	CoordTrans coordinateTrans;
+	double X_g_W = 0.0, Y_g_W = 0.0, dummyTheta = 0.0;
+
+	coordinateTrans.trans2D(dX, dY, 0.0,
+							-curPos.x, -curPos.y, -curPos.theta,// - theta_robotHeading, 
+							X_g_W, Y_g_W, dummyTheta);
+	dX = X_g_W;
+	dY = Y_g_W;
+
 	int robotSpeed = speed;
 	if (speed == 0)
 		robotSpeed = 1;
 
 	SubgoalMgr goal;
-	goal.theta = atan2(dY, dX) * 180 / M_PI;
+	goal.theta = atan2(dY - curPos.y, dX - curPos.x) * 180 / M_PI;
 	goal.x = curPos.x + robotSpeed * distance * cos(goal.theta / 180 * M_PI);
 	goal.y = curPos.y + robotSpeed * distance * sin(goal.theta / 180 * M_PI);
 
@@ -369,11 +383,12 @@ const bool RobotAction::forwardApproach(const int& speed, const double& distance
 	this->turningFace(0);
 	this->getCurrentTime();
 
-	goal.x = curPos.x + distance * cos(goal.theta / 180 * M_PI);
-	goal.y = curPos.y + distance * sin(goal.theta / 180 * M_PI);
-	sendSubgoal(goal);
-	naviExecuting = true;
-	Sleep(sizeof(goal) + 500);
+	//goal.x = curPos.x + distance * cos(goal.theta / 180 * M_PI);
+	//goal.y = curPos.y + distance * sin(goal.theta / 180 * M_PI);
+	//goal.theta = atan2(dY, dX) * 180 / M_PI;
+	//sendSubgoal(goal);
+	//naviExecuting = true;
+	//Sleep(sizeof(goal) + 500);
 
 	cout << "Xr: " << curPos.x << ", Yr: " << curPos.y << endl;
 	cout << "Xh: " << dX << ", Yh: " << dY << endl;

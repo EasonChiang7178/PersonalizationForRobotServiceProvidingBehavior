@@ -27,11 +27,11 @@
 #ifndef rlADAPTIVE_INTERRUPTION_H
 #define rlADAPTIVE_INTERRUPTION_H
 
-#define SIMULATION
+//#define SIMULATION
 #define URGENCY		(0)
-#define PARTNERNAME "TEST"
-//#define IPCSERVER	"192.168.11.4"
-#define IPCSERVER	"localhost"
+#define PARTNERNAME "仲達"
+#define IPCSERVER	"192.168.11.4"
+//#define IPCSERVER	"localhost"
 
 /* Standrad Included Library */
 #include <iomanip>
@@ -233,7 +233,7 @@ namespace rl {
 						//robot.sensingATR(200);
 						//preAttentionState = static_cast< ADAPTIVE_INTERRUPTION::ALR >(robot.getATR());
 						//Sleep(5000);
-						//robot.sensingATR(200);
+						robot.sensingATR(200);
 						current_state.personAttention = static_cast< ADAPTIVE_INTERRUPTION::ALR >(robot.getATR());
 #else
 						/* Random generate HAE for simulation */
@@ -299,7 +299,7 @@ namespace rl {
 								cout << "> RobotAction: HeadShake" << endl;
 #ifndef SIMULATION
 //*************************************************************TOREVISE*************************************************************************//
-								robot.headShake(10, 0);
+								robot.headShake(15, 0);
 								robot.turnFaceToHuman();
 #endif
 								break;
@@ -307,7 +307,7 @@ namespace rl {
 							case Rotation:
 								cout << "> RobotAction: Rotation" << endl;
 #ifndef SIMULATION
-							robot.rotation(10);
+							robot.rotation(15);
 #endif
 								break;
 
@@ -456,6 +456,7 @@ namespace rl {
 #ifndef SIMULATION
 									robot.sensingPU(0);
 									int pu = robot.getPU();
+									robot.speaking("是時候該去運動了", 0.9f);
 #else
 									int pu;
 									cout << "> PU detected? " << endl;
@@ -495,6 +496,7 @@ namespace rl {
 #ifndef SIMULATION
 									robot.sensingPU(0);
 									int pu = robot.getPU();
+									robot.speaking("是時候該去運動了", 0.9f);
 #else
 									int pu;
 									cout << "> PU detected? ";
@@ -527,7 +529,8 @@ namespace rl {
 								}
 								robot.forwardApproach(0, 0.9);
 								robot.speaking(string(PARTNERNAME) + "，我這裡有一封訊息要傳遞給你", 0.7f);
-								Sleep(5000);
+
+								Sleep(1000);
 #else
 								cout << "> Robot: " << string(PARTNERNAME) + "，我這裡有一封訊息要傳遞給你" << endl;
 #endif
@@ -541,7 +544,7 @@ namespace rl {
 								}
 								robot.forwardApproach(0, 0.9);
 								robot.speaking("不好意思打擾您了，我這裡有一則訊息要轉交給您", 0.7f);
-								Sleep(5000);
+								Sleep(1000);
 #else
 								cout << "> Robot: 不好意思打擾您了，我這裡有一則訊息要轉交給您" << endl;
 #endif
@@ -559,9 +562,9 @@ namespace rl {
 								robot.speaking("老師問同學一個問題，只有我答的出來", 0.7f);
 								robot.speaking("爸媽問，那是什麼問題", 0.7f);
 								robot.speaking("誰沒有交作業", 0.9f);
-								Sleep(1000);
+								Sleep(500);
 								robot.speaking("對了，我這裡有一封訊息要傳遞給你", 0.7f);
-								Sleep(5000);
+								Sleep(1000);
 #else
 								cout << "> Robot: " + string(PARTNERNAME) + "，我想分享一個故事給你聽，" << endl
 									 << "         有一天小明回到家跟他爸媽說，" << endl

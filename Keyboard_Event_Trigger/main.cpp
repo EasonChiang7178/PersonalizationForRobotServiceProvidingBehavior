@@ -11,8 +11,8 @@ using namespace std;
 
 //** Problem Dependent Variable Setting **//
 #define PARTNERNAME "®a©ú"
-#define SERVER_NAME "localhost"
-//#define SERVER_NAME "192.168.11.4"
+//#define SERVER_NAME "localhost"
+#define SERVER_NAME "192.168.11.4"
 
 	// LCM core
 #include "lcm\lcm-cpp.hpp"

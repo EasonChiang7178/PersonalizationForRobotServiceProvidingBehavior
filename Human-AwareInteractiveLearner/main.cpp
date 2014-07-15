@@ -37,7 +37,7 @@ public:
 //** Problem Dependent Variable Setting **//
 #define NB_EPISODES				10
 //#define MAX_EPISODE_DURATION	100
-#define PARTNERNAME				"TEST"
+#define PARTNERNAME				"C_"
 //#define TESTRESULT
 
 //=============================================================================

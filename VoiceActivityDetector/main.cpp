@@ -64,7 +64,7 @@ using namespace lcm;
 /* #define SAMPLE_RATE  (17932) // Test failure to open with this value. */
 #define SAMPLE_RATE			(8000)
 #define FRAMES_PER_BUFFER	(1024)
-#define NUM_SECONDS			(1)
+#define NUM_SECONDS			(3)
 #define NUM_CHANNELS		(1)
 #define VOICE_THRESH_LOW	(25)//(50)
 #define VOICE_THRESH_MEDIUM	(75)//(150)
