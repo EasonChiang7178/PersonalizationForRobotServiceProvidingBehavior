@@ -14,6 +14,14 @@ using namespace std;
 #define SERVER_NAME "localhost"
 //#define SERVER_NAME "192.168.11.4"
 
+	// LCM core
+#include "lcm\lcm-cpp.hpp"
+	// LCM message data type
+#include "lcm\BodyDirectionLcm.hpp"
+	// LCM shared consts
+//#include "lcm\LcmComm.hpp"
+using namespace lcm;
+
 /** Declration of Variables **/
 char keyboardInput = '\0';
 
@@ -25,6 +33,14 @@ int main(int argc, char** argv) {
 	subscribe(RESULT_NAVI, RESULT_ARM, RESULT_SPEAK, HAE, ATTENTIONLEVEL, TOTAL_MSG_NUM);
 	publish(KEY_WORD, SUBGOAL, ACTION_NAVI, ACTION_ARM, ACTION_SPEAK, PERCEPTION_HAE, REQUEST_INFERENCE, TOTAL_MSG_NUM);
 	listen();*/
+
+	/* Initialize LCM */
+	LCM lcm("udpm://239.255.76.67:7667?ttl=1");
+	if (!lcm.good())
+	{
+		cout << "> ERROR: Cannot initialize LCM" << endl;
+		return 1;
+	}
 
 	RobotAction robotAction(SERVER_NAME);
 
@@ -226,9 +242,20 @@ int main(int argc, char** argv) {
 				break;
 			}
 			case 'K':
+			{
 				cout << keyboardInput << endl;
 				keyboardInput = '\0';
+
+				int puInput = 2;
+				cout << "> pu: ";
+				cin >> puInput;
+
+				BodyDirectionLcm bodyMgr;
+				bodyMgr.pu = puInput;
+				lcm.publish("BODY_DIRECTION", &bodyMgr);
+
 				break;
+			}
 
 			case 'O':
 			{

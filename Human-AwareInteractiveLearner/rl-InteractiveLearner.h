@@ -453,7 +453,14 @@ namespace rl {
 								}
 								/* Catching the attention! */
 								if (robot.getHighAttentionFlag() > 0) {
+#ifndef SIMULATION
+									robot.sensingPU(0);
 									int pu = robot.getPU();
+#else
+									int pu;
+									cout << "> PU detected? " << endl;
+									cin >> pu;
+#endif
 									r = EngagedReward(URGENCY, pu);
 									current_state.robotBelief = ADAPTIVE_INTERRUPTION::Engaged;
 								}
@@ -485,7 +492,14 @@ namespace rl {
 
 								/* Speech feedback from the partner */
 									// Engaged if no Rejected or lose attention occurred
-								int pu = robot.getPU();
+#ifndef SIMULATION
+									robot.sensingPU(0);
+									int pu = robot.getPU();
+#else
+									int pu;
+									cout << "> PU detected? ";
+									cin >> pu;
+#endif
 								r = EngagedReward(URGENCY, pu);
 								current_state.robotBelief = ADAPTIVE_INTERRUPTION::Engaged;
 								break;
