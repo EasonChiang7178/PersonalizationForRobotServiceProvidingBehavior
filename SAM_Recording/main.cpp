@@ -48,13 +48,13 @@ int main(int argc, char* argv[])
 	/** Connect to IPC Server **/
 	init_comm();
 	connect_to_server();
-<<<<<<< HEAD
+
 	subscribe(ROBOTPARAMETER, TOTAL_MSG_NUM);
 	publish(PERCEPTION_HAE, PERCEPTION, TOTAL_MSG_NUM);
-=======
+
 	subscribe(PERCEPTION_HAE, ROBOTPARAMETER, TOTAL_MSG_NUM);
 	publish(PERCEPTION, TOTAL_MSG_NUM);
->>>>>>> origin/Using_LCM
+
 	listen();
 
 	/* Test LCM */
@@ -109,12 +109,6 @@ int main(int argc, char* argv[])
 				 << parameterData.speed << " " << robotPositionData << " " << parameterData.volume << endl;
 		cout << "> F:  " << sensingData.face_direction << ", B:  " << sensingData.body_direction << ", V:  " << sensingData.voice_detection << endl;
 		cout << "> RS: " << parameterData.speed << ", RP: " << robotPositionData << ", RV: " << parameterData.volume << endl;
-		
-		/* To saving the current image */
-		PerceptionHAEMgr requestData;
-		requestData.sensing = faceDirectionDiscrete;
-		sendPerceptionHAE(requestData);
-		Sleep(sizeof(requestData) + DELAYTIME);
 
 	if (buzyWaitForMgr(20) == false)
 		cout << "> WARNING: Receive Data Time Out, Face" << endl;
