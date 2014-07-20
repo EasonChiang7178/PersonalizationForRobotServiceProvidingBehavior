@@ -14,7 +14,7 @@ using namespace std;
 
 //** Problem Dependent Variable Setting **//
 	// The timestep of the dynamic Bayesian network
-#define STEPNUMBER	3
+#define STEPNUMBER	4
 
 /** Declration of Variables **/
 	// Path to store the raw data

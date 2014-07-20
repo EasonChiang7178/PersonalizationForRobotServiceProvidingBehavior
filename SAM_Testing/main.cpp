@@ -26,7 +26,7 @@ using namespace std;
 	// Path to unrolled DBN model
 string dynamicBN = "../models/DBN_Model/res_SocialAttentionInferenceModel_Unrolled.xdsl";
 	// Path to the test data
-string testingDataPath = "../models/DBN_Model/TrainingData/SocialAttentionInferenceModel_Learning_step4_tracker.txt";
+string testingDataPath = "../models/DBN_Model/TrainingData/SocialAttentionInferenceModel_Learning.txt";
 	// Path to the output result
 string cmPath = "../models/DBN_Model/TrainingData/SocialAttentionInference_Testing_cm.txt";
 	// Buffer result for Human Attention Level

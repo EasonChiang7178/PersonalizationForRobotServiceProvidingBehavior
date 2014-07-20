@@ -25,9 +25,9 @@ using namespace std;
 	// The timestep of the dynamic Bayesian network
 #define STEPNUMBER	4
 	// How long a timestep is (ms)
-#define STEPTIME	250
+#define STEPTIME	1000
 	// How long a delay for messages request
-#define DELAYTIME	20
+#define DELAYTIME	100
 /** BAD example **/
 #define CONTEXT		0 //0, neutral; 1, concentrating; 2, sleepy; 3, social
 
@@ -159,7 +159,7 @@ int main(int argc, char* argv[]) {
 		/* Ready to inference the result */
 			// If too few data to run the inference, continue collect data
 		if (stepPassed++ < STEPNUMBER - 1) {
-			Sleep(STEPTIME - 3 * DELAYTIME);
+			Sleep(STEPTIME - STEPNUMBER * DELAYTIME);
 			continue;
 		}
 
