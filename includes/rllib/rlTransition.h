@@ -428,11 +428,11 @@ namespace rl {
 	auto current = simulator.sense();
 	auto       a = agent.policy(current);
 	length=0;
-	//transition = SA_TRANSITION_SET::value_type(current, // dummy
-	//			   a,       // dummy
-	//			   0,       // dummy
-	//			   current,
-	//			   a);
+	transition = SA_TRANSITION_SET::value_type(current, // dummy
+				   a,       // dummy
+				   0,       // dummy
+				   current,
+				   a);
 	do {
 	  adaptation(simulator,agent,critic,transition,true);
 	  transition_set.push_back(transition);

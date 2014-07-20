@@ -26,7 +26,7 @@ using namespace std;
 	// Path to unrolled DBN model
 string dynamicBN = "../models/DBN_Model/res_SocialAttentionInferenceModel_Unrolled.xdsl";
 	// Path to the test data
-string testingDataPath = "../models/DBN_Model/TrainingData/SocialAttentionInferenceModel_Learning.txt";
+string testingDataPath = "../models/DBN_Model/TrainingData/SocialAttentionInferenceModel_Learning_step4_tracker.txt";
 	// Path to the output result
 string cmPath = "../models/DBN_Model/TrainingData/SocialAttentionInference_Testing_cm.txt";
 	// Buffer result for Human Attention Level
@@ -211,12 +211,12 @@ int main(int argc, char* argv[]) {
 				// To store evidences of one time step, for setting the observation
 			vector< string > evidencesOfNodes;
 				// Prepare the evidence
-			evidencesOfNodes.push_back(attributeNameArray[0][*itFace]);
-			evidencesOfNodes.push_back(attributeNameArray[1][*itBody]);
-			evidencesOfNodes.push_back(attributeNameArray[2][*itAudio]);
-			evidencesOfNodes.push_back(attributeNameArray[3][*itRobotSpeed]);
-			evidencesOfNodes.push_back(attributeNameArray[4][*itRobotPose]);
-			evidencesOfNodes.push_back(attributeNameArray[5][*itRobotVolume]);
+			evidencesOfNodes.push_back(attributeNameArray[0][*(itFace++)]);
+			evidencesOfNodes.push_back(attributeNameArray[1][*(itBody++)]);
+			evidencesOfNodes.push_back(attributeNameArray[2][*(itAudio++)]);
+			evidencesOfNodes.push_back(attributeNameArray[3][*(itRobotSpeed++)]);
+			evidencesOfNodes.push_back(attributeNameArray[4][*(itRobotPose++)]);
+			evidencesOfNodes.push_back(attributeNameArray[5][*(itRobotVolume++)]);
 				// Set the evidence to network
 			bn::setEvidenceOfBN(theNet, evidencesNodesName, evidencesOfNodes, timeStep);
 		}
@@ -249,7 +249,7 @@ int main(int argc, char* argv[]) {
 
 			// Drop the oldest data
 		for (int i = 0; i < STEPNUMBER; i++) {
-			faceFeature.pop_front(); bodyFeature; audioFeature.pop_front();
+			faceFeature.pop_front(); bodyFeature.pop_front(); audioFeature.pop_front();
 			robotSpeed.pop_front(); robotPose.pop_front(); robotVolume.pop_front();
 		}
 

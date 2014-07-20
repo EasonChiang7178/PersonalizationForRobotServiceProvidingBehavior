@@ -43,6 +43,26 @@ bool buzyWaitForMgr(const int delayTime);
 	// Sorting the people we found
 map< float, int > sortingPeople(const lcmLegDetect& people);
 
+//int main() {
+//	fstream freward, fout;
+//	freward.open("C2_ShinReward.txt", ios::in);
+//	fout.open("C2_ShinRewardOut.txt", ios::out);
+//
+//	int i = 0;
+//	float input, sum = 0.0;
+//	while( freward.eof() != true) {
+//		freward >> input;
+//		freward >> input;
+//		sum += input;
+//		fout << ++i << " " << sum << endl;
+//	}
+//
+//	freward.close();
+//	fout.close();
+//
+//	return 0;
+//}
+
 int main(int argc, char* argv[])
 {
 	/** Connect to IPC Server **/

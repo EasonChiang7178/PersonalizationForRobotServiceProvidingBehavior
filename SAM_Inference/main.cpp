@@ -23,7 +23,7 @@ using namespace std;
 
 //** Problem Dependent Variable Setting **//
 	// The timestep of the dynamic Bayesian network
-#define STEPNUMBER	3
+#define STEPNUMBER	4
 	// How long a timestep is (ms)
 #define STEPTIME	250
 	// How long a delay for messages request
@@ -169,12 +169,12 @@ int main(int argc, char* argv[]) {
 				// To store evidences of one time step, for setting the observation
 			vector< string > evidencesOfNodes;
 				// Prepare the evidence
-			evidencesOfNodes.push_back(attributeNameArray[0][*itFace]);
-			evidencesOfNodes.push_back(attributeNameArray[1][*itBody]);
-			evidencesOfNodes.push_back(attributeNameArray[2][*itAudio]);
-			evidencesOfNodes.push_back(attributeNameArray[3][*itRobotSpeed]);
-			evidencesOfNodes.push_back(attributeNameArray[4][*itRobotPose]);
-			evidencesOfNodes.push_back(attributeNameArray[5][*itRobotVolume]);
+			evidencesOfNodes.push_back(attributeNameArray[0][*(itFace++)]);
+			evidencesOfNodes.push_back(attributeNameArray[1][*(itBody++)]);
+			evidencesOfNodes.push_back(attributeNameArray[2][*(itAudio++)]);
+			evidencesOfNodes.push_back(attributeNameArray[3][*(itRobotSpeed++)]);
+			evidencesOfNodes.push_back(attributeNameArray[4][*(itRobotPose++)]);
+			evidencesOfNodes.push_back(attributeNameArray[5][*(itRobotVolume++)]);
 				// Set the evidence to network
 			bn::setEvidenceOfBN(theNet, evidencesNodesName, evidencesOfNodes, timeStep);
 		}

@@ -25,7 +25,7 @@ class Param {
 public:
 	double temperature(void) const {return 32.0;}
 	double gamma(void)   const {return 1;}
-	double alpha(void)   const {return .075;}
+	double alpha(void)   const {return .75;}
 };
 
 // Definition of Reward, S, A, SA, Transition and TransitionSet.
@@ -35,9 +35,9 @@ public:
 #include "InteractiveLearner_TabularQ.h"
 
 //** Problem Dependent Variable Setting **//
-#define NB_EPISODES				10
+#define NB_EPISODES				35
 //#define MAX_EPISODE_DURATION	100
-#define PARTNERNAME				"C_"
+#define PARTNERNAME				"C1_Shin"
 //#define TESTRESULT
 
 //=============================================================================
@@ -79,6 +79,7 @@ int main(int argc, char* argv[]) {
 	gsl_vector_free(dataLearned);
 
 	/* Interactive Learning */
+#ifndef TESTRESULT
 	for(episode = 0, frame = 0; episode < NB_EPISODES; ++episode) {
 		std::cout << ">\t\t< Episode " << std::setw(6) << episode + 1 << "/" << NB_EPISODES << " >" << endl;
 		
@@ -110,6 +111,7 @@ int main(int argc, char* argv[]) {
 
 		//getchar();
 	}
+#endif
 
 #ifdef TESTRESULT
 	/* Test Result! */

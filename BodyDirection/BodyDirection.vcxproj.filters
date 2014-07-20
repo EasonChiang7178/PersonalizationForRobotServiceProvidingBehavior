@@ -31,6 +31,12 @@
     <Filter Include="Header Files\LCM">
       <UniqueIdentifier>{abc399eb-6313-49bb-81c1-da382e54bd42}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\IPCServer">
+      <UniqueIdentifier>{9b226401-1256-4438-943f-0f151e48d429}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Thread">
+      <UniqueIdentifier>{3ba1fb2c-1aab-4468-b03d-353152abffab}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -41,6 +47,15 @@
     </ClCompile>
     <ClCompile Include="Source\NiImageCaptor.cpp">
       <Filter>Source Files\NiImageCaptor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\includes\IPCServer\IntComm.cpp">
+      <Filter>Source Files\IPCServer</Filter>
+    </ClCompile>
+    <ClCompile Include="IPCserver\Client.cpp">
+      <Filter>Source Files\IPCServer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\includes\Thread\Thread.cpp">
+      <Filter>Source Files\Thread</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

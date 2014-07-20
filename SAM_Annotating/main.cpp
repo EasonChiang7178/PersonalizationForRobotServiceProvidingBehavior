@@ -14,11 +14,11 @@ using namespace std;
 
 //** Problem Dependent Variable Setting **//
 	// The timestep of the dynamic Bayesian network
-#define STEPNUMBER	4
+#define STEPNUMBER	3
 
 /** Declration of Variables **/
 	// Path to store the raw data
-string rawData = "../models/DBN_Model/TrainingData/raw_dataset/SocialAttentionModel_raw_overall.txt";
+string rawData = "../models/DBN_Model/TrainingData/raw_dataset/Data_Cleared/SocialAttentionModel_raw_Merged.txt";
 	// Path to result training data
 string trainingData = "../models/DBN_Model/TrainingData/SocialAttentionInferenceModel_Learning.txt";
 	// Path to annotated label
@@ -142,8 +142,8 @@ int main(int argc, char* argv[])
 			string dataNumberStr;
 			char newLabel;
 			ss << dataNumber; ss >> dataNumberStr;
-			/*while (dataNumberStr.size() < 4)
-				dataNumberStr.insert(0, "0");*/
+			while (dataNumberStr.size() < 4)
+				dataNumberStr.insert(0, "0");
 			cv::Mat rawImg = cv::imread(rawData.substr(0, rawData.find_last_of("/") + 1) + "raw_" + dataNumberStr + ".png");
 			
 			if (rawImg.empty() != true)
