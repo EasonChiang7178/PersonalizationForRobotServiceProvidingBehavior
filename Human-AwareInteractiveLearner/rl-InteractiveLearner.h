@@ -29,7 +29,7 @@
 
 //#define SIMULATION
 #define URGENCY		(0)
-#define PARTNERNAME "¥ò¹F"
+#define PARTNERNAME "«¢Åo"
 //#define IPCSERVER	"192.168.11.4"
 #define IPCSERVER	"localhost"
 

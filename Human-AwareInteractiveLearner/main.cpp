@@ -37,7 +37,7 @@ public:
 //** Problem Dependent Variable Setting **//
 #define NB_EPISODES				35
 //#define MAX_EPISODE_DURATION	100
-#define PARTNERNAME				"C1_Shin"
+#define PARTNERNAME				"TEST"
 //#define TESTRESULT
 
 //=============================================================================
