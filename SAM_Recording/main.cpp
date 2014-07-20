@@ -63,6 +63,7 @@ map< float, int > sortingPeople(const lcmLegDetect& people);
 //	return 0;
 //}
 
+
 int main(int argc, char* argv[])
 {
 	/** Connect to IPC Server **/

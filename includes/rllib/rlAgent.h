@@ -234,7 +234,7 @@ namespace rl {
 					std::vector<double>& cum = const_cast<std::vector<double>&>(cumul);
 					action_type a = iter.first();
 					if (s.robotBelief != AdaptiveInterruption::DoesPersonIgnoreMe && s.robotBelief != AdaptiveInterruption::DoesPersonLookingMe) {
-						cum.resize(8);
+						cum.resize(6);
 						int i = 0;
 						double value;
 
@@ -244,13 +244,13 @@ namespace rl {
 							a = iter.next(a);
 							cum[i] = exp(that(s,a)/param.temperature()) + cum[i-1];
 						}
-						value = rl::random::toss(0,cum[7]);
+						value = rl::random::toss(0,cum[5]);
 						for (i = 0; value >= cum[i]; ++i);
 							return iter.value(i);
 					}
 					else {
 						cum.resize(3);
-						for (int i = 0; i < 11; i++)
+						for (int i = 0; i < 6; i++)
 							a = iter.next(a);
 
 						int i = 0;
@@ -264,7 +264,7 @@ namespace rl {
 						}
 						value = rl::random::toss(0,cum[2]);
 						for (i = 0; value >= cum[i]; ++i);
-							return iter.value(i + 8);
+							return iter.value(i + 6);
 					}
 				}
 		};
