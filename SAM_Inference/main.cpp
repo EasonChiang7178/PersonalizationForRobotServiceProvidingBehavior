@@ -25,9 +25,9 @@ using namespace std;
 	// The timestep of the dynamic Bayesian network
 #define STEPNUMBER	4
 	// How long a timestep is (ms)
-#define STEPTIME	1000
+#define STEPTIME	250
 	// How long a delay for messages request
-#define DELAYTIME	100
+#define DELAYTIME	20
 /** BAD example **/
 #define CONTEXT		0 //0, neutral; 1, concentrating; 2, sleepy; 3, social
 
@@ -147,9 +147,59 @@ int main(int argc, char* argv[]) {
 		requestSensingSAM(DELAYTIME, sensingData, parameterData, robotPositionData);
 
 		/* Setting the data received */
-		faceFeature.push_back(static_cast< int >(sensingData.face_direction));
-		bodyFeature.push_back(static_cast< int >(sensingData.body_direction));
-		audioFeature.push_back(static_cast< int >(sensingData.voice_detection));
+		//if (static_cast< int >(sensingData.face_direction) < 0) {
+		//	cout << "> WARNING: Missing Data, Face" << endl;
+		//	auto itFace = faceFeature.rbegin();
+		//	itFace++;
+		//	faceFeature.push_back(static_cast< int >(*itFace));
+		//} else
+		//	faceFeature.push_back(static_cast< int >(sensingData.face_direction));
+		if (static_cast< int >(sensingData.body_direction) < 0) {
+			cout << "> WARNING: Missing Data, Body" << endl;
+			if (faceFeature.empty() == true)
+				faceFeature.push_back(0);
+			else {
+				auto itFace = faceFeature.rbegin();
+				itFace++;
+				faceFeature.push_back(static_cast< int >(*itFace));
+			}
+		} else {
+			if ( (int) sensingData.body_direction == 3)
+				faceFeature.push_back(2);
+			else
+				faceFeature.push_back(static_cast< int >(sensingData.body_direction));
+		}
+
+		if (static_cast< int >(sensingData.body_direction) < 0) {
+			cout << "> WARNING: Missing Data, Body" << endl;
+			if (bodyFeature.empty() == true)
+				bodyFeature.push_back(0);
+			else {
+				auto itBody = bodyFeature.rbegin();
+				itBody++;
+				bodyFeature.push_back(static_cast< int >(*itBody));
+			}
+		} else
+			bodyFeature.push_back(static_cast< int >(sensingData.body_direction));
+
+		if (static_cast< int >(sensingData.voice_detection) < 0) {
+			cout << "> WARNING: Missing Data, Voice" << endl;
+			auto itAudio = audioFeature.rbegin();
+			itAudio++;
+			audioFeature.push_back(static_cast< int >(*itAudio));
+		} else
+			audioFeature.push_back(static_cast< int >(sensingData.voice_detection));
+
+		//if (static_cast< int >(parameterData.speed) < 0)
+		//	parameterData.speed = Low_RMS;
+		//if (static_cast< int >(robotPositionData) < 0)
+		//	robotPositionData = 0;
+		//if (static_cast< int >(parameterData.volume) < 0)
+		//	parameterData.volume = Low_RSV;
+
+		//faceFeature.push_back(static_cast< int >(sensingData.face_direction));
+		//bodyFeature.push_back(static_cast< int >(sensingData.body_direction));
+		//audioFeature.push_back(static_cast< int >(sensingData.voice_detection));
 		robotSpeed.push_back(static_cast< int >(parameterData.speed));
 		robotPose.push_back(static_cast< int >(robotPositionData));
 		robotVolume.push_back(static_cast< int >(parameterData.volume));
