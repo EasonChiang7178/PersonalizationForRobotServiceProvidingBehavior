@@ -41,6 +41,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SAM_Testing", "SAM_Testing\
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DEMO_TAROS_2014", "DEMO_TAROS_2014\DEMO_TAROS_2014.vcxproj", "{36C5CF21-CA72-4685-B589-AF3516FB1D31}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DEMO_TAROS_EventTrigger", "DEMO_TAROS_EventTrigger\DEMO_TAROS_EventTrigger.vcxproj", "{3DF17A03-8D4C-4AA1-A369-461FD918368A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -127,6 +129,10 @@ Global
 		{36C5CF21-CA72-4685-B589-AF3516FB1D31}.Debug|Win32.Build.0 = Debug|Win32
 		{36C5CF21-CA72-4685-B589-AF3516FB1D31}.Release|Win32.ActiveCfg = Release|Win32
 		{36C5CF21-CA72-4685-B589-AF3516FB1D31}.Release|Win32.Build.0 = Release|Win32
+		{3DF17A03-8D4C-4AA1-A369-461FD918368A}.Debug|Win32.ActiveCfg = Debug|Win32
+		{3DF17A03-8D4C-4AA1-A369-461FD918368A}.Debug|Win32.Build.0 = Debug|Win32
+		{3DF17A03-8D4C-4AA1-A369-461FD918368A}.Release|Win32.ActiveCfg = Release|Win32
+		{3DF17A03-8D4C-4AA1-A369-461FD918368A}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

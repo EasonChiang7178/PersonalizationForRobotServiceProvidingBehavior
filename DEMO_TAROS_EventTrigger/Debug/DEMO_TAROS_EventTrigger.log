@@ -1,0 +1,50 @@
+﻿Build started 7/28/2014 6:26:27 PM.
+     1>Project "D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\DEMO_TAROS_EventTrigger\DEMO_TAROS_EventTrigger.vcxproj" on node 2 (rebuild target(s)).
+     1>_PrepareForClean:
+         Deleting file "Debug\DEMO_TAROS_EventTrigger.lastbuildstate".
+       InitializeBuildStatus:
+         Creating "Debug\DEMO_TAROS_EventTrigger.unsuccessfulbuild" because "AlwaysCreate" was specified.
+       ClCompile:
+         D:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt ..\includes\CoordTrans\CoordTrans.cpp ..\includes\IPCserver\IntComm.cpp ..\includes\RobotAction\RobotAction.cpp ..\includes\Thread\Thread.cpp IPCserver\Client.cpp main.cpp
+         main.cpp
+     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\includes\ipcserver\messages.hpp(154): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 d:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(371) : see declaration of 'sprintf'
+     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\demo_taros_eventtrigger\main.cpp(159): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 d:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(371) : see declaration of 'sprintf'
+         Client.cpp
+     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\includes\ipcserver\messages.hpp(154): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 d:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(371) : see declaration of 'sprintf'
+         Thread.cpp
+         RobotAction.cpp
+     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\includes\ipcserver\messages.hpp(154): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 d:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(371) : see declaration of 'sprintf'
+     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\includes\robotaction\robotaction.cpp(552): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 d:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(371) : see declaration of 'sprintf'
+     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\includes\robotaction\robotaction.cpp(815): warning C4805: '==' : unsafe mix of type 'int' and type 'bool' in operation
+         IntComm.cpp
+     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\includes\ipcserver\messages.hpp(154): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 d:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(371) : see declaration of 'sprintf'
+     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\includes\ipcserver\intcomm.cpp(359): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 d:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(371) : see declaration of 'sprintf'
+         CoordTrans.cpp
+     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\includes\coordtrans\coordtrans.cpp(16): warning C4244: '=' : conversion from 'const double' to 'float', possible loss of data
+     1>d:\dropbox\shu\program\github\personalizationforrobotserviceprovidingbehavior\includes\coordtrans\coordtrans.cpp(17): warning C4244: '=' : conversion from 'const double' to 'float', possible loss of data
+         Generating Code...
+       Link:
+         D:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\Bin\Debug\DEMO_TAROS_EventTrigger.exe" /NOLOGO lcm.lib wsock32.lib ipcMDd_3.9.1.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Debug\DEMO_TAROS_EventTrigger.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\Bin\Debug\DEMO_TAROS_EventTrigger.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\Bin\Debug\DEMO_TAROS_EventTrigger.lib" /MACHINE:X86 Debug\CoordTrans.obj
+         Debug\IntComm.obj
+         Debug\RobotAction.obj
+         Debug\Thread.obj
+         Debug\Client.obj
+         Debug\main.obj
+         DEMO_TAROS_EventTrigger.vcxproj -> D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\Bin\Debug\DEMO_TAROS_EventTrigger.exe
+       Manifest:
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /outputresource:"D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\Bin\Debug\DEMO_TAROS_EventTrigger.exe;#1" /manifest Debug\DEMO_TAROS_EventTrigger.exe.intermediate.manifest
+       FinalizeBuildStatus:
+         Deleting file "Debug\DEMO_TAROS_EventTrigger.unsuccessfulbuild".
+         Touching "Debug\DEMO_TAROS_EventTrigger.lastbuildstate".
+     1>Done Building Project "D:\Dropbox\Shu\Program\Github\PersonalizationForRobotServiceProvidingBehavior\DEMO_TAROS_EventTrigger\DEMO_TAROS_EventTrigger.vcxproj" (rebuild target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:03.31

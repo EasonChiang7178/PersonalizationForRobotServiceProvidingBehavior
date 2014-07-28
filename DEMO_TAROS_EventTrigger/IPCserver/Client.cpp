@@ -63,12 +63,8 @@ void Subgoal_message_handler(MSG_INSTANCE msgRef, BYTE_ARRAY callData, void *cli
 void Odometry_message_handler(MSG_INSTANCE msgRef, BYTE_ARRAY callData, void *clientData)
 {
 	OdometryMgr data;
-	extern void Odometry_handler();
-
 	IPC_unmarshallData(IPC_msgInstanceFormatter(msgRef), callData, &data, sizeof(OdometryMgr));
 	setOdometry( data );
-
-	Odometry_handler();
 	IPC_freeByteArray(callData);
 }
 
@@ -126,20 +122,20 @@ void State_message_handler(MSG_INSTANCE msgRef, BYTE_ARRAY callData, void *clien
 void People_message_handler(MSG_INSTANCE msgRef, BYTE_ARRAY callData, void *clientData)
 {
 	PeopleMgr data;
+	extern void PeopleMgr_handler();
+
 	IPC_unmarshallData(IPC_msgInstanceFormatter(msgRef), callData, &data, sizeof(PeopleMgr));
 	setPeople( data );
+
+	PeopleMgr_handler();
 	IPC_freeByteArray(callData);
 }
 
 void KeyWord_message_handler(MSG_INSTANCE msgRef, BYTE_ARRAY callData, void *clientData)
 {
 	KeyWordMgr data;
-	extern bool isUserNameReceived;
-
 	IPC_unmarshallData(IPC_msgInstanceFormatter(msgRef), callData, &data, sizeof(KeyWordMgr));
 	setKeyWord( data );
-
-	isUserNameReceived = true;
 	IPC_freeByteArray(callData);
 }
 
@@ -310,8 +306,12 @@ void QueryResult_message_handler(MSG_INSTANCE msgRef, BYTE_ARRAY callData, void 
 void Perception_message_handler(MSG_INSTANCE msgRef, BYTE_ARRAY callData, void *clientData)
 {
 	PerceptionMgr data;
+	extern void Perception_handler(PerceptionMgr data);
 	IPC_unmarshallData(IPC_msgInstanceFormatter(msgRef), callData, &data, sizeof(PerceptionMgr));
 	setPerception( data );
+
+	if (data.sensing = robotParameter)
+		Perception_handler(data);
 	IPC_freeByteArray(callData);
 }
 
@@ -386,12 +386,8 @@ void resultarm_message_handler(MSG_INSTANCE msgRef, BYTE_ARRAY callData, void *c
 	/* For Toward Robot Attention Estimator (HAE) */
 void Perception_HAE_message_handler(MSG_INSTANCE msgRef, BYTE_ARRAY callData, void *clientData) {
 	PerceptionHAEMgr data;
-	//extern void Request_HAE_handler();
-
 	IPC_unmarshallData(IPC_msgInstanceFormatter(msgRef), callData, &data, sizeof(PerceptionHAEMgr));
 	setPerceptionHAE(data);
-
-	//Request_HAE_handler();
 	IPC_freeByteArray(callData);
 }
 
@@ -408,12 +404,12 @@ void HAE_message_handler(MSG_INSTANCE msgRef, BYTE_ARRAY callData, void *clientD
 
 void Attention_Level_message_handler(MSG_INSTANCE msgRef, BYTE_ARRAY callData, void *clientData) {
 	AttentionLevelMgr data;
-	extern void Attention_Level_handler(AttentionLevelMgr data);
+	//extern void Attention_Level_handler();
 
 	IPC_unmarshallData(IPC_msgInstanceFormatter(msgRef), callData, &data, sizeof(AttentionLevelMgr));
 	setAttentionLevel(data);
 
-	Attention_Level_handler(data);
+	//Attention_Level_handler();
 	IPC_freeByteArray(callData);
 }
 
@@ -466,7 +462,7 @@ void connect_to_server(const char* server_name)
 {
 	ostringstream ipc_name;
 #ifdef WIN32
-	ipc_name << "TAROS_EVENTTRIGGER_" << _getpid();
+	ipc_name << "KeyboardEvent_" << _getpid();
 #else
 	ipc_name << "Client" << getpid();
 #endif
