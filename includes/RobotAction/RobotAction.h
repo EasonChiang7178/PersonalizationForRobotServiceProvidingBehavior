@@ -61,6 +61,9 @@ class RobotAction {
 			// For robot speaking
 		const bool speaking(const string& textToSpeak, const float& voiceVolume);
 
+			// For grasping (ver. Nil)
+		const bool graspingNil(const float& destX, const float& destY, const float& destTheta);
+
 		/* Setting Set */
 		const int setTimeout(const int& second) {timeout = second; return 1;}
 		const int setKeywordListened();

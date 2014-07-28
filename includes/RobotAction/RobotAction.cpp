@@ -92,9 +92,8 @@ RobotAction& RobotAction::operator=(const RobotAction& copy){
 }
 
 void RobotAction::subcribeAndPublish() {
-	subscribe(PERCEPTION, KEY_WORD, ODOMETRY, RESULT_NAVI, RESULT_ARM, RESULT_SPEAK, ATTENTIONLEVEL, TOTAL_MSG_NUM);
-	publish(ROBOTPARAMETER, ATTENTIONLEVEL, MESSAGE_FREQ, PERCEPTION, SUBGOAL, ACTION_NAVI, ACTION_ARM, ACTION_SPEAK, ARM_POSITION, REQUEST_INFERENCE, TOTAL_MSG_NUM);
-	
+	subscribe(PERCEPTION, KEY_WORD, ODOMETRY, RESULT_NAVI, RESULT_ARM, RESULT_SPEAK, ATTENTIONLEVEL, RESULT_SEARCH_GRASP, TOTAL_MSG_NUM);
+	publish(ROBOTPARAMETER, ATTENTIONLEVEL, MESSAGE_FREQ, PERCEPTION, SUBGOAL, ACTION_NAVI, ACTION_ARM, ACTION_SPEAK, ARM_POSITION, REQUEST_INFERENCE, ACTION_SEARCH_GRASP, TOTAL_MSG_NUM);
 }
 
 // ======================================================================
@@ -253,9 +252,9 @@ const bool RobotAction::toPoint(const double& x, const double& y, const double& 
 	/* Send subgoal message */
 	sendSubgoal(goal);
 	naviExecuting = true;
-	Sleep(sizeof(goal) + 500);
+	Sleep(sizeof(goal) + 1000);
 
-	this->turningFace(0);
+	//this->turningFace(0);
 	this->getCurrentTime();
 
 	Result_Navi resultNaviStatus;
@@ -567,6 +566,28 @@ const bool RobotAction::speaking(const string& textToSpeak, const float& voiceVo
 
 	cout << "> WARNING: Action, speaking: " << textToSpeak <<", timeout" << endl;
 	return false;
+}
+
+const bool RobotAction::graspingNil(const float& destX, const float& destY, const float& destTheta) {
+	/* Preparing the action information */
+	ActionSearchGrasp graspAction;
+	graspAction.start = true;
+	graspAction.mode = GRASP_MODE;
+	graspAction.goal_x = destX;
+	graspAction.goal_y = destY;
+	graspAction.goal_theta = destTheta;
+
+	sendActionSearchGrasp(graspAction);
+	Sleep(sizeof(graspAction) + 1000);
+
+	/* Waiting for the finish of grasping */
+	ResultSearchGrasp graspResult;
+	do {
+		Sleep(500);
+		getResultSearchGrasp(graspResult);
+	} while (graspResult.status == SEARCH_GRASP_FINISHED);
+
+	return true;
 }
 
 const int RobotAction::setSpeechVolume(const int& volume) {
