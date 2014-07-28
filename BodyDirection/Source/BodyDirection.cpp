@@ -465,43 +465,44 @@ const int BodyDirection::drawImg()
 		/* Display Social Attention */
 
 		/* Display Pleasantness-Unpleasantness Features */
-		if (personAttention == 2) {
-				// Hand To Head
-			if (userHandToHead.size() < niImageStructTemp.Users.size())
-				return 1;
-			ss.str(""); ss << "HtoH: " << userHandToHead[i];
-			cv::Point2f hth(niImageStructTemp.Users[i][ 8].position2D.x + 20, niImageStructTemp.Users[i][ 8].position2D.y + 20 * displayPos++);
-			cv::putText(niImageStructTemp.Color, ss.str(), hth, CV_FONT_HERSHEY_PLAIN, 1, cv::Scalar(0,255,230), 2);
-				// ArmAsymmetry
-			if (userArmAsymmetry.size() < niImageStructTemp.Users.size())
-				return 1;
-			ss.str(""); ss << "AS: " << userArmAsymmetry[i];
-			cv::Point2f as(niImageStructTemp.Users[i][ 8].position2D.x + 20, niImageStructTemp.Users[i][ 8].position2D.y + 20 * displayPos++);
-			cv::putText(niImageStructTemp.Color, ss.str(), as, CV_FONT_HERSHEY_PLAIN, 1, cv::Scalar(0,255,230), 2);
-				// ArmAreaSpanned
-			if (userArmAreaSpanned.size() < niImageStructTemp.Users.size())
-				return 1;
-			ss.str(""); ss << "AAS: " << userArmAreaSpanned[i];
-			cv::Point2f aas(niImageStructTemp.Users[i][ 8].position2D.x + 20, niImageStructTemp.Users[i][ 8].position2D.y + 20 * displayPos++);
-			cv::putText(niImageStructTemp.Color, ss.str(), aas, CV_FONT_HERSHEY_PLAIN, 1, cv::Scalar(0,255,230), 2);
-				// Hand Speed Max
-			if (userHandSpeedMax.size() < niImageStructTemp.Users.size())
-				return 1;
-			ss.str(""); ss << "HS: " << userHandSpeedMax[i];
-			cv::Point2f hs(niImageStructTemp.Users[i][ 8].position2D.x + 20, niImageStructTemp.Users[i][ 8].position2D.y + 20 * displayPos++);
-			cv::putText(niImageStructTemp.Color, ss.str(), hs, CV_FONT_HERSHEY_PLAIN, 1, cv::Scalar(0,255,230), 2);
-			//	// Dynamics
-			//if (userDynamics.size() < niImageStructTemp.Users.size())
+		if (personAttention == 2) 
+		{
+			//	// Hand To Head
+			//if (userHandToHead.size() < niImageStructTemp.Users.size())
 			//	return 1;
-			//ss.str(""); ss << "HS (D): " << userDynamics[i];
-			//cv::Point2f d(niImageStructTemp.Users[i][ 8].position2D.x + 20, niImageStructTemp.Users[i][ 8].position2D.y + 20 * displayPos++);
-			//cv::putText(niImageStructTemp.Color, ss.str(), d, CV_FONT_HERSHEY_PLAIN, 1, cv::Scalar(0,255,230), 2);
-				// Hand To Body
-			if (userHandToBody.size() < niImageStructTemp.Users.size())
-				return 1;
-			ss.str(""); ss << "HtoB: " << userHandToBody[i];
-			cv::Point2f htb(niImageStructTemp.Users[i][ 8].position2D.x + 20, niImageStructTemp.Users[i][ 8].position2D.y + 20 * displayPos++);
-			cv::putText(niImageStructTemp.Color, ss.str(), htb, CV_FONT_HERSHEY_PLAIN, 1, cv::Scalar(0,255,230), 2);
+			//ss.str(""); ss << "HtoH: " << userHandToHead[i];
+			//cv::Point2f hth(niImageStructTemp.Users[i][ 8].position2D.x + 20, niImageStructTemp.Users[i][ 8].position2D.y + 20 * displayPos++);
+			//cv::putText(niImageStructTemp.Color, ss.str(), hth, CV_FONT_HERSHEY_PLAIN, 1, cv::Scalar(0,255,230), 2);
+			//	// ArmAsymmetry
+			//if (userArmAsymmetry.size() < niImageStructTemp.Users.size())
+			//	return 1;
+			//ss.str(""); ss << "AS: " << userArmAsymmetry[i];
+			//cv::Point2f as(niImageStructTemp.Users[i][ 8].position2D.x + 20, niImageStructTemp.Users[i][ 8].position2D.y + 20 * displayPos++);
+			//cv::putText(niImageStructTemp.Color, ss.str(), as, CV_FONT_HERSHEY_PLAIN, 1, cv::Scalar(0,255,230), 2);
+			//	// ArmAreaSpanned
+			//if (userArmAreaSpanned.size() < niImageStructTemp.Users.size())
+			//	return 1;
+			//ss.str(""); ss << "AAS: " << userArmAreaSpanned[i];
+			//cv::Point2f aas(niImageStructTemp.Users[i][ 8].position2D.x + 20, niImageStructTemp.Users[i][ 8].position2D.y + 20 * displayPos++);
+			//cv::putText(niImageStructTemp.Color, ss.str(), aas, CV_FONT_HERSHEY_PLAIN, 1, cv::Scalar(0,255,230), 2);
+			//	// Hand Speed Max
+			//if (userHandSpeedMax.size() < niImageStructTemp.Users.size())
+			//	return 1;
+			//ss.str(""); ss << "HS: " << userHandSpeedMax[i];
+			//cv::Point2f hs(niImageStructTemp.Users[i][ 8].position2D.x + 20, niImageStructTemp.Users[i][ 8].position2D.y + 20 * displayPos++);
+			//cv::putText(niImageStructTemp.Color, ss.str(), hs, CV_FONT_HERSHEY_PLAIN, 1, cv::Scalar(0,255,230), 2);
+			////	// Dynamics
+			////if (userDynamics.size() < niImageStructTemp.Users.size())
+			////	return 1;
+			////ss.str(""); ss << "HS (D): " << userDynamics[i];
+			////cv::Point2f d(niImageStructTemp.Users[i][ 8].position2D.x + 20, niImageStructTemp.Users[i][ 8].position2D.y + 20 * displayPos++);
+			////cv::putText(niImageStructTemp.Color, ss.str(), d, CV_FONT_HERSHEY_PLAIN, 1, cv::Scalar(0,255,230), 2);
+			//	// Hand To Body
+			//if (userHandToBody.size() < niImageStructTemp.Users.size())
+			//	return 1;
+			//ss.str(""); ss << "HtoB: " << userHandToBody[i];
+			//cv::Point2f htb(niImageStructTemp.Users[i][ 8].position2D.x + 20, niImageStructTemp.Users[i][ 8].position2D.y + 20 * displayPos++);
+			//cv::putText(niImageStructTemp.Color, ss.str(), htb, CV_FONT_HERSHEY_PLAIN, 1, cv::Scalar(0,255,230), 2);
 				// Pleasantness-Unpleasantness
 			if (userUnpleasantness.size() < niImageStructTemp.Users.size())
 				return 1;
@@ -745,10 +746,11 @@ const int BodyDirection::calculateHandSpeed(const int& userID, const NiImageStru
 
 	/* Classify speed into light or sudden */
 	int dynamicTemp = 0;
-	if (hsTempSmoothed > 0.37)
-		dynamicTemp = -1;
-	if (hsTempSmoothed > 0.69)
-		dynamicTemp = 1;
+	//if (hsTempSmoothed > 0.38)
+	//	dynamicTemp = -1;
+	//if (hsTempSmoothed > 0.69)
+	if (hsTempSmoothed > 0.45)
+		dynamicTemp = 2;
 
 	if (userDynamics[userID] == -1 && fabs(hsTempSmoothed - userHandSpeedMax[userID]) < 0.13)
 		time(&startHS);
