@@ -25,7 +25,7 @@ using namespace cv;
 using namespace lcm;
 
 //** Problem Dependent Variable Setting **//
-#define RECORDING
+//#define RECORDING
 #define IMG_WIDTH	640
 #define IMG_HEIGHT	480
 #define BODYMINSIZE 101
