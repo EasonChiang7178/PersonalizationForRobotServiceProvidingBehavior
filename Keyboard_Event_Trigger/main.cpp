@@ -11,8 +11,8 @@ using namespace std;
 
 //** Problem Dependent Variable Setting **//
 #define PARTNERNAME "®a©ú"
-#define SERVER_NAME "localhost"
-//#define SERVER_NAME "192.168.11.4"
+//#define SERVER_NAME "localhost"
+#define SERVER_NAME "192.168.11.4"
 
 	// LCM core
 #include "lcm\lcm-cpp.hpp"
@@ -172,7 +172,7 @@ int main(int argc, char** argv) {
 				cout << keyboardInput << endl;
 				keyboardInput = '\0';
 
-				robotAction.makeSounds("C:\\Users\\Mac\\Desktop\\Shu\\PersonalizationForRobotServiceProvidingBehavior\\models\\Soundness\\WindowsMessage.wav");
+				robotAction.makeSounds("C:\\Users\\Mac\\Desktop\\Shu\\PersonalizationForRobotServiceProvidingBehavior\\models\\Soundness\\2.mp3");
 				break;
 			}
 

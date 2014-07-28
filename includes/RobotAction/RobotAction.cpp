@@ -610,6 +610,12 @@ const int RobotAction::resetContingencyFlag() {
 	return 1;
 }
 
+const int RobotAction::resetLoseFlag() {
+	loseAttentionFlag = 0;
+
+	return 1;
+}
+
 const int RobotAction::getMotionSpeed() const {
 	robotSpeed = motionSpeed;
 	return motionSpeed;

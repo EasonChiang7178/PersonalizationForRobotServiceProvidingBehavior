@@ -74,6 +74,7 @@ class RobotAction {
 
 		const int resetToA();
 		const int resetContingencyFlag();
+		const int resetLoseFlag();
 
 		/* Getting Set */
 		const int getTimeout() const { return timeout; }

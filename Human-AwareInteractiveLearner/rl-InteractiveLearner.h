@@ -29,9 +29,9 @@
 
 //#define SIMULATION
 #define URGENCY		(0)
-#define PARTNERNAME "哈囉"
-//#define IPCSERVER	"192.168.11.4"
-#define IPCSERVER	"localhost"
+#define PARTNERNAME "林伯伯"
+#define IPCSERVER	"192.168.11.4"
+//#define IPCSERVER	"localhost"
 
 /* Standrad Included Library */
 #include <iomanip>
@@ -331,14 +331,14 @@ namespace rl {
 									cout << "> WARNING: INVALID Approach" << endl;
 									break;
 								}
-								robot.forwardApproach(0, 0.9);
+								robot.forwardApproach(0, 0.5);
 #endif
 								break;
 
 							case MakeSound:
 								cout << "> RobotAction: MakeSound" << endl;
 #ifndef SIMULATION
-								robot.makeSounds("C:\\Users\\Mac\\Desktop\\Shu\\PersonalizationForRobotServiceProvidingBehavior\\models\\Soundness\\WindowsMessage.wav");
+								robot.makeSounds("C:\\Users\\Mac\\Desktop\\Shu\\PersonalizationForRobotServiceProvidingBehavior\\models\\Soundness\\2.mp3");
 #endif
 								break;
 
@@ -380,15 +380,6 @@ namespace rl {
 							return;
 						}
 
-						/* Check the timeout and transition to LoseAttention */
-						interaction_current = time(NULL);
-						if (difftime(interaction_current, interaction_start) > timeOutBound) {
-							r += LoseAttentionReward(URGENCY);
-							current_state.robotBelief = ADAPTIVE_INTERRUPTION::LoseAttention;
-
-							return;
-						}
-
 						/* Update the reward */
 						switch(current_state.personAttention) {
 							case ADAPTIVE_INTERRUPTION::Contingency:
@@ -399,6 +390,7 @@ namespace rl {
 							case ADAPTIVE_INTERRUPTION::HighAttention:
 								if (preAttentionState == ADAPTIVE_INTERRUPTION::Contingency || preAttentionState == ADAPTIVE_INTERRUPTION::Neglect)
 									r += HighAttentionReward(URGENCY);
+								robot.resetLoseFlag();
 								break;
 						}
 
@@ -423,10 +415,11 @@ namespace rl {
 								/* Transition to DoesPersonLookingMe */
 								if (robot.getHighAttentionFlag() > 0) {
 									current_state.robotBelief = ADAPTIVE_INTERRUPTION::DoesPersonLookingMe;
+									break;
 								}
 
 								/* Transition to DoesPersonIgnoreMe */
-								if (robot.getContingencyFlag() > 2)
+								if (robot.getContingencyFlag() > 4)
 									current_state.robotBelief = ADAPTIVE_INTERRUPTION::DoesPersonIgnoreMe;
 
 								/* Check for losing attention */
@@ -457,7 +450,7 @@ namespace rl {
 #ifndef SIMULATION
 									robot.sensingPU(0);
 									int pu = robot.getPU();
-									robot.speaking("是時候該去運動了", 0.9f);
+									robot.speaking("是時候該吃藥了", 0.7f);
 #else
 									int pu;
 									cout << "> PU detected? " << endl;
@@ -465,7 +458,7 @@ namespace rl {
 #endif
 									r += EngagedReward(URGENCY, pu);
 									current_state.robotBelief = ADAPTIVE_INTERRUPTION::Engaged;
-									break;
+									return;
 								}
 
 								robot.resetContingencyFlag();
@@ -492,7 +485,7 @@ namespace rl {
 #ifndef SIMULATION
 								robot.sensingPU(0);
 								int pu = robot.getPU();
-								robot.speaking("是時候該去運動了", 0.9f);
+								robot.speaking("是時候該吃藥了", 0.7f);
 #else
 								int pu;
 								cout << "> PU detected? ";
@@ -500,7 +493,16 @@ namespace rl {
 #endif
 								r += EngagedReward(URGENCY, pu);
 								current_state.robotBelief = ADAPTIVE_INTERRUPTION::Engaged;
-								break;
+								return;
+						}
+
+						/* Check the timeout and transition to LoseAttention */
+						interaction_current = time(NULL);
+						if (difftime(interaction_current, interaction_start) > timeOutBound) {
+							r += LoseAttentionReward(URGENCY);
+							current_state.robotBelief = ADAPTIVE_INTERRUPTION::LoseAttention;
+
+							return;
 						}
 					}
 
@@ -513,7 +515,7 @@ namespace rl {
 									cout << "> WARNING: INVALID Approach" << endl;
 									break;
 								}
-								robot.forwardApproach(0, 0.9);
+								//robot.forwardApproach(0, 0.5);
 								robot.speaking(string(PARTNERNAME) + "，我這裡有一封訊息要傳遞給你", 0.7f);
 
 								Sleep(1000);
@@ -528,9 +530,9 @@ namespace rl {
 									cout << "> WARNING: INVALID Approach" << endl;
 									break;
 								}
-								robot.forwardApproach(0, 0.9);
+								//robot.forwardApproach(0, 0.5);
 								robot.speaking("不好意思打擾您了，我這裡有一則訊息要轉交給您", 0.7f);
-								Sleep(1000);
+								//Sleep(1000);
 #else
 								cout << "> Robot: 不好意思打擾您了，我這裡有一則訊息要轉交給您" << endl;
 #endif
@@ -543,10 +545,10 @@ namespace rl {
 									break;
 								}
 
-								robot.forwardApproach(0, 0.9);
+								//robot.forwardApproach(0, 0.5);
 								robot.speaking(string(PARTNERNAME) + "，我想分享一個故事給你聽，", 0.7f);
 
-								std::uniform_int_distribution< int > distribution(0,3);
+								std::uniform_int_distribution< int > distribution(0,2);
 								int jokeSelection = distribution(generator);
 								switch(jokeSelection) {
 									case 0:
@@ -557,17 +559,32 @@ namespace rl {
 										robot.speaking("誰沒有交作業", 0.9f);
 										Sleep(250);
 										robot.speaking("對了，我這裡有一封訊息要傳遞給你", 0.7f);
-										Sleep(500);
+										Sleep(250);
 										break;
 
 									case 1:
+										robot.speaking("一個病人去化驗尿，看到一個科室廁所前有一牌子上寫到", 0.7f);
+										robot.speaking("非本科人員禁止入內", 0.7f);
+										robot.speaking("他很生氣嚷道：就化驗個尿也要本科學歷", 0.7f);
+										robot.speaking("對了，我這裡有一封訊息要傳遞給你", 0.7f);
+										Sleep(250);
 										break;
 
 									case 2:
+										robot.speaking(string(PARTNERNAME) + "，我想分享一個故事給你聽，", 0.7f);
+										robot.speaking("有一天小明回到家跟他爸媽說，", 0.7f);
+										robot.speaking("老師問同學一個問題，只有我答的出來", 0.7f);
+										robot.speaking("爸媽問，那是什麼問題", 0.7f);
+										robot.speaking("誰沒有交作業", 0.9f);
+										//robot.speaking("一個病人去化驗尿，看到一個科室廁所前有一牌子上寫到", 0.7f);
+										//robot.speaking("非本科人員禁止入內", 0.7f);
+										//robot.speaking("他很生氣嚷道：就化驗個尿也要本科學歷", 0.7f);
+										robot.speaking("我這裡有一封訊息要傳遞給你", 0.7f);
+										Sleep(250);
 										break;
 
-									case 3:
-										break;
+									//case 3:
+									//	break;
 
 									default:
 										break;
@@ -590,7 +607,7 @@ namespace rl {
 					Simulator(void) : current_state(), robot(IPCSERVER)
 					{
 #ifndef SIMULATION
-						timeOutBound = 150;
+						timeOutBound = 35;
 						noticedTimeOutBound = 40;
 						stableATRTimeBound = 3;
 #else
