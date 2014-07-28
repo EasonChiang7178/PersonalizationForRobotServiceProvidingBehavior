@@ -436,6 +436,24 @@ void Robot_Parameter_message_handler(MSG_INSTANCE msgRef, BYTE_ARRAY callData, v
 	IPC_freeByteArray(callData);
 }
 
+	/* For grasping (ver. Nil) */
+void action_search_grasp_handler(MSG_INSTANCE msgRef, BYTE_ARRAY callData, void *clientData)
+{
+	ActionSearchGrasp data;
+	IPC_unmarshallData(IPC_msgInstanceFormatter(msgRef), callData, &data, sizeof(ActionSearchGrasp));
+	setActionSearchGrasp( data );
+	IPC_freeByteArray(callData);
+}
+
+void result_search_grasp_handler(MSG_INSTANCE msgRef, BYTE_ARRAY callData, void *clientData)
+{
+	ResultSearchGrasp data;
+	IPC_unmarshallData(IPC_msgInstanceFormatter(msgRef), callData, &data, sizeof(ResultSearchGrasp));
+	setResultSearchGrasp( data );
+	IPC_freeByteArray(callData);
+}
+	/* For grasping (ver. Nil) */
+
 //--------------------------------------------------//
 // IPC client
 //--------------------------------------------------//
@@ -558,6 +576,9 @@ void register_messages()
 	msg_info[ATTENTIONLEVEL]	=	MsgInfo(ATTENTIONLEVEL_NAME, ATTENTIONLEVEL_FORMAT, Attention_Level_message_handler);
 	msg_info[REQUEST_INFERENCE]	=	MsgInfo(REQUEST_INFERENCE_NAME, REQUEST_INFERENCE_FORMAT, Reqeust_Inference_message_handler);
 	msg_info[ROBOTPARAMETER]	=	MsgInfo(ROBOTPARAMETER_NAME, ROBOTPARAMETER_FORMAT, Robot_Parameter_message_handler);
+		/* For Grasping (Ver. Nil) */
+	msg_info[ACTION_SEARCH_GRASP]  = MsgInfo( ACTION_SEARCH_GRASP_NAME, ACTION_SEARCH_GRASP_FORMAT, action_search_grasp_handler );
+	msg_info[RESULT_SEARCH_GRASP]  = MsgInfo( RESULT_SEARCH_GRASP_NAME, RESULT_SEARCH_GRASP_FORMAT, result_search_grasp_handler );
 }
 
 void define_message(const char *msgName, const char *formatString)
@@ -711,4 +732,13 @@ int sendRequestInference(RequestInferenceMgr& mgr){
 
 int sendRobotParameter(RobotParameterMgr& mgr) {
 	return (int) IPC_publishData(ROBOTPARAMETER_NAME, &mgr);
+}
+
+	/* For Grasping (Ver. Nil) */
+int sendActionSearchGrasp(ActionSearchGrasp & msg){
+	return (int)IPC_publishData(ACTION_SEARCH_GRASP_NAME, &msg);
+}
+
+int sendResultSearchGrasp(ResultSearchGrasp & msg){
+	return (int)IPC_publishData(RESULT_SEARCH_GRASP_NAME, &msg);
 }

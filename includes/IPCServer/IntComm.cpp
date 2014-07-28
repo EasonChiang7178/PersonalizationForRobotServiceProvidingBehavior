@@ -62,6 +62,9 @@ static HAEMgr hae_mgr;
 static AttentionLevelMgr attention_level_mgr;
 static RequestInferenceMgr request_inference_mgr;
 static RobotParameterMgr robot_parameter_mgr;
+	/* For grasping (ver. Nil) */
+static ActionSearchGrasp action_search_grasp;
+static ResultSearchGrasp result_search_grasp;
 
 #ifdef WIN32
 
@@ -413,6 +416,21 @@ void getRobotParameter(RobotParameterMgr &mgr) {
 	UNLOCK( ROBOTPARAMETER );
 }
 
+	/* For grasping (ver. Nil) */
+void getActionSearchGrasp( ActionSearchGrasp& msg )
+{
+	RD_LOCK(ACTION_SEARCH_GRASP);
+	msg = action_search_grasp;
+	UNLOCK(ACTION_SEARCH_GRASP);
+}
+
+void getResultSearchGrasp( ResultSearchGrasp& msg )
+{
+	RD_LOCK(RESULT_SEARCH_GRASP);
+	msg = result_search_grasp;
+	UNLOCK(RESULT_SEARCH_GRASP);
+}
+
 //--------------------------------------------------//
 // set messages
 //--------------------------------------------------//
@@ -709,4 +727,19 @@ void setRobotParameter(RobotParameterMgr &mgr) {
 	WR_LOCK( ROBOTPARAMETER );
 	robot_parameter_mgr = mgr;
 	UNLOCK( ROBOTPARAMETER );
+}
+
+	/* For grasping */
+void setActionSearchGrasp( ActionSearchGrasp& msg )
+{
+	RD_LOCK(ACTION_SEARCH_GRASP);
+	action_search_grasp = msg;
+	UNLOCK(ACTION_SEARCH_GRASP);
+}
+
+void setResultSearchGrasp( ResultSearchGrasp& msg )
+{
+	RD_LOCK(RESULT_SEARCH_GRASP);
+	result_search_grasp = msg;
+	UNLOCK(RESULT_SEARCH_GRASP);
 }

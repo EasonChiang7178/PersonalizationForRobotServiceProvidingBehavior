@@ -21,6 +21,7 @@ enum MessageType{ LASER_POSE, GOAL, SUBGOAL, ODOMETRY,
 				  ACTION_ARM, RESULT_ARM, ARM_POSITION,					  // Messages for Arm Manipulating
 				  PERCEPTION_HAE, HAE, ATTENTIONLEVEL, REQUEST_INFERENCE, // Messages for Toward Robot Attention Estimator (HAE)
 				  ROBOTPARAMETER,										  // Messages for Parameters of Robot Action
+				  ACTION_SEARCH_GRASP, RESULT_SEARCH_GRASP,				  // Messages for Grasping (Ver. Nil)
 				  TOTAL_MSG_NUM};
 
 void init_comm();
@@ -78,6 +79,9 @@ void getHAE(HAEMgr &mgr);
 void getAttentionLevel(AttentionLevelMgr &mgr);
 void getRequestInference(RequestInferenceMgr &mgr);
 void getRobotParameter(RobotParameterMgr &mgr);
+	/* For grasping (ver. Nil) */
+void getActionSearchGrasp(ActionSearchGrasp& msg);
+void getResultSearchGrasp(ResultSearchGrasp& msg);
 
 // set messages
 void setLaserPose(LaserPoseMgr& mgr);
@@ -127,6 +131,9 @@ void setHAE(HAEMgr &mgr);
 void setAttentionLevel(AttentionLevelMgr &mgr);
 void setRequestInference(RequestInferenceMgr &mgr);
 void setRobotParameter(RobotParameterMgr &mgr);
+	/* For grasping (ver. Nil) */
+void setActionSearchGrasp(ActionSearchGrasp& msg);
+void setResultSearchGrasp(ResultSearchGrasp& msg);
 
 // send messages
 int sendLaserPose(LaserPoseMgr& mgr);
@@ -176,5 +183,8 @@ int sendHAE(HAEMgr &mgr);
 int sendAttentionLevel(AttentionLevelMgr &mgr);
 int sendRequestInference(RequestInferenceMgr &mgr);
 int sendRobotParameter(RobotParameterMgr &mgr);
+	/* For grasping (ver. Nil) */
+int sendActionSearchGrasp(ActionSearchGrasp& msg);
+int sendResultSearchGrasp(ResultSearchGrasp& msg);
 
 #endif

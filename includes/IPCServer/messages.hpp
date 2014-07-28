@@ -458,4 +458,29 @@ public:
 #define ROBOTPARAMETER_FORMAT	"{int, int}"
 /*** Social Attention Model (SAM) ***/
 
+/*** Grasping ver. Nil ***/
+enum PlannerCommanderMode {SEARCH_MODE, GRASP_MODE};
+class ActionSearchGrasp{
+	public:
+		int mode;
+		int start;
+
+			// The destination of the delivering goal. Set in robot coordinate
+		float goal_x;
+		float goal_y;
+		float goal_theta;
+};
+#define ACTION_SEARCH_GRASP_NAME "ActionSearchGrasp"
+#define ACTION_SEARCH_GRASP_FORMAT "{int,int,float,float,float}"
+
+enum status_code{SEARCH_GRASP_IDLE, SEARCH_GRASP_EXECUTING, SEARCH_GRASP_FINISHED};
+class ResultSearchGrasp{
+	public:
+		int status;
+		int mode;
+};
+#define RESULT_SEARCH_GRASP_NAME "ResultSearchGrasp"
+#define RESULT_SEARCH_GRASP_FORMAT "{int,int}"
+/*** Grasping ver. Nil ***/
+
 #endif

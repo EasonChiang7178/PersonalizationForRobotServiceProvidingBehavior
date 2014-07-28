@@ -63,8 +63,12 @@ void Subgoal_message_handler(MSG_INSTANCE msgRef, BYTE_ARRAY callData, void *cli
 void Odometry_message_handler(MSG_INSTANCE msgRef, BYTE_ARRAY callData, void *clientData)
 {
 	OdometryMgr data;
+	extern void Odometry_handler();
+
 	IPC_unmarshallData(IPC_msgInstanceFormatter(msgRef), callData, &data, sizeof(OdometryMgr));
 	setOdometry( data );
+
+	Odometry_handler();
 	IPC_freeByteArray(callData);
 }
 
@@ -130,8 +134,12 @@ void People_message_handler(MSG_INSTANCE msgRef, BYTE_ARRAY callData, void *clie
 void KeyWord_message_handler(MSG_INSTANCE msgRef, BYTE_ARRAY callData, void *clientData)
 {
 	KeyWordMgr data;
+	extern void KeyWord_handler(KeyWordMgr data);
+
 	IPC_unmarshallData(IPC_msgInstanceFormatter(msgRef), callData, &data, sizeof(KeyWordMgr));
 	setKeyWord( data );
+
+	KeyWord_handler(data);
 	IPC_freeByteArray(callData);
 }
 
@@ -183,8 +191,14 @@ void ActionSpeak_message_handler(MSG_INSTANCE msgRef, BYTE_ARRAY callData, void 
 void ResultSpeak_message_handler(MSG_INSTANCE msgRef, BYTE_ARRAY callData, void *clientData)
 {
 	Result_Speak data;
+	extern void ResultSpeak_handler();
+
 	IPC_unmarshallData(IPC_msgInstanceFormatter(msgRef), callData, &data, sizeof(Result_Speak));
 	setResultSpeak( data );
+
+	if (data.status == 2)
+		ResultSpeak_handler();
+
 	IPC_freeByteArray(callData);
 }
 
@@ -201,8 +215,13 @@ void ActionNavi_message_handler(MSG_INSTANCE msgRef, BYTE_ARRAY callData, void *
 void ResultNavi_message_handler(MSG_INSTANCE msgRef, BYTE_ARRAY callData, void *clientData)
 {
 	Result_Navi data;
+	extern void ResultNavi_handler();
+
 	IPC_unmarshallData(IPC_msgInstanceFormatter(msgRef), callData, &data, sizeof(Result_Navi));
 	setResultNavi( data );
+
+	if (data.current_status == FINISHED)
+		ResultNavi_handler();
 	IPC_freeByteArray(callData);
 }
 
@@ -354,8 +373,12 @@ void actionarm_message_handler(MSG_INSTANCE msgRef, BYTE_ARRAY callData, void *c
 void resultarm_message_handler(MSG_INSTANCE msgRef, BYTE_ARRAY callData, void *clientData)
 {
 	ResultArmMgr data;
+	extern void ResultArm_handler();
+
 	IPC_unmarshallData(IPC_msgInstanceFormatter(msgRef), callData, &data, sizeof(ResultArmMgr));
 	setResultArm( data );
+
+	ResultArm_handler();
 	IPC_freeByteArray(callData);
 }
 	/* For arm manipulating */
@@ -363,41 +386,53 @@ void resultarm_message_handler(MSG_INSTANCE msgRef, BYTE_ARRAY callData, void *c
 	/* For Toward Robot Attention Estimator (HAE) */
 void Perception_HAE_message_handler(MSG_INSTANCE msgRef, BYTE_ARRAY callData, void *clientData) {
 	PerceptionHAEMgr data;
+	//extern void Request_HAE_handler();
+
 	IPC_unmarshallData(IPC_msgInstanceFormatter(msgRef), callData, &data, sizeof(PerceptionHAEMgr));
 	setPerceptionHAE(data);
+
+	//Request_HAE_handler();
 	IPC_freeByteArray(callData);
 }
 
 void HAE_message_handler(MSG_INSTANCE msgRef, BYTE_ARRAY callData, void *clientData) {
 	HAEMgr data;
+	extern void HAE_handler();
+	
 	IPC_unmarshallData(IPC_msgInstanceFormatter(msgRef), callData, &data, sizeof(HAEMgr));
 	setHAE(data);
+
+	HAE_handler();
 	IPC_freeByteArray(callData);
 }
 
 void Attention_Level_message_handler(MSG_INSTANCE msgRef, BYTE_ARRAY callData, void *clientData) {
 	AttentionLevelMgr data;
+	extern void Attention_Level_handler(AttentionLevelMgr data);
+
 	IPC_unmarshallData(IPC_msgInstanceFormatter(msgRef), callData, &data, sizeof(AttentionLevelMgr));
 	setAttentionLevel(data);
+
+	Attention_Level_handler(data);
 	IPC_freeByteArray(callData);
 }
 
 void Reqeust_Inference_message_handler(MSG_INSTANCE msgRef, BYTE_ARRAY callData, void *clientData) {
 	RequestInferenceMgr data;
+	//extern void RequestInference_handler();
+	
 	IPC_unmarshallData(IPC_msgInstanceFormatter(msgRef), callData, &data, sizeof(RequestInferenceMgr));
 	setRequestInference(data);
+
+	//RequestInference_handler();
 	IPC_freeByteArray(callData);
 }
 	/* For Toward Robot Attention Estimator (HAE) */
 
 void Robot_Parameter_message_handler(MSG_INSTANCE msgRef, BYTE_ARRAY callData, void *clientData) {
 	RobotParameterMgr data;
-	extern void RobotParameter_handler();
-
 	IPC_unmarshallData(IPC_msgInstanceFormatter(msgRef), callData, &data, sizeof(RobotParameterMgr));
 	setRobotParameter(data);
-
-	RobotParameter_handler();
 	IPC_freeByteArray(callData);
 }
 
@@ -431,16 +466,17 @@ void connect_to_server(const char* server_name)
 {
 	ostringstream ipc_name;
 #ifdef WIN32
-	ipc_name << "HAE_Recording_" << _getpid();
+	ipc_name << "DEMO_TAROS_2014_" << _getpid();
 #else
 	ipc_name << "Client" << getpid();
 #endif
 
-	IPC_connectModule(ipc_name.str().c_str(), server_name);
-	IPC_setVerbosity(IPC_Print_Errors);
-	IPC_setVerbosity(IPC_Print_Warnings);
-
-	register_messages();
+	if (IPC_isConnected() == false) {
+		IPC_connectModule(ipc_name.str().c_str(), server_name);
+		IPC_setVerbosity(IPC_Print_Errors);
+		IPC_setVerbosity(IPC_Print_Warnings);
+		register_messages();
+	}
 }
 
 void disconnect_to_server()
