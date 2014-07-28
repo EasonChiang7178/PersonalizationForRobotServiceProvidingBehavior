@@ -65,14 +65,12 @@ void Perception_HAE_handler();
 //=============================================================================
 int main( void )
 {
-#ifdef RECORDING
 	/** Connect to IPC Server **/
 	init_comm();
 	connect_to_server(IPCSERVER);
 	subscribe(PERCEPTION_HAE, TOTAL_MSG_NUM);
 	publish(HAE, TOTAL_MSG_NUM);
 	listen();
-#endif
 
 	/* Initialize LCM */
 	LCM lcm(LCM_CTOR_PARAMS);
@@ -104,6 +102,8 @@ int main( void )
 	time(&start);
 	int counter = 0;
 
+	int preFaceDirectionHAE = 0;
+
 	while ( capture.read(frame) )
 	{
 		if( frame.empty() ) {
@@ -134,6 +134,20 @@ int main( void )
 		FaceDetectionLcm faceMgr;
 		faceMgr.face_direction = faceDirectionHAE;
 		lcm.publish(FACE_DETECTION, &faceMgr);
+
+		/* Sending message through IPC, just for visualization */
+		if (preFaceDirectionHAE != faceDirectionHAE) {
+			HAEMgr percetData;
+			getHAE(percetData);
+
+			percetData.face_direction = static_cast< Face_Direction_HAE_type >(faceDirectionHAE);
+				// Send FaceDirectionHAE
+			sendHAE(percetData);
+			Sleep(sizeof(percetData));
+			printf("\n> Send Success! (FaceDirection: %d)\n", faceDirectionHAE);
+
+			preFaceDirectionHAE = faceDirectionHAE;
+		}
 
 		int c = waitKey(5);
 		if( (char)c == 27 ) { break; } // escape

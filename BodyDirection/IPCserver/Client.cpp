@@ -382,7 +382,11 @@ void Perception_HAE_message_handler(MSG_INSTANCE msgRef, BYTE_ARRAY callData, vo
 
 void HAE_message_handler(MSG_INSTANCE msgRef, BYTE_ARRAY callData, void *clientData) {
 	HAEMgr data;
+	extern int faceDirection;
+
 	IPC_unmarshallData(IPC_msgInstanceFormatter(msgRef), callData, &data, sizeof(HAEMgr));
+	faceDirection = static_cast< int >(data.face_direction);
+	
 	setHAE(data);
 	IPC_freeByteArray(callData);
 }

@@ -577,6 +577,7 @@ const bool RobotAction::graspingNil(const float& destX, const float& destY, cons
 	graspAction.goal_y = destY;
 	graspAction.goal_theta = destTheta;
 
+		// Sending!
 	sendActionSearchGrasp(graspAction);
 	Sleep(sizeof(graspAction) + 1000);
 

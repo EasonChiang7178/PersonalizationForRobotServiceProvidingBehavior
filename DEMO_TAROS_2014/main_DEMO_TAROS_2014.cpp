@@ -46,13 +46,16 @@ int main(int argc, char* argv[]) {
 
 	/* Session: Attracting user's attention */
 	cout << "> INFO: Start to grab user's attention..." << endl;
+		// Reset all flags for social attention (ToA is referred for Theory of Awareness)
+	robot.resetToA();
 		// Voice volume for the ARIO
 	float voiceVolume = 0.1f;
-		// Grabing user's attention by call name!
-	for (int i = 0; robot.getHighAttentionFlag() == 0 && i < 3; i++) {
+		// Grabing user's attention by calling his/her name!
+	for (int i = 0; robot.getHighAttentionFlag() == 0 && i < 5; i++) {
 		robot.speaking(userName, voiceVolume);
-		voiceVolume += 0.3f;
-		Sleep(3000);
+		if (voiceVolume < 1.0)
+			voiceVolume += 0.3f;
+		Sleep(3500);
 
 		if (robot.getContingencyFlag() > 0) {
 			robot.speaking("請注意這裡一下", 0.7f);
@@ -62,7 +65,7 @@ int main(int argc, char* argv[]) {
 		// Timeout occurred! Waiting for more time
 	for (int i = 0; robot.getHighAttentionFlag() == 0 && i < 10; i++) {
 		cout << "> WARNING: User didn't notice me!" << endl;
-		Sleep(750);
+		Sleep(1000);
 		if (robot.getHighAttentionFlag() > 0)
 			break;
 	}
