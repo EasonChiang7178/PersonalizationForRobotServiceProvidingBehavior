@@ -35,8 +35,8 @@ int main(int argc, char* argv[]) {
 	string tempName = userNameInput.keyword;
 		// Check the validation of the name
 	if (tempName.length() != 0) {
-		cout << "> INFO: User name " + userName + " is received!" << endl;
 		userName = tempName;
+		cout << "> INFO: User name " + userName + " is received!" << endl;
 	} else
 		cout << "> WARNING: The user name is empty! Using \"Hello\" to represent..." << endl;
 
@@ -52,7 +52,7 @@ int main(int argc, char* argv[]) {
 	for (int i = 0; robot.getHighAttentionFlag() == 0 && i < 3; i++) {
 		robot.speaking(userName, voiceVolume);
 		voiceVolume += 0.3f;
-		Sleep(2000);
+		Sleep(3000);
 
 		if (robot.getContingencyFlag() > 0) {
 			robot.speaking("請注意這裡一下", 0.7f);
@@ -62,7 +62,7 @@ int main(int argc, char* argv[]) {
 		// Timeout occurred! Waiting for more time
 	for (int i = 0; robot.getHighAttentionFlag() == 0 && i < 10; i++) {
 		cout << "> WARNING: User didn't notice me!" << endl;
-		Sleep(500);
+		Sleep(750);
 		if (robot.getHighAttentionFlag() > 0)
 			break;
 	}
