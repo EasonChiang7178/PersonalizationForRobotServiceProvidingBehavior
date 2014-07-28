@@ -25,7 +25,7 @@ int main(int argc, char* argv[]) {
 
 	/* Session: Grasping */
 		// Turn to the cabinet
-	robot.toPoint(0.0, 0.0, -90.0);
+	robot.toPoint(0.0, 0.0, 90.0);
 		// Grasping!
 	robot.graspingNil(0.0, 0.0, 0.0);
 

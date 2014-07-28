@@ -585,7 +585,7 @@ const bool RobotAction::graspingNil(const float& destX, const float& destY, cons
 	do {
 		Sleep(500);
 		getResultSearchGrasp(graspResult);
-	} while (graspResult.status == SEARCH_GRASP_FINISHED);
+	} while (graspResult.status != SEARCH_GRASP_FINISHED);
 
 	return true;
 }
