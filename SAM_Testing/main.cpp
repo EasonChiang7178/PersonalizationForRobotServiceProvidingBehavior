@@ -16,11 +16,13 @@ using namespace std;
 
 //** Problem Dependent Variable Setting **//
 	// The timestep of the dynamic Bayesian network
-#define STEPNUMBER	4
+#define STEPNUMBER	2
 	// How long a timestep is (ms)
 #define STEPTIME	250
 	// How long a delay for messages request
 #define DELAYTIME	200
+
+//#define PROPAGATION
 
 /** Declration of Variables **/
 	// Path to unrolled DBN model
@@ -31,6 +33,7 @@ string testingDataPath = "../models/DBN_Model/TrainingData/SocialAttentionInfere
 string cmPath = "../models/DBN_Model/TrainingData/SocialAttentionInference_Testing_cm.txt";
 	// Buffer result for Human Attention Level
 static int attentionLevel = 0;
+static int preAttentionLevel = 0;
 
 	// Observation of HAE
 typedef enum {None_HAE_Face, Far_Center_Face, Near_Center_Face, Center_Face} Face_Direction_HAE_type;
@@ -138,6 +141,7 @@ int main(int argc, char* argv[]) {
 		/* Setting the data received */
 		/* AudioNoise */
 		ftestData >> dummyStr;
+		inputFeature = 0;
 		for (auto itOutcomeName = attributeNameArray[6].begin(); itOutcomeName != attributeNameArray[6].end(); itOutcomeName++)
 			if (dummyStr == itOutcomeName->second)
 				inputFeature = itOutcomeName->first;
@@ -145,6 +149,7 @@ int main(int argc, char* argv[]) {
 
 		/* Human Task Context */
 		ftestData >> dummyStr;
+		inputFeature = 0;
 		for (auto itOutcomeName = attributeNameArray[7].begin(); itOutcomeName != attributeNameArray[7].end(); itOutcomeName++)
 			if (dummyStr == itOutcomeName->second)
 				inputFeature = itOutcomeName->first;
@@ -153,6 +158,7 @@ int main(int argc, char* argv[]) {
 		for (int j = 0; j < STEPNUMBER; j++) {
 			/* Face */
 			ftestData >> dummyStr;
+			inputFeature = 0;
 			for (auto itOutcomeName = attributeNameArray[0].begin(); itOutcomeName != attributeNameArray[0].end(); itOutcomeName++)
 				if (dummyStr == itOutcomeName->second)
 					inputFeature = itOutcomeName->first;
@@ -160,13 +166,17 @@ int main(int argc, char* argv[]) {
 
 			/* Body */
 			ftestData >> dummyStr;
+			inputFeature = 0;
 			for (auto itOutcomeName = attributeNameArray[1].begin(); itOutcomeName != attributeNameArray[1].end(); itOutcomeName++)
 				if (dummyStr == itOutcomeName->second)
 					inputFeature = itOutcomeName->first;
+				else
+					inputFeature = 0;
 			bodyFeature.push_back(inputFeature);
 
 			/* Audio */
 			ftestData >> dummyStr;
+			inputFeature = 0;
 			for (auto itOutcomeName = attributeNameArray[2].begin(); itOutcomeName != attributeNameArray[2].end(); itOutcomeName++)
 				if (dummyStr == itOutcomeName->second)
 					inputFeature = itOutcomeName->first;
@@ -174,6 +184,7 @@ int main(int argc, char* argv[]) {
 
 			/* Robot Speed */
 			ftestData >> dummyStr;
+			inputFeature = 0;
 			for (auto itOutcomeName = attributeNameArray[3].begin(); itOutcomeName != attributeNameArray[3].end(); itOutcomeName++)
 				if (dummyStr == itOutcomeName->second)
 					inputFeature = itOutcomeName->first;
@@ -181,6 +192,7 @@ int main(int argc, char* argv[]) {
 
 			/* Robot Pose */
 			ftestData >> dummyStr;
+			inputFeature = 0;
 			for (auto itOutcomeName = attributeNameArray[4].begin(); itOutcomeName != attributeNameArray[4].end(); itOutcomeName++)
 				if (dummyStr == itOutcomeName->second)
 					inputFeature = itOutcomeName->first;
@@ -188,6 +200,7 @@ int main(int argc, char* argv[]) {
 
 			/* Robot Volume */
 			ftestData >> dummyStr;
+			inputFeature = 0;
 			for (auto itOutcomeName = attributeNameArray[5].begin(); itOutcomeName != attributeNameArray[5].end(); itOutcomeName++)
 				if (dummyStr == itOutcomeName->second)
 					inputFeature = itOutcomeName->first;
@@ -217,6 +230,14 @@ int main(int argc, char* argv[]) {
 			evidencesOfNodes.push_back(attributeNameArray[3][*(itRobotSpeed++)]);
 			evidencesOfNodes.push_back(attributeNameArray[4][*(itRobotPose++)]);
 			evidencesOfNodes.push_back(attributeNameArray[5][*(itRobotVolume++)]);
+#ifdef PROPAGATION
+			if (timeStep == STEPNUMBER - 2) {
+				vector< string > lastAttention, attentionName;
+				attentionName.push_back("attentionLevel");
+				lastAttention .push_back(attributeNameArray[8][preAttentionLevel]);
+				bn::setEvidenceOfBN(theNet, attentionName, lastAttention, timeStep);
+			}
+#endif
 				// Set the evidence to network
 			bn::setEvidenceOfBN(theNet, evidencesNodesName, evidencesOfNodes, timeStep);
 		}

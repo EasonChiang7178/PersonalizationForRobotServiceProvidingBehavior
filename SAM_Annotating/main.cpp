@@ -14,11 +14,11 @@ using namespace std;
 
 //** Problem Dependent Variable Setting **//
 	// The timestep of the dynamic Bayesian network
-#define STEPNUMBER	4
+#define STEPNUMBER	2
 
 /** Declration of Variables **/
 	// Path to store the raw data
-string rawData = "../models/DBN_Model/TrainingData/raw_dataset/Data_Cleared/SocialAttentionModel_raw_Merged.txt";
+string rawData = "../models/DBN_Model/TrainingData/raw_dataset/SAM_TrainingData/Data_Cleared/SocialAttentionModel_raw_Merged.txt";
 	// Path to result training data
 string trainingData = "../models/DBN_Model/TrainingData/SocialAttentionInferenceModel_Learning.txt";
 	// Path to annotated label

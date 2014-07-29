@@ -23,7 +23,7 @@ using namespace std;
 
 //** Problem Dependent Variable Setting **//
 	// The timestep of the dynamic Bayesian network
-#define STEPNUMBER	4
+#define STEPNUMBER	2
 	// How long a timestep is (ms)
 #define STEPTIME	250
 	// How long a delay for messages request
@@ -147,28 +147,29 @@ int main(int argc, char* argv[]) {
 		requestSensingSAM(DELAYTIME, sensingData, parameterData, robotPositionData);
 
 		/* Setting the data received */
-		//if (static_cast< int >(sensingData.face_direction) < 0) {
-		//	cout << "> WARNING: Missing Data, Face" << endl;
-		//	auto itFace = faceFeature.rbegin();
-		//	itFace++;
-		//	faceFeature.push_back(static_cast< int >(*itFace));
-		//} else
-		//	faceFeature.push_back(static_cast< int >(sensingData.face_direction));
-		if (static_cast< int >(sensingData.body_direction) < 0) {
-			cout << "> WARNING: Missing Data, Body" << endl;
-			if (faceFeature.empty() == true)
-				faceFeature.push_back(0);
-			else {
-				auto itFace = faceFeature.rbegin();
-				itFace++;
-				faceFeature.push_back(static_cast< int >(*itFace));
-			}
-		} else {
-			if ( (int) sensingData.body_direction == 3)
-				faceFeature.push_back(2);
-			else
-				faceFeature.push_back(static_cast< int >(sensingData.body_direction));
-		}
+		if (static_cast< int >(sensingData.face_direction) < 0) {
+			cout << "> WARNING: Missing Data, Face" << endl;
+			auto itFace = faceFeature.rbegin();
+			itFace++;
+			faceFeature.push_back(static_cast< int >(*itFace));
+		} else
+			faceFeature.push_back(static_cast< int >(sensingData.face_direction));
+
+		//if (static_cast< int >(sensingData.body_direction) < 0) {
+		//	cout << "> WARNING: Missing Data, Body" << endl;
+		//	if (faceFeature.empty() == true)
+		//		faceFeature.push_back(0);
+		//	else {
+		//		auto itFace = faceFeature.rbegin();
+		//		itFace++;
+		//		faceFeature.push_back(static_cast< int >(*itFace));
+		//	}
+		//} else {
+		//	if ( (int) sensingData.body_direction == 3)
+		//		faceFeature.push_back(2);
+		//	else
+		//		faceFeature.push_back(static_cast< int >(sensingData.body_direction));
+		//}
 
 		if (static_cast< int >(sensingData.body_direction) < 0) {
 			cout << "> WARNING: Missing Data, Body" << endl;

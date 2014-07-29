@@ -1,7 +1,7 @@
 #include "SmileLearning/SmileLearning.h"
 
 //**	The timestep of the dynamic Bayesian network **//
-#define STEPNUMBER 4
+#define STEPNUMBER 2
 
 #include <string>
 #include <iostream>
