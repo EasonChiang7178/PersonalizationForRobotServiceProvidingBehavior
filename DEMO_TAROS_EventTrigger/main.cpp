@@ -494,8 +494,8 @@ void Exec(string ProgramName){
 		psexecHost		= "\\\\192.168.11.3 ";
 		psexecUser		= "-u mac ";
 		psexecPswd		= "-p mac ";
-		psexecProgDir	= "-w C:\\Users\\Mac\\Desktop\\TSChu\\TIROS_0730_FACE_DEMO\\Debug\\ ";
-		psexecProgName	= "C:\\Users\\Mac\\Desktop\\TSChu\\TIROS_0730_FACE_DEMO\\Debug\\FaceRecog.exe ";
+		psexecProgDir	= "-w C:\\Users\\Mac\\Desktop\\TSChu\\TAIROS_0730_FACE_DEMO\\Debug\\ ";
+		psexecProgName	= "C:\\Users\\Mac\\Desktop\\TSChu\\TAIROS_0730_FACE_DEMO\\Debug\\FaceRecog.exe ";
 
 		systemCallParam = psexecDir + psexecHost + psexecUser + psexecPswd + 
 			psexecParam + psexecProgDir + psexecProgName;
