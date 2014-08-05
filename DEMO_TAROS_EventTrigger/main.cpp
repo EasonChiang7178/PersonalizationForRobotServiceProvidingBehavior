@@ -21,13 +21,8 @@ void Kill(string ProgramName);
 
 //=============================================================================
 int main(int argc, char** argv) {
-		// Server communication
-	//RobotAction robotAction(SERVER_NAME);
-	init_comm();
-	connect_to_server();
-	subscribe(TOTAL_MSG_NUM);
-	publish(KEY_WORD, ATTENTIONLEVEL, TOTAL_MSG_NUM);
-	listen();
+	Kill("IPCServer");
+	Exec("IPCServer");
 
 	cout << "\n\t< Wizard of Oz - TAROS 2014 >" << endl;
 
@@ -68,17 +63,27 @@ int main(int argc, char** argv) {
 				keyboardInput = '\0';
 					// DEMO main body
 				Exec("TAROS_2014");
+					// Social Attention Inference Model
+				//Exec("SocialAttentionInferenceModel");
 					// RobotAction components
+				Exec("GraspingNil");
 				Exec("GraspingExcuting");
 				Exec("ArmHead_ST");
 				Exec("HumanTracking");
 				Exec("uTTS");
 					// Perception components
 				Exec("BodyDirection");
-				Exec("FaceDetection");
+				//Exec("FaceDetection");
+				Exec("FaceRecognition");
 				Exec("VoiceActivityDetector");
-					// Social Attention Inference Model
-				Exec("SocialAttentionInferenceModel");
+
+					// Server communication
+				//RobotAction robotAction(SERVER_NAME);
+				init_comm();
+				connect_to_server();
+				subscribe(TOTAL_MSG_NUM);
+				publish(KEY_WORD, ATTENTIONLEVEL, TOTAL_MSG_NUM);
+				listen();
 				break;
 			}
 			case 'X':
@@ -95,23 +100,27 @@ int main(int argc, char** argv) {
 				keyboardInput = '\0';
 					// DEMO main body
 				Kill("TAROS_2014");
+					// Social Attention Inference Model
+				Kill("SocialAttentionInferenceModel");
 					// RobotAction components
+				Kill("GraspingNil");
 				Kill("GraspingExcuting");
 				Kill("ArmHead_ST");
 				Kill("HumanTracking");
 				Kill("uTTS");
 					// Perception components
+				Kill("FaceRecognition");
 				Kill("BodyDirection");
 				Kill("FaceDetection");
 				Kill("VoiceActivityDetector");
-					// Social Attention Inference Model
-				Kill("SocialAttentionInferenceModel");
 				break;
 			}
 			case 'D':
 			{
 				cout << keyboardInput << endl;
 				keyboardInput = '\0';
+					// DEMO main body
+				Exec("TAROS_2014");
 				break;
 			}
 
@@ -177,7 +186,7 @@ int main(int argc, char** argv) {
 				ActionSearchGrasp graspAction;
 				graspAction.start = true;
 				graspAction.mode = GRASP_MODE;
-				graspAction.goal_x = 0.0;
+				graspAction.goal_x = 0.5;
 				graspAction.goal_y = 0.0;
 				graspAction.goal_theta = 0.0;
 
@@ -283,6 +292,7 @@ int main(int argc, char** argv) {
 				break;
 		}
 
+		cout << "\n> INFO: Waiting for the next input...\n> ";
 		Sleep(1000);
 	}
 
@@ -393,8 +403,8 @@ void Exec(string ProgramName){
 		psexecHost		= "\\\\192.168.11.3 ";
 		psexecUser		= "-u mac ";
 		psexecPswd		= "-p mac ";
-		psexecProgDir	= "-w C:\\Users\\Mac\\Desktop\\Shu\\PersonalizationForRobotServiceProvidingBehavior\\Bin\\Debug\\ ";
-		psexecProgName	= "C:\\Users\\Mac\\Desktop\\Shu\\PersonalizationForRobotServiceProvidingBehavior\\Bin\\Debug\\FaceDetection.exe ";
+		psexecProgDir	= "-w C:\\Users\\Mac\\Desktop\\Shu\\PersonalizationForRobotServiceProvidingBehavior\\Bin\\Release\\ ";
+		psexecProgName	= "C:\\Users\\Mac\\Desktop\\Shu\\PersonalizationForRobotServiceProvidingBehavior\\Bin\\Release\\FaceDetection.exe ";
 
 		systemCallParam = psexecDir + psexecHost + psexecUser + psexecPswd + 
 			psexecParam + psexecProgDir + psexecProgName;
@@ -429,11 +439,11 @@ void Exec(string ProgramName){
 		cout << "Exec:" << ProgramName << endl;
 	}
 	else if(ProgramName == "GraspingExcuting"){
-		psexecHost		= "\\\\192.168.11.4 ";
+		psexecHost		= "\\\\192.168.11.2 ";
 		psexecUser		= "-u robot ";
 		psexecPswd		= "-p robot ";
-		psexecProgDir	= "-w C:\\Users\\robot\\Desktop\\Shu\\PersonalizationForRobotServiceProvidingBehavior\\Bin\\Debug\\ ";
-		psexecProgName	= "C:\\Users\\robot\\Desktop\\Shu\\PersonalizationForRobotServiceProvidingBehavior\\Bin\\Debug\\SAM_Inference.exe ";
+		psexecProgDir	= "-w E:\\desktop\\Search_Grasp_Executing\\Release\\ ";
+		psexecProgName	= "E:\\desktop\\Search_Grasp_Executing\\Release\\GraspingExecuting.exe ";
 
 		systemCallParam = psexecDir + psexecHost + psexecUser + psexecPswd + 
 			psexecParam + psexecProgDir + psexecProgName;
@@ -442,11 +452,50 @@ void Exec(string ProgramName){
 		cout << "Exec:" << ProgramName << endl;
 	}
 	else if(ProgramName == "ArmHead_ST"){
+		psexecHost		= "\\\\192.168.11.2 ";
+		psexecUser		= "-u robot ";
+		psexecPswd		= "-p robot ";
+		psexecProgDir	= "-w E:\\desktop\\Shao-Ting\\HeadArm_Component_2014_DEMO\\Debug\\ ";
+		psexecProgName	= "E:\\desktop\\Shao-Ting\\HeadArm_Component_2014_DEMO\\Debug\\HeadArm.exe ";
+
+		systemCallParam = psexecDir + psexecHost + psexecUser + psexecPswd + 
+			psexecParam + psexecProgDir + psexecProgName;
+		system(systemCallParam.c_str());
+
+		cout << "Exec:" << ProgramName << endl;
+	}
+	else if(ProgramName == "GraspingNil"){
+		psexecHost		= "\\\\192.168.11.4 ";
+		psexecUser		= "-u robot ";
+		psexecPswd		= "-p robot ";
+		psexecProgDir	= "-w C:\\Users\\robot\\Desktop\\SearchPlanning_backup\\build\\Release ";
+		psexecProgName	= "C:\\Users\\robot\\Desktop\\SearchPlanning_backup\\build\\Release\\SearchPlanning.exe ";
+
+		systemCallParam = psexecDir + psexecHost + psexecUser + psexecPswd + 
+			psexecParam + psexecProgDir + psexecProgName;
+		system(systemCallParam.c_str());
+
+		cout << "Exec:" << ProgramName << endl;
+	}
+	else if(ProgramName == "TAROS_2014"){
 		psexecHost		= "\\\\192.168.11.4 ";
 		psexecUser		= "-u robot ";
 		psexecPswd		= "-p robot ";
 		psexecProgDir	= "-w C:\\Users\\robot\\Desktop\\Shu\\PersonalizationForRobotServiceProvidingBehavior\\Bin\\Debug\\ ";
-		psexecProgName	= "C:\\Users\\robot\\Desktop\\Shu\\PersonalizationForRobotServiceProvidingBehavior\\Bin\\Debug\\SAM_Inference.exe ";
+		psexecProgName	= "C:\\Users\\robot\\Desktop\\Shu\\PersonalizationForRobotServiceProvidingBehavior\\Bin\\Debug\\DEMO_TAROS_2014.exe ";
+
+		systemCallParam = psexecDir + psexecHost + psexecUser + psexecPswd + 
+			psexecParam + psexecProgDir + psexecProgName;
+		system(systemCallParam.c_str());
+
+		cout << "Exec:" << ProgramName << endl;
+	}
+	else if(ProgramName == "FaceRecognition"){
+		psexecHost		= "\\\\192.168.11.3 ";
+		psexecUser		= "-u mac ";
+		psexecPswd		= "-p mac ";
+		psexecProgDir	= "-w C:\\Users\\Mac\\Desktop\\TSChu\\TIROS_0730_FACE_DEMO\\Debug\\ ";
+		psexecProgName	= "C:\\Users\\Mac\\Desktop\\TSChu\\TIROS_0730_FACE_DEMO\\Debug\\FaceRecog.exe ";
 
 		systemCallParam = psexecDir + psexecHost + psexecUser + psexecPswd + 
 			psexecParam + psexecProgDir + psexecProgName;
@@ -629,10 +678,10 @@ void Kill(string ProgramName){
 		pskillDir = "..\\models\\pstool\\pskill ";
 		pskillParam = "";
 
-		pskillHost		= "\\\\192.168.11.4 ";
+		pskillHost		= "\\\\192.168.11.2 ";
 		pskillUser		= "-u robot ";
 		pskillPswd		= "-p robot ";
-		pskillProgName	= "SAM_Inference.exe ";
+		pskillProgName	= "GraspingExecuting.exe ";
 
 		systemCallParam = pskillDir + pskillHost + pskillUser + pskillPswd + 
 			pskillParam + pskillProgName;
@@ -645,10 +694,58 @@ void Kill(string ProgramName){
 		pskillDir = "..\\models\\pstool\\pskill ";
 		pskillParam = "";
 
+		pskillHost		= "\\\\192.168.11.2 ";
+		pskillUser		= "-u robot ";
+		pskillPswd		= "-p robot ";
+		pskillProgName	= "HeadArm.exe ";
+
+		systemCallParam = pskillDir + pskillHost + pskillUser + pskillPswd + 
+			pskillParam + pskillProgName;
+
+		system(systemCallParam.c_str());
+
+		cout << "Kill:" << ProgramName << endl;
+	}
+	else if(ProgramName == "GraspingNil"){
+		pskillDir = "..\\models\\pstool\\pskill ";
+		pskillParam = "";
+
 		pskillHost		= "\\\\192.168.11.4 ";
 		pskillUser		= "-u robot ";
 		pskillPswd		= "-p robot ";
-		pskillProgName	= "SAM_Inference.exe ";
+		pskillProgName	= "SearchPlanning.exe ";
+
+		systemCallParam = pskillDir + pskillHost + pskillUser + pskillPswd + 
+			pskillParam + pskillProgName;
+
+		system(systemCallParam.c_str());
+
+		cout << "Kill:" << ProgramName << endl;
+	}
+	else if(ProgramName == "TAROS_2014"){
+		pskillDir = "..\\models\\pstool\\pskill ";
+		pskillParam = "";
+
+		pskillHost		= "\\\\192.168.11.4 ";
+		pskillUser		= "-u robot ";
+		pskillPswd		= "-p robot ";
+		pskillProgName	= "DEMO_TAROS_2014.exe ";
+
+		systemCallParam = pskillDir + pskillHost + pskillUser + pskillPswd + 
+			pskillParam + pskillProgName;
+
+		system(systemCallParam.c_str());
+
+		cout << "Kill:" << ProgramName << endl;
+	}
+	else if(ProgramName == "FaceRecognition"){
+		pskillDir = "..\\models\\pstool\\pskill ";
+		pskillParam = "";
+
+		pskillHost		= "\\\\192.168.11.3 ";
+		pskillUser		= "-u mac ";
+		pskillPswd		= "-p mac ";
+		pskillProgName	= "FaceRecog.exe ";
 
 		systemCallParam = pskillDir + pskillHost + pskillUser + pskillPswd + 
 			pskillParam + pskillProgName;

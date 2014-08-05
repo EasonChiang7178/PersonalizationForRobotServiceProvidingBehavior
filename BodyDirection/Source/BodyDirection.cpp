@@ -23,7 +23,7 @@ const int BodyDirection::startGetBodyDirection()
 		/** Connect to IPC Server **/
 	init_comm();
 	connect_to_server();
-	subscribe(ATTENTIONLEVEL, TOTAL_MSG_NUM);
+	subscribe(ATTENTIONLEVEL, HAE, TOTAL_MSG_NUM);
 	publish(TOTAL_MSG_NUM);
 	listen();
 
@@ -443,25 +443,25 @@ const int BodyDirection::drawImg()
 		/*cv::putText(niImageStructTemp.Color, ss.str(), bl, CV_FONT_HERSHEY_PLAIN, 1, cv::Scalar(0,255,230), 2);*/
 
 		/* Display Social Attention */
-		//extern int personAttention;
-		//ss.str("");
-		//cv::Point2f sa(niImageStructTemp.Users[i][ 8].position2D.x, niImageStructTemp.Users[i][ 8].position2D.y - 20.0);
-		//switch (static_cast< int > (personAttention)) {
-		//	case 0:
-		//		ss << "Neglect";
-		//		cv::putText(niImageStructTemp.Color, ss.str(), sa, CV_FONT_HERSHEY_PLAIN, 1, cv::Scalar(143,246,255), 2);
-		//		break;
+		extern int personAttention;
+		ss.str("");
+		cv::Point2f sa(niImageStructTemp.Users[i][ 8].position2D.x, niImageStructTemp.Users[i][ 8].position2D.y + 20.0);
+		switch (static_cast< int > (personAttention)) {
+			case 0:
+				ss << "Neglect";
+				cv::putText(niImageStructTemp.Color, ss.str(), sa, CV_FONT_HERSHEY_PLAIN, 1, cv::Scalar(143,246,255), 2);
+				break;
 
-		//	case 1:
-		//		ss << "Contingency";
-		//		cv::putText(niImageStructTemp.Color, ss.str(), sa, CV_FONT_HERSHEY_PLAIN, 1, cv::Scalar(143,246,255), 2);
-		//		break;
+			case 1:
+				ss << "Contingency";
+				cv::putText(niImageStructTemp.Color, ss.str(), sa, CV_FONT_HERSHEY_PLAIN, 1, cv::Scalar(143,246,255), 2);
+				break;
 
-		//	case 2:
-		//		ss << "HighAttention";
-		//		cv::putText(niImageStructTemp.Color, ss.str(), sa, CV_FONT_HERSHEY_PLAIN, 1, cv::Scalar(143,246,255), 2);
-		//		break;
-		//}
+			case 2:
+				ss << "HighAttention";
+				cv::putText(niImageStructTemp.Color, ss.str(), sa, CV_FONT_HERSHEY_PLAIN, 1, cv::Scalar(143,246,255), 2);
+				break;
+		}
 		/* Display Social Attention */
 
 		/* Display Face Direction */

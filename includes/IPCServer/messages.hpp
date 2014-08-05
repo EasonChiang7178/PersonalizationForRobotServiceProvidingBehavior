@@ -29,7 +29,18 @@ public:
 typedef PoseMsg GoalMgr;
 typedef PoseMsg SubgoalMgr;
 typedef PoseMsg LaserPoseMgr;
-typedef PoseMsg OdometryMgr;
+
+// odometry
+class OdometryMgr{
+public:
+	double x;
+	double y;
+	double theta;
+	double velocity;
+	double angularVelocity;
+};
+#define ODOMETRY_NAME "OdometryMgr"
+#define ODOMETRY_FORMAT "{double, double, double, double, double}"
 
 #define LASER_POSE_NAME "LaserPoseMgr"
 #define LASER_POSE_FORMAT "{double, double, double}"
@@ -39,9 +50,6 @@ typedef PoseMsg OdometryMgr;
 
 #define GOAL_NAME "GoalMgr"
 #define GOAL_FORMAT "{double, double, double}"
-
-#define ODOMETRY_NAME "OdometryMgr"
-#define ODOMETRY_FORMAT "{double, double, double}"
 
 #define URG_LASER_NUM 682
 class URGLaser{

@@ -72,8 +72,8 @@ int main(int argc, char* argv[]) {
 	}
 
 	cout << "\n\t< Social Attention Model Inference >" << endl;
-	cout << "> Press ENTER to inference";
-	getchar();
+	//cout << "> Press ENTER to inference";
+	//getchar();
 
 	/* Declaration and Initialzatoin of variables */
 		// The path to unrolled network, only unrolled network can be inferred by SMILE lib
@@ -147,11 +147,11 @@ int main(int argc, char* argv[]) {
 		requestSensingSAM(DELAYTIME, sensingData, parameterData, robotPositionData);
 
 		/* Setting the data received */
-		if (static_cast< int >(sensingData.face_direction) < 0) {
+		if (static_cast< int >(sensingData.face_direction) < 0 || static_cast< int >(sensingData.face_direction) > 3) {
 			cout << "> WARNING: Missing Data, Face" << endl;
-			auto itFace = faceFeature.rbegin();
-			itFace++;
-			faceFeature.push_back(static_cast< int >(*itFace));
+			//auto itFace = faceFeature.begin();
+			//faceFeature.push_back(static_cast< int >(*itFace));
+			faceFeature.push_back(1);
 		} else
 			faceFeature.push_back(static_cast< int >(sensingData.face_direction));
 
@@ -171,23 +171,23 @@ int main(int argc, char* argv[]) {
 		//		faceFeature.push_back(static_cast< int >(sensingData.body_direction));
 		//}
 
-		if (static_cast< int >(sensingData.body_direction) < 0) {
+		if (static_cast< int >(sensingData.body_direction) < 0 || static_cast< int >(sensingData.body_direction) > 3) {
 			cout << "> WARNING: Missing Data, Body" << endl;
 			if (bodyFeature.empty() == true)
 				bodyFeature.push_back(0);
 			else {
-				auto itBody = bodyFeature.rbegin();
-				itBody++;
-				bodyFeature.push_back(static_cast< int >(*itBody));
+				//auto itBody = bodyFeature.begin();
+				//bodyFeature.push_back(static_cast< int >(*itBody));
+				bodyFeature.push_back(1);
 			}
 		} else
 			bodyFeature.push_back(static_cast< int >(sensingData.body_direction));
 
-		if (static_cast< int >(sensingData.voice_detection) < 0) {
+		if (static_cast< int >(sensingData.voice_detection) < 0 || static_cast< int >(sensingData.voice_detection) > 3) {
 			cout << "> WARNING: Missing Data, Voice" << endl;
-			auto itAudio = audioFeature.rbegin();
-			itAudio++;
-			audioFeature.push_back(static_cast< int >(*itAudio));
+			audioFeature.push_back(0);
+			//auto itAudio = audioFeature.begin();
+			//audioFeature.push_back(static_cast< int >(*itAudio));
 		} else
 			audioFeature.push_back(static_cast< int >(sensingData.voice_detection));
 
